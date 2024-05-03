@@ -1,6 +1,6 @@
 #############################################################
-F90=mpif90
-OPTIONS    = -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fopenmp
+F90=ftn
+OPTIONS    = -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fopenmp -fallow-argument-mismatch -g -fopenmp
 LOPTIONS   =  -O2 -fopenmp
 ##############################################################
 

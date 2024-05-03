@@ -462,6 +462,11 @@
 !     if (LENERGY) then                                                 !variable density form
       gamma_p=rhop_loc(l)/dens      
 
+      if ((dp_loc(l)).lt.0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
+            up_pt(l) = ui_pt(l)
+            vp_pt(l) = vi_pt(l)
+            wp_pt(l) = wi_pt(l)
+      else
       up_pt(l) = uop_loc(l) + dt * 
      &      (((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)   
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
@@ -481,7 +486,8 @@
      &      ((1.+0.5)/(gamma_p+0.5))*((wi_pt(l)-woi_pt(l))/dt)          !Fluid stress
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))                    !Added Mass and drag
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                         !Added Mass and drag    
-     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))                     !Lift
+     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))   
+      endif                  !Lift
 
 
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
@@ -622,6 +628,7 @@
 
       ENDIF
 
+      if ((dp_loc(l)).ge.0.00001) then !only do calcs if dp>=10um
       !Update slip velocity
       a = up_pt(l)-ui_pt(l)
       b = vp_pt(l)-vi_pt(l)
@@ -767,6 +774,7 @@
       endif
 
 !$OMP END CRITICAL
+      endif
 
 !     Actualizar velocidad paso previo
             uop_loc(l) = up_pt(l)

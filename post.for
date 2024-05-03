@@ -535,7 +535,7 @@
      & dom(ib)%v(i,j,k),dom(ib)%vm(i,j,k),dom(ib)%vvm(i,j,k),
      & dom(ib)%w(i,j,k),dom(ib)%wm(i,j,k),dom(ib)%wwm(i,j,k),
      & dom(ib)%uvm(i,j,k),dom(ib)%uwm(i,j,k),dom(ib)%vwm(i,j,k),
-     & dom(ib)%S(i,j,k),dom(ib)%Sm(i,j,k),
+!     & dom(ib)%S(i,j,k),dom(ib)%Sm(i,j,k),
      & dom(ib)%ksgs(i,j,k),dom(ib)%eps(i,j,k),
      & dom(ib)%T(i,j,k),dom(ib)%Tm(i,j,k),dom(ib)%Ttm(i,j,k)
               end do

@@ -152,11 +152,13 @@
       implicit none
 
       integer l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
+      integer :: sphere_optn !Aleks 04/24 spherical vol of release
       double precision random_number_normal,random_number_uniform
       double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
       double precision :: Wx,Wy,Wz,sigma_rho
       double precision :: mindis,dist,distance
-      logical :: random
+      double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
+      logical :: random, LSPHERICAL, LSURFACE !Aleks 04/24 spherical vol of release
 
 !       wtime_release = MPI_WTIME ( )
 !------------------------------------ 
@@ -197,6 +199,8 @@
             read(15,*)                    !dp
             read(15,*)                    !rhop
             read(15,*)                    !release volume
+            read(15,*)                    !LSPHERICAL, LSURFACE, r
+            read(15,*)                    !sphere_optn
             read(15,*)random
             if (random) then 
                   read(15,*)
@@ -258,6 +262,8 @@
             read(35,*) Dp,sigma
             read(35,*) rho_p,sigma_rho
             read(35,*) Wx,Wy,Wz
+            read(35,*) LSPHERICAL,LSURFACE,r 
+            read(35,*) sphere_optn 
             read(35,*) random
             if (random) read(35,*)xp,yp,zp,uop,vop,wop
 
@@ -271,9 +277,14 @@
 
                   do while (dist.lt.mindis)                             !avoiding overlap
                   dist=mindis
+                  if (.not.LSPHERICAL) then !default cube release
                   xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
                   yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
-                  zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz)                      
+                  zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz)  
+                  else  !Aleks 04/24. Distribute points in a spherical shape
+                  call random_number_spherical(xp,yp,zp,r,sphere_optn, 
+     &                      LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
+                  endif                     
                   do m=frac1,l
                   if (l.ne.m) then 
                         distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l)

@@ -255,6 +255,10 @@
      &		dom(ib)%ksgs(i_unst(ii),j_unst(ii),k_unst(ii))
    			dom(ib)%eps_unst(ii,jjtime)=
      &		dom(ib)%eps(i_unst(ii),j_unst(ii),k_unst(ii))
+            dom(ib)%T_unst(ii,jjtime)=                   !Aleks 04/24
+     &      dom(ib)%T(i_unst(ii),j_unst(ii),k_unst(ii))
+            dom(ib)%Tm_unst(ii,jjtime)=                   !Aleks 04/24
+     &      dom(ib)%Tm(i_unst(ii),j_unst(ii),k_unst(ii))
 		endif
 		ENDDO
 		enddo	
@@ -291,7 +295,8 @@
 		  if (ctime.ge.t_start_averaging2)  call timesig
               open (unit=101, file='final_ctime.dat')
               if(myrank.eq.0) write (101,'(i8,3F15.6)') 
-     &   ntime,ctime,forcn,qstpn,count
+     &   ntime,ctime,forcn,qstpn,count,ntav1_count,
+     &   ntav2_count
               close(101)
         		if (myrank.eq.0) then          			
 		    		open(30,file='final_particle.dat')
@@ -337,7 +342,8 @@
 		if (ctime.ge.t_start_averaging2)  call timesig
            open (unit=101, file='final_ctime.dat')
            if(myrank.eq.0) write (101,'(i8,3F15.6)') 
-     &   ntime,ctime,forcn,qstpn,count
+     &   ntime,ctime,forcn,qstpn,count,ntav1_count,
+     &   ntav2_count
            close(101)
       if (myrank.eq.0) then                  
                open(30,file='final_particle.dat')

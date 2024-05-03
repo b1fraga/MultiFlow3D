@@ -766,7 +766,16 @@
 
         end do
 
-        if (LENERGY) call mom_buo
+      !   if (LENERGY) call mom_buo
+        if (LENERGY) then 
+         call exchange(11)
+         call exchange(22)
+         call exchange(33)
+         call mom_buo_air !Aleks Covid code subroutine
+        endif
+            call exchange(11)
+            call exchange(22)
+            call exchange(33)
         if (LROUGH) call rough_velocity
 
         return

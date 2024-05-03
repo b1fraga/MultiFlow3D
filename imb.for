@@ -4,54 +4,66 @@
 	  SAVE
       double precision  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
 	double precision  :: lambda,sigma,nxl
-	
+
 	INTEGER :: imp_proc_master,imb_block_master,forcefilej,a,b
-        INTEGER :: bodynum,maxnode,master,maxnodeIBS,mdfsteps,yangcase	
-	
+        INTEGER :: bodynum,maxnode,master,maxnodeIBS,mdfsteps,yangcase
+
 	LOGICAL,allocatable,dimension (:):: rotating,LSELFST,intflow
-	
+
       double precision,allocatable ::Cx(:),Cxor(:),Cy(:),Cyor(:)
-      double precision,allocatable ::Cz(:),Czor(:),Czz(:),Cxx(:)	
-      double precision,allocatable ::l2norm(:)				
+      double precision,allocatable ::Cz(:),Czor(:),Czz(:),Cxx(:)
+      double precision,allocatable ::l2norm(:)
 	double precision,allocatable,dimension(:) :: xaero,yaero,zaero
 	double precision,allocatable,dimension(:) :: iniT_selfST
-	double precision,allocatable,dimension(:) :: SUMtorque_ST	
-	double precision,allocatable,dimension(:) :: acc_selfST,massI	
+	double precision,allocatable,dimension(:) :: SUMtorque_ST
+	double precision,allocatable,dimension(:) :: acc_selfST,massI
 	double precision,allocatable,dimension(:) :: radsin,rads,pitch
 	double precision,allocatable,dimension(:) :: R,reddelta
 	double precision,allocatable,dimension(:) :: FX1_MASTER,FX2_MASTER
+        double precision,allocatable,dimension(:) :: FXSp_MASTER
+        double precision,allocatable,dimension(:) :: FXT_MASTER
 	double precision,allocatable,dimension(:) :: FX3_MASTER,FX3_loc
         double precision,allocatable,dimension(:) :: nodex_loc,nodey_loc
         double precision,allocatable,dimension(:) :: nodez_loc
+        double precision,allocatable,dimension(:) :: FXSp_loc,FXT_loc
         double precision,allocatable,dimension(:) :: FX1_loc,FX2_loc
         double precision,allocatable,dimension(:) :: R0_loc,alpha0_loc
         double precision,allocatable,dimension(:) :: U_Beta1_loc
+        double precision,allocatable,dimension(:) :: Sp_Beta_loc
+        double precision,allocatable,dimension(:) :: T_Beta_loc
         double precision,allocatable,dimension(:) :: U_Beta2_loc,zend
         double precision,allocatable,dimension(:) :: U_Beta3_loc,zini
         double precision,allocatable,dimension(:,:) :: dh1_loc,dh2_loc
         double precision,allocatable,dimension(:,:) :: dh3_loc,delvol
+        double precision,allocatable,dimension(:,:) :: dh4_loc!,dh5_loc
         double precision,allocatable,dimension(:,:) :: nodexlocal
         double precision,allocatable,dimension(:,:) :: nodeylocal
         double precision,allocatable,dimension(:,:) :: nodezlocal
         double precision,allocatable,dimension(:,:) :: FX1NF,FX2NF,FX3NF
+        double precision,allocatable,dimension(:,:) :: FXSpNF,FXTNF
         double precision,allocatable,dimension(:,:) :: nodex,nodey,nodez
-        double precision,allocatable,dimension(:,:) :: torque,U_Beta3 
+        double precision,allocatable,dimension(:,:) :: torque,U_Beta3
         double precision,allocatable,dimension(:,:) :: U_Beta1,U_Beta2
-        double precision,allocatable,dimension(:,:) :: FX1,FX2,FX3      
-        double precision,allocatable,dimension(:,:) :: alpha0,R0        
+        double precision,allocatable,dimension(:,:) :: FX1,FX2,FX3
+        double precision,allocatable,dimension(:,:) :: FXSp,FXT
+        double precision,allocatable,dimension(:,:) :: alpha0,R0
         double precision,allocatable,dimension(:) :: dxm,dym,dzm
 	INTEGER,allocatable,dimension(:,:) :: I_nr_V,J_nr_V,K_nr_V
 	INTEGER,allocatable,dimension(:,:) :: I_nr_U,J_nr_U,K_nr_U
 	INTEGER,allocatable,dimension(:,:) :: I_nr_W,J_nr_W,K_nr_W
+        INTEGER,allocatable,dimension(:,:) :: I_nr_Sp,J_nr_Sp,K_nr_Sp
+        INTEGER,allocatable,dimension(:,:) :: I_nr_T,J_nr_T,K_nr_T
 	INTEGER,allocatable,dimension(:) :: imbnumber,imb_shape,IBMnum
 	INTEGER,allocatable,dimension(:) :: kmaxU,kmaxV,kmaxW,nodes
-	INTEGER,allocatable,dimension(:) :: imb_proc,imb_block,turax	
+        INTEGER,allocatable,dimension(:) :: kmaxSp,kmaxT
+	INTEGER,allocatable,dimension(:) :: imb_proc,imb_block,turax
 	INTEGER,allocatable,dimension(:) :: lag_bod_loc,cmax,linfin
         INTEGER,allocatable,dimension(:) :: domtemp,imb_block_loc,axis
         INTEGER,allocatable,dimension(:) :: imbinblock_loc,rott_loc
         double precision,allocatable,dimension(:) :: rdiv_imb
+        integer,allocatable,dimension(:) :: IBip,IBjp,IBkp !Aleks 04/23 - arrays for storing ijk values of IB points
         CHARACTER*32, allocatable, dimension (:) :: filepoints
-        
+
       end module imb
 !#############################################################
       SUBROUTINE IMB_INITIAL
@@ -85,20 +97,20 @@
         allocate(nodes(bodynum),rotating(bodynum),rads(bodynum))
 	allocate(imb_shape(bodynum),imbnumber(bodynum))
 	allocate(radsin(bodynum),LSELFST(bodynum),filepoints(bodynum))
-	allocate(turax(bodynum),reddelta(bodynum),rdiv_imb(bodynum))        	
-	allocate(dxm(bodynum),dym(bodynum),dzm(bodynum)) 
+	allocate(turax(bodynum),reddelta(bodynum),rdiv_imb(bodynum))
+	allocate(dxm(bodynum),dym(bodynum),dzm(bodynum))
 
 	IF (myrank.ne.master) GOTO 545
 !Allocate variables only needed by the master:
 	allocate(Cx(bodynum),Cxor(bodynum),Cy(bodynum),Cyor(bodynum))
 	allocate(Cz(bodynum),Czor(bodynum),pitch(bodynum))
-	allocate(R(bodynum),l2norm(bodynum),IBMnum(bodynum))	
+	allocate(R(bodynum),l2norm(bodynum),IBMnum(bodynum))
 	allocate(xaero(bodynum),yaero(bodynum),zaero(bodynum))
         allocate(acc_selfST(bodynum),torque(itime_end,bodynum))
         allocate(SUMtorque_ST(bodynum),massI(bodynum))
         allocate(iniT_selfST(bodynum),cmax(bodynum),axis(bodynum))
-	allocate(linfin(bodynum),zini(bodynum),zend(bodynum))        
-	allocate(intflow(bodynum))        
+	allocate(linfin(bodynum),zini(bodynum),zend(bodynum))
+	allocate(intflow(bodynum))
 
 	maxn=2999000	!maximum number of Lagrangian allowed
 
@@ -110,6 +122,8 @@
          allocate (FX1NF(bodynum,maxn),FX1(bodynum,maxn))
          allocate (FX2NF(bodynum,maxn),FX2(bodynum,maxn))
          allocate (FX3NF(bodynum,maxn),FX3(bodynum,maxn))
+         allocate (FXSpNF(bodynum,maxn),FXSp(bodynum,maxn))
+         allocate (FXTNF(bodynum,maxn),FXT(bodynum,maxn))
          allocate (alpha0(bodynum,maxn),R0(bodynum,maxn))
          allocate (delvol(bodynum,maxn))
 
@@ -118,9 +132,9 @@
 
         i = 1
         DO WHILE (i.le.bodynum)
-		read (1,*) dummyline 
+		read (1,*) dummyline
 		read (1,*) imb_shape(i)
-		read (1,*) linfin(i),zini(i),zend(i)		
+		read (1,*) linfin(i),zini(i),zend(i)
 		read (1,*) Cx(i),Cy(i),Cz(i)
 		read (1,*) R(i)
 		read (1,*) cmax(i)
@@ -128,29 +142,29 @@
 		read (1,*) filepoints(i)
 		read (1,*) rotating(i)
 !		read (1,*) a,b
-		read (1,*) intflow(i)	
-		read (1,*) reddelta(i),rdiv_imb(i)		
+		read (1,*) intflow(i)
+		read (1,*) reddelta(i),rdiv_imb(i)
 !--- Turbine parameters: ---
-		read (1,*) dummyline 
-		read (1,*) turax(i)				
-		read (1,*) xaero(i),yaero(i),zaero(i)		
-		read (1,*) pitch(i)		
+		read (1,*) dummyline
+		read (1,*) turax(i)
+		read (1,*) xaero(i),yaero(i),zaero(i)
+		read (1,*) pitch(i)
 		read (1,*) imbnumber(i)
-		read (1,*) radsin(i)		
+		read (1,*) radsin(i)
 		read (1,*) LSELFST(i)
 		read (1,*) iniT_selfST(i)
-		
+
 	   if(imb_shape(i).ne.5) then
-	    xaero(i)=0.d0 ; yaero(i)=0.d0 ; zaero(i)=0.d0 		
-	    pitch(i)=0.d0 ; imbnumber(i)=1 ; radsin(i)=0.d0  
-	   endif	
-	   		
-	 if(intflow(i)) then
+	    xaero(i)=0.d0 ; yaero(i)=0.d0 ; zaero(i)=0.d0
+	    pitch(i)=0.d0 ; imbnumber(i)=1 ; radsin(i)=0.d0
+	   endif
+
+	 if(intflow(i) .eqv. .true.) then
 	 write(6,*)' This is not implemented in the current version'
 	 STOP
 	 endif
-	 
-           IBMnum(i) = i 
+
+           IBMnum(i) = i
 
 !Write possible combinations of movements/body types that doesn't work
         i = i + 1
@@ -168,23 +182,23 @@
 
 
 	IF (myrank.ne.master) RETURN
-	
-	Do i=1,bodynum	
+
+	Do i=1,bodynum
        dxm(i)=g_dx/rdiv_imb(i)		!Minimum grid sizes
-	 dym(i)=g_dy/rdiv_imb(i)	
-	 dzm(i)=g_dz/rdiv_imb(i)		
+	 dym(i)=g_dy/rdiv_imb(i)
+	 dzm(i)=g_dz/rdiv_imb(i)
 	Enddo
-	 
-!	write(6,*)	     'Largest rdivmax  :',rdivmax	
-!	write(6,'(a,3e12.4)')'Smallest gridsize: ',dxm,dym,dzm	 
-		
+
+!	write(6,*)	     'Largest rdivmax  :',rdivmax
+!	write(6,'(a,3e12.4)')'Smallest gridsize: ',dxm,dym,dzm
+
 	Do i=1,bodynum
           IF (imb_shape(i).eq.1) call imb_square(IBMnum(i))
           IF (imb_shape(i).eq.2) call imb_cylinder(IBMnum(i))
           IF (imb_shape(i).eq.3) call imb_cube(IBMnum(i))
 	  IF (imb_shape(i).eq.4) call imb_sphere(IBMnum(i))
  	  IF (imb_shape(i).eq.5) call imb_file(IBMnum(i))
-!          IF (imb_shape(i).eq.6) call imb_pipe(IBMnum(i))	  
+!          IF (imb_shape(i).eq.6) call imb_pipe(IBMnum(i))
    	  maxnodeIBS=maxnodeIBS+nodes(i)
 	     IF (maxnodeIBS.gt.maxn) write(6,*)'Too many ib points'
 	     IF (maxnodeIBS.gt.maxn) STOP
@@ -193,7 +207,7 @@
 	call imb_alpha0	!-----> CHECK!!!!
 
 !        call calpostn(0.d0,0.d0) !-----> CHECK!!!!
-               
+
 !      call imb_deternds	! Moved to flosol.for
 
 !CREATE OUTPUT FILES FOR THE IMMERSED BOUNDARIES:
@@ -218,9 +232,9 @@
      &	action="write")
         write (forcefilej,*)'Variables="TIME","Deg","Fx","Fy","Fz"'
 		IF(imb_shape(K).eq.5 .and. i.eq.1)then
-			lambda=radsin(K)*R(K)/1.  	
+			lambda=radsin(K)*R(K)/1.
 			sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416)
-			revoltime=2.d0*PI/radsin(K)	
+			revoltime=2.d0*PI/radsin(K)
 			write(6,'(a,i1)')   '        Turbine  ',K,''
 			write(6,'(a,f12.3)')'        TSR     :',lambda
 			write(6,'(a,f12.3)')'        Solidity:',sigma
@@ -232,7 +246,7 @@
          char_block=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block))
          if(imb_shape(K).eq.1) then
          gridfile='F_Squ_'//TRIM(ADJUSTL(char_block))//'.dat'
-     	 endif        
+     	 endif
          if(imb_shape(K).eq.2) then
          gridfile='F_Cyl_'//TRIM(ADJUSTL(char_block))//'.dat'
      	 endif
@@ -241,11 +255,11 @@
      	 endif
          if(imb_shape(K).eq.4) then
          gridfile='F_Sph_'//TRIM(ADJUSTL(char_block))//'.dat'
-     	 endif     	      
+     	 endif
          if(imb_shape(K).eq.5) then
          gridfile='F_Body_'//TRIM(ADJUSTL(char_block))//'.dat'
-     	 endif       
-     
+     	 endif
+
          open (unit=forcefilej, file=gridfile)
            write (forcefilej,*)'Variables="TIME","Fx","Fy","Fz"'
 	 ENDIF
@@ -283,11 +297,11 @@
       INTEGER  :: M,L,iii,K
       double precision :: PI
        PI = 4.D0*DATAN(1.D0)
-      
+
 	Do M=1,bodynum
 	 if(imb_shape(M).ne.5) then  !all but VATT
 
-         do L=1,nodes(M) 
+         do L=1,nodes(M)
           alpha0(M,L)=atan((nodex(M,L)-Cx(M))/(nodey(M,L)-Cy(M)))
           R0(M,L)=sqrt((nodex(M,L)-Cx(M))**2+(nodey(M,L)-Cy(M))**2)
          enddo
@@ -296,21 +310,21 @@
 
 	IF (turax(M).eq.1) then		! Vertical Axis Turbine
 	   K=nodes(M)/imbnumber(M)
-          do L=1,K!nodes(numIB) 
+          do L=1,K!nodes(numIB)
           alpha0(M,L)=atan(nodexlocal(M,L)/(nodeylocal(M,L)+R(M)))
           R0(M,L)=sqrt((nodexlocal(M,L))**2+(nodeylocal(M,L)+R(M))**2)
           enddo
           Do iii=1,imbnumber(M)-1
            do L=1,K!nodes(numIB)
-                alpha0(M,L+K*iii)=alpha0(M,L)	
+                alpha0(M,L+K*iii)=alpha0(M,L)
                 R0(M,L+K*iii)= R0(M,L)
            enddo
           Enddo
         ENDIF
 	IF (turax(M).eq.2) then	! Horizontal Axis Turbine
-          do L=1,nodes(M) 
+          do L=1,nodes(M)
           alpha0(M,L)=atan(nodeylocal(M,L)/(nodezlocal(M,L)))
-          
+
           if(nodeylocal(M,L).gt.0.d0 .and. nodezlocal(M,L).lt.0.d0) then
           alpha0(M,L)=PI+alpha0(M,L)
           endif
@@ -319,13 +333,13 @@
           endif
           if(nodeylocal(M,L).lt.0.d0 .and. nodezlocal(M,L).gt.0.d0) then
           alpha0(M,L)=2.D0*PI+alpha0(M,L)
-          endif 
-                                    
+          endif
+
           R0(M,L)=sqrt((nodeylocal(M,L))**2+(nodezlocal(M,L))**2)
-     
+
           enddo
         ENDIF
-                 
+
 	 endif
 	Enddo
 
@@ -353,79 +367,106 @@
        call MPI_BCAST(imbnumber,bodynum,MPI_INTEGER,
      &  master,MPI_COMM_WORLD,ierr)	!# IB bodies of each body
        call MPI_BCAST(turax,bodynum,MPI_INTEGER,
-     &  master,MPI_COMM_WORLD,ierr)	!# axis of rotation for turbines     
+     &  master,MPI_COMM_WORLD,ierr)	!# axis of rotation for turbines
        call MPI_BCAST(radsin,bodynum,MPI_DOUBLE_PRECISION,
      &  master,MPI_COMM_WORLD,ierr)	!Rotational velocity of each IB body
        call MPI_BCAST(rotating,bodynum,MPI_LOGICAL,
      &  master,MPI_COMM_WORLD,ierr)	!If the body rotates
-     
+
         if(yangcase.eq.1) nxl=1.4999d0
 	if(yangcase.eq.2) nxl=2.4999d0
-	if(yangcase.eq.3) nxl=1.9999d0	
+	if(yangcase.eq.3) nxl=1.9999d0
 	if(yangcase.eq.4) nxl=2.4999d0
-	if(yangcase.eq.5) nxl=1.4999d0		         
-	if(yangcase.eq.6) nxl=1.9999d0		!June 2015   
-!nxl is the length of the kernel used for the delta functions.		
-	  
+	if(yangcase.eq.5) nxl=1.4999d0
+	if(yangcase.eq.6) nxl=1.9999d0		!June 2015
+!nxl is the length of the kernel used for the delta functions.
+
          allocate(kmaxU(maxnodeIBS),kmaxV(maxnodeIBS),kmaxW(maxnodeIBS))
-	  kmaxU=0 	; kmaxV=0 	; kmaxW=0	         		  
+         allocate(kmaxSp(maxnodeIBS),kmaxT(maxnodeIBS))
+	  kmaxU=0 	; kmaxV=0 	; kmaxW=0
+          kmaxSp=0      ; kmaxT=0
          allocate (nodex_loc(maxnodeIBS),nodey_loc(maxnodeIBS))
          allocate (nodez_loc(maxnodeIBS))
 	 nodex_loc=0.d0 ; nodey_loc=0.d0 ; nodez_loc=0.d0 ;
 	 allocate (U_Beta1_loc(maxnodeIBS),U_Beta2_loc(maxnodeIBS))
 	 allocate (U_Beta3_loc(maxnodeIBS))
-	  U_Beta1_loc =0.d0 	; U_Beta2_loc =0.d0 ; U_Beta3_loc =0.d0 
+         allocate (Sp_Beta_loc(maxnodeIBS),T_Beta_loc(maxnodeIBS))
+	  U_Beta1_loc =0.d0 	; U_Beta2_loc =0.d0 ; U_Beta3_loc =0.d0
+          Sp_Beta_loc=0.d0      ;T_Beta_loc=0.d0
          allocate (FX1_loc(maxnodeIBS),FX1_MASTER(maxnodeIBS))
          allocate (FX2_loc(maxnodeIBS),FX2_MASTER(maxnodeIBS))
 	 allocate (FX3_loc(maxnodeIBS),FX3_MASTER(maxnodeIBS))
-	  FX1_loc =0.d0    ; FX2_loc =0.d0    ; FX3_loc =0.d0 
-	  FX1_MASTER =0.d0 ; FX2_MASTER =0.d0 ; FX3_MASTER =0.d0 
-         allocate (alpha0_loc(maxnodeIBS),R0_loc(maxnodeIBS))
+         allocate (FXSp_loc(maxnodeIBS),FXT_loc(maxnodeIBS))
+         allocate (FXSp_MASTER(maxnodeIBS),FXT_MASTER(maxnodeIBS))
+	  FX1_loc =0.d0    ; FX2_loc =0.d0    ; FX3_loc =0.d0
+	  FX1_MASTER =0.d0 ; FX2_MASTER =0.d0 ; FX3_MASTER =0.d0
+          FXSp_loc=0.d0    ; FXT_loc=0.d0
+          FXSp_MASTER=0.d0 ; FXT_MASTER=0.d0
+          allocate (alpha0_loc(maxnodeIBS),R0_loc(maxnodeIBS))
 	  alpha0_loc =0.d0 ; R0_loc =0.d0
-	 allocate (imbinblock_loc(num_domains)) 
+	 allocate (imbinblock_loc(num_domains))
          allocate (rott_loc(maxnodeIBS))
-	 allocate (imb_block_loc(maxnodeIBS),lag_bod_loc(maxnodeIBS))	
+	 allocate (imb_block_loc(maxnodeIBS),lag_bod_loc(maxnodeIBS))
+         allocate (IBip(maxnodeIBS),IBjp(maxnodeIBS),IBkp(maxnodeIBS)) ! Aleks 04/23
 	  imbinblock_loc=0 ; imb_block_loc=0  ; lag_bod_loc = 0
-	   rott_loc=0   
-           
+	   rott_loc=0 ;
+
 !        if (nbp.ge.1) then  !Only one block to procs where there are IBs!!
 !        if (myrank.lt.40) then
-        
-           
+
+
 	if (yangcase.eq.2 .or. yangcase.eq.4) then
          allocate (dh1_loc(maxnodeIBS,126),dh2_loc(maxnodeIBS,126))
          allocate (dh3_loc(maxnodeIBS,126))
+         allocate (dh4_loc(maxnodeIBS,126))     ! Aleks 04/23
 	 allocate (I_nr_U(maxnodeIBS,126),J_nr_U(maxnodeIBS,126))
 	 allocate (I_nr_V(maxnodeIBS,126),J_nr_V(maxnodeIBS,126))
 	 allocate (I_nr_W(maxnodeIBS,126),J_nr_W(maxnodeIBS,126))
 	 allocate (K_nr_U(maxnodeIBS,126),K_nr_V(maxnodeIBS,126))
 	 allocate (K_nr_W(maxnodeIBS,126))
+         allocate (I_nr_Sp(maxnodeIBS,126),J_nr_Sp(maxnodeIBS,126))
+         allocate (K_nr_Sp(maxnodeIBS,126))
+         allocate (I_nr_T(maxnodeIBS,126),J_nr_T(maxnodeIBS,126))
+         allocate (K_nr_T(maxnodeIBS,126))
 	endif
 	if (yangcase.eq.1 .or. yangcase.eq.5) then
          allocate (dh1_loc(maxnodeIBS,28),dh2_loc(maxnodeIBS,28))
          allocate (dh3_loc(maxnodeIBS,28))
+         allocate (dh4_loc(maxnodeIBS,28))     ! Aleks 04/23
 	 allocate (I_nr_U(maxnodeIBS,28),J_nr_U(maxnodeIBS,28))
 	 allocate (I_nr_V(maxnodeIBS,28),J_nr_V(maxnodeIBS,28))
 	 allocate (I_nr_W(maxnodeIBS,28),J_nr_W(maxnodeIBS,28))
 	 allocate (K_nr_U(maxnodeIBS,28),K_nr_V(maxnodeIBS,28))
 	 allocate (K_nr_W(maxnodeIBS,28))
+         allocate (I_nr_Sp(maxnodeIBS,28),J_nr_Sp(maxnodeIBS,28))
+         allocate (K_nr_Sp(maxnodeIBS,28))
+         allocate (I_nr_T(maxnodeIBS,28),J_nr_T(maxnodeIBS,28))
+         allocate (K_nr_T(maxnodeIBS,28))
 	endif
 	if (yangcase.eq.3 .or. yangcase.eq.6) then
          allocate (dh1_loc(maxnodeIBS,65),dh2_loc(maxnodeIBS,65))
          allocate (dh3_loc(maxnodeIBS,65))
+         allocate (dh4_loc(maxnodeIBS,65))     ! Aleks 04/23
 	 allocate (I_nr_U(maxnodeIBS,65),J_nr_U(maxnodeIBS,65))
 	 allocate (I_nr_V(maxnodeIBS,65),J_nr_V(maxnodeIBS,65))
 	 allocate (I_nr_W(maxnodeIBS,65),J_nr_W(maxnodeIBS,65))
 	 allocate (K_nr_U(maxnodeIBS,65),K_nr_V(maxnodeIBS,65))
 	 allocate (K_nr_W(maxnodeIBS,65))
-	endif		
+         allocate (I_nr_Sp(maxnodeIBS,65),J_nr_Sp(maxnodeIBS,65))
+         allocate (K_nr_Sp(maxnodeIBS,65))
+         allocate (I_nr_T(maxnodeIBS,65),J_nr_T(maxnodeIBS,65))
+         allocate (K_nr_T(maxnodeIBS,65))
+	endif
 
 	  dh1_loc=0.d0	; dh2_loc=0.d0	; dh3_loc=0.d0
+          dh4_loc=0.d0                   ! Aleks 04/23
 	  I_nr_U=0	; J_nr_u=0 	; K_nr_U=0
 	  I_nr_V=0 	; J_nr_V=0 	; K_nr_V=0
 	  I_nr_W=0 	; J_nr_W=0 	; K_nr_W=0
-!	endif           
-                                         
+          I_nr_Sp=0 	; J_nr_Sp=0 	; K_nr_Sp=0
+          I_nr_T=0 	; J_nr_T=0 	; K_nr_T=0
+!	endif
+
 
 	RETURN
 	END
@@ -442,19 +483,19 @@
 	Do K=1,bodynum
 	  IF (rotating(K).and.imb_shape(K).eq.5) call imb_moved(K)  !In shapes.for
 	Enddo
-	
-		Call PartLoc  
+
+		Call PartLoc
 
 	IF(itime.eq.itime_start) then
 	 if(myrank.eq.master)write(6,*)'Delta functions initiating'
 		Call Deltah
-	 call MPI_BARRIER(MPI_COMM_WORLD,IERR)	
+	 call MPI_BARRIER(MPI_COMM_WORLD,IERR)
 	 if(myrank.eq.master)write(6,*)'Delta functions generated'
 	ENDIF
 
       END SUBROUTINE
 !######################################################################
-      SUBROUTINE PartLoc 
+      SUBROUTINE PartLoc
 !######################################################################
       use vars
       use imb
@@ -462,6 +503,7 @@
       use multidata
       implicit none
       INTEGER :: M,L,ii,nxdom,nydom,nzdom,tnm,N,nx,ny,nz
+      integer ib,is,ie,js,je,ks,ke, tti,ttj,ttk
       DOUBLE PRECISION :: lxdom(idom+1),lydom(jdom+1),lzdom(kdom+1)
 
        IF(myrank.eq.master)THEN
@@ -483,24 +525,24 @@
 		   DO L=1,nodes(M) !Analyze all IB poins of the body.
 		ii=ii+1 !; nxdom=0 ; nydom=0 ; nzdom=0
 
-		 Do nx=1,idom 
-		  if( (nodex(M,L)-1.d-11).gt.lxdom(nx) .and. 
+		 Do nx=1,idom
+		  if( (nodex(M,L)-1.d-11).gt.lxdom(nx) .and.
      & (nodex(M,L)-1.d-11).le.lxdom(nx+1) )THEN
 		nxdom=nx-1
 		GOTO 490
 		  endif
 		 Enddo
 490 	CONTINUE
-		 Do ny=1,jdom 
-		  if( (nodey(M,L)-1.d-11).gt.lydom(ny) .and. 
+		 Do ny=1,jdom
+		  if( (nodey(M,L)-1.d-11).gt.lydom(ny) .and.
      & (nodey(M,L)-1.d-11).le.lydom(ny+1) )THEN
 		nydom=ny-1
 		GOTO 491
 		  endif
 		 Enddo
 491 	CONTINUE
-		 Do nz=1,kdom 
-		  if( (nodez(M,L)-1.d-11).gt.lzdom(nz) .and. 
+		 Do nz=1,kdom
+		  if( (nodez(M,L)-1.d-11).gt.lzdom(nz) .and.
      & (nodez(M,L)-1.d-11).le.lzdom(nz+1) )THEN
 		nzdom=nz-1
 		GOTO 492
@@ -510,36 +552,71 @@
 		imb_block(ii)=idom*jdom*nzdom+idom*nydom+nxdom
 		imbinblk(imb_block(ii)+1)=imbinblk(imb_block(ii)+1)+1
 		   ENDDO
-		enddo 
+		enddo
 
 		do L=1,num_domains !Check in all the domains
 		tnm=tnm+imbinblk(L)
-		IF (itime.eq.itime_start .AND. imbinblk(L).ne.0)  
-     &   write(6,*)'Dom,#markrs',L-1,imbinblk(L),tnm  
+		IF (itime.eq.itime_start .AND. imbinblk(L).ne.0)
+     &   write(6,*)'Dom,#markrs',L-1,imbinblk(L),tnm
 		imbinblock_loc(L)=imbinblk(L) !New variable for all the other MPI
 		enddo
 		!Warning if some point is not assigned to some domain
-		if(tnm.lt.maxnodeIBS) 
+		if(tnm.lt.maxnodeIBS)
      &  write(6,*)'Some Lagrangian are not assigned to a domain!!!CHECK'
-		 
+
+!        do ib=1,nbp !------------------------- Aleks 04/23
+!                tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j
+!                ttk=dom(ib)%ttc_k
+!        allocate(dom(ib)%imbcell(tti,ttj,ttk))
+!                dom(ib)%imbcell=0.d0 ! set to 0 for all Eu grid points
+!                write(6,*)'array size',SIZE(dom(ib)%imbcell) ! checking array size
+!        enddo !------------------------------------------
+
 		  ii=0
 		DO M=1,bodynum
 		   DO L=1,nodes(M)
 		     ii=ii+1
 		  nodex_loc(ii)=nodex(M,L) ; nodey_loc(ii)=nodey(M,L)
 		  nodez_loc(ii)=nodez(M,L) ; imb_block_loc(ii)=imb_block(ii)
+!------------- Aleks 04/23: finding ijk values of IB nodes
 
+!                do ib=1,nbp
+!                  	IF (imb_block(ii).eq.dom_id(ib)) then
+
+!                   is = dom(ib)%isp
+!      	           ie = dom(ib)%iep
+!      	           js = dom(ib)%jsp
+!      	           je = dom(ib)%jep
+!       	           ks = dom(ib)%ksp
+!      	           ke = dom(ib)%kep
+
+!                  IBip(ii)=INT((nodex_loc(ii)-dom(ib)%x(is-1)-1.d-12)
+!     &                  /dom(ib)%dx)+1+pl
+!                  IBjp(ii)=INT((nodey_loc(ii)-dom(ib)%y(js-1)-1.d-12)
+!     &                  /dom(ib)%dy)+1+pl
+!                  IBkp(ii)=INT((nodez_loc(ii)-dom(ib)%z(ks-1)-1.d-12)
+!     &                  /dom(ib)%dz)+1+pl
+C                        write(6,*)is,ie,js,je,ks,ke,pl
+C                        write(111,*),ii,imb_block_loc(ii),
+C     &                          IBip(ii),IBjp(ii),IBkp(ii)
+!                dom(ib)%imbcell(IBip(ii),IBjp(ii),IBkp(ii))=1.d0 ! set to 1 only in IB nodes
+C                 dom(ib)%imbcell(nodex_loc(ii),nodey_loc(ii),
+C     &                  nodez_loc(ii))=1.d0
+!                        endif
+!                enddo
+!------------------------------------------------------------------
 		    IF (itime.eq.itime_start) then !THIS IS DONE ONCE
-		R0_loc(ii)=R0(M,L) 
+		R0_loc(ii)=R0(M,L)
 		alpha0_loc(ii)=alpha0(M,L)
-		lag_bod_loc(ii)=M 
-		    ENDIF 
+		lag_bod_loc(ii)=M
+		    ENDIF
 		rott_loc(ii)=1 !Moving Lagrangian
-		IF(.not.rotating(M))rott_loc(ii)=2   !Static Lagrangian
+		IF(rotating(M).eqv..false.)rott_loc(ii)=2   !Static Lagrangian
 		 ENDDO
 		Enddo
+
 		ENDIF !master
-		 
+
 		IF(itime.eq.itime_start) then
 		call MPI_BCAST(lag_bod_loc,maxnodeIBS,MPI_INTEGER,
      & master,MPI_COMM_WORLD,ierr) !# of the body to which the Lag is.
@@ -586,21 +663,21 @@
 	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 700 !If the IB point is not in the present block
 	IF(rott_loc(L).ne.2) GOTO 700	!If the Lagrangian is dynamic:exit
 !NEIGHBOURS FOR THE U-GRID
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%x(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
      &     dom(ib)%x(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 210
-           DO J = 1, dom(ib)%ttc_j 
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
      &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy)) GOTO 211
-            DO K = 1, dom(ib)%ttc_k 
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 212 
+     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 212
 !nl indicates the number of the neighbour and dh1 the delta functions value.
 	nl=nl+1
  	  dh1_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase) 
-!The index of the neighbours number nl to the Lagrangian L are:    
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
+!The index of the neighbours number nl to the Lagrangian L are:
 	I_nr_U(L,nl)=I ;  J_nr_U(L,nl)=J ;  K_nr_U(L,nl)=K
 	  dhtotal=dhtotal+dh1_loc(L,nl)
 	  if(dhtotal.ge.0.9999) goto 876
@@ -611,23 +688,23 @@
 210         CONTINUE
           END DO
 !        dh1_loc(L,nl)=dh1_loc(L,nl)/dhtotal
-876	continue       
+876	continue
 	kmaxU(L)=nl !# of neighbours of the Lagrangian L
 !NEIGHBOURS FOR THE V-GRID
       	nl=0 ;dhtotal=0.d0
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
      &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx))GOTO 220
-           DO J = 1, dom(ib)%ttc_j 
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%y(j) .gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
-     &     dom(ib)%y(j) .lt.(nodey_loc(L)-nxl*dom(ib)%dy))GOTO 221 
-            DO K = 1, dom(ib)%ttc_k 
+     &     dom(ib)%y(j) .lt.(nodey_loc(L)-nxl*dom(ib)%dy))GOTO 221
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 222 
+     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 222
 	nl=nl+1
  	  dh2_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%XC(I),dom(ib)%Y(J),dom(ib)%ZC(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
 
 	I_nr_V(L,nl)=I ;  J_nr_V(L,nl)=J ;  K_nr_V(L,nl)=K
 	  dhtotal=dhtotal+dh2_loc(L,nl)
@@ -639,23 +716,23 @@
 220         CONTINUE
           END DO
 !        dh2_loc(L,nl)=dh2_loc(L,nl)/dhtotal
-877	continue              
-	kmaxV(L)=nl 
+877	continue
+	kmaxV(L)=nl
 !NEIGHBOURS FOR THE W-GRID
       	nl=0 ;dhtotal=0.d0
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
-     &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 230 
-           DO J = 1, dom(ib)%ttc_j 
+     &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 230
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
-     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 231 
-            DO K = 1, dom(ib)%ttc_k 
+     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 231
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%z(k) .gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%z(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 232 
+     &     dom(ib)%z(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 232
 	nl=nl+1
  	  dh3_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%Z(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
 
 	I_nr_W(L,nl)=I ;  J_nr_W(L,nl)=J ;  K_nr_W(L,nl)=K
 	  dhtotal=dhtotal+dh3_loc(L,nl)
@@ -667,35 +744,94 @@
 230         CONTINUE
           END DO
 !        dh3_loc(L,nl)=dh3_loc(L,nl)/dhtotal
-878	continue                     
-	kmaxW(L)=nl 	
-	
-700	CONTINUE   
+878	continue
+	kmaxW(L)=nl
+!NEIGHBOURS FOR THE Sp-NODES --> Aleks 04/23 modified from Riza's version
+!       	nl=0 ;dhtotal=0.d0
+!           DO I = 1, dom(ib)%ttc_i
+!        IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
+!      &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 240
+!            DO J = 1, dom(ib)%ttc_j
+!        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
+!      &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 241
+!             DO K = 1, dom(ib)%ttc_k
+!        IF (dom(ib)%zc(k) .gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
+!      &     dom(ib)%zc(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 242
+! 	nl=nl+1
+!  	  dh4_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
+!      &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%ZC(K)
+!      & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
+
+! 	I_nr_Sp(L,nl)=I ;  J_nr_Sp(L,nl)=J ;  K_nr_Sp(L,nl)=K
+! 	  dhtotal=dhtotal+dh4_loc(L,nl)
+! 	  if(dhtotal.ge.0.9999) goto 879
+! 242         CONTINUE
+!             END DO
+! 241         CONTINUE
+!            END DO
+! 240         CONTINUE
+!           END DO
+! !        dh3_loc(L,nl)=dh3_loc(L,nl)/dhtotal
+! 879	continue
+! 	kmaxSp(L)=nl
+!NEIGHBOURS FOR THE T-NODES --> Aleks 04/23 modified from Riza's version
+      	nl=0 ;dhtotal=0.d0
+          DO I = 1, dom(ib)%ttc_i
+       IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
+     &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 250
+           DO J = 1, dom(ib)%ttc_j
+       IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
+     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 251
+            DO K = 1, dom(ib)%ttc_k
+       IF (dom(ib)%zc(k) .gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
+     &     dom(ib)%zc(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 252
+	nl=nl+1
+        dh4_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
+     &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%ZC(K)
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
+! 	  dh5_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
+!     &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%ZC(K)
+!     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
+
+	I_nr_T(L,nl)=I ;  J_nr_T(L,nl)=J ;  K_nr_T(L,nl)=K
+	  dhtotal=dhtotal+dh4_loc(L,nl)
+	  if(dhtotal.ge.0.9999) goto 880
+252         CONTINUE
+            END DO
+251         CONTINUE
+           END DO
+250         CONTINUE
+          END DO
+!        dh3_loc(L,nl)=dh3_loc(L,nl)/dhtotal
+880	continue
+	kmaxT(L)=nl
+
+700	CONTINUE
        Enddo
-600	CONTINUE   
+600	CONTINUE
 
      	if(myrank.eq.master)	 write(6,*)'Ended',ib
 
       ENDDO
 
 !	ELSE !MLS IS USED        !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-!	Do ib=1,nbp  
+!	Do ib=1,nbp
 !          if (ptsinblock_loc(dom_id(ib)+1).eq.0) GOTO 601
 !          Do L = 1,maxnodeIBS!*
 !	   IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 701!*
 !	   IF(rott_loc(L).ne.2) GOTO 701!*
-!	
+!
 !	   call ShapeFunction_MLS(1,L,ib)
 !	   call ShapeFunction_MLS(2,L,ib)
 !	 do M=1,neignum_mls
 !	    write(6,*)L,M,Nu(L,M)
 !	 enddo
 
-!701	CONTINUE   
+!701	CONTINUE
  !       Enddo
 !       ENDDO
 !601	 CONTINUE
-!	ENDIF	
+!	ENDIF
 
       RETURN
       END
@@ -709,7 +845,7 @@
       implicit none
       INTEGER :: NF,M,L
       double precision :: sumvel,l1norm
-   
+
 !call exchange subroutines to fill the ghost cells with values
 	!call exchange(1)
 	!call exchange(2)
@@ -717,11 +853,14 @@
 	call exchange(11)
 	call exchange(22)
 	call exchange(33)
-	
+        call exchange(5)!T
+      !   call exchange(20)!Sp (in covid code but not this one)
 
         IF (Myrank.eq.master) THEN
-	  FX1NF = 0.d0  ;  FX2NF=0.d0 	;  FX3NF=0.d0 
-	  FX1 = 0.d0  	;  FX2=0.d0 	;  FX3=0.d0 
+	  FX1NF = 0.d0  ;  FX2NF=0.d0 	;  FX3NF=0.d0
+          FXSpNF=0.d0   ;  FXTNF=0.d0
+	  FX1 = 0.d0  	;  FX2=0.d0 	;  FX3=0.d0
+          FXSp=0.d0     ;  FXT=0.d0
 	ENDIF
 
 	DO NF =1,mdfsteps+1	!MDF loops. +1 as the default loop for IB
@@ -731,26 +870,28 @@
 	    FX1NF(M,L) = FX1NF(M,L) + FX1(M,L)
 	    FX2NF(M,L) = FX2NF(M,L) + FX2(M,L)
 	    FX3NF(M,L) = FX3NF(M,L) + FX3(M,L)
+            ! FXSpNF(M,L) = FXSpNF(M,L) + FXSp(M,L)
+            FXTNF(M,L) = FXTNF(M,L) + FXT(M,L)
 	    Enddo
 	   ENDDO
 	  ENDIF
-	  
-	  
+
+
 !	call MPI_BARRIER(MPI_COMM_WORLD,ierr)
 !	if(myrank.eq.master)write(6,*)'entering UV'
 
-	  call interpolate_UV 
-	  
+	  call interpolate_UV
+
 !	call MPI_BARRIER(MPI_COMM_WORLD,ierr)
-!	if(myrank.eq.master)write(6,*)'entering CALFL'	  
- 	  
+!	if(myrank.eq.master)write(6,*)'entering CALFL'
+
 	  call calfl
 
 !	call MPI_BARRIER(MPI_COMM_WORLD,ierr)
-!	if(myrank.eq.master)write(6,*)'entering DB'	   
- 
+!	if(myrank.eq.master)write(6,*)'entering DB'
+
 	  call distfbeta
-	  	   
+
 	ENDDO
 
       IF (Myrank.eq.master) THEN !l2-norm is calculated in reference to the final velocitiy field
@@ -771,6 +912,8 @@
 	  FX1NF(M,L) = FX1NF(M,L) + FX1(M,L)
 	  FX2NF(M,L) = FX2NF(M,L) + FX2(M,L)
 	  FX3NF(M,L) = FX3NF(M,L) + FX3(M,L)
+      !     FXSpNF(M,L) = FXSpNF(M,L) + FXSp(M,L)
+          FXTNF(M,L) = FXTNF(M,L) + FXT(M,L)
 	 Enddo
 	ENDDO
 
@@ -778,14 +921,15 @@
 	 Do L=1,nodes(M)
 	  FX1(M,L) = FX1NF(M,L) ;  FX2(M,L) = FX2NF(M,L)
 	  FX3(M,L) = FX3NF(M,L)
+          FXSp(M,L) = FXSpNF(M,L) ;  FXT(M,L) = FXTNF(M,L)
 	 Enddo
 	enddo
 
 	if (bodynum.eq.1) write(757,'(3f20.5)')CTIME,l2norm(1),l1norm
 	if (bodynum.ge.2) write(757,'(3f20.5)')CTIME,l2norm(1),l2norm(2)
-	
+
 	ENDIF
-	
+
 	call caldrag
 
 
@@ -802,6 +946,8 @@
       INTEGER :: I,J,K,L,M,ib,nl,nt
 
 	U_Beta1_loc=0.d0 ; U_Beta2_loc=0.d0 ; U_Beta3_loc=0.d0	!Pablo
+        Sp_Beta_loc=0.d0 ; T_Beta_loc=0.d0
+
 	Do ib=1,nbp
 
       if (imbinblock_loc(dom_id(ib)+1).eq.0) GOTO 600
@@ -814,33 +960,33 @@
 !$OMP parallel DEFAULT(SHARED)PRIVATE(I,J,M,L,K,nl,dhtotal)
 !$OMP DO SCHEDULE(DYNAMIC,1)
       Do L = 1,maxnodeIBS
-	 nl=0 ; dhtotal=0.d0 
-	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 700 
+	 nl=0 ; dhtotal=0.d0
+	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 700
 	 IF( rott_loc(L).eq.1 )then
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%x(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
      &     dom(ib)%x(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 210
-           DO J = 1, dom(ib)%ttc_j 
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
      &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy)) GOTO 211
-            DO K = 1, dom(ib)%ttc_k 
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 212 
+     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 212
 
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
 
 	 nl=nl+1
         dh1_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  			!June 2015	    
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  			!June 2015
 
            U_Beta1_loc(L) = U_Beta1_loc(L) +
      &     dom(ib)%USTAR(I,J,K) * dh1_loc(L,nl)
-        
+
 		dhtotal=dhtotal+dh1_loc(L,nl)
       	KmaxU(L)=nl
         	I_nr_U(L,nl)=I ; J_nr_U(L,nl)=J ; K_nr_U(L,nl)=K
-   	            
+
 		!ENDIF
 
 	    IF (dhtotal.ge.0.9999) GOTO 700
@@ -851,9 +997,9 @@
            END DO
 210         CONTINUE
           END DO
-          
+
           if (nl.eq.0) write(6,*)L,'nl is equal to 0!!'
-                    
+
 	U_Beta1_loc(L)=U_Beta1_loc(L)*1.0d0/dhtotal
 
 	ELSE
@@ -861,9 +1007,9 @@
 	  I=I_nr_U(L,nl) ;  J=J_nr_U(L,nl) ;  K=K_nr_U(L,nl)
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
           U_Beta1_loc(L)=(U_Beta1_loc(L)+
-     &    dom(ib)%USTAR(I,J,K)*dh1_loc(L,nl))     
+     &    dom(ib)%USTAR(I,J,K)*dh1_loc(L,nl))
 		!ENDIF
-  	 Enddo  	 
+  	 Enddo
 	ENDIF
 700	continue
 
@@ -871,33 +1017,33 @@
 !$OMP end DO NOWAIT
 !$OMP DO SCHEDULE(DYNAMIC,1)
       Do L = 1,maxnodeIBS
-	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 701 
-	 nl=0 ; dhtotal=0.d0 
+	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 701
+	 nl=0 ; dhtotal=0.d0
 	IF( rott_loc(L).eq.1 )then
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
      &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx))GOTO 220
-           DO J = 1, dom(ib)%ttc_j 
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%y(j) .gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
-     &     dom(ib)%y(j) .lt.(nodey_loc(L)-nxl*dom(ib)%dy))GOTO 221 
-            DO K = 1, dom(ib)%ttc_k 
+     &     dom(ib)%y(j) .lt.(nodey_loc(L)-nxl*dom(ib)%dy))GOTO 221
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 222 
+     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 222
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
 	 nl=nl+1
         dh2_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%XC(I),dom(ib)%Y(J),dom(ib)%ZC(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase) 		!June 2015	    
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase) 		!June 2015
            U_Beta2_loc(L) = U_Beta2_loc(L) +
      &     dom(ib)%VSTAR(I,J,K) * dh2_loc(L,nl)
-     
-	  	dhtotal=dhtotal+dh2_loc(L,nl)  
-     
+
+	  	dhtotal=dhtotal+dh2_loc(L,nl)
+
       	KmaxV(L)=nl
         I_nr_V(L,nl)=I ; J_nr_V(L,nl)=J ; K_nr_V(L,nl)=K
 
 		!ENDIF
-           
+
 	    IF (dhtotal.ge.0.9999) GOTO 701
 222         CONTINUE
             END DO
@@ -905,8 +1051,8 @@
            END DO
 220         CONTINUE
           END DO
-          
-	U_Beta2_loc(L)=U_Beta2_loc(L)*1.0d0/dhtotal          
+
+	U_Beta2_loc(L)=U_Beta2_loc(L)*1.0d0/dhtotal
 	ELSE
 	 Do nl=1,KmaxV(L)
 	  I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl) ;  K=K_nr_V(L,nl)
@@ -921,30 +1067,30 @@
 !$OMP end DO NOWAIT
 !$OMP DO SCHEDULE(DYNAMIC,1)
       Do L = 1,maxnodeIBS
-	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 702 
-	 nl=0 ; dhtotal=0.d0 
+	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 702
+	 nl=0 ; dhtotal=0.d0
 	IF( rott_loc(L).eq.1 )then
-          DO I = 1, dom(ib)%ttc_i 
+          DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%xc(i).gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
-     &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 230 
-           DO J = 1, dom(ib)%ttc_j 
+     &     dom(ib)%xc(i).lt.(nodex_loc(L)-nxl*dom(ib)%dx) )  GOTO 230
+           DO J = 1, dom(ib)%ttc_j
        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
-     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 231 
-            DO K = 1, dom(ib)%ttc_k 
+     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy) )  GOTO 231
+            DO K = 1, dom(ib)%ttc_k
        IF (dom(ib)%z(k) .gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
-     &     dom(ib)%z(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 232 
+     &     dom(ib)%z(k) .lt.(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 232
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
 	 nl=nl+1
         dh3_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
      &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%Z(K)
-     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  		!June 2015	    
+     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  		!June 2015
            U_Beta3_loc(L) = U_Beta3_loc(L) +
      &     dom(ib)%WSTAR(I,J,K) *  dh3_loc(L,nl)
 
 	  	dhtotal=dhtotal+ dh3_loc(L,nl)
       	KmaxW(L)=nl
         I_nr_W(L,nl)=I ; J_nr_W(L,nl)=J ; K_nr_W(L,nl)=K
-		!ENDIF                
+		!ENDIF
 	    IF (dhtotal.ge.0.9999) GOTO 702
 232         CONTINUE
             END DO
@@ -953,8 +1099,8 @@
 230         CONTINUE
           END DO
 
-	U_Beta3_loc(L)=U_Beta3_loc(L)*1.0d0/dhtotal          
-          
+	U_Beta3_loc(L)=U_Beta3_loc(L)*1.0d0/dhtotal
+
 	ELSE
 	 Do nl=1,KmaxW(L)
 	  I=I_nr_W(L,nl) ;  J=J_nr_W(L,nl) ;  K=K_nr_W(L,nl)
@@ -966,13 +1112,129 @@
 	ENDIF
 702	continue
       Enddo
+!$OMP end DO NOWAIT
+!$OMP DO SCHEDULE(DYNAMIC,1)
+!Aleks 04/23 Modified for Sp from ---> Brunho-Riza-2020-for baffles
+!       Do L = 1,maxnodeIBS
+! 	 nl=0 ; dhtotal=0.d0
+! 	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 703
+! 	 IF( rott_loc(L).eq.1 )then
+!           DO I = 1, dom(ib)%ttc_i
+!        IF (dom(ib)%xc(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
+!      &     dom(ib)%xc(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 240
+!            DO J = 1, dom(ib)%ttc_j
+!        IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
+!      &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy)) GOTO 241
+!             DO K = 1, dom(ib)%ttc_k
+!        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
+!      &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 242
+
+! !	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016 --> Delete this (2020)
+
+! 	 nl=nl+1
+!         dh4_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
+!      &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%ZC(K)
+!      & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  			!June 2015
+
+!            Sp_Beta_loc(L) =Sp_Beta_loc(L) +
+!      &     dom(ib)%Sp(I,J,K) * dh4_loc(L,nl)
+
+
+! 		dhtotal=dhtotal+dh4_loc(L,nl)
+!       	KmaxSp(L)=nl
+!         	I_nr_Sp(L,nl)=I ; J_nr_Sp(L,nl)=J ; K_nr_Sp(L,nl)=K
+
+! !		ENDIF
+
+! 	    IF (dhtotal.ge.0.9999) GOTO 703
+
+! 242         CONTINUE
+!             END DO
+! 241         CONTINUE
+!            END DO
+! 240         CONTINUE
+!           END DO
+
+!           if (nl.eq.0) write(6,*)L,'nl is equal to 0!!'
+
+!         Sp_Beta_loc(L) =Sp_Beta_loc(L)*1.d0/dhtotal
+
+! 	ELSE
+! 	 Do nl=1,KmaxSp(L)
+! 	  I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
+! !	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
+!            Sp_Beta_loc(L) =Sp_Beta_loc(L) +
+!      &     dom(ib)%Sp(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
+! !		ENDIF
+!   	 Enddo
+! 	ENDIF
+! 703	continue
+!       Enddo
+!!$OMP end DO NOWAIT
+!!$OMP DO SCHEDULE(DYNAMIC,1)
+!Aleks 04/23 Modified for T from ---> Brunho-Riza-2020-for baffles
+      Do L = 1,maxnodeIBS
+	 nl=0 ; dhtotal=0.d0
+	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 704
+	 IF( rott_loc(L).eq.1 )then
+          DO I = 1, dom(ib)%ttc_i
+       IF (dom(ib)%xc(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
+     &     dom(ib)%xc(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 250
+           DO J = 1, dom(ib)%ttc_j
+       IF (dom(ib)%yc(j).gt.(nodey_loc(L)+nxl*dom(ib)%dy) .or.
+     &     dom(ib)%yc(j).lt.(nodey_loc(L)-nxl*dom(ib)%dy)) GOTO 251
+            DO K = 1, dom(ib)%ttc_k
+       IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
+     &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 252
+
+!	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016 --> Delete this (2020)
+
+	 nl=nl+1
+!        dh5_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
+!     &  dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%ZC(K)
+!     & ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)  			!June 2015
+
+           T_Beta_loc(L) =T_Beta_loc(L) +
+     &     dom(ib)%T(I,J,K) * dh4_loc(L,nl)
+
+
+		dhtotal=dhtotal+dh4_loc(L,nl)
+      	KmaxT(L)=nl
+        	I_nr_T(L,nl)=I ; J_nr_T(L,nl)=J ; K_nr_T(L,nl)=K
+
+!		ENDIF
+
+	    IF (dhtotal.ge.0.9999) GOTO 704
+
+252         CONTINUE
+            END DO
+251         CONTINUE
+           END DO
+250         CONTINUE
+          END DO
+
+          if (nl.eq.0) write(6,*)L,'nl is equal to 0!!'
+
+        T_Beta_loc(L) =T_Beta_loc(L)*1.d0/dhtotal
+
+	ELSE
+	 Do nl=1,KmaxT(L)
+	  I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
+!	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
+           T_Beta_loc(L) =T_Beta_loc(L) +
+     &     dom(ib)%T(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
+!		ENDIF
+  	 Enddo
+	ENDIF
+704	continue
+      Enddo
 !$OMP end DO
 !$OMP END PARALLEL
 
 600	 CONTINUE
 	Enddo !ib-loop
-	
-	
+
+
       RETURN
       END
 !######################################################################
@@ -984,74 +1246,88 @@
       use imb
       implicit none
       INTEGER :: M,L,KK,ib,iii
-      double precision :: PI,aplh,UIB_loc,VIB_loc,WIB_loc
+      double precision :: PI,aplh,UIB_loc,VIB_loc,WIB_loc,tt
        PI = 4.D0*DATAN(1.D0)
-       
-	 FX1_loc = 0.d0; FX2_loc = 0.d0; FX3_loc = 0.d0
 
+	 FX1_loc = 0.d0; FX2_loc = 0.d0; FX3_loc = 0.d0
+         FXSp_loc = 0.d0; FXT_loc=0.d0
 
 	DO ib=1,nbp
 
 	IF (imbinblock_loc(dom_id(ib)+1).eq.0) GOTO 333	!No points within the block
 
         Do L = 1,maxnodeIBS
-	  IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 800
+	  IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 800 !If the IB point is not in the present block
 	   UIB_loc = 0.d0; VIB_loc = 0.d0; WIB_loc = 0.d0
-		M=lag_bod_loc(L) 
+		M=lag_bod_loc(L)
 	    IF(imb_shape(M).eq.5.and.rott_loc(L).eq.1) then
 	     IF (turax(M).eq.1) then	! Vertical Axis Turbine
-		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1			
-		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)	
+		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1
+		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)
 	      UIB_loc=-radsin(M)*R0_loc(L)*cos(aplh-alpha0_loc(L))
 	      VIB_loc=-radsin(M)*R0_loc(L)*sin(aplh-alpha0_loc(L))
-	      WIB_loc= 0.d0	
-	     ENDIF	     
+	      WIB_loc= 0.d0
+	     ENDIF
 	     IF (turax(M).eq.2) then ! Horizontal Axis Turbine
-!		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1			
-!		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)	
-	      UIB_loc=0.d0			
+!		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1
+!		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)
+	      UIB_loc=0.d0
 	      VIB_loc= radsin(M)*R0_loc(L)*cos(rads(M)+alpha0_loc(L))
 	      WIB_loc=-radsin(M)*R0_loc(L)*sin(rads(M)+alpha0_loc(L))
-	     ENDIF	
-	     
+	     ENDIF
+
 	    ENDIF
 !Write here any other imposed movement in case.
-
+! Aleks 04/23 setting temperature (tt) for different IB bodies
+            !     if (L.le.nodes(1)) tt=297.d0    ! IB1 body T=297K
+            !     if (L.ge.(nodes(1)+1)) tt=317.d0        !IB2 body T=317K
+               tt=273.d0
+!This sets values to eulerian field inside the IB points:
             FX1_loc(L) = ( UIB_loc - U_Beta1_loc(L) )/dt
             FX2_loc(L) = ( VIB_loc - U_Beta2_loc(L) )/dt
-            FX3_loc(L) = ( WIB_loc - U_Beta3_loc(L) )/dt  
-	
+            FX3_loc(L) = ( WIB_loc - U_Beta3_loc(L) )/dt
+            ! FXSp_loc(L) = - Sp_Beta_loc(L)/dt            
+            FXT_loc(L) = (tt - T_Beta_loc(L))/dt !Setting T inside IB Aleks 04/23
+            ! write(217,*)L,FXT_loc(L)
+C            write(113,*),L,nodex_loc(L),nodey_loc(L),
+C     &          nodez_loc(L),imb_block_loc(L),tt,FXT_loc(L)
 
 800	CONTINUE
-	ENDDO        
-                     
-333	CONTINUE    
+!          enddo
+        ENDDO !maxnodeIBS loop
+
+333	CONTINUE
 
        Enddo !ib-loop
-              		
+
 
         call MPI_BARRIER(MPI_COMM_WORLD,ierr)
-!The force vectors are sum with the resultant located in the master
+!The force vectors are added to the resultant located in the master
         call MPI_ALLREDUCE (FX1_loc,FX1_MASTER,maxnodeIBS,
      &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
         call MPI_ALLREDUCE (FX2_loc,FX2_MASTER,maxnodeIBS,
      &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
         call MPI_ALLREDUCE (FX3_loc,FX3_MASTER,maxnodeIBS,
      &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
-
+!         call MPI_ALLREDUCE (FXSp_loc,FXSp_MASTER,maxnodeIBS,
+!      &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+        call MPI_ALLREDUCE (FXT_loc,FXT_MASTER,maxnodeIBS,
+     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
 	if (myrank.eq.master) then
-	KK=0 
+	KK=0
 	Do M=1,bodynum
 	 Do L=1,nodes(M)
 	  KK=KK+1
 	  FX1(M,L)=FX1_MASTER(KK)
-	  FX2(M,L)=FX2_MASTER(KK)		
-	  FX3(M,L)=FX3_MASTER(KK)	 
+	  FX2(M,L)=FX2_MASTER(KK)
+	  FX3(M,L)=FX3_MASTER(KK)
+      !     FXSp(M,L)=FXSp_MASTER(KK)
+          FXT(M,L)=FXT_MASTER(KK)
 	 enddo
 	enddo
 
-	endif   
-       
+	endif
+
       RETURN
       END
 !######################################################################
@@ -1074,32 +1350,46 @@
 	 Do nl=1,KmaxU(L)
            I=I_nr_U(L,nl) ;  J=J_nr_U(L,nl) ;  K=K_nr_U(L,nl)
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
-          fbeta = FX1_loc(L)*dh1_loc(L,nl)*reddelta(lag_bod_loc(L))  
+          fbeta = FX1_loc(L)*dh1_loc(L,nl)*reddelta(lag_bod_loc(L))
           dom(ib)%USTAR(I,J,K) = dom(ib)%USTAR(I,J,K) + dt*alfapr*fbeta
 		!endif
 
-  	 Enddo	
+  	 Enddo
 	 Do nl=1,KmaxV(L)
 	  I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl);  K=K_nr_V(L,nl)
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
-          fbeta = FX2_loc(L)*dh2_loc(L,nl)*reddelta(lag_bod_loc(L))   
+          fbeta = FX2_loc(L)*dh2_loc(L,nl)*reddelta(lag_bod_loc(L))
           dom(ib)%VSTAR(I,J,K) = dom(ib)%VSTAR(I,J,K) + dt*alfapr*fbeta
 		!endif
   	 Enddo
 	 Do nl=1,KmaxW(L)
 	  I=I_nr_W(L,nl) ;  J=J_nr_W(L,nl);  K=K_nr_W(L,nl)
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
-          fbeta = FX3_loc(L)*dh3_loc(L,nl)*reddelta(lag_bod_loc(L))      
+          fbeta = FX3_loc(L)*dh3_loc(L,nl)*reddelta(lag_bod_loc(L))
           dom(ib)%WSTAR(I,J,K) = dom(ib)%WSTAR(I,J,K) + dt*alfapr*fbeta
 		!endif
   	 Enddo
+! 	 Do nl=1,KmaxSp(L) !Aleks 04/23 Modified for Sp from --> Brunho-Riza-ABR-2020
+!            I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
+! !	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
+!           fbeta = FXSp_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
+!           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0)
+! !		endif
+!   	 Enddo
+	 Do nl=1,KmaxT(L) !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
+           I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
+!	 	IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
+          fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
+          dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0)
+!		endif
+  	 Enddo
 802	CONTINUE
-      End do 
+      End do
 
 600     CONTINUE
 
-	Enddo !ib-loop 
-	
+	Enddo !ib-loop
+
       RETURN
       END
 !######################################################################
@@ -1112,29 +1402,29 @@
         implicit none
         INTEGER :: M,L,j,iii,inipts,finpts,totalpoints
         double precision :: PI,fx_loc,fy_loc,fz_loc,alph,alpharads
-        
+
         PI = 4.D0*DATAN(1.D0)
 
 	IF (Myrank.ne.master) RETURN
 
 	J=0
 	Do M = 1,bodynum
-	IF (imb_shape(M).eq.5 .and. rotating(M)) then
+	IF (imb_shape(M).eq.5 .and. rotating(M).eqv..true.) then
 	  Do iii=1,imbnumber(M)
-		J=J+1 ; forcefilej=399+J    
-  	        fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0 
+		J=J+1 ; forcefilej=399+J
+  	        fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0
 		totalpoints=nodes(M)/imbnumber(M)
 		inipts=(iii-1)*totalpoints+1 ;   finpts=iii*totalpoints
 
 	  do L=inipts,finpts
 	    fx_loc = fx_loc + FX1(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L)) 	
+     &	*reddelta(lag_bod_loc(L))
 	    fy_loc = fy_loc + FX2(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L))  	
+     &	*reddelta(lag_bod_loc(L))
 	    fz_loc = fz_loc + FX3(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L))    	    	
+     &	*reddelta(lag_bod_loc(L))
 	  end do
-       	
+
          alph  	    = rads(M)+(iii-1)*2.*PI/imbnumber(M)
 	 alpharads=alph*180./PI
 
@@ -1143,15 +1433,15 @@
 	  Enddo !iii-loop
 
 	ELSE
-  	  fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0 
-	  J=J+1 ;	 forcefilej=399+J    
-	  do L=1,nodes(M)	
+  	  fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0
+	  J=J+1 ;	 forcefilej=399+J
+	  do L=1,nodes(M)
 	    fx_loc = fx_loc + FX1(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L)) 	
+     &	*reddelta(lag_bod_loc(L))
 	    fy_loc = fy_loc + FX2(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L))  	
+     &	*reddelta(lag_bod_loc(L))
 	    fz_loc = fz_loc + FX3(M,L)*dxm(M)*dym(M)*dzm(M)
-     &	*reddelta(lag_bod_loc(L))   
+     &	*reddelta(lag_bod_loc(L))
 	  end do
          write(forcefilej,88) CTIME,fx_loc,fy_loc,fz_loc
 	ENDIF
