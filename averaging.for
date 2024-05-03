@@ -22,7 +22,6 @@
 
 !.....For first order moments
         if (ctime.ge.t_start_averaging1) then
-         write(6,*)'avg1 ntav1',ntav1_count
           do k=1,dom(ib)%ttc_k
             do j=1,dom(ib)%ttc_j
               do i=1,dom(ib)%ttc_i
@@ -45,7 +44,6 @@
 
 !.....For second order moments
         if (ctime.ge.t_start_averaging2) then
-         write(6,*)'avg2 ntav2',ntav2_count
           do k=1,dom(ib)%ttc_k
             do j=1,dom(ib)%ttc_j
               do i=1,dom(ib)%ttc_i
