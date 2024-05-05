@@ -9,7 +9,7 @@ T  					Particle-wall collisions
 0.000005 0.0                               Diameter of particle in meters; standard deviation (0 if constant)
 1350 0                                  Density of particle in kg/m3; standard deviation (0 if constant)
 0.001 0.1 0.1                           Volume of release:square/cube (Lx,Ly,Lz)
-T F 0.1                                 Spherical volume of release, surface on surface, radius in m
+T F 0.1                                 Spherical volume of release, generate on surface, radius in m
 0                                       Spherical release options (0=3D, 1-3=2D plane --> 1=XY, 2=ZY, 3=ZX plane)
 T                                       Random release (if T) within the above volume
 0.25 0.25 0.4 0.0 0.0 0.0              xp,yp,up,vp,wp (center of release if random)
