@@ -320,9 +320,9 @@
 	maxnzr=max(maxnzr,nzr(M))
         write (2,*) 'variables="x","y","z"'
 
-	allocate (ztemp_layer(L,maxnzr),ctot_layer(L,maxnzr))
-        allocate (nodes_layer(L,10000),Rtemp_layer(L,maxnzr,100))
-	allocate (nodes_percyl_layer(L,maxnzr,100))
+	allocate (ztemp_layer(M,maxnzr),ctot_layer(M,maxnzr))
+        allocate (nodes_layer(M,10000),Rtemp_layer(M,maxnzr,100))
+	allocate (nodes_percyl_layer(M,maxnzr,100))
 
          nodes_percyl_layer = 0 ;    nodes_layer = 0 ;nodes_layer=0
                   
