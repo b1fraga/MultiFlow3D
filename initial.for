@@ -46,6 +46,7 @@
         read (12,*) SGS,sgs_model
         read (12,*) LMR
         read (12,*) LIMB,LENERGY,LROUGH
+        read (12,*) LDisint,TIBM
         read (12,*) LPT,OMP_threads,LSCALAR
         read (12,*) pl_ex	
         read (12,*) Th,Tc
@@ -235,6 +236,8 @@
     	     dom(ib)%facp2=0
     	     dom(ib)%facm1=1
     	     dom(ib)%facm2=1
+           ntav1_count = 0 !Aleks 04/24
+           ntav2_count = 0 !Aleks 04/24
 
            allocate (dom(ib)%vis(tti,ttj,ttk))
            allocate(dom(ib)%ksgs(tti,ttj,ttk))
@@ -250,7 +253,6 @@
 
 	     if (LSCALAR) then
            	allocate(dom(ib)%So(tti,ttj,ttk),dom(ib)%Stm(tti,ttj,ttk))
-	   	allocate(dom(ib)%sfactor(tti,ttj,ttk))
 	     endif
 
            if (L_LSM)! .or. L_LSMbase) 
@@ -689,7 +691,13 @@
               qzero=ubulk !brunho2014
               open (unit=700, file='final_ctime.dat')
               read (700,'(i8,3F15.6)') ntime,ctime,forcn,qstpn,count
+     &          ,ntav1_count,ntav2_count
               close (700)
+              if (.not.reinitmean) then !Aleks 04/24
+              dom(ib)%ntav1=ntav1_count
+              dom(ib)%ntav2=ntav2_count
+              ntav_restart=ntav2_count
+              endif
 
               write(chb1,'(i8)') dom_id(ib)
               sn=len(trim(adjustl(chb1)))
@@ -716,7 +724,7 @@
                        read (700) dm(1),dm(2),dm(3),dm(4),dm(5),dm(6),
      & dm(7),dm(8),dm(9),dm(10),dm(11),dm(12),dm(13),dm(14),dm(15),
      & dm(16),dm(17),dm(18),dm(19),dm(20),dm(21),dm(22),dm(23),
-     & dm(24),dm(25)
+     & dm(24)!,dm(25)
 
                        dom(ib)%p  (i,j,k)=dm(4)
                        dom(ib)%pm (i,j,k)=dm(5)
@@ -749,13 +757,13 @@
                 		 dom(ib)%uwm(i,j,k)=dm(18)
                 		 dom(ib)%vwm(i,j,k)=dm(19)
 !		  	     endif
-                       dom(ib)%S(i,j,k)=dm(20)
-              	     dom(ib)%Sm(i,j,k) = dm(21)
-                       dom(ib)%ksgs(i,j,k)=dm(22)
-              	     dom(ib)%eps(i,j,k) = dm(23)
-                       dom(ib)%T(i,j,k)=dm(24)
-                       dom(ib)%Tm(i,j,k)=dm(25)
-                       !dom(ib)%Ttm(i,j,k)=dm(23)
+!                       dom(ib)%S(i,j,k)=dm(20)
+!              	     dom(ib)%Sm(i,j,k) = dm(21)
+                       dom(ib)%ksgs(i,j,k)=dm(20)
+              	     dom(ib)%eps(i,j,k) = dm(21)
+                       dom(ib)%T(i,j,k)=dm(22)
+                       dom(ib)%Tm(i,j,k)=dm(23)
+                       dom(ib)%Ttm(i,j,k)=dm(24)
 
                     end do
                  end do
@@ -846,7 +854,7 @@
               dom(ib)%vo=0.0; dom(ib)%voo=0.0
               dom(ib)%wo=0.0; dom(ib)%woo=0.0
       if (LENERGY) then
-              dom(ib)%T=296.5;  dom(ib)%To=296.5
+              dom(ib)%T=293.0000001d0;  dom(ib)%To=293.0000001d0
               dom(ib)%Tm=0.0; dom(ib)%Ttm=0.0
       endif        
       if (LSCALAR) then
@@ -1099,7 +1107,7 @@
 	     jtime=itime_end-ntime
 
 	     if (ntime*dt.lt.t_start_averaging2) then
-			jtime=itime_end-INT(t_start_averaging2/dt)	
+			jtime=itime_end-INT(t_start_averaging2/dt)+1	
 	     endif
 
 	     allocate(dom(ib)%u_unst(n_unstpt,jtime))
@@ -1112,6 +1120,8 @@
 	     allocate(dom(ib)%pm_unst(n_unstpt,jtime))
 	     allocate(dom(ib)%ksgs_unst(n_unstpt,jtime))
 	     allocate(dom(ib)%eps_unst(n_unstpt,jtime))
+        allocate(dom(ib)%T_unst(n_unstpt,jtime)) !Aleks 04/24
+        allocate(dom(ib)%Tm_unst(n_unstpt,jtime)) !Aleks 04/24
 
         end do
 

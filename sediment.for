@@ -117,11 +117,6 @@
 !		write(6,*)Vcell,dt
         endif
 
-
-	if (itime .eq. itime_start) then
-	dom(ib)%sfactor = 1.0
-	end if 
-
         dxx=dom(ib)%dx*dom(ib)%dx
         dyy=dom(ib)%dy*dom(ib)%dy
         dzz=dom(ib)%dz*dom(ib)%dz

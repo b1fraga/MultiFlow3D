@@ -39,6 +39,7 @@
               end do
             end do
           end do
+          ntav1_count = ntav1_count + 1
         endif
 
 !.....For second order moments
@@ -60,6 +61,7 @@
               end do
             end do
           end do
+          ntav2_count = ntav2_count + 1
         endif
 
 !        do ib=1,nbp

@@ -162,9 +162,9 @@
            Do c = 1,ctot
             thc = 2.d0*PI/nodes_percyl(c)
              Do I = 1,nodes_percyl(c)
-	      zccos= cos(2.d0*PI*(I-1)/nodes_percyl(c)+thc)
-	      zcsin= sin(2.d0*PI*(I-1)/nodes_percyl(c)+thc)
-	      nodex(M,L)= Cx(M) + Rtemp(c)*zccos
+	            zccos= cos(2.d0*PI*(I-1)/nodes_percyl(c)+thc)
+	            zcsin= sin(2.d0*PI*(I-1)/nodes_percyl(c)+thc)
+	            nodex(M,L)= Cx(M) + Rtemp(c)*zccos
               nodey(M,L)= Cy(M) + Rtemp(c)*zcsin
               nodez(M,L)= zini(M)+dzm(numIB)*(K-1)
               write(2,89) nodex(M,L),nodey(M,L),nodez(M,L)
@@ -306,49 +306,48 @@
 
       PI = 4.D0*DATAN(1.D0)
 
-         write(char_block2,'(I8)') myrank
-         strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-         char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-         gridfile='geom_Sphere_'//TRIM(ADJUSTL(char_block2))//'.dat'
-         open (unit=2, file=gridfile)
+      write(char_block2,'(I8)') myrank
+      strlen2=LEN(TRIM(ADJUSTL(char_block2)))
+      char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
+      gridfile='geom_Sphere_'//TRIM(ADJUSTL(char_block2))//'.dat'
+      open (unit=2, file=gridfile)
 
-	maxnzr=0 ;   maxnode = 0
-	M=numIB
-	
-	nzr(M) = nint((2.d0*PI*R(M)/2.d0)/dxm(numIB)) !Number of planes
-	thz(M) = PI/(nzr(M))
-	maxnzr=max(maxnzr,nzr(M))
-        write (2,*) 'variables="x","y","z"'
+      maxnzr=0 ;   maxnode = 0
+      M=numIB
+      
+      nzr(M) = nint((2.d0*PI*R(M)/2.d0)/dxm(numIB)) !Number of planes
+      thz(M) = PI/(nzr(M))
+      maxnzr=max(maxnzr,nzr(M))
+      write (2,*) 'variables="x","y","z"'
 
-	allocate (ztemp_layer(1,maxnzr),ctot_layer(1,maxnzr))
-        allocate (nodes_layer(1,10000),Rtemp_layer(1,maxnzr,100))
-	allocate (nodes_percyl_layer(1,maxnzr,100))
+	    allocate (ztemp_layer(M,maxnzr),ctot_layer(M,maxnzr))
+      allocate (nodes_layer(M,10000),Rtemp_layer(M,maxnzr,100))
+	    allocate (nodes_percyl_layer(M,maxnzr,100))
 
-         nodes_percyl_layer = 0 ;    nodes_layer = 0 ;nodes_layer=0
+      nodes_percyl_layer = 0 ; nodes_layer = 0 ;nodes_layer=0
                   
-	  M=numIB
-	     nodes(M) = 0
+	    M=numIB
+	    nodes(M) = 0
 	     
-	 do izr = 1,nzr(M)	 
+	    do izr = 1,nzr(M)	 
 	      c =1
-         if (izr.eq.1) then
-	   Rtemp_layer(M,izr,c) = 0.d0
-         else
-	   Rtemp_layer(M,izr,c) = R(M)*cos(thz(M)*(izr-1)-(PI/2.d0))
-	   ztemp_layer(M,izr) = R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))+Cz(M)
-         end if
-
+        if (izr.eq.1) then
+	        Rtemp_layer(M,izr,c) = 0.d0
+        else
+	        Rtemp_layer(M,izr,c) = R(M)*cos(thz(M)*(izr-1)-(PI/2.d0))
+	    ztemp_layer(M,izr) = R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))+Cz(M)
+        end if
 	      do while (Rtemp_layer(M,izr,c).ge.0.)		!gt!!!
                 nodes_layer(M,izr) = nodes_layer(M,izr) + 
      &  NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                 nodes_percyl_layer(M,izr,c) = 
      &  NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
-               if (Rtemp_layer(M,izr,c).eq.0.) then
+              if (Rtemp_layer(M,izr,c).eq.0.) then
                 nodes_layer(M,izr) = nodes_layer(M,izr) + 1
                 nodes_percyl_layer(M,izr,c) = 1
-               end if
-               c = c + 1
-               Rtemp_layer(M,izr,c) = Rtemp_layer(M,izr,c-1)- dxm(numIB)
+              end if
+              c = c + 1
+              Rtemp_layer(M,izr,c) = Rtemp_layer(M,izr,c-1)- dxm(numIB)
                
              if(c.ge.cmax(M)) goto 555 
                
@@ -361,29 +360,29 @@
 	      end if
           end do      	    
 
-	M=numIB
-	 izr=1
+	    M=numIB
+	    izr=1
 	    K = 1
-	 do while(izr.le.nzr(M))
-	   do c = 1,ctot_layer(M,izr)
-	    thc = 2.d0*PI/nodes_percyl_layer(M,izr,c)
-	     do L = 1,nodes_percyl_layer(M,izr,c)
+	    do while(izr.le.nzr(M))
+	    do c = 1,ctot_layer(M,izr)
+	      thc = 2.d0*PI/nodes_percyl_layer(M,izr,c)
+	      do L = 1,nodes_percyl_layer(M,izr,c)
 	      zccos = cos(2.d0*PI*(L-1)/nodes_percyl_layer(M,izr,c)+thc)
 	      zcsin = sin(2.d0*PI*(L-1)/nodes_percyl_layer(M,izr,c)+thc)
-              nodex(M,K) = Cx(M) + Rtemp_layer(M,izr,c)*zccos
+        nodex(M,K) = Cx(M) + Rtemp_layer(M,izr,c)*zccos
 	      nodey(M,K) = Cy(M) + Rtemp_layer(M,izr,c)*zcsin
 	      nodez(M,K) = Cz(M) + R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))
 	      write(2,89) nodex(M,K), nodey(M,K), nodez(M,K)
                K = K + 1     
-	     end do
+	      end do
 	    end do
             izr = izr + 1     
           end do
  	      nodes(M) = K-1
   	      maxnode = max(maxnode,nodes(M))	          
 
-	deallocate (ztemp_layer,ctot_layer,nodes_layer)
-	deallocate (nodes_percyl_layer,Rtemp_layer)
+	    deallocate (ztemp_layer,ctot_layer,nodes_layer)
+	    deallocate (nodes_percyl_layer,Rtemp_layer)
 
       close (2)
 

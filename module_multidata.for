@@ -36,7 +36,6 @@
            double precision    :: xsl,ysl,zsl,xel,yel,zel,dx,dy,dz
 	     double precision,pointer,dimension(:) :: tauw
            double precision, pointer, dimension(:,:,:) :: S,So,Sm,Stm
-	     double precision, pointer, dimension(:,:,:) :: sfactor
            double precision, pointer, dimension(:) :: x,y,z,xc,yc,zc
            double precision, pointer, dimension(:,:,:) :: u,v,w,p,pp
            double precision, pointer, dimension(:,:,:) :: ksgs,ksgso
@@ -96,6 +95,7 @@
 	     double precision, pointer, dimension (:,:) :: p_unst,pm_unst
 	     double precision, pointer, dimension (:,:) :: ksgs_unst
 	     double precision, pointer, dimension (:,:) :: eps_unst
+           double precision, pointer, dimension (:,:) :: T_unst,Tm_unst !Aleks 04/24
 !============================== LSM VARIABLES =============================
            double precision, pointer, dimension(:,:,:) :: phi_init,
      &phi_new,phi_reinit,phi,dphi_dx,dphi_dy,dphi_dz,s_phi0,h_phi,

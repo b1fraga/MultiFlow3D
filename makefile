@@ -1,6 +1,6 @@
 #############################################################
 F90=mpif90
-OPTIONS    = -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fopenmp
+OPTIONS    = -c -fdefault-real-8 -fdefault-double-8 -O2 -fallow-argument-mismatch  -fopenmp
 LOPTIONS   =  -O2 -fopenmp
 ##############################################################
 
@@ -8,6 +8,7 @@ objects = \
 module_vars.o\
 module_multidata.o\
 module_mpi.o\
+module_imb.o\
 module_vars_pt.o\
 module_SEM.o\
 imb.o\
@@ -75,7 +76,7 @@ clean:
 alloc_dom.o : alloc_dom.for module_mpi.o module_vars.o module_multidata.o 
 alloc_pt.o : alloc_pt.for module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
 averaging.o : averaging.for module_vars.o module_multidata.o 
-bounds.o : bounds.for imb.o module_mpi.o module_multidata.o module_vars.o 
+bounds.o : bounds.for module_imb.o module_mpi.o module_multidata.o module_vars.o 
 bounds_keps.o : bounds_keps.for module_multidata.o module_vars.o 
 bounds_lsm.o : bounds_lsm.for module_multidata.o lsm.o module_vars.o 
 checkdt.o : checkdt.for module_multidata.o module_mpi.o module_vars.o 
@@ -99,7 +100,7 @@ exchangev.o : exchangev.for module_vars.o module_mpi.o module_multidata.o
 exchangew.o : exchangew.for module_vars.o module_mpi.o module_multidata.o 
 fdstag.o : fdstag.for module_vars.o module_mpi.o 
 flosol.o : flosol.for module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
-imb.o : imb.for module_mpi.o module_multidata.o module_vars.o 
+imb.o : imb.for module_mpi.o module_multidata.o module_vars.o module_imb.o
 initial.o : initial.for module_mpi.o module_multidata.o module_vars.o 
 init_particle.o : init_particle.for module_vars_pt.o module_vars.o module_mpi.o module_multidata.o 
 localparameters.o : localparameters.for module_multidata.o module_mpi.o module_vars.o 
@@ -118,7 +119,7 @@ post.o : post.for module_vars.o module_multidata.o
 press.o : press.for module_multidata.o module_mpi.o module_vars.o 
 roughness_function.o : roughness_function.for module_multidata.o module_mpi.o module_vars.o 
 rungek.o : rungek.for module_multidata.o module_mpi.o module_vars.o 
-shapes.o : shapes.for module_mpi.o imb.o module_multidata.o module_vars.o 
+shapes.o : shapes.for module_mpi.o module_imb.o module_multidata.o module_vars.o 
 sipsol.o : sipsol.for module_mpi.o module_multidata.o module_vars.o 
 timesig.o : timesig.for module_mpi.o module_vars.o module_multidata.o 
 wall_function.o : wall_function.for module_multidata.o module_vars.o 
