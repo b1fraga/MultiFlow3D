@@ -22,9 +22,10 @@
         character*80 keyword,L_n
 	  logical :: LRESTART,LIMB,SGS,PERIODIC,LENERGY,LROUGH
 	  logical :: pressureforce,time_averaging,reinitmean
-	  logical :: LPT,save_inflow,read_inflow,L_dt,LSCALAR
+	  logical :: LPT,save_inflow,read_inflow,L_dt,LSCALAR,LSTRA
           logical :: LTRANSIENT !Aleks 02/2023
           integer :: np
+          double precision :: ntav1_count,ntav2_count,ntav_restart !Aleks 04/24
 !============================== LSM VARIABLES =============================
         double precision reldif_LSM,length,densl,densg,nul,nug,mul,mug
         double precision cfl_lsm

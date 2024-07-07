@@ -16,13 +16,14 @@ C#############################################################
 
       implicit none   
 
-      integer :: l,ib,f,frac1,frac_end,m
+      integer :: l,ib,f,frac1,frac_end,m,sphere_optn
       integer :: i,j,k,nfrac,ptnr,tsnr,np_restart
       double precision :: random_number_normal,sigma_rho
       double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
       double precision :: Wx,Wy,Wz,random_number_uniform
       double precision :: mindis,dist,distance
-      logical :: random
+      double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
+      logical :: random, LSPHERICAL, LSURFACE
 
       if (myrank.eq.0) then
             write(6,*)'................................................'
@@ -61,6 +62,8 @@ C#############################################################
             read(10,*)                    !dp
             read(10,*)                    !rhop
             read(10,*)                    !release volume
+            read(10,*)                    !LSPHERICAL, LSURFACE, r
+            read(10,*)                    !sphere_optn
             read(10,*)random
             if (random) then 
                   read(10,*)
@@ -125,6 +128,8 @@ C#############################################################
             read(30,*) Dp,sigma
             read(30,*) rho_p,sigma_rho
             read(30,*) Wx,Wy,Wz
+            read(30,*) LSPHERICAL,LSURFACE,r !Aleks 04/24 spherical release
+            read(30,*) sphere_optn !Aleks 04/24 spherical release
             read(30,*) random
             if (random) read(30,*)xp,yp,zp,uop,vop,wop
             do l=frac1,frac_end
@@ -134,9 +139,14 @@ C#############################################################
                         dist=0
                   do while (dist.lt.mindis)                             !avoiding overlap
                   dist=mindis
+                  if (.not.LSPHERICAL) then !default cube release
                   xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
                   yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
-                  zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz)                      
+                  zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz) 
+                  else  !Aleks 04/24. Distribute points in a spherical shape
+                  call random_number_spherical(xp,yp,zp,r,sphere_optn, 
+     &                      LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
+                  endif                     
                   do m=frac1,l
                   if (l.ne.m) then 
                         distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l)
@@ -205,6 +215,7 @@ C **********************************************************************
             character(LEN=20) filename
             character(LEN=4) b_str,c_str
             double precision u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
+            double precision S_cn,rho_cn
             
 
       do ib=1,nbp
@@ -226,9 +237,9 @@ C **********************************************************************
       OPEN (UNIT=idfile, FILE=filename)
 
       WRITE (idfile,*) 'TITLE = ', '"Eulerian field"'
-      WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P","T"'!,"S",
-!     &"k","eps","vis"'
-
+      WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"
+     &,"S","dens"'
+!      !"T"',"S","vis"
 
         is=pl+1; ie=dom(ib)%ttc_i-pl
         js=pl+1; je=dom(ib)%ttc_j-pl
@@ -262,11 +273,18 @@ C **********************************************************************
      &dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+
      &dom(ib)%p(i+1,j,k+1)  +dom(ib)%p(i,j+1,k+1)+
      &dom(ib)%p(i+1,j+1,k+1))
-!                 S_cn  =0.125*(dom(ib)%S(i,j,k)+
-!     &dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+
-!     &dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+
-!     &dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+
-!     &dom(ib)%S(i+1,j+1,k+1))
+            if (LSCALAR) then
+                S_cn  =0.125*(dom(ib)%S(i,j,k)+
+     &dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+
+     &dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+
+     &dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+
+     &dom(ib)%S(i+1,j+1,k+1))
+                rho_cn  =0.125*(dom(ib)%dens(i,j,k)+
+     &dom(ib)%dens(i+1,j,k)    +dom(ib)%dens(i,j+1,k)+
+     &dom(ib)%dens(i+1,j+1,k)  +dom(ib)%dens(i,j,k+1)+
+     &dom(ib)%dens(i+1,j,k+1)  +dom(ib)%dens(i,j+1,k+1)+
+     &dom(ib)%dens(i+1,j+1,k+1))
+            endif
 !                 k_cn  =0.125*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
 !     &dom(ib)%ksgs(i+1,j+1,k)  +dom(ib)%ksgs(i,j,k+1)+
@@ -282,14 +300,16 @@ C **********************************************************************
 !     &dom(ib)%vis(i+1,j+1,k)  +dom(ib)%vis(i,j,k+1)+
 !     &dom(ib)%vis(i+1,j,k+1)  +dom(ib)%vis(i,j+1,k+1)+
 !     &dom(ib)%vis(i+1,j+1,k+1))
+            if (LENERGY) then
                  T_cn  =0.125*(dom(ib)%T(i,j,k)+
      &dom(ib)%T(i+1,j,k)    +dom(ib)%T(i,j+1,k)+
      &dom(ib)%T(i+1,j+1,k)  +dom(ib)%T(i,j,k+1)+
      &dom(ib)%T(i+1,j,k+1)  +dom(ib)%T(i,j+1,k+1)+
      &dom(ib)%T(i+1,j+1,k+1))
+            endif
 
       write (idfile,'(11e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
-     & ,u_cn,v_cn,w_cn,p_cn,T_cn!S_cn,k_cn,eps_cn,vis_cn
+     & ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn!T_cn,S_cn,k_cn,eps_cn,vis_cn
 
             enddo
             enddo
@@ -365,6 +385,69 @@ C
 
             return
             end function
+!=======================================================================!Aleks 04/24
+      subroutine random_number_spherical(xp, yp, zp, r, sphere_optn,
+     &                   LSURFACE, xxp, yyp, zzp)
+!=======================================================================
+! Subroutine generates randomly distributed points in a spherical coordinate system
+! that are converted to cartesian before being passed to their respective arrays.
+! To avoid points bunching up near the poles do:
+! theta=2pi*u where u is a random number in range 0-1
+! phi=acos(2v-1) where v is a random number in range 0-1
+! -------------------------------------------------------------------- 
+            implicit none
+            double precision, intent(in) :: xp, yp, zp, r
+            integer, intent(in) :: sphere_optn
+            logical, intent(in) :: LSURFACE
+            double precision, intent(out) :: xxp, yyp, zzp
+            double precision :: theta, phi, pi
+            double precision :: u,v,w, ra
+         
+            pi = 3.1416d0 !Set value to pi
 
+!             if (sphere_optn.gt.3) print*, 'ERROR!! Invalid spherical ',
+!      &       'release option! Valid options are 0 to 3' 
+!             STOP
+              
+            ! Generate random theta from 0 to 2*pi
+            call random_number(u)
+            theta = 2.0d0 * pi * u
+
+            if (.not.LSURFACE) then !if releasing inside volume/area, generate random r
+                  if (sphere_optn.eq.0) then
+                        call random_number(w) 
+                        ra = r * (w ** (1.0d0/3.0d0)) !generate within a 3D volume
+                  else
+                        call random_number(w)
+                        ra = r * (w ** (1.0d0/2.0d0)) !generate within circular area
+                  endif
+            else !releasing on surface/circumference --> r is constant
+                  ra = r 
+            endif
+
+!generate random coordinates converted to the cartesian coordinate system            
+            select case (sphere_optn) 
+            case (0) !3D sphere
+                  call random_number(v)
+                  phi = acos(2.0d0 * v - 1.0d0) ! Generate random phi from 0 to pi
+                  xxp = ra * sin(phi) * cos(theta) + xp
+                  yyp = ra * sin(phi) * sin(theta) + yp
+                  zzp = ra * cos(phi) + zp
+            case (1) !2D --> XY plane
+                  xxp = ra * cos(theta) + xp
+                  yyp = ra * sin(theta) + yp
+                  zzp = zp 
+            case (2) !2D --> ZY plane
+                  xxp = xp 
+                  yyp = ra * cos(theta) + yp
+                  zzp = ra * sin(theta) + zp
+            case (3) !2D --> ZX plane
+                  xxp = ra * sin(theta) + xp
+                  yyp = yp 
+                  zzp = ra * cos(theta) + zp
+            end select
+        
+      end subroutine
+              
 
 

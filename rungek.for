@@ -754,11 +754,22 @@
                  dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+
      & dt*alfapr*diff) 
 
-        if (L_LSM) then! .or. L_LSMbase) then
-      dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*grz*
-     & cos(atan(slope)) !*
-!     &                                dom(ib)%blkw(i,j,k))
-        end if
+!         if (L_LSM) then! .or. L_LSMbase) then
+!       dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*grz*
+!      & cos(atan(slope)) !*
+! !     &                                dom(ib)%blkw(i,j,k))
+!         end if
+      if (L_LSM.or.LSTRA) then	! Boussinesq approximation 2019 boyang
+      !-------- BA formula-------------------------------------------
+      	if (LSCALAR) then 	! variable density
+            dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*gz*         
+     & ((0.5*(dom(ib)%dens(i,j,k+1)+dom(ib)%dens(i,j,k))
+     & -1000.0)/1000.0+1.0)
+      	else			    	! constant density
+            dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*gz        
+      
+      	endif
+      end if
 
               end do
            end do
@@ -766,7 +777,22 @@
 
         end do
 
-        if (LENERGY) call mom_buo
+      !   if (LENERGY) call mom_buo
+        if (LENERGY) then 
+         call exchange(11)
+         call exchange(22)
+         call exchange(33)
+         call mom_buo_air !Aleks Covid code subroutine
+        endif
+        if (LSTRA) then
+         call exchange(11)
+         call exchange(22)
+         call exchange(33)
+         call mom_buo_dens
+        endif
+            ! call exchange(11)
+            ! call exchange(22)
+            ! call exchange(33)
         if (LROUGH) call rough_velocity
 
         return
