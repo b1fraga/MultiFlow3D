@@ -8,6 +8,7 @@
 	use mpi
         implicit none
         integer :: i,j,idfile,ib!,jtime
+		integer :: jj
         character*25 :: unst
         character*8 :: numpt,x,y,z
 
@@ -35,12 +36,17 @@
 			write(idfile,*)'Variables = "itime","u","v","w"'
      &		,',"umean","vmean","wmean","p","pmean","k","eps"'
 			do j=1,jtime
-				write(idfile,*)j,dom(ib)%u_unst(i,j),
+				if (.not.LRESTART) jj=j+
+     &					(t_start_averaging2/dt)-1		   !Aleks 04/24
+			if (LRESTART) jj=j+ntav_restart
+     &					+(t_start_averaging2/dt)-1 !Aleks 04/24 - assumes dt doesn't change on restart!!
+				write(idfile,*)jj,dom(ib)%u_unst(i,j),
      &			dom(ib)%v_unst(i,j),dom(ib)%w_unst(i,j),
      &			dom(ib)%um_unst(i,j),dom(ib)%vm_unst(i,j),
      &			dom(ib)%wm_unst(i,j),dom(ib)%p_unst(i,j),
      &			dom(ib)%pm_unst(i,j),
-     &			dom(ib)%ksgs_unst(i,j),dom(ib)%eps_unst(i,j)
+     &			dom(ib)%ksgs_unst(i,j),dom(ib)%eps_unst(i,j),
+     &			dom(ib)%T_unst(i,j),dom(ib)%Tm_unst(i,j)
 			enddo
         		close (idfile)
 		endif

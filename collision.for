@@ -164,94 +164,110 @@ C       end function
       implicit none
 
       integer l,ib
-      double precision damp,stiffness,collision
-      double precision lambda_p,lambda_wb,lambda_ww,lambda_wt
-      double precision lambda_we,lambda_ws,lambda_wn
-      double precision :: e_k,e_yita,ea_k,ea_yita,e_col
+      double precision fcol_n,fcol_t,mu_f
+      double precision lambda_p,lambda_w,lambda_u,lambda_v
+      double precision :: k_n,k_t,theta_col,e_col,mp
+      double precision :: deltap
 
+      mu_f=9.2d-2
 
+!1.Define force range
 
-!     compute collision parameters
+!      lambda_wb = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
+!      lambda_wt = zen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)
+      lambda_w=0.75*wp_pt(l)*dt
+!      lambda_ww = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
+!      lambda_we = xen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)
+      lambda_u=0.75*up_pt(l)*dt
+!      lambda_ws = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
+!      lambda_wn = yen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)   
+      lambda_v=0.75*vp_pt(l)*dt
+
+!2. Spring stiffness
+      
+!      e_k = 0.5*rhop_loc(l)*4/3*3.1416*(0.5*dp_loc(l))**3 /                          ! equivalent mass             
+!     &            (15*dt)**2*(3.1416**2+alog(e_col**2))  
+
+      k_n=1.72d7
+      k_t=1.48d7  
+
+!3. Damping
+
+!       e_yita = -2*alog(e_col)*sqrt(0.5*rhop_loc(l)*4/3*
+!      &        3.1416*(0.5*dp_loc(l))**3*e_k) / 
+!      &            (3.1416**2+alog(e_col**2))
       e_col=1.d0
-      e_k = 0.5*rhop_loc(l)*4/3*3.1416*(0.5*dp_loc(l))**3 /                          ! equivelant mass             
-     &            (15*dt)**2*(3.1416**2+alog(e_col**2))     
-      e_yita = -2*alog(e_col)*sqrt(0.5*rhop_loc(l)*4/3*
-     &        3.1416*(0.5*dp_loc(l))**3*e_k) / 
-     &            (3.1416**2+alog(e_col**2))
+      mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
+      theta_col=-2*alog(e_col)*(mp*k_n)**0.5/
+     &      (3.1416**2+(alog(e_col))**2)
 
-      ea_k = e_k / (rhop_loc(l)*4/3*3.1416*(0.5*dp_loc(l))**3)
-      ea_yita = e_yita / (rhop_loc(l)*4/3*3.1416*(0.5*dp_loc(l))**3)
-
-!! ====================> collision loop for particle-wall soft!!!!!!!
-!     radius of influence lambda
-
-      lambda_wb = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
-      lambda_wt = zen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)
-      lambda_ww = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
-      lambda_we = xen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)
-      lambda_ws = 0.75*0.1*dp_loc(l)+dp_loc(l)*0.5
-      lambda_wn = yen-dp_loc(l)*0.5-0.75*0.1*dp_loc(l)      
 ! ----------------------- collisions with bottom wall ----------------------------------                          
-      if ((zp_loc(l).lt.lambda_wb).and.(wp_pt(l).lt.0)) then
-            damp = 2*ea_yita * wp_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-zp_loc(l)),0.d0)
-            collision = - stiffness - damp
+      if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
 
-            write (6,*)l,wp_pt(l),stiffness,damp
+!a. overlap
+            deltap=max((dp_loc(l)/2-zp_loc(l)),0.d0)
+!b. normal force
+            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
 
-            wp_pt(l) = wp_pt(l) + dt*collision 
+            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
 
-                        write (6,*)l,wp_pt(l),collision
+!c. tangential force
+            fcol_t=mu_f*fcol_n
+
+            up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+            vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+
+            write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
 
       endif 
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with top wall -----------------------------------
-        if ((zp_loc(l).gt.lambda_wt).and.(wp_pt(l).gt.0)) then
-            damp = 2*ea_yita * wp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+zp_loc(l)-zen),0.d0)
+! ! -------------------------------------------------------------------------------------
+! ! ----------------------- collisions with top wall -----------------------------------
+!         if ((zp_loc(l).gt.lambda_wt).and.(wp_pt(l).gt.0)) then
+!             damp = 2*ea_yita * wp_pt(l)
+!             stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+zp_loc(l)-zen),0.d0)
 
-            if (dom(ib)%bc_top.eq.3) stiffness = 0
+!             if (dom(ib)%bc_top.eq.3) stiffness = 0
 
-            collision = - stiffness - damp
-            wp_pt(l) = wp_pt(l) + dt*collision
-        endif
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with west wall -----------------------------------
-      If (.not.PERIODIC) then
-      if ((xp_loc(l).lt.lambda_ww).and.(up_pt(l).lt.0)) then
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-xp_loc(l)),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) = up_pt(l) + dt*collision 
-      endif 
-      ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with east wall -----------------------------------
-      IF (.not.PERIODIC) then
-      if ((xp_loc(l).gt.lambda_we).and.(up_pt(l).gt.0)) then
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+xp_loc(l)-xen),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) = up_pt(l) + dt*collision 
-      endif 
-      ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with south wall ----------------------------------
-      if ((yp_loc(l).lt.lambda_ws).and.(vp_pt(l).lt.0)) then
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-yp_loc(l)),0.d0)
-            collision = - stiffness - damp
-            vp_pt(l) = vp_pt(l) + dt*collision 
-      endif 
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with north wall ----------------------------------
-      if ((yp_loc(l).gt.lambda_wn).and.(vp_pt(l).gt.0)) then
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+yp_loc(l)-yen),0.d0)
-            collision = - stiffness - damp
-            vp_pt(l) = vp_pt(l) + dt*collision 
-      endif 
-!=============================================================================
+!             collision = - stiffness - damp
+!             wp_pt(l) = wp_pt(l) + dt*collision
+!         endif
+! ! -------------------------------------------------------------------------------------
+! ! ----------------------- collisions with west wall -----------------------------------
+!       If (.not.PERIODIC) then
+!       if ((xp_loc(l).lt.lambda_ww).and.(up_pt(l).lt.0)) then
+!             damp = 2*ea_yita * up_pt(l)
+!             stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-xp_loc(l)),0.d0)
+!             collision = - stiffness - damp
+!             up_pt(l) = up_pt(l) + dt*collision 
+!       endif 
+!       ENDIF
+! ! -------------------------------------------------------------------------------------
+! ! ----------------------- collisions with east wall -----------------------------------
+!       IF (.not.PERIODIC) then
+!       if ((xp_loc(l).gt.lambda_we).and.(up_pt(l).gt.0)) then
+!             damp = 2*ea_yita * up_pt(l)
+!             stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+xp_loc(l)-xen),0.d0)
+!             collision = - stiffness - damp
+!             up_pt(l) = up_pt(l) + dt*collision 
+!       endif 
+!       ENDIF
+! ! -------------------------------------------------------------------------------------
+! ! ----------------------- collisions with south wall ----------------------------------
+!       if ((yp_loc(l).lt.lambda_ws).and.(vp_pt(l).lt.0)) then
+!             damp = 2*ea_yita * vp_pt(l)
+!             stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-yp_loc(l)),0.d0)
+!             collision = - stiffness - damp
+!             vp_pt(l) = vp_pt(l) + dt*collision 
+!       endif 
+! ! -------------------------------------------------------------------------------------
+! ! ----------------------- collisions with north wall ----------------------------------
+!       if ((yp_loc(l).gt.lambda_wn).and.(vp_pt(l).gt.0)) then
+!             damp = 2*ea_yita * vp_pt(l)
+!             stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+yp_loc(l)-yen),0.d0)
+!             collision = - stiffness - damp
+!             vp_pt(l) = vp_pt(l) + dt*collision 
+!       endif 
+! !=============================================================================
 
       
 !     Actualizar velocidad paso previo

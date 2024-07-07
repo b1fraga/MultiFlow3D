@@ -59,6 +59,138 @@
         return
         end subroutine mom_buo
 !##########################################################################
+        subroutine mom_buo_dens
+!##########################################################################
+      use vars
+      use mpi
+      use multidata
+      implicit none
+      integer :: i,j,k,ib
+      integer :: is,ie,js,je,ks,ke
+          
+      do ib=1,nbp
+         
+      is=dom(ib)%isu; ie=dom(ib)%ieu
+      js=dom(ib)%jsu; je=dom(ib)%jeu
+      ks=dom(ib)%ksu; ke=dom(ib)%keu
+         
+      do k=ks,ke
+         do i=is,ie
+            do j=js,je
+               dom(ib)%ustar(i,j,k)=
+     & dom(ib)%ustar(i,j,k)+dt*alfapr*gx*
+     & 1.d0*(dom(ib)%dens(i+1,j,k)-dom(ib)%dens(i,j,k))/1000.0
+            end do
+         end do
+      end do
+         
+      is=dom(ib)%isv; ie=dom(ib)%iev
+      js=dom(ib)%jsv; je=dom(ib)%jev
+      ks=dom(ib)%ksv; ke=dom(ib)%kev
+         
+      do k=ks,ke
+         do i=is,ie
+            do j=js,je
+               dom(ib)%vstar(i,j,k)=
+     & dom(ib)%vstar(i,j,k)+dt*alfapr*gy*
+     & 1.d0*(dom(ib)%dens(i,j+1,k)-dom(ib)%dens(i,j,k))/1000.0
+            end do
+         end do
+      end do
+         
+      is=dom(ib)%isw; ie=dom(ib)%iew
+      js=dom(ib)%jsw; je=dom(ib)%jew
+      ks=dom(ib)%ksw; ke=dom(ib)%kew
+         
+      do k=ks,ke
+         do i=is,ie
+            do j=js,je
+               dom(ib)%wstar(i,j,k)=
+     & dom(ib)%wstar(i,j,k)+dt*alfapr*gz*
+     & 1.d0*(dom(ib)%dens(i,j,k+1)-dom(ib)%dens(i,j,k))/1000.0
+         
+            end do
+         end do
+      end do
+         
+      end do
+         
+      return
+      end subroutine mom_buo_dens
+!##########################################################################
+        subroutine mom_buo_air
+!##########################################################################
+        use vars
+        use mpi
+        use multidata
+        implicit none
+        integer :: i,j,k,ib
+        integer :: is,ie,js,je,ks,ke
+
+
+        do ib=1,nbp
+
+        is=dom(ib)%isu; ie=dom(ib)%ieu
+        js=dom(ib)%jsu; je=dom(ib)%jeu
+        ks=dom(ib)%ksu; ke=dom(ib)%keu
+
+        do k=ks-1,ke
+           do i=is-1,ie
+              do j=js-1,je
+                 dom(ib)%ustar(i,j,k)=
+     & dom(ib)%ustar(i,j,k)+dt*alfapr*gx*
+     & (-beta*(0.5*(dom(ib)%T(i+1,j,k)+dom(ib)%T(i,j,k))-293.d0))
+              end do
+           end do
+        end do
+
+        is=dom(ib)%isv; ie=dom(ib)%iev
+        js=dom(ib)%jsv; je=dom(ib)%jev
+        ks=dom(ib)%ksv; ke=dom(ib)%kev
+
+        do k=ks-1,ke
+           do i=is-1,ie
+              do j=js-1,je
+                 dom(ib)%vstar(i,j,k)=
+     & dom(ib)%vstar(i,j,k)+dt*alfapr*gy*
+     & (-beta*(0.5*(dom(ib)%T(i,j+1,k)+dom(ib)%T(i,j,k))-293.d0))
+              end do
+           end do
+        end do
+
+        is=dom(ib)%isw; ie=dom(ib)%iew
+        js=dom(ib)%jsw; je=dom(ib)%jew
+        ks=dom(ib)%ksw; ke=dom(ib)%kew
+
+        do k=ks-1,ke
+           do i=is-1,ie
+              do j=js-1,je
+                 dom(ib)%wstar(i,j,k)=
+     & dom(ib)%wstar(i,j,k)+dt*alfapr*gz*
+     & (-beta*(0.5*(dom(ib)%T(i,j,k+1)+dom(ib)%T(i,j,k))-293.d0))
+
+              end do
+           end do
+        end do
+!------------------------------------------------------------------------------ Aleks 11/2021
+        is=dom(ib)%isp; ie=dom(ib)%iep
+        js=dom(ib)%jsp; je=dom(ib)%jep
+        ks=dom(ib)%ksp; ke=dom(ib)%kep
+
+! density variation with temperature
+        do k=1,dom(ib)%ttc_k
+           do i=1,dom(ib)%ttc_i
+              do j=1,dom(ib)%ttc_j
+                dom(ib)%dens(i,j,k)= (-0.003472*dom(ib)%T(i,j,k))+2.225
+              end do
+           end do
+        end do
+!------------------------------------------------------------------------------
+        end do
+
+        return
+        end subroutine mom_buo_air
+!##########################################################################
         subroutine energy
 !##########################################################################
         use vars

@@ -37,10 +37,10 @@
       integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
       integer,dimension(nprocs) :: strider
 
-      double precision damp,stiffness,collision,term_vel
-      double precision lambda_p,lambda_wb,lambda_ww,lambda_wt
-      double precision lambda_we,lambda_ws,lambda_wn
-      double precision :: e_k,e_yita,ea_k,ea_yita,e_col,mu_f,tau_col
+      double precision fcol_n,fcol_t,mu_f
+      double precision lambda_w,lambda_u,lambda_v
+      double precision k_n,k_t,theta_col,e_col,mp
+      double precision deltap
 
       allocate (ui_pt(np_loc),vi_pt(np_loc),wi_pt(np_loc))
       allocate (uoi_pt(np_loc),voi_pt(np_loc),woi_pt(np_loc))
@@ -90,11 +90,10 @@
 !$OMP&      REp,rx,ry,rz,Vp,delta,gamma_p,
 !$OMP&      a,b,c,ao,bo,co,Cd,wx,wy,wz,
 !$OMP&      dwdy,dvdz,dudz,dvdx,dudy,dwdx,
-!$OMP&      e_k,e_yita,ea_k,ea_yita,e_col,mu_f,tau_col,term_vel,
-!$OMP&      lambda_we,lambda_ws,lambda_wn,
-!$OMP&      lambda_p,lambda_wb,lambda_ww,lambda_wt,
-!$OMP&      damp,stiffness,collision)
-      
+!$OMP&      fcol_n,fcol_t,mu_f,deltap,
+!$OMP&      k_n,k_t,theta_col,mp,
+!$OMP&      lambda_w,lambda_u,lambda_v) 
+
 !$OMP DO SCHEDULE (DYNAMIC,1)
       do l=1,np_loc
 
@@ -459,9 +458,17 @@
 !     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c          
 !     &-2.0d0*0.53d0*(a*wy-b*wx))
 
-!     if (LENERGY) then                                                 !variable density form
-      gamma_p=rhop_loc(l)/dens      
+      if (LENERGY.or.LSTRA) then                             !variable density form
+      gamma_p=rhop_loc(l)/dom(ib)%dens(ip(l),jp(l),kp(l))	! variable density
+      else
+      gamma_p=rhop_loc(l)/dens                        ! constant density
+      endif
 
+      if ((dp_loc(l)).lt.0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
+            up_pt(l) = ui_pt(l)
+            vp_pt(l) = vi_pt(l)
+            wp_pt(l) = wi_pt(l)
+      else
       up_pt(l) = uop_loc(l) + dt * 
      &      (((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)   
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
@@ -481,7 +488,8 @@
      &      ((1.+0.5)/(gamma_p+0.5))*((wi_pt(l)-woi_pt(l))/dt)          !Fluid stress
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))                    !Added Mass and drag
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                         !Added Mass and drag    
-     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))                     !Lift
+     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))   
+      endif                  !Lift
 
 
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
@@ -489,139 +497,178 @@
 
       IF (Lcolwall) THEN !call collision_walls(l,ib)       !updating particle velocities based on collisions with walls
 
+            mu_f=9.2d-2
 
-      !     compute collision parameters
+            !1.Define force range
 
-      e_col=1
-      mu_f=0.1
-      term_vel=sqrt(2*abs(wp_pt(l))*9.81/(Cd*rhop_loc(l)*3.1416*
-     &       (0.5*dp_loc(l))**2.d0))
-      tau_col=max(dp_loc(l)/(term_vel+1.d-4),15.d0*dt)  
+            lambda_w=0.75*wp_pt(l)*dt
+            lambda_u=0.75*up_pt(l)*dt  
+            lambda_v=0.75*vp_pt(l)*dt
+            
+            !2. Spring stiffness
 
-      e_k= (rhop_loc(l)*Vp)/tau_col**2*(3.1416**2.d0+log(e_col**2)) 
+            
+            k_n=1.72d7
+            k_t=1.48d7  
+            
+            !3. Damping
 
-      e_yita = -2*log(e_col)*sqrt(rhop_loc(l)*Vp*e_k) / 
-     &            (3.1416**2+log(e_col**2))
-
-      ea_k = e_k / (rhop_loc(l)*Vp)
-      ea_yita = e_yita / (rhop_loc(l)*Vp)
-
-! ====================> collision loop for particle-wall soft!!!!!!!
-!     radius of influence lambda
-      lambda_wb = 0.75*abs(wp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_wt = zen-0.75*abs(wp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_ww = 0.75*abs(up_pt(l))*dt+dp_loc(l)*0.5     
-      lambda_we = xen-0.75*abs(up_pt(l))*dt+dp_loc(l)*0.5
-      lambda_ws = 0.75*abs(vp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_wn = yen-0.75*abs(vp_pt(l))*dt+dp_loc(l)*0.5    
-! ----------------------- collisions with bottom wall ------------------     
-!-----------------------------------------------------------------------
-      if (zp_loc(l).lt.lambda_wb) then
-
-            stiffness = - ea_k * abs(zp_loc(l)-dp_loc(l)*0.5)     !negative if n is >0 and positive otherwise
-
-            damp = - ea_yita * wp_pt(l)
-
-            collision = stiffness + damp
-
-            if (wp_pt(l).lt.0) wp_pt(l)=wp_pt(l) - dt*collision                            
-
-            up_pt(l)=up_pt(l) - sign(mu_f*dt*collision,up_pt(l)) 
-
-            vp_pt(l)=vp_pt(l) - sign(mu_f*dt*collision,vp_pt(l))  
-
-      endif 
-! ----------------------------------------------------------------------
-! ----------------------- collisions with top wall ---------------------
-
-      if (dom(ib)%bc_top.eq.4.or.dom(ib)%bc_top.gt.60) then
-
-      if ((zp_loc(l).gt.lambda_wt).and.(wp_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * wp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+zp_loc(l)-zen),0.d0)
-
-            collision = - stiffness - damp
-
-            wp_pt(l) = wp_pt(l) + dt*collision  
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            vp_pt(l)=vp_pt(l) + sign(mu_f*dt*abs(collision),-vp_pt(l)) 
-
-      endif
-      endif  
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with west wall -----------------------------------
-
-      If (.not.PERIODIC) then
-      if ((xp_loc(l).lt.lambda_ww).and.(up_pt(l).lt.0)) then
-
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-xp_loc(l)),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) =up_pt(l)  + dt*collision 
-
-      endif 
+            e_col=1.d0
+            mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
+            theta_col=-2*alog(e_col)*(mp*k_n)**0.5/
+     &      (3.1416**2+(alog(e_col))**2)
+            
+! ----------------------- collisions with bottom wall ----------------------------------                          
+            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
+            
+            !a. overlap
+            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
+            !b. normal force
+            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+            
+            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+            
+            !c. tangential force
+            fcol_t=mu_f*fcol_n
+            if (bc_b.ne.3) then                 !slip condition
+                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+            endif 
+            !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+            
+            endif 
+! ----------------------- collisions with top wall ----------------------------------                          
+            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
+            
+                  !a. overlap
+                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
+                  !b. normal force
+                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+                  
+                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+                  
+                  !c. tangential force
+                  fcol_t=mu_f*fcol_n
+                  
+                  if (bc_t.ne.3) then                 !slip condition
+                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+                  endif 
+                  !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+                  
+                  endif 
+! ----------------------- collisions with bottom wall ----------------------------------                          
+            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
+            
+            !a. overlap
+            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
+            !b. normal force
+            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+            
+            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+            
+            !c. tangential force
+            fcol_t=mu_f*fcol_n
+            if (bc_b.ne.3) then                 !slip condition
+                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+            endif 
+            !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+            
+            endif 
+! ----------------------- collisions with top wall ----------------------------------                          
+            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
+            
+                  !a. overlap
+                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
+                  !b. normal force
+                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+                  
+                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+                  
+                  !c. tangential force
+                  fcol_t=mu_f*fcol_n
+                  
+                  if (bc_t.ne.3) then                 !slip condition
+                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+                  endif 
+                  !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+                  
+                  endif 
+! ----------------------- collisions with bottom wall ----------------------------------                          
+            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
+            
+            !a. overlap
+            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
+            !b. normal force
+            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+            
+            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+            
+            !c. tangential force
+            fcol_t=mu_f*fcol_n
+            if (bc_b.ne.3) then                 !slip condition
+                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+            endif       
+            endif 
+! ----------------------- collisions with top wall ----------------------------------                          
+            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
+            
+                  !a. overlap
+                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
+                  !b. normal force
+                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+                  
+                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+                  
+                  !c. tangential force
+                  fcol_t=mu_f*fcol_n
+                  
+                  if (bc_t.ne.3) then                 !slip condition
+                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+                  endif 
+            endif 
+! ----------------------- collisions with south wall ----------------------------------                          
+            if (yp_loc(l).lt.lambda_v+0.5*dp_loc(l)) then
+            
+            !a. overlap
+            deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
+            !b. normal force
+            fcol_n=-k_n*deltap-theta_col*vp_pt(l)
+            
+            vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
+            
+            !c. tangential force
+            fcol_t=mu_f*fcol_n
+            if (bc_s.ne.3) then                 !slip condition
+                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                  wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
+            endif             
+            endif 
+! ----------------------- collisions with top wall ----------------------------------                          
+            if (yp_loc(l).gt.zen-lambda_v+0.5*dp_loc(l)) then
+            
+            !a. overlap
+            deltap=max(yp_loc(l)-yen+0.5*dp_loc(l),0.d0) 
+            !b. normal force
+            fcol_n=-k_n*deltap-theta_col*vp_pt(l)
+                  
+            vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
+                  
+            !c. tangential force
+            fcol_t=mu_f*fcol_n
+                  
+            if (bc_n.ne.3) then                 !slip condition
+                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+                  wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
+            endif 
+            endif 
       ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with east wall -----------------------------------
 
-      IF (.not.PERIODIC) then
-      if ((xp_loc(l).gt.lambda_we).and.(up_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+xp_loc(l)-xen),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) = up_pt(l) + dt*collision 
-
-      endif 
-      ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with south wall ----------------------------------
-
-      if ((yp_loc(l).lt.lambda_ws).and.(vp_pt(l).lt.0)) then
-
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-yp_loc(l)),0.d0)
-            collision = - stiffness - damp
-
-            vp_pt(l) = vp_pt(l)  + dt*collision 
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            wp_pt(l)=wp_pt(l) + sign(mu_f*dt*abs(collision),-wp_pt(l)) 
-
-      endif 
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with north wall ----------------------------------
-
-      if ((yp_loc(l).gt.lambda_wn).and.(vp_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+yp_loc(l)-yen),0.d0)
-            collision = - stiffness - damp
-            vp_pt(l) = vp_pt(l) + dt*collision
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            wp_pt(l)=wp_pt(l) + sign(mu_f*dt*abs(collision),-wp_pt(l)) 
-
-
-      endif 
-!=============================================================================
-
-      if (zp_loc(l).ge.(zen-0.5*dom(ib)%dz)) wp_pt(l)=0.d0
-
-      if (zp_loc(l).le.(0.5*dom(ib)%dz)) wp_pt(l)=0.d0
-     
-      if (yp_loc(l).ge.(yen-0.5*dom(ib)%dy)) vp_pt(l)=0.d0
-
-      if (yp_loc(l).le.(0.5*dom(ib)%dy)) vp_pt(l)=0.d0
-
-
-      ENDIF
-
+      if ((dp_loc(l)).ge.0.00001) then !only do calcs if dp>=10um
       !Update slip velocity
       a = up_pt(l)-ui_pt(l)
       b = vp_pt(l)-vi_pt(l)
@@ -767,6 +814,7 @@
       endif
 
 !$OMP END CRITICAL
+      endif
 
 !     Actualizar velocidad paso previo
             uop_loc(l) = up_pt(l)
