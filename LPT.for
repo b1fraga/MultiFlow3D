@@ -470,28 +470,28 @@
             wp_pt(l) = wi_pt(l)
       else
       up_pt(l) = uop_loc(l) + dt * 
-     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gx)+                       !Buoyancy
+     &      (gx*(gamma_p-1.0d0)/(gamma_p+0.5)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)   
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a 
-     &      -(1./(gamma_p+0.5))*0.53d0*(b*wz-c*wy))                                             
+     &      -(1./(gamma_p+0.5))*0.53d0*(b*wz-c*wy)))                                             
 
 
       vp_pt(l) = vop_loc(l) + dt* 
-     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gy)+                       !Buoyancy
+     &      (gy*(gamma_p-1.0d0)/(gamma_p+0.5)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((vi_pt(l)-voi_pt(l))/dt)
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b
-     &      -(1./(gamma_p+0.5))*0.53d0*(c*wx-a*wz))
+     &      -(1./(gamma_p+0.5))*0.53d0*(c*wx-a*wz)))
 
 
       wp_pt(l) = wop_loc(l) + dt* 
-     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gz)+                       !Buoyancy
+     &      (gz*(gamma_p-1.0d0)/(gamma_p+0.5)+                      !Buoyancy
      &      ((1.+0.5)/(gamma_p+0.5))*((wi_pt(l)-woi_pt(l))/dt)          !Fluid stress
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))                    !Added Mass and drag
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                         !Added Mass and drag    
-     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))   
-      endif                  !Lift
+     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))                     !Lift
+      endif             
 
 
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
