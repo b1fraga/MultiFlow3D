@@ -470,6 +470,7 @@
             wp_pt(l) = wi_pt(l)
       else
       up_pt(l) = uop_loc(l) + dt * 
+     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gx)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)   
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a 
@@ -477,6 +478,7 @@
 
 
       vp_pt(l) = vop_loc(l) + dt* 
+     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gy)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((vi_pt(l)-voi_pt(l))/dt)
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b
@@ -484,7 +486,7 @@
 
 
       wp_pt(l) = wop_loc(l) + dt* 
-     &      (((1.-gamma_p)/(gamma_p+0.5))*9.81d0+                       !Buoyancy
+     &      (((gamma_p-1.0d0)/(gamma_p+0.5))*gz)+                       !Buoyancy
      &      ((1.+0.5)/(gamma_p+0.5))*((wi_pt(l)-woi_pt(l))/dt)          !Fluid stress
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))                    !Added Mass and drag
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                         !Added Mass and drag    
@@ -500,19 +502,15 @@
             mu_f=9.2d-2
 
             !1.Define force range
-
-            lambda_w=0.75*wp_pt(l)*dt
             lambda_u=0.75*up_pt(l)*dt  
             lambda_v=0.75*vp_pt(l)*dt
+            lambda_w=0.75*wp_pt(l)*dt
             
             !2. Spring stiffness
-
-            
             k_n=1.72d7
             k_t=1.48d7  
             
             !3. Damping
-
             e_col=1.d0
             mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
             theta_col=-2*alog(e_col)*(mp*k_n)**0.5/
@@ -525,9 +523,7 @@
             deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
             !b. normal force
             fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-            
             wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-            
             !c. tangential force
             fcol_t=mu_f*fcol_n
             if (bc_b.ne.3) then                 !slip condition
@@ -544,12 +540,9 @@
                   deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
                   !b. normal force
                   fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-                  
                   wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-                  
                   !c. tangential force
                   fcol_t=mu_f*fcol_n
-                  
                   if (bc_t.ne.3) then                 !slip condition
                         up_pt(l) = up_pt(l) + dt*fcol_t/mp 
                         vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
@@ -557,80 +550,6 @@
                   !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
                   
                   endif 
-! ----------------------- collisions with bottom wall ----------------------------------                          
-            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
-            
-            !a. overlap
-            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
-            !b. normal force
-            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-            
-            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-            
-            !c. tangential force
-            fcol_t=mu_f*fcol_n
-            if (bc_b.ne.3) then                 !slip condition
-                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-            endif 
-            !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
-            
-            endif 
-! ----------------------- collisions with top wall ----------------------------------                          
-            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
-            
-                  !a. overlap
-                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
-                  !b. normal force
-                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-                  
-                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-                  
-                  !c. tangential force
-                  fcol_t=mu_f*fcol_n
-                  
-                  if (bc_t.ne.3) then                 !slip condition
-                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-                  endif 
-                  !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
-                  
-                  endif 
-! ----------------------- collisions with bottom wall ----------------------------------                          
-            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
-            
-            !a. overlap
-            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
-            !b. normal force
-            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-            
-            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-            
-            !c. tangential force
-            fcol_t=mu_f*fcol_n
-            if (bc_b.ne.3) then                 !slip condition
-                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-            endif       
-            endif 
-! ----------------------- collisions with top wall ----------------------------------                          
-            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
-            
-                  !a. overlap
-                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
-                  !b. normal force
-                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-                  
-                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-                  
-                  !c. tangential force
-                  fcol_t=mu_f*fcol_n
-                  
-                  if (bc_t.ne.3) then                 !slip condition
-                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-                  endif 
-            endif 
 ! ----------------------- collisions with south wall ----------------------------------                          
             if (yp_loc(l).lt.lambda_v+0.5*dp_loc(l)) then
             
@@ -638,9 +557,7 @@
             deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
             !b. normal force
             fcol_n=-k_n*deltap-theta_col*vp_pt(l)
-            
             vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
-            
             !c. tangential force
             fcol_t=mu_f*fcol_n
             if (bc_s.ne.3) then                 !slip condition
@@ -648,14 +565,13 @@
                   wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
             endif             
             endif 
-! ----------------------- collisions with top wall ----------------------------------                          
-            if (yp_loc(l).gt.zen-lambda_v+0.5*dp_loc(l)) then
+! ----------------------- collisions with north wall ----------------------------------                          
+            if (yp_loc(l).gt.yen-lambda_v+0.5*dp_loc(l)) then
             
             !a. overlap
             deltap=max(yp_loc(l)-yen+0.5*dp_loc(l),0.d0) 
             !b. normal force
             fcol_n=-k_n*deltap-theta_col*vp_pt(l)
-                  
             vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
                   
             !c. tangential force
@@ -701,28 +617,7 @@
 !      Flw(l) = -0.53d0*rho_p*3.14d0*(dp_loc(l)**3.d0)*(a*wy-b*wx)
 !     &     /6.0d0
 
-      !Interphase Force (bubble->liquid)
 
-!     Fpu(l) = -(Fau(l) + Fdu(l) + Flu(l))
-!     Fpv(l) = -(Fav(l) + Fdv(l) + Flv(l))
-!     Fpw(l) = -(Faw(l) + Fdw(l) + Flw(l))
-
-!     if (.not.DF) then
-!
-!      Fpu(l) = -(3.0d0*((ui_pt(l)-uoi_pt(l))/dt)     
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a  
-!     &  -2.0d0*0.53d0*(b*wz-c*wy))                   
-
-!      Fpv(l) = -(3.0d0*((vi_pt(l)-voi_pt(l))/dt)
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b  
-!     &  -2.0d0*0.53d0*(c*wx-a*wz))
-
-!      Fpw(l) = -(3.0d0*((wi_pt(l)-woi_pt(l))/dt)     
-!     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                
-!     &-2.0d0*0.53d0*(a*wy-b*wx))
-
-!     if (LENERGY) then
-!      gamma_p=rho_p/dens
       Fpu(l) = -(((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)     
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a 
@@ -742,15 +637,6 @@
 !      Fpw(l) = -(2.0d0*9.81d0+3.0d0*((wi_pt(l)-woi_pt(l))/dt)    
 !     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                
 !     &-2.0d0*0.53d0*(a*wy-b*wx))
-!     endif
-
-!     else
-
-!     Fpu(l) = (a/dt) * (rho_p/dens)!- Fsu(l)/(Vp*dens)
-!     Fpv(l) = (b/dt) * (rho_p/dens) !- Fsv(l)/(Vp*dens)
-!     Fpw(l) = (c/dt) * (rho_p/dens) !- (Fsw(l) - Fgw(l))/(Vp*dens)
-!     write(201,*) 'Fpw',Fpw(l)
-
 !     endif
 
 !           write(myrank+700,*)'Fp',Fpu(l),Fpv(l),Fpw(l)
