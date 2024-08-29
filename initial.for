@@ -723,27 +723,13 @@
 
                        read (700) dm(1),dm(2),dm(3),dm(4),dm(5),dm(6),
      & dm(7),dm(8),dm(9),dm(10),dm(11),dm(12),dm(13),dm(14),dm(15),
-     & dm(16),dm(17),dm(18),dm(19),dm(20),dm(21)!,dm(22),dm(23),
+     & dm(16),dm(17),dm(18),dm(19)!,dm(20),dm(21),dm(22),dm(23),
    !   & dm(24)!,dm(25)
 
                        dom(ib)%p  (i,j,k)=dm(4)
                        dom(ib)%pm (i,j,k)=dm(5)
                        dom(ib)%ppm(i,j,k)=dm(6)
                        dom(ib)%vis(i,j,k)=dm(7)
-!		  	     if (L_LSMbase) then
-!                		 dom(ib)%u  (i,j,k)=dm(8)*ubulk/uprev
-!                 		 dom(ib)%um (i,j,k)=dm(9)*ubulk/uprev
-!                		 dom(ib)%uum(i,j,k)=dm(10)*ubulk/uprev
-!                		 dom(ib)%v  (i,j,k)=dm(11)*ubulk/uprev
-!                		 dom(ib)%vm (i,j,k)=dm(12)*ubulk/uprev
-!                		 dom(ib)%vvm(i,j,k)=dm(13)*ubulk/uprev
-!                		 dom(ib)%w  (i,j,k)=dm(14)*ubulk/uprev
-!                		 dom(ib)%wm (i,j,k)=dm(15)*ubulk/uprev
-!                		 dom(ib)%wwm(i,j,k)=dm(16)*ubulk/uprev
-!                		 dom(ib)%uvm(i,j,k)=dm(17)*ubulk/uprev
-!                		 dom(ib)%uwm(i,j,k)=dm(18)*ubulk/uprev
-!                		 dom(ib)%vwm(i,j,k)=dm(19)*ubulk/uprev
-!		  	     else
                 		 dom(ib)%u  (i,j,k)=dm(8)
                 		 dom(ib)%um (i,j,k)=dm(9)
                 		 dom(ib)%uum(i,j,k)=dm(10)
@@ -757,8 +743,8 @@
                 		 dom(ib)%uwm(i,j,k)=dm(18)
                 		 dom(ib)%vwm(i,j,k)=dm(19)
 !		  	     endif
-                      dom(ib)%S(i,j,k)=dm(20)
-                      dom(ib)%dens(i,j,k)=dm(21)
+!                      dom(ib)%S(i,j,k)=dm(20)
+!                      dom(ib)%dens(i,j,k)=dm(21)
 !              	     dom(ib)%Sm(i,j,k) = dm(21)
                   !      dom(ib)%ksgs(i,j,k)=dm(20)
               	   !   dom(ib)%eps(i,j,k) = dm(21)

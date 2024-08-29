@@ -53,6 +53,7 @@
       ENDIF
 
 !     Comprobar si permanece en el dominio
+      if (PERIODIC) then
             if ((xp_pt(l).le.xst).or.(xp_pt(l)
      &.ge.xen)) then
                   out_pt(l) = .TRUE.
@@ -69,6 +70,25 @@
                   out_cnt = out_cnt + 1
                   goto 50
             end if
+
+      else
+            if ((xp_pt(l).le.xst).or.(xp_pt(l)
+     &.ge.xen-g_dx)) then
+                  out_pt(l) = .TRUE.
+                  out_cnt = out_cnt + 1
+                  goto 50
+            elseif ((yp_pt(l).le.yst).or.(yp_pt(l)
+     &.ge.yen)) then
+                  out_pt(l) = .TRUE.
+                  out_cnt = out_cnt + 1
+                  goto 50
+            elseif ((zp_pt(l).lt.zst).or.(zp_pt(l)
+     &.ge.zen)) then
+                  out_pt(l) = .TRUE.
+                  out_cnt = out_cnt + 1
+                  goto 50
+            end if
+      endif
 
 50    continue
 
