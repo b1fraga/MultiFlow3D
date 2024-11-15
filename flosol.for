@@ -58,10 +58,10 @@
          if (.not.LRESTART) call sediment_init
       end if
 !========================================================
-   	if (myrank.eq.1) then
+      if (myrank.eq.1) then
    	 open(unit=203, file='worktime.dat')
    	 write(203,*)'Variables=it,C-D,PSolver,IBM,LPT,Total'
-   	endif
+      endif
 
 !================== Start Time Loop ====================================
       do itime=itime_start,itime_end
@@ -124,8 +124,8 @@
             if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
             call alloc_pt                                               !if not periodic, particles that leave the domain are removed
       endif		
-
-      call MPI_pt					
+   
+      call MPI_pt				
 
 	   endif
 

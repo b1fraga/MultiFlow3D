@@ -1,12 +1,12 @@
   !##########################################################################
       module vars_pt
 !##########################################################################
-	    SAVE
+	SAVE
       integer np_loc,npg_loc
-	    logical DF,PSIcell,Lcol,Lcolwall
-	    integer,allocatable,dimension(:)::	ptsinproc
-      integer,allocatable,dimension(:)::  ptsinproc_g     ! ghost particle 11/2020 boyang 
-	    integer,allocatable,dimension(:)::  id
+      logical DF,PSIcell,Lcol,Lcolwall
+      integer,allocatable,dimension(:)::	ptsinproc
+      integer,allocatable,dimension(:)::  ptsinproc_g                   ! ghost particle 11/2020 boyang 
+	integer,allocatable,dimension(:)::  id
       double precision, allocatable, dimension(:):: xp_pt,yp_pt,zp_pt
       double precision, allocatable, dimension(:):: up_pt,vp_pt,wp_pt
       double precision, allocatable, dimension(:):: xp_loc,yp_loc,zp_loc
