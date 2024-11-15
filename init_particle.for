@@ -16,7 +16,7 @@ C#############################################################
 
       implicit none   
 
-      integer :: l,ib,f,frac1,frac_end,m,sphere_optn
+      integer :: l,ib,f,frac1,frac_end,m,sphere_optn,ll
       integer :: i,j,k,nfrac,ptnr,tsnr,np_restart
       double precision :: random_number_normal,sigma_rho
       double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
@@ -75,6 +75,7 @@ C#############################################################
       enddo
 
       close(10)
+      ! write(6,*)'init_part unit 10 closed'
 
       allocate (xp_pt(np),yp_pt(np),zp_pt(np))
       allocate (uop_pt(np),vop_pt(np),wop_pt(np))
@@ -82,7 +83,7 @@ C#############################################################
       allocate (uopold(np),vopold(np),wopold(np))
       allocate (dp_pt(np),dp_old(np),rho_pt(np))
       allocate (Fu(np),Fv(np),Fw(np),rhop_old(np))
-      allocate (ptsinproc(nprocs))
+      allocate (ptsinproc(nprocs),ptsinproc_g(nprocs))
 
       open(30,file='LPT.cin')             !reopen the file to read the details of every fraction
       read(30,*)                          !header
@@ -137,8 +138,10 @@ C#############################################################
                   if (random) then                                            !location
                         mindis=1.1*Dp
                         dist=0
+                        ll=0
                   do while (dist.lt.mindis)                             !avoiding overlap
                   dist=mindis
+                  ll=ll+1
                   if (.not.LSPHERICAL) then !default cube release
                   xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
                   yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
@@ -156,6 +159,14 @@ C#############################################################
                   endif
                         dist=min(dist,distance)
                   enddo
+                  if (ll.gt.1000) then
+                        write(6,*) '================================' 
+                        write(6,*) 'Release area too small.' 
+                        write(6,*) 'Cannot create so many particles'
+                        write(6,*) 'without overlapping.'
+                        write(6,*) '================================' 
+                        stop
+                  endif
                   enddo
                   uop_pt(l)=uop
                   vop_pt(l)=vop
@@ -195,6 +206,7 @@ C#############################################################
       ENDIF                                                             !myrank
       
       close (30)
+      ! write(6,*)'init_part unit 30 closed'
 
       RETURN
       END SUBROUTINE
@@ -411,7 +423,7 @@ C
               
             ! Generate random theta from 0 to 2*pi
             call random_number(u)
-            theta = 2.0d0 * pi * u
+            theta = pi * u !for circle: 2.0d0 * pi * u
 
             if (.not.LSURFACE) then !if releasing inside volume/area, generate random r
                   if (sphere_optn.eq.0) then

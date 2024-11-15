@@ -37,11 +37,6 @@
       integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
       integer,dimension(nprocs) :: strider
 
-      double precision fcol_n,fcol_t,mu_f
-      double precision lambda_w,lambda_u,lambda_v
-      double precision k_n,k_t,theta_col,e_col,mp
-      double precision deltap
-
       allocate (ui_pt(np_loc),vi_pt(np_loc),wi_pt(np_loc))
       allocate (uoi_pt(np_loc),voi_pt(np_loc),woi_pt(np_loc))
       allocate (ip(np_loc),jp(np_loc),kp(np_loc))
@@ -89,10 +84,7 @@
 !$OMP&      iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w,
 !$OMP&      REp,rx,ry,rz,Vp,delta,gamma_p,
 !$OMP&      a,b,c,ao,bo,co,Cd,wx,wy,wz,
-!$OMP&      dwdy,dvdz,dudz,dvdx,dudy,dwdx,
-!$OMP&      fcol_n,fcol_t,mu_f,deltap,
-!$OMP&      k_n,k_t,theta_col,mp,
-!$OMP&      lambda_w,lambda_u,lambda_v) 
+!$OMP&      dwdy,dvdz,dudz,dvdx,dudy,dwdx)
 
 !$OMP DO SCHEDULE (DYNAMIC,1)
       do l=1,np_loc
@@ -497,92 +489,95 @@
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
 
 
-      IF (Lcolwall) THEN !call collision_walls(l,ib)       !updating particle velocities based on collisions with walls
+      IF (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
 
-            mu_f=9.2d-2
+!             mu_f=9.2d-2
 
-            !1.Define force range
-            lambda_u=0.75*up_pt(l)*dt  
-            lambda_v=0.75*vp_pt(l)*dt
-            lambda_w=0.75*wp_pt(l)*dt
+!             !1.Define force range
+!             lambda_u=0.75*up_pt(l)*dt  
+!             lambda_v=0.75*vp_pt(l)*dt
+!             lambda_w=0.75*wp_pt(l)*dt
             
-            !2. Spring stiffness
-            k_n=1.72d7
-            k_t=1.48d7  
+!             !2. Spring stiffness
+!             k_n=1.72d7
+!             k_t=1.48d7  
             
-            !3. Damping
-            e_col=1.d0
-            mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
-            theta_col=-2*alog(e_col)*(mp*k_n)**0.5/
-     &      (3.1416**2+(alog(e_col))**2)
+!             !3. Damping
+!             e_col=1.d0
+!             mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
+!             theta_col=-2*alog(e_col)*(mp*k_n)**0.5/
+!      &      (3.1416**2+(alog(e_col))**2)
             
-! ----------------------- collisions with bottom wall ----------------------------------                          
-            if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
+! ! ----------------------- collisions with bottom wall ----------------------------------                          
+!             if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
             
-            !a. overlap
-            deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
-            !b. normal force
-            fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-            wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-            !c. tangential force
-            fcol_t=mu_f*fcol_n
-            if (bc_b.ne.3) then                 !slip condition
-                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                  vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-            endif 
-            !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+!             !a. overlap
+!             deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
+!             !b. normal force
+!             fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+!             wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+!             !c. tangential force
+!             fcol_t=mu_f*fcol_n
+!             if (bc_b.ne.3) then                 !slip condition
+!                   up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+!                   vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+!             endif 
+!             !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
             
-            endif 
-! ----------------------- collisions with top wall ----------------------------------                          
-            if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
+!             endif 
+! ! ----------------------- collisions with top wall ----------------------------------                          
+!             if (zp_loc(l).gt.zen-lambda_w+0.5*dp_loc(l)) then
             
-                  !a. overlap
-                  deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
-                  !b. normal force
-                  fcol_n=-k_n*deltap-theta_col*wp_pt(l)
-                  wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
-                  !c. tangential force
-                  fcol_t=mu_f*fcol_n
-                  if (bc_t.ne.3) then                 !slip condition
-                        up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                        vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
-                  endif 
-                  !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
+!                   !a. overlap
+!                   deltap=max(zp_loc(l)-zen+0.5*dp_loc(l),0.d0) 
+!                   !b. normal force
+!                   fcol_n=-k_n*deltap-theta_col*wp_pt(l)
+!                   wp_pt(l) = wp_pt(l) + dt*fcol_n/mp 
+!                   !c. tangential force
+!                   fcol_t=mu_f*fcol_n
+!                   if (bc_t.ne.3) then                 !slip condition
+!                         up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+!                         vp_pt(l) = vp_pt(l) + dt*fcol_t/mp 
+!                   endif 
+!                   !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
                   
-                  endif 
-! ----------------------- collisions with south wall ----------------------------------                          
-            if (yp_loc(l).lt.lambda_v+0.5*dp_loc(l)) then
+!                   endif 
+! ! ----------------------- collisions with south wall ----------------------------------                          
+!             if (yp_loc(l).lt.lambda_v+0.5*dp_loc(l)) then
             
-            !a. overlap
-            deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
-            !b. normal force
-            fcol_n=-k_n*deltap-theta_col*vp_pt(l)
-            vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
-            !c. tangential force
-            fcol_t=mu_f*fcol_n
-            if (bc_s.ne.3) then                 !slip condition
-                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                  wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
-            endif             
-            endif 
-! ----------------------- collisions with north wall ----------------------------------                          
-            if (yp_loc(l).gt.yen-lambda_v+0.5*dp_loc(l)) then
+!             !a. overlap
+!             deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
+!             !b. normal force
+!             fcol_n=-k_n*deltap-theta_col*vp_pt(l)
+!             vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
+!             !c. tangential force
+!             fcol_t=mu_f*fcol_n
+!             if (bc_s.ne.3) then                 !slip condition
+!                   up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+!                   wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
+!             endif             
+!             endif 
+! ! ----------------------- collisions with north wall ----------------------------------                          
+!             if (yp_loc(l).gt.yen-lambda_v+0.5*dp_loc(l)) then
             
-            !a. overlap
-            deltap=max(yp_loc(l)-yen+0.5*dp_loc(l),0.d0) 
-            !b. normal force
-            fcol_n=-k_n*deltap-theta_col*vp_pt(l)
-            vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
+!             !a. overlap
+!             deltap=max(yp_loc(l)-yen+0.5*dp_loc(l),0.d0) 
+!             !b. normal force
+!             fcol_n=-k_n*deltap-theta_col*vp_pt(l)
+!             vp_pt(l) = vp_pt(l) + dt*fcol_n/mp 
                   
-            !c. tangential force
-            fcol_t=mu_f*fcol_n
+!             !c. tangential force
+!             fcol_t=mu_f*fcol_n
                   
-            if (bc_n.ne.3) then                 !slip condition
-                  up_pt(l) = up_pt(l) + dt*fcol_t/mp 
-                  wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
-            endif 
-            endif 
-      ENDIF
+!             if (bc_n.ne.3) then                 !slip condition
+!                   up_pt(l) = up_pt(l) + dt*fcol_t/mp 
+!                   wp_pt(l) = wp_pt(l) + dt*fcol_t/mp 
+!             endif 
+!             endif 
+!       ENDIF
+
+      IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
+
 
       if ((dp_loc(l)).ge.0.00001) then !only do calcs if dp>=10um
       !Update slip velocity
@@ -795,7 +790,7 @@
             deallocate (xp_loc,yp_loc,zp_loc)
             deallocate (uop_loc,vop_loc,wop_loc)
             deallocate (Fpu,Fpv,Fpw)
-        deallocate (dp_loc,rhop_loc)
+            deallocate (dp_loc,rhop_loc)
       endif
 
       return
