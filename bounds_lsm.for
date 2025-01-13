@@ -2,7 +2,7 @@
       subroutine bound_LSM(op)
 !######################################################################
       use vars
-      use LSM
+      use module_LSM
       use multidata
 
       implicit none

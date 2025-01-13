@@ -8,7 +8,7 @@
         integer :: ib,is,ie,js,je,ks,ke
         double precision dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
         double precision vr_a,vr_b,vr_c,vr_d
-        double precision s12,s13,s23,sbet,rrey,utauw,he1
+        double precision s12,s13,s23,sbet,utauw,he1
         double precision h1,h2,h3,rh123,dist
         double precision ufv_c,ufv_n1,ufv_n2
         double precision vfv_c,vfv_n1,vfv_n2
@@ -18,7 +18,6 @@
 	  logical vandriest
 
         vandriest=.true.
-        rrey=1.0/Re
         cs1=0.1
 
         do ib=1,nbp
@@ -83,7 +82,10 @@
            do j=js-1,je+1
               do i=is-1,ie+1
 
-        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+
+               if (LAS.or.L_LSM) then                                            !variable density
+                     rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+               endif
 
               chk_wallboun=0
 
@@ -395,7 +397,6 @@
         sbet = SQRT (2. * ( dudx*dudx + dvdy*dvdy + dwdz*dwdz +
      &               2. * ( s12*s12   + s13*s13   + s23*s23 ) )  )
         dom(ib)%vis(i,j,k) = ( rrey + l_s * sbet )
-
               end do
            end do
         end do
@@ -589,10 +590,14 @@
         implicit none
         integer i,j,k,ib,bound
         double precision delta,n_x,n_y,n_z,vnor,vtan
-        double precision uc,vc,wc,rrey,small
+        double precision uc,vc,wc,small
 
 
-        rrey=1.0/Re
+        if (LAS.or.L_LSM) then                                            !variable density
+         do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
+               rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+         enddo;enddo;enddo
+         endif
         small = 1.e-30
 
         dom(ib)%tauww=0.0; dom(ib)%tauwe=0.0

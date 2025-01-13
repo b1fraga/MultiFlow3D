@@ -97,7 +97,7 @@
 	     double precision, pointer, dimension (:,:) :: ksgs_unst
 	     double precision, pointer, dimension (:,:) :: eps_unst
            double precision, pointer, dimension (:,:) :: T_unst,Tm_unst !Aleks 04/24
-!============================== LSM VARIABLES =============================
+!============================== LSM VARIABLES ============================
            double precision, pointer, dimension(:,:,:) :: phi_init,
      &phi_new,phi_reinit,phi,dphi_dx,dphi_dy,dphi_dz,s_phi0,h_phi,
      &dens,mu,phim,abs_dphi_check

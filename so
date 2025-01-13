@@ -1,0 +1,11 @@
+so
+
+vis is the eddy + laminar viscosity= SGS+rrey
+
+mu is the laminar dynamic viscosity
+
+rrey is the laminar kinematic viscosity = mu/dens
+
+why is boussinesq approx applied 2x, in rungekutta diff2nd and mom_buo_dens
+
+there are density boundary conditions in energy

@@ -19,11 +19,9 @@
 
         call initial
 
-
-	     IF (L_LSM)  CALL initial_LSM_3D_channel
+!	     IF (L_LSM)  CALL initial_LSM_3D_channel
 
         call initflowfield
-
 
         IF (LROUGH)  THEN								!Richard2015
           IF (.not.LRESTART) THEN
@@ -34,7 +32,6 @@
         END IF
 
         if (LIMB) call imb_initial
-
         if (LIMB) call PartLocMPI							!Pablo2015
 
         call iniflux
@@ -51,8 +48,8 @@
          call init_particle	
 	   endif
 
-        if ((solver.eq.2).and.(.not.L_LSM)) call coeff
-      
+          if ((solver.eq.2).and.(.not.L_LSM)) call coeff
+
         call MPI_BARRIER (MPI_COMM_WORLD,ierr)
         if(myrank.eq.0) then
            write (numfile,*) '============START ITERATIONS========='

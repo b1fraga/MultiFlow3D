@@ -586,6 +586,7 @@
         use vars
         use mpi
         use multidata
+        use module_LSM
         implicit none
         integer :: i,j,k,ib
         integer :: is,ie,js,je,ks,ke
@@ -642,8 +643,8 @@
      & dt*alfapr*diff) 
 
         if (L_LSM) then! .or. L_LSMbase) then
-          dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*grx*1.0-
-     & dt*alfapr*grz*sin(atan(slope))!*
+          dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*gx*1.0-
+     & dt*alfapr*gz*sin(atan(slope))!*
 !     &                                dom(ib)%blku(i,j,k))
         end if
 
@@ -707,7 +708,7 @@
      & dt*alfapr*diff)
 
         if (L_LSM) then! .or. L_LSMbase) then
-          dom(ib)%vstar(i,j,k)=dom(ib)%vstar(i,j,k)+dt*alfapr*gry!*
+          dom(ib)%vstar(i,j,k)=dom(ib)%vstar(i,j,k)+dt*alfapr*gy!*
 !     &                                dom(ib)%blkv(i,j,k))
         end if
 
@@ -754,28 +755,33 @@
                  dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+
      & dt*alfapr*diff) 
 
-        if (L_LSM) then! .or. L_LSMbase) then
-      dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*grz*
-     & cos(atan(slope)) !*
-!     &                                dom(ib)%blkw(i,j,k))
-        end if
+!         if (L_LSM) then! .or. L_LSMbase) then
+!       dom(ib)%wstar(i,j,k)=dom(ib)%wstar(i,j,k)+dt*alfapr*gz*
+!      & cos(atan(slope)) !*
+! !     &                                dom(ib)%blkw(i,j,k))
+!         end if
 
-              end do
-           end do
-        end do
+        end do; enddo; enddo
 
         end do
 
-      !   if (LENERGY) call mom_buo
-        if (LENERGY) then 
+      if (LAS) then
+         call exchange(11)
+         call exchange(22)
+         call exchange(33)
+         call mom_buo_dens
+      elseif (LENERGY.and.(dens.ge.100)) then 
+         call exchange(11)
+         call exchange(22)
+         call exchange(33)
+         call mom_buo !water
+      elseif (LENERGY.and.(dens.lt.100)) then 
          call exchange(11)
          call exchange(22)
          call exchange(33)
          call mom_buo_air !Aleks Covid code subroutine
-        endif
-            call exchange(11)
-            call exchange(22)
-            call exchange(33)
+      endif
+
         if (LROUGH) call rough_velocity
 
         return

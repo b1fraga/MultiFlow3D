@@ -9,24 +9,19 @@
         implicit none
         integer i,j,k,ib,bound,icont,tkmax
         double precision delta,n_x,n_y,n_z,vnor,vtan
-        double precision uc,vc,wc,rrey,small
+        double precision uc,vc,wc,small
 	  double precision aaa,bbb,const1,const2,const3,const4
 	  double precision ustar,yplus,ustarold,conv,Ecte,kappa
 
-        rrey  = 1.0/Re
         small = 1.e-30
 	  kappa = 0.41
 	  Ecte  = 9.0
 
 
-        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-
-	if (LENERGY) then
-		dom(ib)%dens(i,j,k) = 
-     &		999.8/(1.+0.000088*(dom(ib)%T(i,j,k)+20.))
-		dom(ib)%mu(i,j,k) = 
-     &		2.414d-5*10.d0**(-25.2/(dom(ib)%T(i,j,k)+20.-413.d0))
-			rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+	if (LAS.or.L_LSM) then                                            !variable density
+	do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
+		   rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+	enddo;enddo;enddo
 	endif
 
 	  SELECT CASE (bound)

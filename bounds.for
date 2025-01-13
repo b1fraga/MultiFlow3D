@@ -8,6 +8,7 @@
         use multidata
 	  		use mpi
 	  		use imb
+         use module_LSM
         implicit none
         integer :: i,j,k,ib,ly,im
         integer :: is,ie,js,je,ks,ke,ktop,kk,jj
@@ -337,8 +338,10 @@
 !#############################################################################
         use vars
         use multidata
-	  use mpi
-	  use imb
+	   use mpi
+	   use imb
+      use module_LSM
+
         implicit none
         integer :: i,j,k,ib,ly
         integer :: is,ie,js,je,ks,ke,ktop,kk,jj
@@ -625,8 +628,9 @@
 !#############################################################################
         use vars
         use multidata
-	  use mpi
-	  use imb
+	   use mpi
+	   use imb
+      use module_LSM
         implicit none
         integer :: i,j,k,ib,ly
         integer :: is,ie,js,je,ks,ke,ktop,jj,kk

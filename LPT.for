@@ -37,11 +37,6 @@
       integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
       integer,dimension(nprocs) :: strider
 
-      double precision damp,stiffness,collision,term_vel
-      double precision lambda_p,lambda_wb,lambda_ww,lambda_wt
-      double precision lambda_we,lambda_ws,lambda_wn
-      double precision :: e_k,e_yita,ea_k,ea_yita,e_col,mu_f,tau_col
-
       allocate (ui_pt(np_loc),vi_pt(np_loc),wi_pt(np_loc))
       allocate (uoi_pt(np_loc),voi_pt(np_loc),woi_pt(np_loc))
       allocate (ip(np_loc),jp(np_loc),kp(np_loc))
@@ -50,7 +45,7 @@
       allocate (Fpu(np_loc),Fpv(np_loc),Fpw(np_loc))
 
       if (np_loc.le.100) nt = 1
-      if (np_loc.gt.100) nt = OMP_threads
+      !if (np_loc.gt.100) nt = OMP_threads
 
       call OMP_SET_NUM_THREADS(nt)
 
@@ -89,12 +84,8 @@
 !$OMP&      iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w,
 !$OMP&      REp,rx,ry,rz,Vp,delta,gamma_p,
 !$OMP&      a,b,c,ao,bo,co,Cd,wx,wy,wz,
-!$OMP&      dwdy,dvdz,dudz,dvdx,dudy,dwdx,
-!$OMP&      e_k,e_yita,ea_k,ea_yita,e_col,mu_f,tau_col,term_vel,
-!$OMP&      lambda_we,lambda_ws,lambda_wn,
-!$OMP&      lambda_p,lambda_wb,lambda_ww,lambda_wt,
-!$OMP&      damp,stiffness,collision)
-      
+!$OMP&      dwdy,dvdz,dudz,dvdx,dudy,dwdx)
+
 !$OMP DO SCHEDULE (DYNAMIC,1)
       do l=1,np_loc
 
@@ -459,8 +450,11 @@
 !     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c          
 !     &-2.0d0*0.53d0*(a*wy-b*wx))
 
-!     if (LENERGY) then                                                 !variable density form
-      gamma_p=rhop_loc(l)/dens      
+      if (LENERGY.or.LAS) then                                        !variable density form
+            gamma_p=rhop_loc(l)/dom(ib)%dens(ip(l),jp(l),kp(l))	            !variable density
+      else
+            gamma_p=rhop_loc(l)/dens                                          ! constant density
+      endif
 
       if ((dp_loc(l)).lt.0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
             up_pt(l) = ui_pt(l)
@@ -468,165 +462,36 @@
             wp_pt(l) = wi_pt(l)
       else
       up_pt(l) = uop_loc(l) + dt * 
+     &      (gx*(gamma_p-1.0d0)/(gamma_p+0.5)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)   
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a 
-     &      -(1./(gamma_p+0.5))*0.53d0*(b*wz-c*wy))                                             
+     &      -(1./(gamma_p+0.5))*0.53d0*(b*wz-c*wy)))                                             
 
 
       vp_pt(l) = vop_loc(l) + dt* 
+     &      (gy*(gamma_p-1.0d0)/(gamma_p+0.5)+                       !Buoyancy
      &      (((1.+0.5)/(gamma_p+0.5))*((vi_pt(l)-voi_pt(l))/dt)
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b
-     &      -(1./(gamma_p+0.5))*0.53d0*(c*wx-a*wz))
+     &      -(1./(gamma_p+0.5))*0.53d0*(c*wx-a*wz)))
 
 
       wp_pt(l) = wop_loc(l) + dt* 
-     &      (((1.-gamma_p)/(gamma_p+0.5))*9.81d0+                       !Buoyancy
+     &      (gz*(gamma_p-1.0d0)/(gamma_p+0.5)+                      !Buoyancy
      &      ((1.+0.5)/(gamma_p+0.5))*((wi_pt(l)-woi_pt(l))/dt)          !Fluid stress
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))                    !Added Mass and drag
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                         !Added Mass and drag    
-     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))   
-      endif                  !Lift
+     &      -(1./(gamma_p+0.5))*0.53d0*(a*wy-b*wx))                     !Lift
+      endif             
 
 
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
 
 
-      IF (Lcolwall) THEN !call collision_walls(l,ib)       !updating particle velocities based on collisions with walls
+      IF (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
+      IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
-
-      !     compute collision parameters
-
-      e_col=1
-      mu_f=0.1
-      term_vel=sqrt(2*abs(wp_pt(l))*9.81/(Cd*rhop_loc(l)*3.1416*
-     &       (0.5*dp_loc(l))**2.d0))
-      tau_col=max(dp_loc(l)/(term_vel+1.d-4),15.d0*dt)  
-
-      e_k= (rhop_loc(l)*Vp)/tau_col**2*(3.1416**2.d0+log(e_col**2)) 
-
-      e_yita = -2*log(e_col)*sqrt(rhop_loc(l)*Vp*e_k) / 
-     &            (3.1416**2+log(e_col**2))
-
-      ea_k = e_k / (rhop_loc(l)*Vp)
-      ea_yita = e_yita / (rhop_loc(l)*Vp)
-
-! ====================> collision loop for particle-wall soft!!!!!!!
-!     radius of influence lambda
-      lambda_wb = 0.75*abs(wp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_wt = zen-0.75*abs(wp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_ww = 0.75*abs(up_pt(l))*dt+dp_loc(l)*0.5     
-      lambda_we = xen-0.75*abs(up_pt(l))*dt+dp_loc(l)*0.5
-      lambda_ws = 0.75*abs(vp_pt(l))*dt+dp_loc(l)*0.5
-      lambda_wn = yen-0.75*abs(vp_pt(l))*dt+dp_loc(l)*0.5    
-! ----------------------- collisions with bottom wall ------------------     
-!-----------------------------------------------------------------------
-      if (zp_loc(l).lt.lambda_wb) then
-
-            stiffness = - ea_k * abs(zp_loc(l)-dp_loc(l)*0.5)     !negative if n is >0 and positive otherwise
-
-            damp = - ea_yita * wp_pt(l)
-
-            collision = stiffness + damp
-
-            if (wp_pt(l).lt.0) wp_pt(l)=wp_pt(l) - dt*collision                            
-
-            up_pt(l)=up_pt(l) - sign(mu_f*dt*collision,up_pt(l)) 
-
-            vp_pt(l)=vp_pt(l) - sign(mu_f*dt*collision,vp_pt(l))  
-
-      endif 
-! ----------------------------------------------------------------------
-! ----------------------- collisions with top wall ---------------------
-
-      if (dom(ib)%bc_top.eq.4.or.dom(ib)%bc_top.gt.60) then
-
-      if ((zp_loc(l).gt.lambda_wt).and.(wp_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * wp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+zp_loc(l)-zen),0.d0)
-
-            collision = - stiffness - damp
-
-            wp_pt(l) = wp_pt(l) + dt*collision  
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            vp_pt(l)=vp_pt(l) + sign(mu_f*dt*abs(collision),-vp_pt(l)) 
-
-      endif
-      endif  
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with west wall -----------------------------------
-
-      If (.not.PERIODIC) then
-      if ((xp_loc(l).lt.lambda_ww).and.(up_pt(l).lt.0)) then
-
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-xp_loc(l)),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) =up_pt(l)  + dt*collision 
-
-      endif 
-      ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with east wall -----------------------------------
-
-      IF (.not.PERIODIC) then
-      if ((xp_loc(l).gt.lambda_we).and.(up_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * up_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+xp_loc(l)-xen),0.d0)
-            collision = - stiffness - damp
-            up_pt(l) = up_pt(l) + dt*collision 
-
-      endif 
-      ENDIF
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with south wall ----------------------------------
-
-      if ((yp_loc(l).lt.lambda_ws).and.(vp_pt(l).lt.0)) then
-
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = -2*ea_k * MAX((dp_loc(l)*0.5-yp_loc(l)),0.d0)
-            collision = - stiffness - damp
-
-            vp_pt(l) = vp_pt(l)  + dt*collision 
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            wp_pt(l)=wp_pt(l) + sign(mu_f*dt*abs(collision),-wp_pt(l)) 
-
-      endif 
-! -------------------------------------------------------------------------------------
-! ----------------------- collisions with north wall ----------------------------------
-
-      if ((yp_loc(l).gt.lambda_wn).and.(vp_pt(l).gt.0)) then
-
-            damp = 2*ea_yita * vp_pt(l)
-            stiffness = 2*ea_k * MAX((dp_loc(l)*0.5+yp_loc(l)-yen),0.d0)
-            collision = - stiffness - damp
-            vp_pt(l) = vp_pt(l) + dt*collision
-
-            up_pt(l)=up_pt(l) + sign(mu_f*dt*abs(collision),-up_pt(l)) 
-
-            wp_pt(l)=wp_pt(l) + sign(mu_f*dt*abs(collision),-wp_pt(l)) 
-
-
-      endif 
-!=============================================================================
-
-      if (zp_loc(l).ge.(zen-0.5*dom(ib)%dz)) wp_pt(l)=0.d0
-
-      if (zp_loc(l).le.(0.5*dom(ib)%dz)) wp_pt(l)=0.d0
-     
-      if (yp_loc(l).ge.(yen-0.5*dom(ib)%dy)) vp_pt(l)=0.d0
-
-      if (yp_loc(l).le.(0.5*dom(ib)%dy)) vp_pt(l)=0.d0
-
-
-      ENDIF
 
       if ((dp_loc(l)).ge.0.00001) then !only do calcs if dp>=10um
       !Update slip velocity
@@ -661,28 +526,7 @@
 !      Flw(l) = -0.53d0*rho_p*3.14d0*(dp_loc(l)**3.d0)*(a*wy-b*wx)
 !     &     /6.0d0
 
-      !Interphase Force (bubble->liquid)
 
-!     Fpu(l) = -(Fau(l) + Fdu(l) + Flu(l))
-!     Fpv(l) = -(Fav(l) + Fdv(l) + Flv(l))
-!     Fpw(l) = -(Faw(l) + Fdw(l) + Flw(l))
-
-!     if (.not.DF) then
-!
-!      Fpu(l) = -(3.0d0*((ui_pt(l)-uoi_pt(l))/dt)     
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a  
-!     &  -2.0d0*0.53d0*(b*wz-c*wy))                   
-
-!      Fpv(l) = -(3.0d0*((vi_pt(l)-voi_pt(l))/dt)
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b  
-!     &  -2.0d0*0.53d0*(c*wx-a*wz))
-
-!      Fpw(l) = -(3.0d0*((wi_pt(l)-woi_pt(l))/dt)     
-!     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                
-!     &-2.0d0*0.53d0*(a*wy-b*wx))
-
-!     if (LENERGY) then
-!      gamma_p=rho_p/dens
       Fpu(l) = -(((1.+0.5)/(gamma_p+0.5))*((ui_pt(l)-uoi_pt(l))/dt)     
      &      -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5)))
      &      *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a 
@@ -702,15 +546,6 @@
 !      Fpw(l) = -(2.0d0*9.81d0+3.0d0*((wi_pt(l)-woi_pt(l))/dt)    
 !     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c                
 !     &-2.0d0*0.53d0*(a*wy-b*wx))
-!     endif
-
-!     else
-
-!     Fpu(l) = (a/dt) * (rho_p/dens)!- Fsu(l)/(Vp*dens)
-!     Fpv(l) = (b/dt) * (rho_p/dens) !- Fsv(l)/(Vp*dens)
-!     Fpw(l) = (c/dt) * (rho_p/dens) !- (Fsw(l) - Fgw(l))/(Vp*dens)
-!     write(201,*) 'Fpw',Fpw(l)
-
 !     endif
 
 !           write(myrank+700,*)'Fp',Fpu(l),Fpv(l),Fpw(l)
@@ -777,6 +612,16 @@
       endif
 
 !     Actualizar velocidad paso previo
+      if    (abs(up_pt(l)).gt.10.d0*abs(uop_pt(l))) then
+            !write(6,*)'Warning! 2 fast, 2 furious',up_pt(l),l
+            !stop
+      elseif (abs(vp_pt(l)).gt.10.d0*abs(vop_pt(l))) then
+            !write(6,*)'Warning! 2 fast, 2 furious',vp_pt(l),l
+            !stop
+      elseif (abs(wp_pt(l)).gt.10.d0*abs(wop_pt(l))) then
+            !write(6,*)'Warning! 2 fast, 2 furious',wp_pt(l),l
+            !stop            
+      endif
             uop_loc(l) = up_pt(l)
             vop_loc(l) = vp_pt(l)
             wop_loc(l) = wp_pt(l)
@@ -786,7 +631,7 @@
             yp_loc(l)=yp_loc(l)+vp_pt(l)*dt
             zp_loc(l)=zp_loc(l)+wp_pt(l)*dt
 
-!                 write(myrank+700,*)'xp_loc',xp_loc(l),yp_loc(l),zp_loc(l)
+!     write(myrank+700,*)'xp_loc',xp_loc(l),yp_loc(l),zp_loc(l)
 
       ENDIF   !if the particle belongs to the block
 
@@ -869,7 +714,7 @@
             deallocate (xp_loc,yp_loc,zp_loc)
             deallocate (uop_loc,vop_loc,wop_loc)
             deallocate (Fpu,Fpv,Fpw)
-        deallocate (dp_loc,rhop_loc)
+            deallocate (dp_loc,rhop_loc)
       endif
 
       return
