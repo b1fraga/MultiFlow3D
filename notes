@@ -1,0 +1,33 @@
+
+1. define force range
+CFL=up_n*dt/deff
+deff=dp_loc
+lambda=0.75*CFL*deff=0.75*up_n*dt
+if xp_loc-zst.le.(dp_loc/2)+lambda=(dp_loc/2)+0.75*up_n*dt
+
+dt must be le tau_col/15=mp/15k (pi**2+ln1)
+
+2. spring stifness
+
+k_n=1.72d7
+k_t=1.48d7
+
+k=m
+
+3. damping
+
+theta=-2 ln1 *(mp*k)**0.5/(pi**2+(ln1)**2)
+
+4. overlap
+
+deltap=max((zp_loc-dp_loc/2)-zst,0)
+
+5. normal force
+
+fcol_n=-k*deltap-theta*wp_loc
+
+6. tangential force
+
+mu_f=9.2d-2
+
+fcol_t=mu_f*fcol_n

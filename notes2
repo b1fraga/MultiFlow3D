@@ -1,0 +1,8 @@
+Idea:
+Simplified IMBs
+Each Lagrangian point would represent a sphere
+Interaction with LPT would be trivial
+Add a logical in LPT.cin, fixed particles. Means dens is infinite, and then they can skip the LPT loop.
+The problem is the interaction with the Eulerian field
+How to calculate the reaction force for a large area?
+We can use imbs to extrapolate that sink term
