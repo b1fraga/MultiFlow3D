@@ -103,6 +103,7 @@
             if (LSCALAR) call sediment_4thtest
             if (LAS) call Active_scalar
             if (LNonNewt) call NonNewtonian
+            if (LIMB)  call IB_previous  
             if (L_LSM)  then
              call LSM_3D
              call heaviside  
@@ -184,7 +185,7 @@
 	   if (myrank.eq.0) wtime_lpt = MPI_WTIME ( ) - wtime_lpt
 
 	     if (myrank.eq.1) wtime_ib = MPI_WTIME ( )
-           if (LIMB)  call IBM							
+           if (LIMB)  call IBM							!Pablo2015
 	     if (myrank.eq.1) wtime_ib = MPI_WTIME ( ) - wtime_ib
 
            call correctoutflux

@@ -335,6 +335,7 @@
            end if
 
            if(solver.eq.2 .and. ngrd_gl.ge.2) then
+
               is=dom(ib)%isp; ie=dom(ib)%iep
               js=dom(ib)%jsp; je=dom(ib)%jep
               ks=dom(ib)%ksp; ke=dom(ib)%kep

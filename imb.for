@@ -283,7 +283,6 @@
 !	write(6,'(a,f12.4,a,f12.4)')'    dx:',dx,'      dy:', dy
 !	WRITE(6,*)' '
 
-      call IB_previous
 
       RETURN
       end
@@ -854,12 +853,8 @@ C     &                  nodez_loc(ii))=1.d0
 	call exchange(11)
 	call exchange(22)
 	call exchange(33)
-      call exchange(5)!T
+        call exchange(5)!T
       !   call exchange(20)!Sp (in covid code but not this one)
-
-      Do M=1,bodynum
-            IF (rotating(K)) call IB_previous
-      Enddo
 
         IF (Myrank.eq.master) THEN
 	  FX1NF = 0.d0  ;  FX2NF=0.d0 	;  FX3NF=0.d0

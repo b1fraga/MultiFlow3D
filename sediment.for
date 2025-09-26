@@ -26,7 +26,7 @@
             do j=1,ttj
                do i=1,tti
 
-            if (dom(ib)%z(k).lt.0.01) then  !sludge 
+            if (dom(ib)%z(k).lt.0.05) then  !sludge 
                   dom(ib)%S(i,j,k) = 1  
             else
                   dom(ib)%S(i,j,k) = 0 !fresh water

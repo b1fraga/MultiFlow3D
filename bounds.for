@@ -219,7 +219,7 @@
               do k=ks-1,ke+1; do i=is-1,ie+1
                  dom(ib)%u(i,je+1+ly,k)   =  dom(ib)%u(i,je-ly,k) 
               end do; end do
-	      else if (dom(ib)%bc_north.ge.61) then					!Wall functions Bruño2014
+	     else if (dom(ib)%bc_north.ge.61) then					!Wall functions Bruño2014
 		if (ly.eq.0) then
 	   		if (dom(ib)%bc_north.lt.63) 
      &			call log_law(4,ib)
@@ -237,7 +237,7 @@
 		      do k=ks-1,ke+1; do i=is-1,ie+1
 		           	dom(ib)%u(i,je+1+ly,k)= -dom(ib)%u(i,je-ly,k)	
 		      end do; end do
-		   endif
+		endif
 	     endif
         end if
 !...............................................................................

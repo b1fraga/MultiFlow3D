@@ -1,5 +1,5 @@
 ==========	IB Characteristics    ===========================
-5		Delta f.(1-phi1*,2-phi2*,3-phi3*,4-phi4*,5-phi3,6-phi4)
+5		Delta f.(1-phi1*,2-phi2*,3-phi3*,4-phi4*,5-phi3,6-phi4
 0		Multi-Direct Forcing steps
 1         	nIBMs(# of Immersed Bs)
 ========= IB #1 ============

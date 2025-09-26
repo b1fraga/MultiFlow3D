@@ -161,7 +161,7 @@ C#############################################################
                   endif
                         dist=min(dist,distance)
                   enddo
-                  if (ll.gt.10000) then
+                  if (ll.gt.1000) then
                         write(6,*) '================================' 
                         write(6,*) 'Release area too small.' 
                         write(6,*) 'Cannot create so many particles'
@@ -335,6 +335,8 @@ C **********************************************************************
      & ,u_cn,v_cn,w_cn,p_cn
       endif
 
+
+
             enddo
             enddo
             enddo
@@ -475,57 +477,3 @@ C
               
 
 
-C **********************************************************************
-      SUBROUTINE HELL(num_output)
-C **********************************************************************
-      
-              use multidata
-              use mpi
-              use vars   
-      
-                  implicit none     
-      
-                  integer strlen,i,j,k,ib,ni,nj,nk,ii,idfile,num_output
-                  integer is,ie,js,je,ks,ke
-                  character(LEN=20) filename
-                  character(LEN=4) b_str,c_str
-                  double precision u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
-                  double precision S_cn,rho_cn
-                  
-      
-            do ib=1,nbp
-      
-                    idfile=600+dom_id(ib)
-      
-            filename='demon.hdf5'
-      
-            OPEN (UNIT=idfile, FILE=filename)
-
-      
-              is=pl+1; ie=dom(ib)%ttc_i-pl
-              js=pl+1; je=dom(ib)%ttc_j-pl
-              ks=pl+1; ke=dom(ib)%ttc_k-pl
-              ni=ie-(is-1)+1
-              nj=je-(js-1)+1
-              nk=ke-(ks-1)+1
-      
-      WRITE(idfile,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime
-      WRITE(idfile,*)'I=',ni,', J=',nj,', K=',nk,'F=POINT'
-      
-            do k=ks-1,ke
-            do j=js-1,je
-            do i=is-1,ie
-
-      write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
-
-      
-            enddo
-            enddo
-            enddo
-
-            end do
-
-            close (idfile)
-      
-            END SUBROUTINE
-      
