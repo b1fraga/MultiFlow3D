@@ -27,9 +27,18 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          submodules: 'true'
+
+      - uses: fortran-lang/setup-fpm@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
           sudo apt-get install -y openmpi-bin libopenmpi-dev
 
       - run: |
+          export FPM_FC="mpif90"
+          cd ./json-fortran
+          fpm build
+          cd ..
           make
