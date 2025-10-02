@@ -2,6 +2,8 @@
 F90=mpif90
 OPTIONS    = -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp
 LOPTIONS   = -O2 -fopenmp
+INCLUDE_PATH := $(shell realpath $$(dirname $$(find . -path "*json_module.mod*")))
+LIBRARY_PATH := $(shell realpath $$(dirname $$(find . -path "*json-fortran/libjson-fortran.a.log*")))
 ##############################################################
 
 objects = \
@@ -63,10 +65,10 @@ sediment.o
 .SUFFIXES: .for
 
 .for.o:
-	$(F90) $(OPTIONS) -o $@ $<
+	$(F90) $(OPTIONS) -I$(INCLUDE_PATH) -L$(LIBRARY_PATH) -ljson-fortran -o $@ $<
 
 M3D_v2.exe: $(objects) 
-	$(F90) $(objects) $(LOPTIONS) -o M3D_v2.exe \
+	$(F90) $(objects) $(LOPTIONS) -I$(INCLUDE_PATH) -L$(LIBRARY_PATH) -ljson-fortran -o M3D_v2.exe \
 
 clean:
 	rm -rfv *.o *.mod M3D_v2.exe
