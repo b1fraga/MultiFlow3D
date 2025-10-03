@@ -42,7 +42,7 @@
 
           double precision theta_col,e_col,mp
 
-          !2. Damping
+          !2.0_dp Damping
           e_col=1.d0
           mp=rhop_loc(l)*(4/3)*3.1416*(0.5_dp*dp_loc(l))**3
           theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
@@ -183,7 +183,7 @@
           lambda_v=0.75_dp*vp_pt(l)*dt
           lambda_w=0.75_dp*wp_pt(l)*dt
 
-          !2. Spring stiffness
+          !2.0_dp Spring stiffness
 !       k_n=1.72d7
 !       k_t=1.48d7
 

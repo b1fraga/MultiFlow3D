@@ -62,8 +62,8 @@ END SELECT
 
           const1 = 0.5_dp * (1.0_dp - bbb) * aaa ** ((1.0_dp + bbb) / (1.0_dp - bbb))
           const2 = (1.0_dp + bbb) / aaa
-          const3 = aaa ** (2. / (1.0_dp - bbb))
-          const4 = 2. / (1.0_dp + bbb)
+          const3 = aaa ** (2.0_dp / (1.0_dp - bbb))
+          const4 = 2.0_dp / (1.0_dp + bbb)
 
           SELECT CASE (bound)
 
@@ -81,7 +81,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
@@ -111,7 +111,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
@@ -141,7 +141,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
@@ -171,7 +171,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
@@ -201,7 +201,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
@@ -231,7 +231,7 @@ END SELECT
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
-                      dycell = 2. * delta
+                      dycell = 2.0_dp * delta
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan

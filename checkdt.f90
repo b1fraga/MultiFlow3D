@@ -124,7 +124,7 @@
         dtvisc)**2+4.*abs(gy)/dom(ib)%dy))
               Cw=1.0_dp/((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+ &
         dtvisc)**2+4.*abs(gz)/dom(ib)%dz))
-              dt = 2.*safety_factor*min(Cu,Cv,Cw)
+              dt = 2.0_dp*safety_factor*min(Cu,Cv,Cw)
           end do
           end if
 

@@ -395,8 +395,8 @@
 
                           s23 = 0.5_dp * (dvdz + dwdy)
 
-                          sbet = SQRT (2. * ( dudx*dudx + dvdy*dvdy + dwdz*dwdz + &
-                                 2. * ( s12*s12   + s13*s13   + s23*s23 ) )  )
+                          sbet = SQRT (2.0_dp * ( dudx*dudx + dvdy*dvdy + dwdz*dwdz + &
+                                 2.0_dp * ( s12*s12   + s13*s13   + s23*s23 ) )  )
                           dom(ib)%vis(i,j,k) = ( rrey + l_s * sbet )
                       end do
                   end do

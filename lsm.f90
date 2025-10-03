@@ -242,7 +242,7 @@
 !             do k=1,ttk
 !               do j=1,ttj
 !                 do i=1,tti
-!                   b=length/(cosh(sqrt(3.*length)/2.*(dom(ib)%xc(i))))**2
+!                   b=length/(cosh(sqrt(3.*length)/2.0_dp*(dom(ib)%xc(i))))**2
 !                   if (dom(ib)%zc(k).lt.(b+1))   then
 !                     dom(ib)%phi(i,j,k) = 1.0_dp*abs(dom(ib)%zc(k)-(b+1))
 !                   else if (dom(ib)%zc(k).gt.(b+1))   then

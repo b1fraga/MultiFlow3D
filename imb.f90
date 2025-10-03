@@ -1429,7 +1429,7 @@ module imb
                 *reddelta(lag_bod_loc(L))
                   end do
 
-                  alph          = rads(M)+(iii-1)*2.*PI/imbnumber(M)
+                  alph          = rads(M)+(iii-1)*2.0_dp*PI/imbnumber(M)
                   alpharads=alph*180./PI
 
                   write(forcefilej,88) CTIME,alpharads,fx_loc,fy_loc,fz_loc
