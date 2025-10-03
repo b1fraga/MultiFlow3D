@@ -600,7 +600,7 @@
                       rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                   enddo;enddo;enddo
           endif
-          small = 1.e-30
+          small = 1.e-30_dp
 
           dom(ib)%tauww=0.0_dp; dom(ib)%tauwe=0.0_dp
           dom(ib)%tauwn=0.0_dp; dom(ib)%tauws=0.0_dp

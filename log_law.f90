@@ -14,7 +14,7 @@
           double precision aaa,bbb,const1,const2,const3,const4
           double precision ustar,yplus,ustarold,conv,Ecte,kappa
 
-          small = 1.e-30
+          small = 1.e-30_dp
           kappa = 0.41
           Ecte  = 9.0_dp
 

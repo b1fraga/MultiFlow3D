@@ -21,7 +21,7 @@
                       rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                   enddo;enddo;enddo
           endif
-          small = 1.e-30
+          small = 1.e-30_dp
 
           SELECT CASE (bound)
             CASE (1)
