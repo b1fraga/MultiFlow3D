@@ -378,6 +378,7 @@
           use multidata
           use vars
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer :: i,j,k,ib,ndoms,say,ndo
