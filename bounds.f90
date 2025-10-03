@@ -93,13 +93,13 @@
                           if (UPROF_SEM==12) then         !1/7th power law inlet condition Pablo 7/12/2015 (WITH SEM)
                           if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
-                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.)
+                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.0_dp)
                           else
                           dom(ib)%u(is-1-ly,j,k) =  ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
                           endif
-                          dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.) &
-                    *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.) +up
+                          dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
+                    *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp) +up
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk+up
                           endif
@@ -109,20 +109,20 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
-                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.)
+                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.0_dp)
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
                           endif
-                          dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.) &
-                    *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.)
+                          dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
+                    *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp)
                       enddo ; end do
 
                   else if (dom(ib)%bc_west==13) then      !1/7th power law inlet condition Pablo 7/12/2015
                   do k=ks-1,ke+1; do j=js-1,je+1
                           if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
-                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.)
+                    *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.0_dp/7.0_dp)
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
