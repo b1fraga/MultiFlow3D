@@ -53,7 +53,7 @@
 
               DO L=1,rough_blockno
 
-                  IF (dom_id(ib).eq.rough_block(L))  THEN
+                  IF (dom_id(ib)==rough_block(L))  THEN
 
                   CALL Roughness_Function(ib)
 
@@ -96,8 +96,8 @@
           istep=NINT(xistep)
           jstep=NINT(yjstep)
 
-          if (istep.eq.0) istep=1
-          if (jstep.eq.0) jstep=1
+          if (istep==0) istep=1
+          if (jstep==0) jstep=1
 
           istep=1
           jstep=1
@@ -122,11 +122,11 @@
           minelev2=100.
 
 !  modify boundaries
-          if (dom(ib)%iprev.lt.0) then
+          if (dom(ib)%iprev<0) then
           do i = 1,pl
               do j = 1, nj
                   do k = pl,1,-1
-                      if (rough_dom(ib)%z_rough(i,j).gt.5.0) Then
+                      if (rough_dom(ib)%z_rough(i,j)>5.0) Then
                       rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(k+1,j)
                       end if
                   end do
@@ -141,19 +141,19 @@
               enddo
           end do
 
-          if (dom(ib)%jprev.lt.0) then
+          if (dom(ib)%jprev<0) then
           do i = 1,ni
               do j = pl, 1, -1
-                  if (rough_dom(ib)%z_rough(i,j).gt.5.0) &
+                  if (rough_dom(ib)%z_rough(i,j)>5.0) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
               enddo
           end do
           end if
 
-          if (dom(ib)%jnext.lt.0) then
+          if (dom(ib)%jnext<0) then
           do i = 1,ni
               do j =  nj-pl+1,nj
-                  if (rough_dom(ib)%z_rough(i,j).gt.5.0) &
+                  if (rough_dom(ib)%z_rough(i,j)>5.0) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
               enddo
           end do
@@ -210,7 +210,7 @@
               xicount=0
               do i =1, ni
                   do j=1,nj
-                      if (rough_dom(ib)%zbp(i,j).lt. aa(ii)) xicount=xicount+1
+                      if (rough_dom(ib)%zbp(i,j)< aa(ii)) xicount=xicount+1
                   end do
               end do
               A(ii)=xicount/(ni*nj)
@@ -231,7 +231,7 @@
 !         zdelta=dom(ib)%zc(k)-dom(ib)%zc(1)
 
 !         if (zdelta.lt.rough_dom(ib)%z_rough(i,j)) then
-                      if (dom(ib)%zc(k).lt.rough_dom(ib)%z_rough(i,j)) then
+                      if (dom(ib)%zc(k)<rough_dom(ib)%z_rough(i,j)) then
                       rough_dom(ib)%rough(i,j,k)=1.0
                       rough_dom(ib)%irough(i,j,k)=1
                       maxk=MAX(maxk,k)
@@ -286,12 +286,12 @@
 
               DO L=1,rough_blockno
 
-                  IF (dom_id(ib).eq.rough_block(L))  THEN
+                  IF (dom_id(ib)==rough_block(L))  THEN
 
                   do k=dom(ib)%ksp,maxk+pl-1    !2,maxk
                       do j=dom(ib)%jsp,dom(ib)%jep   !2,njp-1
                           do i=dom(ib)%isp,dom(ib)%iep    !2,nip-1
-                              if (rough_dom(ib)%rough(i,j,k).eq.1.0) then
+                              if (rough_dom(ib)%rough(i,j,k)==1.0) then
                               dom(ib)%ustar(i-1,j,k)=0.0
                               dom(ib)%vstar(i,j-1,k)=0.0
                               dom(ib)%wstar(i,j,k-1)=0.0
@@ -334,7 +334,7 @@
 
               DO L=1,rough_blockno
 
-                  IF (dom_id(ib).eq.rough_block(L))  THEN
+                  IF (dom_id(ib)==rough_block(L))  THEN
 
                   write(char_block,'(I4)') dom_id(ib)
                   tecfile='rough'//TRIM(ADJUSTL(char_block))//'.plt'

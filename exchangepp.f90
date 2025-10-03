@@ -45,7 +45,7 @@
 !=======================================================================
 !=======================================================================
               do ib=1,nbp
-                  if(g.gt.dom(ib)%ngrid) then
+                  if(g>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=g
@@ -60,18 +60,18 @@
 
                   nif=2.0*(ni-2)+2; njf=2.0*(nj-2)+2; nkf=2.0*(nk-2)+2
                   chc1=real(ni-2); chc2=real(nj-2); chc3=real(nk-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-i'
+                  if((mod(chc2,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-j'
+                  if((mod(chc3,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-k'
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
 
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
                   cpu_prev=dom(ib)%iprev
                   cpu_next=dom(ib)%inext
                   ns1=nj
@@ -81,20 +81,20 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
                   end if
 
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
                   cpu_prev=dom(ib)%jprev
                   cpu_next=dom(ib)%jnext
                   ns1=ni
@@ -104,20 +104,20 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
                   end if
 
-                  else if (sync_dir.eq.3)  then
+                  else if (sync_dir==3)  then
                   cpu_prev=dom(ib)%kprev
                   cpu_next=dom(ib)%knext
                   ns1=nj
@@ -127,14 +127,14 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
@@ -145,13 +145,13 @@
 !..........................................................................
 !=== Previous Neighbor  ===>
 !..........................................................................
-                  if (cpu_prev.ge.0) then
+                  if (cpu_prev>=0) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_prev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_prev)) then
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -160,7 +160,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(k-1)*nsc1+j
@@ -188,9 +188,9 @@
                   end do
                   end if
                   end if
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -199,7 +199,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=2,nsc2-1
                       do i=2,nsc1-1
                           ijk=(k-1)*nsc1+i
@@ -229,7 +229,7 @@
                   end if
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -238,7 +238,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do i=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(i-1)*nsc1+j
@@ -277,9 +277,9 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -290,7 +290,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -324,9 +324,9 @@
                   end if
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -337,7 +337,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -373,7 +373,7 @@
 !======================================================================
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do i=1,ns2
@@ -384,7 +384,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do i=2,nsc2-1
@@ -430,20 +430,20 @@
                   end if
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.3)  then
+                  if (sync_dir==3)  then
 
 !......................................................................
 !=== Previous Corner Neighbors  ===>
 !......................................................................
 
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev1,g)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -460,11 +460,11 @@
                   else
                   sbufc1m => dom(ib) % sc1m
                   rbufc1m => dom(ib) % rc1m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -486,13 +486,13 @@
                   end if
 
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev2,g)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -509,11 +509,11 @@
                   else
                   sbufc2m => dom(ib) % sc2m
                   rbufc2m => dom(ib) % rc2m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -535,13 +535,13 @@
                   end if
 
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev3,g)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev3,g)) then
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -558,11 +558,11 @@
                   else
                   sbufc3m => dom(ib) % sc3m
                   rbufc3m => dom(ib) % rc3m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev3,g)) then
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -584,13 +584,13 @@
                   end if
 
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev4,g)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev4,g)) then
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -607,11 +607,11 @@
                   else
                   sbufc4m => dom(ib) % sc4m
                   rbufc4m => dom(ib) % rc4m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev4,g)) then
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -638,15 +638,15 @@
 !..........................................................................
 
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev1,g)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev1,g)) then
                   do nn=2,nj-1
                       i=2; j=nn; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev1,g)) then
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)= &
@@ -672,7 +672,7 @@
                   else
                   sbufe1m => dom(ib) % se1m
                   rbufe1m => dom(ib) % re1m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev1,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -680,7 +680,7 @@
                       sbufe1m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev1,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -713,15 +713,15 @@
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev2,g)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev2,g)) then
                   do nn=2,ni-1
                       i=nn; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev2,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)= &
@@ -747,7 +747,7 @@
                   else
                   sbufe2m => dom(ib) % se2m
                   rbufe2m => dom(ib) % re2m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev2,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -755,7 +755,7 @@
                       sbufe2m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev2,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -788,15 +788,15 @@
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev3,g)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev3,g)) then
                   do nn=2,nj-1
                       i=ni-1; j=nn; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev3,g)) then
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)= &
@@ -822,7 +822,7 @@
                   else
                   sbufe3m => dom(ib) % se3m
                   rbufe3m => dom(ib) % re3m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev3,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -830,7 +830,7 @@
                       sbufe3m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev3,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -863,15 +863,15 @@
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev4,g)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev4,g)) then
                   do nn=2,ni-1
                       i=nn; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev4,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)= &
@@ -897,7 +897,7 @@
                   else
                   sbufe4m => dom(ib) % se4m
                   rbufe4m => dom(ib) % re4m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev4,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -905,7 +905,7 @@
                       sbufe4m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev4,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -938,15 +938,15 @@
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev5)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev5,g)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev5)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev5,g)) then
                   do nn=2,nk-1
                       i=2; j=2; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev5,g)) then
                   do nn=2,nkc-1
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)= &
@@ -972,7 +972,7 @@
                   else
                   sbufe5m => dom(ib) % se5m
                   rbufe5m => dom(ib) % re5m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev5,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -980,7 +980,7 @@
                       sbufe5m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev5,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -1013,15 +1013,15 @@
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev6)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev6,g)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev6)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev6,g)) then
                   do nn=2,nk-1
                       i=2; j=nj-1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev6,g)) then
                   do nn=2,nkc-1
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)= &
@@ -1047,7 +1047,7 @@
                   else
                   sbufe6m => dom(ib) % se6m
                   rbufe6m => dom(ib) % re6m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev6,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -1055,7 +1055,7 @@
                       sbufe6m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev6,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -1094,12 +1094,12 @@
 !..........................................................................
 !=== Next Neighbor ===>
 !..........................................................................
-                  if (cpu_next.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_next)) then
+                  if (cpu_next>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_next)) then
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -1108,7 +1108,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(k-1)*nsc1+j
@@ -1136,9 +1136,9 @@
                   end do
                   end if
                   end if
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -1147,7 +1147,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=2,nsc2-1
                       do i=2,nsc1-1
                           ijk=(k-1)*nsc1+i
@@ -1177,7 +1177,7 @@
                   end if
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -1186,7 +1186,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do i=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(i-1)*nsc1+j
@@ -1225,9 +1225,9 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -1238,7 +1238,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -1272,9 +1272,9 @@
                   end if
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -1285,7 +1285,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -1321,7 +1321,7 @@
 !======================================================================
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do i=1,ns2
@@ -1332,7 +1332,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do i=2,nsc2-1
@@ -1378,20 +1378,20 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.3)  then
+                  if (sync_dir==3)  then
 
 !..........................................................................
 !=== Next Corner Neighbors  ===>
 !..........................................................................
 
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext1,g)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext1,g)) then
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -1408,11 +1408,11 @@
                   else
                   sbufc1p => dom(ib) % sc1p
                   rbufc1p => dom(ib) % rc1p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext1,g)) then
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -1434,13 +1434,13 @@
                   end if
 
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext2,g)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext2,g)) then
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -1457,11 +1457,11 @@
                   else
                   sbufc2p => dom(ib) % sc2p
                   rbufc2p => dom(ib) % rc2p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext2,g)) then
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -1483,13 +1483,13 @@
                   end if
 
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext3,g)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -1506,11 +1506,11 @@
                   else
                   sbufc3p => dom(ib) % sc3p
                   rbufc3p => dom(ib) % rc3p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -1532,13 +1532,13 @@
                   end if
 
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext4,g)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -1555,11 +1555,11 @@
                   else
                   sbufc4p => dom(ib) % sc4p
                   rbufc4p => dom(ib) % rc4p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -1585,15 +1585,15 @@
 !..........................................................................
 
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext1,g)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext1,g)) then
                   do nn=2,nj-1
                       i=ni-1; j=nn; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext1,g)) then
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)= &
@@ -1619,7 +1619,7 @@
                   else
                   sbufe1p => dom(ib) % se1p
                   rbufe1p => dom(ib) % re1p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext1,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -1627,7 +1627,7 @@
                       sbufe1p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext1,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -1660,15 +1660,15 @@
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext2,g)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext2,g)) then
                   do nn=2,ni-1
                       i=nn; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext2,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)= &
@@ -1694,7 +1694,7 @@
                   else
                   sbufe2p => dom(ib) % se2p
                   rbufe2p => dom(ib) % re2p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext2,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -1702,7 +1702,7 @@
                       sbufe2p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext2,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -1735,15 +1735,15 @@
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext3,g)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext3,g)) then
                   do nn=2,nj-1
                       i=2; j=nn; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext3,g)) then
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)= &
@@ -1769,7 +1769,7 @@
                   else
                   sbufe3p => dom(ib) % se3p
                   rbufe3p => dom(ib) % re3p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext3,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -1777,7 +1777,7 @@
                       sbufe3p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext3,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -1810,15 +1810,15 @@
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext4,g)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext4,g)) then
                   do nn=2,ni-1
                       i=nn; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext4,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)= &
@@ -1844,7 +1844,7 @@
                   else
                   sbufe4p => dom(ib) % se4p
                   rbufe4p => dom(ib) % re4p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext4,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -1852,7 +1852,7 @@
                       sbufe4p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext4,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -1885,15 +1885,15 @@
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext5)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext5,g)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext5)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext5,g)) then
                   do nn=2,nk-1
                       i=ni-1; j=nj-1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext5,g)) then
                   do nn=2,nkc-1
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)= &
@@ -1919,7 +1919,7 @@
                   else
                   sbufe5p => dom(ib) % se5p
                   rbufe5p => dom(ib) % re5p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext5,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -1927,7 +1927,7 @@
                       sbufe5p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext5,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -1960,15 +1960,15 @@
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext6)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext6,g)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext6)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext6,g)) then
                   do nn=2,nk-1
                       i=ni-1; j=2; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext6,g)) then
                   do nn=2,nkc-1
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)= &
@@ -1994,7 +1994,7 @@
                   else
                   sbufe6p => dom(ib) % se6p
                   rbufe6p => dom(ib) % re6p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext6,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -2002,7 +2002,7 @@
                       sbufe6p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext6,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -2040,7 +2040,7 @@
               end do
 !====================== ALEKS TEST MPI_SEND START =======================
               do ib=1,nbp
-                  if(g.gt.dom(ib)%ngrid) then
+                  if(g>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=g
@@ -2055,18 +2055,18 @@
 
                   nif=2.0*(ni-2)+2; njf=2.0*(nj-2)+2; nkf=2.0*(nk-2)+2
                   chc1=real(ni-2); chc2=real(nj-2); chc3=real(nk-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0).ne.0.0).and.g.lt.dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-i'
+                  if((mod(chc2,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-j'
+                  if((mod(chc3,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-k'
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
 
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
                   cpu_prev=dom(ib)%iprev
                   cpu_next=dom(ib)%inext
                   ns1=nj
@@ -2076,20 +2076,20 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
                   end if
 
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
                   cpu_prev=dom(ib)%jprev
                   cpu_next=dom(ib)%jnext
                   ns1=ni
@@ -2099,20 +2099,20 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
                   end if
 
-                  else if (sync_dir.eq.3)  then
+                  else if (sync_dir==3)  then
                   cpu_prev=dom(ib)%kprev
                   cpu_next=dom(ib)%knext
                   ns1=nj
@@ -2122,14 +2122,14 @@
                   nsr2=2.0*(ns2-2)+2
 
                   chc=real(ns1-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc1=ns1
                   else
                   nsc1=int((ns1-2)/2)+2
                   end if
 
                   chc=real(ns2-2)
-                  if(rdiv(dom_id(ib)).eq.1) then
+                  if(rdiv(dom_id(ib))==1) then
                   nsc2=ns2
                   else
                   nsc2=int((ns2-2)/2)+2
@@ -2140,13 +2140,13 @@
 !..........................................................................
 !=== Previous Neighbor  ===>
 !..........................................................................
-                  if (cpu_prev.ge.0) then
+                  if (cpu_prev>=0) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_prev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_prev)) then
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -2155,7 +2155,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(k-1)*nsc1+j
@@ -2183,9 +2183,9 @@
                   end do
                   end if
                   end if
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -2194,7 +2194,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=2,nsc2-1
                       do i=2,nsc1-1
                           ijk=(k-1)*nsc1+i
@@ -2224,7 +2224,7 @@
                   end if
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -2233,7 +2233,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do i=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(i-1)*nsc1+j
@@ -2272,9 +2272,9 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -2285,7 +2285,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -2319,9 +2319,9 @@
                   end if
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -2332,7 +2332,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -2368,7 +2368,7 @@
 !======================================================================
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do i=1,ns2
@@ -2379,7 +2379,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do i=2,nsc2-1
@@ -2424,20 +2424,20 @@
                   end if
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.3)  then
+                  if (sync_dir==3)  then
 
 !......................................................................
 !=== Previous Corner Neighbors  ===>
 !......................................................................
 
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev1,g)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -2454,11 +2454,11 @@
                   else
                   sbufc1m => dom(ib) % sc1m
                   rbufc1m => dom(ib) % rc1m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -2478,13 +2478,13 @@
                   end if
 
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev2,g)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -2501,11 +2501,11 @@
                   else
                   sbufc2m => dom(ib) % sc2m
                   rbufc2m => dom(ib) % rc2m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -2525,13 +2525,13 @@
                   end if
 
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev3,g)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev3,g)) then
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -2548,11 +2548,11 @@
                   else
                   sbufc3m => dom(ib) % sc3m
                   rbufc3m => dom(ib) % rc3m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev3,g)) then
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -2572,13 +2572,13 @@
                   end if
 
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev4,g)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev4,g)) then
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -2595,11 +2595,11 @@
                   else
                   sbufc4m => dom(ib) % sc4m
                   rbufc4m => dom(ib) % rc4m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%corprev4,g)) then
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%corprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -2624,15 +2624,15 @@
 !..........................................................................
 
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev1,g)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev1,g)) then
                   do nn=2,nj-1
                       i=2; j=nn; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev1,g)) then
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)= &
@@ -2658,7 +2658,7 @@
                   else
                   sbufe1m => dom(ib) % se1m
                   rbufe1m => dom(ib) % re1m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev1,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -2666,7 +2666,7 @@
                       sbufe1m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev1,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -2697,15 +2697,15 @@
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev2,g)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev2,g)) then
                   do nn=2,ni-1
                       i=nn; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev2,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)= &
@@ -2731,7 +2731,7 @@
                   else
                   sbufe2m => dom(ib) % se2m
                   rbufe2m => dom(ib) % re2m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev2,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -2739,7 +2739,7 @@
                       sbufe2m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev2,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -2770,15 +2770,15 @@
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev3,g)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev3,g)) then
                   do nn=2,nj-1
                       i=ni-1; j=nn; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev3,g)) then
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)= &
@@ -2804,7 +2804,7 @@
                   else
                   sbufe3m => dom(ib) % se3m
                   rbufe3m => dom(ib) % re3m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev3,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -2812,7 +2812,7 @@
                       sbufe3m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev3,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -2843,15 +2843,15 @@
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev4,g)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev4,g)) then
                   do nn=2,ni-1
                       i=nn; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev4,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)= &
@@ -2877,7 +2877,7 @@
                   else
                   sbufe4m => dom(ib) % se4m
                   rbufe4m => dom(ib) % re4m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev4,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -2885,7 +2885,7 @@
                       sbufe4m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev4,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -2916,15 +2916,15 @@
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev5)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev5,g)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev5)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev5,g)) then
                   do nn=2,nk-1
                       i=2; j=2; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev5,g)) then
                   do nn=2,nkc-1
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)= &
@@ -2950,7 +2950,7 @@
                   else
                   sbufe5m => dom(ib) % se5m
                   rbufe5m => dom(ib) % re5m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev5,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -2958,7 +2958,7 @@
                       sbufe5m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev5,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -2989,15 +2989,15 @@
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev6)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev6,g)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev6)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev6,g)) then
                   do nn=2,nk-1
                       i=2; j=nj-1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev6,g)) then
                   do nn=2,nkc-1
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)= &
@@ -3023,7 +3023,7 @@
                   else
                   sbufe6m => dom(ib) % se6m
                   rbufe6m => dom(ib) % re6m
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgprev6,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -3031,7 +3031,7 @@
                       sbufe6m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgprev6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgprev6,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -3068,12 +3068,12 @@
 !..........................................................................
 !=== Next Neighbor ===>
 !..........................................................................
-                  if (cpu_next.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_next)) then
+                  if (cpu_next>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_next)) then
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -3082,7 +3082,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(k-1)*nsc1+j
@@ -3110,9 +3110,9 @@
                   end do
                   end if
                   end if
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -3121,7 +3121,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=2,nsc2-1
                       do i=2,nsc1-1
                           ijk=(k-1)*nsc1+i
@@ -3151,7 +3151,7 @@
                   end if
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -3160,7 +3160,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do i=2,nsc2-1
                       do j=2,nsc1-1
                           ijk=(i-1)*nsc1+j
@@ -3199,9 +3199,9 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -3212,7 +3212,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -3246,9 +3246,9 @@
                   end if
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do k=1,ns2
@@ -3259,7 +3259,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do k=2,nsc2-1
@@ -3295,7 +3295,7 @@
 !======================================================================
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   tsend=ns1*ns2
                   trecv=ns1*ns2
                   do i=1,ns2
@@ -3306,7 +3306,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   tsend=nsc1*nsc2
                   trecv=ns1*ns2
                   do i=2,nsc2-1
@@ -3351,20 +3351,20 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.3)  then
+                  if (sync_dir==3)  then
 
 !..........................................................................
 !=== Next Corner Neighbors  ===>
 !..........................................................................
 
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext1,g)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext1,g)) then
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -3381,11 +3381,11 @@
                   else
                   sbufc1p => dom(ib) % sc1p
                   rbufc1p => dom(ib) % rc1p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext1,g)) then
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -3405,13 +3405,13 @@
                   end if
 
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext2,g)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext2,g)) then
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -3428,11 +3428,11 @@
                   else
                   sbufc2p => dom(ib) % sc2p
                   rbufc2p => dom(ib) % rc2p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext2,g)) then
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -3452,13 +3452,13 @@
                   end if
 
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext3,g)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -3475,11 +3475,11 @@
                   else
                   sbufc3p => dom(ib) % sc3p
                   rbufc3p => dom(ib) % rc3p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -3499,13 +3499,13 @@
                   end if
 
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext4,g)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
@@ -3522,11 +3522,11 @@
                   else
                   sbufc4p => dom(ib) % sc4p
                   rbufc4p => dom(ib) % rc4p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=fi(ll)
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%cornext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
             fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
@@ -3550,15 +3550,15 @@
 !..........................................................................
 
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext1)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext1,g)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext1)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext1,g)) then
                   do nn=2,nj-1
                       i=ni-1; j=nn; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext1,g)) then
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)= &
@@ -3584,7 +3584,7 @@
                   else
                   sbufe1p => dom(ib) % se1p
                   rbufe1p => dom(ib) % re1p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext1,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -3592,7 +3592,7 @@
                       sbufe1p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext1,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext1,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -3623,15 +3623,15 @@
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext2)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext2,g)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext2)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext2,g)) then
                   do nn=2,ni-1
                       i=nn; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext2,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)= &
@@ -3657,7 +3657,7 @@
                   else
                   sbufe2p => dom(ib) % se2p
                   rbufe2p => dom(ib) % re2p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext2,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -3665,7 +3665,7 @@
                       sbufe2p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext2,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext2,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -3696,15 +3696,15 @@
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext3)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext3,g)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext3)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext3,g)) then
                   do nn=2,nj-1
                       i=2; j=nn; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext3,g)) then
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)= &
@@ -3730,7 +3730,7 @@
                   else
                   sbufe3p => dom(ib) % se3p
                   rbufe3p => dom(ib) % re3p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext3,g)) then
                   tsend=nj
                   trecv=nj
                   do nn=2,nj-1
@@ -3738,7 +3738,7 @@
                       sbufe3p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext3,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext3,g)) then
                   tsend=njc
                   trecv=nj
                   do nn=2,njc-1
@@ -3769,15 +3769,15 @@
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext4)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext4,g)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext4)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext4,g)) then
                   do nn=2,ni-1
                       i=nn; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext4,g)) then
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)= &
@@ -3803,7 +3803,7 @@
                   else
                   sbufe4p => dom(ib) % se4p
                   rbufe4p => dom(ib) % re4p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext4,g)) then
                   tsend=ni
                   trecv=ni
                   do nn=2,ni-1
@@ -3811,7 +3811,7 @@
                       sbufe4p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext4,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext4,g)) then
                   tsend=nic
                   trecv=ni
                   do nn=2,nic-1
@@ -3842,15 +3842,15 @@
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext5)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext5,g)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext5)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext5,g)) then
                   do nn=2,nk-1
                       i=ni-1; j=nj-1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext5,g)) then
                   do nn=2,nkc-1
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)= &
@@ -3876,7 +3876,7 @@
                   else
                   sbufe5p => dom(ib) % se5p
                   rbufe5p => dom(ib) % re5p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext5,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -3884,7 +3884,7 @@
                       sbufe5p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext5,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext5,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -3915,15 +3915,15 @@
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext6)) then
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext6,g)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext6)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext6,g)) then
                   do nn=2,nk-1
                       i=ni-1; j=2; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext6,g)) then
                   do nn=2,nkc-1
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)= &
@@ -3949,7 +3949,7 @@
                   else
                   sbufe6p => dom(ib) % se6p
                   rbufe6p => dom(ib) % re6p
-                  if(rdv(dom_id(ib),g).eq.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(dom(ib)%edgnext6,g)) then
                   tsend=nk
                   trecv=nk
                   do nn=2,nk-1
@@ -3957,7 +3957,7 @@
                       sbufe6p(nn)=fi(ll)
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(dom(ib)%edgnext6,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(dom(ib)%edgnext6,g)) then
                   tsend=nkc
                   trecv=nk
                   do nn=2,nkc-1
@@ -3995,7 +3995,7 @@
 !--------------------------------------------------------------------------
 !--------------------------------------------------------------------------
               do ib=1,nbp
-                  if(g.gt.dom(ib)%ngrid) then
+                  if(g>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=g
@@ -4008,17 +4008,17 @@
                   nijk=dom(ib)%faz(g)-ni*nj*nk
                   nij=ni*nj
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
                   cpu_prev=dom(ib)%iprev
                   cpu_next=dom(ib)%inext
                   ns1=nj
                   ns2=nk
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
                   cpu_prev=dom(ib)%jprev
                   cpu_next=dom(ib)%jnext
                   ns1=ni
                   ns2=nk
-                  else if (sync_dir.eq.3)  then
+                  else if (sync_dir==3)  then
                   cpu_prev=dom(ib)%kprev
                   cpu_next=dom(ib)%knext
                   ns1=nj
@@ -4028,13 +4028,13 @@
 !..............................................................................
 !=== Previous Neighbor  ===>
 !..............................................................................
-                  if (cpu_prev.ge.0) then
+                  if (cpu_prev>=0) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_prev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_prev)) then
 
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4043,7 +4043,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4063,8 +4063,8 @@
                   end if
                   end if
 
-                  else if (sync_dir.eq.2)  then
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  else if (sync_dir==2)  then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4073,7 +4073,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4094,7 +4094,7 @@
                   end if
 
                   else
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4103,7 +4103,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4133,9 +4133,9 @@
                   rbuf_m => dom(ib) % recvb_m1
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
+                  if (sync_dir==1)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4144,7 +4144,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4166,9 +4166,9 @@
 
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
+                  else if (sync_dir==2)  then
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4177,7 +4177,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4200,7 +4200,7 @@
 !======================================================================
                   else
 
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4209,7 +4209,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_prev,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_prev,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4237,12 +4237,12 @@
 !..............................................................................
 !=== Next Neighbor  ===>
 !..............................................................................
-                  if (cpu_next.ge.0) then
+                  if (cpu_next>=0) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(cpu_next)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(cpu_next)) then
 
-                  if (sync_dir.eq.1)  then
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if (sync_dir==1)  then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4251,7 +4251,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4271,8 +4271,8 @@
                   end if
                   end if
 
-                  else if (sync_dir.eq.2)  then
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  else if (sync_dir==2)  then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4281,7 +4281,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4302,7 +4302,7 @@
                   end if
 
                   else
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4311,7 +4311,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4339,8 +4339,8 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.1)  then
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if (sync_dir==1)  then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4349,7 +4349,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=1,ns2
                       do j=1,ns1
                           ijk=(k-1)*ns1+j
@@ -4371,8 +4371,8 @@
 
 !======================================================================
 !======================================================================
-                  else if (sync_dir.eq.2)  then
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  else if (sync_dir==2)  then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4381,7 +4381,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do k=1,ns2
                       do i=1,ns1
                           ijk=(k-1)*ns1+i
@@ -4403,7 +4403,7 @@
 !======================================================================
 !======================================================================
                   else
-                  if(rdv(dom_id(ib),g).eq.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)==rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4412,7 +4412,7 @@
                       end do
                   end do
                   else
-                  if(rdv(dom_id(ib),g).gt.rdv(cpu_next,g)) then
+                  if(rdv(dom_id(ib),g)>rdv(cpu_next,g)) then
                   do i=1,ns2
                       do j=1,ns1
                           ijk=(i-1)*ns1+j
@@ -4439,14 +4439,14 @@
 
 !======================================================================
 !======================================================================
-                  if (sync_dir.eq.3)  then
+                  if (sync_dir==3)  then
 !..............................................................................
 !=== Previous Corner Neighbors  ===>
 !..............................................................................
 
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev1)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev1)) then
                   i=1; j=1; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc1m(1)
                   else
@@ -4457,8 +4457,8 @@
                   end if
                   end if
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev2)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev2)) then
                   i=1; j=nj; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc2m(1)
                   else
@@ -4469,8 +4469,8 @@
                   end if
                   end if
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev3)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev3)) then
                   i=ni; j=nj; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc3m(1)
                   else
@@ -4481,8 +4481,8 @@
                   end if
                   end if
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%corprev4)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%corprev4)) then
                   i=ni; j=1; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc4m(1)
                   else
@@ -4498,8 +4498,8 @@
 !..............................................................................
 
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev1)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev1)) then
                   do nn=2,nj-1
                       i=1; j=nn; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re1m(nn)
@@ -4514,8 +4514,8 @@
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev2)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev2)) then
                   do nn=2,ni-1
                       i=nn; j=nj; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re2m(nn)
@@ -4530,8 +4530,8 @@
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev3)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev3)) then
                   do nn=2,nj-1
                       i=ni; j=nn; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re3m(nn)
@@ -4546,8 +4546,8 @@
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev4)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev4)) then
                   do nn=2,ni-1
                       i=nn; j=1; k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re4m(nn)
@@ -4562,8 +4562,8 @@
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev5)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev5)) then
                   do nn=2,nk-1
                       i=1; j=1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re5m(nn)
@@ -4578,8 +4578,8 @@
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgprev6)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgprev6)) then
                   do nn=2,nk-1
                       i=1; j=nj; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re6m(nn)
@@ -4598,8 +4598,8 @@
 !..............................................................................
 
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext1)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext1)) then
                   i=ni; j=nj; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc1p(1)
                   else
@@ -4610,8 +4610,8 @@
                   end if
                   end if
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext2)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext2)) then
                   i=ni; j=1; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc2p(1)
                   else
@@ -4622,8 +4622,8 @@
                   end if
                   end if
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext3)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext3)) then
                   i=1; j=1; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc3p(1)
                   else
@@ -4634,8 +4634,8 @@
                   end if
                   end if
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%cornext4)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%cornext4)) then
                   i=1; j=nj; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   fi(ll)=dom(ib) % rc4p(1)
                   else
@@ -4651,8 +4651,8 @@
 !..............................................................................
 
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext1)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext1)) then
                   do nn=2,nj-1
                       i=ni; j=nn; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re1p(nn)
@@ -4667,8 +4667,8 @@
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext2)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext2)) then
                   do nn=2,ni-1
                       i=nn; j=1; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re2p(nn)
@@ -4683,8 +4683,8 @@
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext3)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext3)) then
                   do nn=2,nj-1
                       i=1; j=nn; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re3p(nn)
@@ -4699,8 +4699,8 @@
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext4)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext4)) then
                   do nn=2,ni-1
                       i=nn; j=nj; k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re4p(nn)
@@ -4715,8 +4715,8 @@
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext5)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext5)) then
                   do nn=2,nk-1
                       i=ni; j=nj; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re5p(nn)
@@ -4731,8 +4731,8 @@
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%edgnext6)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%edgnext6)) then
                   do nn=2,nk-1
                       i=ni; j=1; k=nn; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       fi(ll)=dom(ib) % re6p(nn)
@@ -4783,8 +4783,8 @@
 
 !--------------------------------------------------------------------------
           do ib=1,nbp
-              if(dom(ib)%bc_west.eq.5 .or. dom(ib)%bc_east.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_west==5 .or. dom(ib)%bc_east==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -4799,9 +4799,9 @@
 !..........................................................................
 !=== West ===>
 !..........................................................................
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
 
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
               do k=1,nk
                   do j=1,nj
                       i=1;    ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -4812,7 +4812,7 @@
 
               else
               my_cor=dom(ib)%per_ip
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do j=1,nj
                       ijk=(k-1)*nj+j
@@ -4849,9 +4849,9 @@
 !..........................................................................
 !=== East ===>
 !..........................................................................
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
 
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
               do k=1,nk
                   do j=1,nj
                       i=ni; ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -4862,7 +4862,7 @@
 
               else
               my_cor=dom(ib)%per_in
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do j=1,nj
                       ijk=(k-1)*nj+j
@@ -4901,8 +4901,8 @@
 !**************************************************************************
 !**************************************************************************
           do ib=1,nbp
-              if(dom(ib)%bc_west.eq.5 .or. dom(ib)%bc_east.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_west==5 .or. dom(ib)%bc_east==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -4917,10 +4917,10 @@
 !..........................................................................
 !=== West ===>
 !..........................................................................
-              if (dom(ib)%iprev.lt.0 .and. dom(ib)%inext.ge.0) then
+              if (dom(ib)%iprev<0 .and. dom(ib)%inext>=0) then
               my_cor=dom(ib)%per_ip
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do j=1,nj
                       ijk=(k-1)*nj+j
@@ -4945,10 +4945,10 @@
 !..........................................................................
 !=== East ===>
 !..........................................................................
-              if (dom(ib)%inext.lt.0 .and. dom(ib)%iprev.ge.0) then
+              if (dom(ib)%inext<0 .and. dom(ib)%iprev>=0) then
               my_cor=dom(ib)%per_in
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
 
               do k=1,nk
                   do j=1,nj
@@ -4982,8 +4982,8 @@
 
 !--------------------------------------------------------------------------
           do ib=1,nbp
-              if(dom(ib)%bc_south.eq.5 .or. dom(ib)%bc_north.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_south==5 .or. dom(ib)%bc_north==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -4998,9 +4998,9 @@
 !..........................................................................
 !=== South ===>
 !..........................................................................
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
 
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
               do k=1,nk
                   do i=1,ni
                       j=1;    ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -5011,7 +5011,7 @@
 
               else
               my_cor=dom(ib)%per_jp
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do i=1,ni
                       ijk=(k-1)*ni+i
@@ -5049,9 +5049,9 @@
 !..........................................................................
 !=== North ===>
 !..........................................................................
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
 
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
               do k=1,nk
                   do i=1,ni
                       j=nj; ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -5062,7 +5062,7 @@
 
               else
               my_cor=dom(ib)%per_jn
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do i=1,ni
                       ijk=(k-1)*ni+i
@@ -5101,8 +5101,8 @@
 !**************************************************************************
 !**************************************************************************
           do ib=1,nbp
-              if(dom(ib)%bc_south.eq.5 .or. dom(ib)%bc_north.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_south==5 .or. dom(ib)%bc_north==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -5117,10 +5117,10 @@
 !..........................................................................
 !=== South ===>
 !..........................................................................
-              if (dom(ib)%jprev.lt.0 .and. dom(ib)%jnext.ge.0) then
+              if (dom(ib)%jprev<0 .and. dom(ib)%jnext>=0) then
               my_cor=dom(ib)%per_jp
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do k=1,nk
                   do i=1,ni
                       ijk=(k-1)*ni+i
@@ -5145,10 +5145,10 @@
 !..........................................................................
 !=== North ===>
 !..........................................................................
-              if (dom(ib)%jnext.lt.0 .and. dom(ib)%jprev.ge.0) then
+              if (dom(ib)%jnext<0 .and. dom(ib)%jprev>=0) then
               my_cor=dom(ib)%per_jn
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
 
               do k=1,nk
                   do i=1,ni
@@ -5182,8 +5182,8 @@
 
 !--------------------------------------------------------------------------
           do ib=1,nbp
-              if(dom(ib)%bc_bottom.eq.5 .or. dom(ib)%bc_top.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_bottom==5 .or. dom(ib)%bc_top==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -5198,9 +5198,9 @@
 !..........................................................................
 !=== Bottom ===>
 !..........................................................................
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
 
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
               do j=1,nj
                   do i=1,ni
                       k=1;    ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -5211,7 +5211,7 @@
 
               else
               my_cor=dom(ib)%per_kp
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do j=1,nj
                   do i=1,ni
                       ijk=(j-1)*ni+i
@@ -5250,9 +5250,9 @@
 !..........................................................................
 !=== Top ===>
 !..........................................................................
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
 
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
               do j=1,nj
                   do i=1,ni
                       k=nk; ijkc=(k-1)*ni*nj+(i-1)*nj+j+nijk
@@ -5263,7 +5263,7 @@
 
               else
               my_cor=dom(ib)%per_kn
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do j=1,nj
                   do i=1,ni
                       ijk=(j-1)*ni+i
@@ -5302,8 +5302,8 @@
 !**************************************************************************
 !**************************************************************************
           do ib=1,nbp
-              if(dom(ib)%bc_bottom.eq.5 .or. dom(ib)%bc_top.eq.5) then
-              if(g.gt.dom(ib)%ngrid) then
+              if(dom(ib)%bc_bottom==5 .or. dom(ib)%bc_top==5) then
+              if(g>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=g
@@ -5318,10 +5318,10 @@
 !..........................................................................
 !=== Bottom ===>
 !..........................................................................
-              if (dom(ib)%kprev.lt.0 .and. dom(ib)%knext.ge.0) then
+              if (dom(ib)%kprev<0 .and. dom(ib)%knext>=0) then
               my_cor=dom(ib)%per_kp
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do j=1,nj
                   do i=1,ni
                       ijk=(j-1)*ni+i
@@ -5346,10 +5346,10 @@
 !..........................................................................
 !=== Top ===>
 !..........................................................................
-              if (dom(ib)%knext.lt.0 .and. dom(ib)%kprev.ge.0) then
+              if (dom(ib)%knext<0 .and. dom(ib)%kprev>=0) then
               my_cor=dom(ib)%per_kn
 
-              if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+              if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
               do j=1,nj
                   do i=1,ni
                       ijk=(j-1)*ni+i

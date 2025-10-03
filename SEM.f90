@@ -35,7 +35,7 @@
           Do J=1,jdom
               ley(J)=ley(J-1)+ &
          NINT((ycor(iddom(J),2)-ycor(iddom(J),1))/g_dy) +1
-              IF(J.EQ.1) THEN
+              IF(J==1) THEN
               lsy(J)=1
               ELSE
               lsy(J)=ley(J-1)+1
@@ -45,7 +45,7 @@
           DO N=1,kdom
               lez(N)=lez(N-1)+ &
          NINT((zcor(iddom(N),2)-zcor(iddom(N),1))/g_dz)+1
-              IF(N.EQ.1) THEN
+              IF(N==1) THEN
               lsz(N)=1
               ELSE
               lsz(N)=lez(N-1)+1
@@ -75,7 +75,7 @@
 ![N](INTEGER) AND [ENNE](DOUBLE PRECISION) REPRESENT THE NUMBER OF EDDIES
           N = INT(NE_SEM)   ;  ENNE = REAL(N)
 
-          if(myrank.eq.0) write(6,*) 'The number of SEM eddies is :', N
+          if(myrank==0) write(6,*) 'The number of SEM eddies is :', N
 
 !  [REYNOLDS(6)] IS A VECTOR WITH THE SIX ELEMENTS OF REYNOLDS STRESSES.
 !  |REYNOLDS(1)  REYNOLDS(2)  REYNOLDS(4)|
@@ -146,7 +146,7 @@
           R(3,3) = DSQRT(REYNOLDS(6) - R(3,1)*R(3,1) - R(3,2)*R(3,2))
 !BEGINNING OF TIME ITERATIONS
           DO IT=1,ITMAX_SEM         !PARALLELIZE THIS LOOP
-              if(mod(IT,50).EQ.0) &
+              if(mod(IT,50)==0) &
          WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,'[S]'
 
 !PRINTINGS OF GLOBAL VELOCITY AND OF CONVECTION VELOCITY
@@ -172,8 +172,8 @@
 !------------BEGINNING OF EDDIES ITERATIONS
                       DO II=1,N
                           TEMP(:) = DABS(X_POINT(:) - X_EDDY(:,II))
-                          IF (TEMP(1).LT.SIGMA(IY,IZ) .AND. TEMP(2).LT.SIGMA(IY,IZ) .AND. &
-                        TEMP(3).LT.SIGMA(IY,IZ)) THEN
+                          IF (TEMP(1)<SIGMA(IY,IZ) .AND. TEMP(2)<SIGMA(IY,IZ) .AND. &
+                        TEMP(3)<SIGMA(IY,IZ)) THEN
                           Vsem(IY,IZ,:)=Vsem(IY,IZ,:)+MOLT(:,II) &
                       *(DSQRT(1.5D0)**3.0D0)*DSQRT(VOL)/DSQRT(SIGMA(IY,IZ)**3) &
                       *(1.0D0- DABS(X_POINT(:) - X_EDDY(:,II))/SIGMA(IY,IZ)) &
@@ -184,8 +184,8 @@
                       END DO
 ! Instananeous velocity=mean velocity + SEM fluctuation velocity
                       Vsem(IY,IZ,:) = Vsem(IY,IZ,:) / DSQRT(ENNE)
-                      if(Vsem(IY,IZ,1).gt.MAXVSEM) MAXVSEM=Vsem(IY,IZ,1)
-                      if(Vsem(IY,IZ,1).le.MINVSEM) MINVSEM=Vsem(IY,IZ,1)
+                      if(Vsem(IY,IZ,1)>MAXVSEM) MAXVSEM=Vsem(IY,IZ,1)
+                      if(Vsem(IY,IZ,1)<=MINVSEM) MINVSEM=Vsem(IY,IZ,1)
                   END DO
               END DO
 

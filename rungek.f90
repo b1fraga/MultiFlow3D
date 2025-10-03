@@ -434,9 +434,9 @@
                   do i=dom(ib)%isu,dom(ib)%ieu
                       do j=dom(ib)%jsu,dom(ib)%jeu
 
-                          if (dom(ib)%u(i,j,k).gt.0.0) then
+                          if (dom(ib)%u(i,j,k)>0.0) then
                           dudx = dom(ib)%dphi_dxminus(i,j,k)
-                          else if (dom(ib)%u(i,j,k).lt.0.0) then
+                          else if (dom(ib)%u(i,j,k)<0.0) then
                           dudx = dom(ib)%dphi_dxplus(i,j,k)
                           else
                           dudx = 0.0
@@ -444,9 +444,9 @@
 
                           vijk=0.25*(dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))
-                          if (vijk.gt.0.0) then
+                          if (vijk>0.0) then
                           dudy = dom(ib)%dphi_dyminus(i,j,k)
-                          else if (vijk.lt.0.0) then
+                          else if (vijk<0.0) then
                           dudy = dom(ib)%dphi_dyplus(i,j,k)
                           else
                           dudy = 0.0
@@ -454,9 +454,9 @@
 
                           wijk=0.25*(dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))
-                          if (wijk.gt.0.0) then
+                          if (wijk>0.0) then
                           dudz = dom(ib)%dphi_dzminus(i,j,k)
-                          else if (wijk.lt.0.0) then
+                          else if (wijk<0.0) then
                           dudz = dom(ib)%dphi_dzplus(i,j,k)
                           else
                           dudz = 0.0
@@ -487,17 +487,17 @@
 
                           uijk=0.25*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))
-                          if (uijk.gt.0.0) then
+                          if (uijk>0.0) then
                           dvdx = dom(ib)%dphi_dxminus(i,j,k)
-                          else if (uijk.lt.0.0) then
+                          else if (uijk<0.0) then
                           dvdx = dom(ib)%dphi_dxplus(i,j,k)
                           else
                           dvdx = 0.0
                           end if
 
-                          if (dom(ib)%v(i,j,k).gt.0.0) then
+                          if (dom(ib)%v(i,j,k)>0.0) then
                           dvdy = dom(ib)%dphi_dyminus(i,j,k)
-                          else if (dom(ib)%v(i,j,k).lt.0.0) then
+                          else if (dom(ib)%v(i,j,k)<0.0) then
                           dvdy = dom(ib)%dphi_dyplus(i,j,k)
                           else
                           dvdy = 0.0
@@ -505,9 +505,9 @@
 
                           wijk=0.25*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))
-                          if (wijk.gt.0.0) then
+                          if (wijk>0.0) then
                           dvdz = dom(ib)%dphi_dzminus(i,j,k)
-                          else if (wijk.lt.0.0) then
+                          else if (wijk<0.0) then
                           dvdz = dom(ib)%dphi_dzplus(i,j,k)
                           else
                           dvdz = 0.0
@@ -539,9 +539,9 @@
 
                           uijk=0.25*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))
-                          if (uijk.gt.0.0) then
+                          if (uijk>0.0) then
                           dwdx = dom(ib)%dphi_dxminus(i,j,k)
-                          else if (uijk.lt.0.0) then
+                          else if (uijk<0.0) then
                           dwdx = dom(ib)%dphi_dxplus(i,j,k)
                           else
                           dwdx = 0.0
@@ -549,17 +549,17 @@
 
                           vijk=0.25*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))
-                          if (vijk.gt.0.0) then
+                          if (vijk>0.0) then
                           dwdy = dom(ib)%dphi_dyminus(i,j,k)
-                          else if (vijk.lt.0.0) then
+                          else if (vijk<0.0) then
                           dwdy = dom(ib)%dphi_dyplus(i,j,k)
                           else
                           dwdy = 0.0
                           end if
 
-                          if (dom(ib)%w(i,j,k).gt.0.0) then
+                          if (dom(ib)%w(i,j,k)>0.0) then
                           dwdz = dom(ib)%dphi_dzminus(i,j,k)
-                          else if (dom(ib)%w(i,j,k).lt.0.0) then
+                          else if (dom(ib)%w(i,j,k)<0.0) then
                           dwdz = dom(ib)%dphi_dzplus(i,j,k)
                           else
                           dwdz = 0.0
@@ -619,12 +619,12 @@
                           dom(ib)%at(i,j,k)=-visc/dzz
                           dom(ib)%ab(i,j,k)=-visc/dzz
 
-                          if (dom(ib)%bc_west.ge.61)    dom(ib)%aw(is,j,k) = 0.d0
-                          if (dom(ib)%bc_east.ge.61)    dom(ib)%ae(ie,j,k) = 0.d0
-                          if (dom(ib)%bc_north.ge.61)   dom(ib)%an(i,je,k) = 0.d0
-                          if (dom(ib)%bc_south.ge.61)   dom(ib)%as(i,js,k) = 0.d0
-                          if (dom(ib)%bc_bottom.ge.61)  dom(ib)%ab(i,j,ks) = 0.d0
-                          if (dom(ib)%bc_top.ge.61)     dom(ib)%at(i,j,ke) = 0.d0
+                          if (dom(ib)%bc_west>=61)    dom(ib)%aw(is,j,k) = 0.d0
+                          if (dom(ib)%bc_east>=61)    dom(ib)%ae(ie,j,k) = 0.d0
+                          if (dom(ib)%bc_north>=61)   dom(ib)%an(i,je,k) = 0.d0
+                          if (dom(ib)%bc_south>=61)   dom(ib)%as(i,js,k) = 0.d0
+                          if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
+                          if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
                           dom(ib)%ap(i,j,k) = -1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
@@ -650,12 +650,12 @@
 
                           if (pressureforce) then
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k) .ge. 0.0) then
+                          if (dom(ib)%phi(i,j,k) >= 0.0) then
                           dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*forcn
                           endif
                           else if (L_LSMbase) then
-                          if (dom(ib)%zc(k).le.length) then
+                          if (dom(ib)%zc(k)<=length) then
                           dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                      dt*alfapr*forcn
                           endif
@@ -684,12 +684,12 @@
                           dom(ib)%at(i,j,k)=-visc/dzz
                           dom(ib)%ab(i,j,k)=-visc/dzz
 
-                          if (dom(ib)%bc_west.ge.61)    dom(ib)%aw(is,j,k) = 0.d0
-                          if (dom(ib)%bc_east.ge.61)    dom(ib)%ae(ie,j,k) = 0.d0
-                          if (dom(ib)%bc_north.ge.61)   dom(ib)%an(i,je,k) = 0.d0
-                          if (dom(ib)%bc_south.ge.61)   dom(ib)%as(i,js,k) = 0.d0
-                          if (dom(ib)%bc_bottom.ge.61)  dom(ib)%ab(i,j,ks) = 0.d0
-                          if (dom(ib)%bc_top.ge.61)     dom(ib)%at(i,j,ke) = 0.d0
+                          if (dom(ib)%bc_west>=61)    dom(ib)%aw(is,j,k) = 0.d0
+                          if (dom(ib)%bc_east>=61)    dom(ib)%ae(ie,j,k) = 0.d0
+                          if (dom(ib)%bc_north>=61)   dom(ib)%an(i,je,k) = 0.d0
+                          if (dom(ib)%bc_south>=61)   dom(ib)%as(i,js,k) = 0.d0
+                          if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
+                          if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
                           dom(ib)%ap(i,j,k) = -1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
@@ -732,12 +732,12 @@
                           dom(ib)%at(i,j,k)=-visc/dzz
                           dom(ib)%ab(i,j,k)=-visc/dzz
 
-                          if (dom(ib)%bc_west.ge.61)    dom(ib)%aw(is,j,k) = 0.d0
-                          if (dom(ib)%bc_east.ge.61)    dom(ib)%ae(ie,j,k) = 0.d0
-                          if (dom(ib)%bc_north.ge.61)   dom(ib)%an(i,je,k) = 0.d0
-                          if (dom(ib)%bc_south.ge.61)   dom(ib)%as(i,js,k) = 0.d0
-                          if (dom(ib)%bc_bottom.ge.61)  dom(ib)%ab(i,j,ks) = 0.d0
-                          if (dom(ib)%bc_top.ge.61)     dom(ib)%at(i,j,ke) = 0.d0
+                          if (dom(ib)%bc_west>=61)    dom(ib)%aw(is,j,k) = 0.d0
+                          if (dom(ib)%bc_east>=61)    dom(ib)%ae(ie,j,k) = 0.d0
+                          if (dom(ib)%bc_north>=61)   dom(ib)%an(i,je,k) = 0.d0
+                          if (dom(ib)%bc_south>=61)   dom(ib)%as(i,js,k) = 0.d0
+                          if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
+                          if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
                           dom(ib)%ap(i,j,k) = -1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
@@ -770,12 +770,12 @@
           call exchange(22)
           call exchange(33)
           call mom_buo_dens
-          elseif (LENERGY.and.(dens.ge.100)) then
+          elseif (LENERGY.and.(dens>=100)) then
           call exchange(11)
           call exchange(22)
           call exchange(33)
           call mom_buo !water
-          elseif (LENERGY.and.(dens.lt.100)) then
+          elseif (LENERGY.and.(dens<100)) then
           call exchange(11)
           call exchange(22)
           call exchange(33)

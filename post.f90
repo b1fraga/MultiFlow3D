@@ -186,12 +186,12 @@
                       do i=is-1,ie+1
 
                           tau=0.0
-                          if (i.eq.is-1) tau=dom(ib)%tauwe(j,k)
-                          if (i.eq.ie) tau=dom(ib)%tauww(j,k)
-                          if (j.eq.js-1) tau=dom(ib)%tauws(i,k)
-                          if (j.eq.je) tau=dom(ib)%tauwn(i,k)
-                          if (k.eq.ks-1) tau=dom(ib)%tauwb(i,j)
-                          if (k.eq.ke) tau=dom(ib)%tauwt(i,j)
+                          if (i==is-1) tau=dom(ib)%tauwe(j,k)
+                          if (i==ie) tau=dom(ib)%tauww(j,k)
+                          if (j==js-1) tau=dom(ib)%tauws(i,k)
+                          if (j==je) tau=dom(ib)%tauwn(i,k)
+                          if (k==ks-1) tau=dom(ib)%tauwb(i,j)
+                          if (k==ke) tau=dom(ib)%tauwt(i,j)
 
                           write (88,88) dom(ib)%x(i),dom(ib)%yc(j), &
                     dom(ib)%zc(k),dom(ib)%u(i,j,k), &
@@ -345,12 +345,12 @@
                       do i=is-1,ie
 
                           tau=0.0
-                          if (i.eq.is-1) tau=dom(ib)%tauwe(j,k)
-                          if (i.eq.ie) tau=dom(ib)%tauww(j,k)
-                          if (j.eq.js-1) tau=dom(ib)%tauws(i,k)
-                          if (j.eq.je) tau=dom(ib)%tauwn(i,k)
-                          if (k.eq.ks-1) tau=dom(ib)%tauwb(i,j)
-                          if (k.eq.ke) tau=dom(ib)%tauwt(i,j)
+                          if (i==is-1) tau=dom(ib)%tauwe(j,k)
+                          if (i==ie) tau=dom(ib)%tauww(j,k)
+                          if (j==js-1) tau=dom(ib)%tauws(i,k)
+                          if (j==je) tau=dom(ib)%tauwn(i,k)
+                          if (k==ks-1) tau=dom(ib)%tauwb(i,j)
+                          if (k==ke) tau=dom(ib)%tauwt(i,j)
 
                           u_cn  =0.25*(dom(ib)%u(i,j,k)+ &
                     dom(ib)%u(i,j+1,k)+dom(ib)%u(i,j,k+1)+ &
@@ -548,9 +548,9 @@
               write (88) pl
 !====================================================================
               inind=0; jnind=0; knind=0
-              if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) inind=-1
-              if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) jnind=-1
-              if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) knind=-1
+              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) inind=-1
+              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jnind=-1
+              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) knind=-1
               write (88) inind,jnind,knind
 !====================================================================
 

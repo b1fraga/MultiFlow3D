@@ -25,7 +25,7 @@
               prmgcj=(dom(ib)%jep-dom(ib)%jsp+3)
               prmgck=(dom(ib)%kep-dom(ib)%ksp+3)
               do glevel=2,ngrd_gl
-                  if(glevel.gt.dom(ib)%ngrid) then
+                  if(glevel>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=glevel
@@ -40,7 +40,7 @@
 
               cnt=0
               do glevel=1,ngrd_gl
-                  if(glevel.gt.dom(ib)%ngrid) then
+                  if(glevel>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=glevel
@@ -73,13 +73,13 @@
                       do  i=2,mgc_i-1
                           do j=2,mgc_j-1
 
-                              if (glevel.eq.1)  then
+                              if (glevel==1)  then
 
                               ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
                               dom(ib)%dens_mg(ijk_lsm)= &
                                dom(ib)%dens(i+pl-1,j+pl-1,k+pl-1)
-                              else if (glevel.ne.1)  then
+                              else if (glevel/=1)  then
                               ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
@@ -120,48 +120,48 @@
 
                               if (L_LSM) then! .or. L_LSMbase) then
 
-                              if (glevel.eq.1) ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+ &
+                              if (glevel==1) ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+ &
                         (i-2)*(mgc_j-2)+(j-1)
 
-                              if (glevel.ne.1) ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
+                              if (glevel/=1) ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
-                              if (i.eq.2) then
+                              if (i==2) then
                               densim12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               densim12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_j-2)))
                               end if
 
-                              if (i.eq.mgc_i-1) then
+                              if (i==mgc_i-1) then
                               densip12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               densip12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_j-2)))
                               end if
 
-                              if (j.eq.2) then
+                              if (j==2) then
                               densjm12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               densjm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-1))
                               end if
 
-                              if (j.eq.mgc_j-1) then
+                              if (j==mgc_j-1) then
                               densjp12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               densjp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+1))
                               end if
 
-                              if (k.eq.2) then
+                              if (k==2) then
                               denskm12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               denskm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_i-2)*(mgc_j-2)))
                               end if
 
-                              if (k.eq.mgc_k-1) then
+                              if (k==mgc_k-1) then
                               denskp12=dom(ib)%dens_mg(ijk_lsm)
                               else
                               denskp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
@@ -190,18 +190,18 @@
                               dom(ib)%cof(ijk+5*incr)=1.0/dzz !at
                               end if
 
-                              if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5 &
-                        .and. i.eq.2)         dom(ib)%cof(ijk)       =0.0
-                              if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5 &
-                        .and. i.eq.mgc_i-1)  dom(ib)%cof(ijk+1*incr)=0.0
-                              if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5 &
-                        .and. j.eq.2)         dom(ib)%cof(ijk+2*incr)=0.0
-                              if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5 &
-                        .and. j.eq.mgc_j-1)  dom(ib)%cof(ijk+3*incr)=0.0
-                              if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5 &
-                        .and. k.eq.2)         dom(ib)%cof(ijk+4*incr)=0.0
-                              if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5 &
-                        .and. k.eq.mgc_k-1)  dom(ib)%cof(ijk+5*incr)=0.0
+                              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5 &
+                        .and. i==2)         dom(ib)%cof(ijk)       =0.0
+                              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5 &
+                        .and. i==mgc_i-1)  dom(ib)%cof(ijk+1*incr)=0.0
+                              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5 &
+                        .and. j==2)         dom(ib)%cof(ijk+2*incr)=0.0
+                              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5 &
+                        .and. j==mgc_j-1)  dom(ib)%cof(ijk+3*incr)=0.0
+                              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5 &
+                        .and. k==2)         dom(ib)%cof(ijk+4*incr)=0.0
+                              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5 &
+                        .and. k==mgc_k-1)  dom(ib)%cof(ijk+5*incr)=0.0
 
                               dom(ib)%cof(ijk+6*incr)=-1.0*(dom(ib)%cof(ijk)+ &
                         dom(ib)%cof(ijk+1*incr)+dom(ib)%cof(ijk+2*incr)+ &
@@ -274,7 +274,7 @@
           call mgrelax(1,irestr)
 
 ! if at coarsest level, post-relax
-          if (ngrd_gl.eq.1) goto 5
+          if (ngrd_gl==1) goto 5
 
 ! calculate residual and restrict it to ngrid-1
 ! (note: the residuals are stored in the memory space used by the
@@ -294,7 +294,7 @@
    10     continue
 
 ! post-relax when kcur revisited
-          if (glevel.eq.1) goto 5
+          if (glevel==1) goto 5
 
 ! count "hit" at current level
           kount(glevel)=kount(glevel)+1
@@ -303,7 +303,7 @@
           call mgrelax(glevel,nrel)
 
 
-          if (kount(glevel).eq.(kcycle+1)) then
+          if (kount(glevel)==(kcycle+1)) then
 
 ! K-cycle(iprer,ipost) complete at glevel
 ! inject correction to finer grid
@@ -320,7 +320,7 @@
           else
 
 ! K-cycle not complete so descend unless at coarsest
-          if (glevel.lt.ngrd_gl) then
+          if (glevel<ngrd_gl) then
           call mgrestr(glevel+1) !send coarser grid level
 
 ! pre-relax at next coarser level
@@ -386,7 +386,7 @@
 
               do ib=1,nbp
 
-                  if(glevel.gt.dom(ib)%ngrid) then
+                  if(glevel>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=glevel
@@ -401,7 +401,7 @@
 
                   incr=(ni-2)*(nj-2)*(nk-2)
 
-                  if(mg_itrsch.eq.1) then
+                  if(mg_itrsch==1) then
                   do k=2,nk-1
                       do j=2,nj-1
                           do  i=2,ni-1
@@ -428,7 +428,7 @@
                       end do
                   end do
 
-                  else if(mg_itrsch.eq.2) then
+                  else if(mg_itrsch==2) then
 
                   a=0.0
                   c=0.0
@@ -545,12 +545,12 @@
                       end do
                   end do
 
-                  else if(mg_itrsch.eq.3) then
+                  else if(mg_itrsch==3) then
 
                   do k=2,nk-1
                       do j=2,nj-1
                           do  i=2,ni-1
-                              if (MOD(i+j+k,2).eq.0) then
+                              if (MOD(i+j+k,2)==0) then
                               ijkphi=(k-1)*nij+(i-1)*nj+j+dom(ib)%faz(glevel)-nijk
                               ijkw=dom(ib)%faz(glevel)+(k-2)*nij2+(i-2)*(nj-2)+(j-1)
                               ijke=ijkw+1*incr
@@ -577,7 +577,7 @@
                   do k=2,nk-1
                       do j=2,nj-1
                           do  i=2,ni-1
-                              if (MOD(i+j+k,2).eq.1) then
+                              if (MOD(i+j+k,2)==1) then
                               ijkphi=(k-1)*nij+(i-1)*nj+j+dom(ib)%faz(glevel)-nijk
                               ijkw=dom(ib)%faz(glevel)+(k-2)*nij2+(i-2)*(nj-2)+(j-1)
                               ijke=ijkw+1*incr
@@ -633,7 +633,7 @@
 
           do ib=1,nbp
 
-              if(glevel.gt.dom(ib)%ngrid) then
+              if(glevel>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=glevel
@@ -668,7 +668,7 @@
               end do
 
 ! calbculate residual for fine grid
-              if(glevel.gt.dom(ib)%ngrid) then
+              if(glevel>dom(ib)%ngrid) then
               nif=nic
               njf=njc
               nkf=nkc
@@ -717,7 +717,7 @@
 ! if there is no coarsifying in one direction, only 2 points are
 ! used; no exchange of boundary data is necessary
 
-              if(glevel.gt.dom(ib)%ngrid) then
+              if(glevel>dom(ib)%ngrid) then
 
               do  k=2,nkc-1
                   do  i=2,nic-1
@@ -774,7 +774,7 @@
 
           do ib=1,nbp
 
-              if(glevel.gt.dom(ib)%ngrid) then
+              if(glevel>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=glevel
@@ -788,7 +788,7 @@
               nijkf=nif*njf*nkf
 
 ! calculate nodes for coarser grid
-              if(glevel.ge.dom(ib)%ngrid) then
+              if(glevel>=dom(ib)%ngrid) then
               nic=nif
               njc=njf
               nkc=nkf
@@ -805,7 +805,7 @@
 ! or four points at the coarser grid level depending on whether
 ! coarsifying takes place in all directions or not
 
-              if(glevel.ge.dom(ib)%ngrid) then
+              if(glevel>=dom(ib)%ngrid) then
               do  kc=1,nkc
                   do  ic=1,nic
                       do jc=1,njc
@@ -916,7 +916,7 @@
 
           do ib=1,nbp
 
-              if(glevel.gt.dom(ib)%ngrid) then
+              if(glevel>dom(ib)%ngrid) then
               gl=dom(ib)%ngrid
               else
               gl=glevel
@@ -929,7 +929,7 @@
               nijk=ni*nj*nk
 
 !...................... west and east............................
-              if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) then
+              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
               do k=1,nk
                   do j=1,nj
                       i=1
@@ -938,7 +938,7 @@
                   end do
               end do
               end if
-              if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) then
+              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
               do k=1,nk
                   do j=1,nj
                       i=ni
@@ -948,7 +948,7 @@
               end do
               end if
 !.....................south and north.........................
-              if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) then
+              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
               do k=1,nk
                   do i=1,ni
                       j=1
@@ -957,7 +957,7 @@
                   end do
               end do
               end if
-              if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) then
+              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
               do k=1,nk
                   do i=1,ni
                       j=nj
@@ -967,7 +967,7 @@
               end do
               end if
 !.....................bottom and top.........................
-              if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) then
+              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
               do j=1,nj
                   do i=1,ni
                       k=1
@@ -976,7 +976,7 @@
                   end do
               end do
               end if
-              if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) then
+              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
               do j=1,nj
                   do i=1,ni
                       k=nk

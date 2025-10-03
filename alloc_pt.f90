@@ -38,14 +38,14 @@
               IF (Lcolwall) then
 
               !================================== collision at wall ========================================
-              if (yp_pt(l).lt.yst) then
+              if (yp_pt(l)<yst) then
               yp_pt(l)=yst+dp_pt(l)
-              elseif (yp_pt(l).gt.yen) then
+              elseif (yp_pt(l)>yen) then
               yp_pt(l)=yen-dp_pt(l)
               endif
-              if (zp_pt(l).lt.zst) then
+              if (zp_pt(l)<zst) then
               zp_pt(l)=zst+dp_pt(l)
-              elseif (zp_pt(l).gt.zen) then
+              elseif (zp_pt(l)>zen) then
               zp_pt(l)=zen-dp_pt(l)
               endif
 ! =============================================================================================
@@ -54,17 +54,17 @@
 
 !     Comprobar si permanece en el dominio
               if (PERIODIC) then
-              if ((xp_pt(l).le.xst).or.(xp_pt(l) &
+              if ((xp_pt(l)<=xst).or.(xp_pt(l) &
         .ge.xen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((yp_pt(l).le.yst).or.(yp_pt(l) &
+              elseif ((yp_pt(l)<=yst).or.(yp_pt(l) &
         .ge.yen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((zp_pt(l).lt.zst).or.(zp_pt(l) &
+              elseif ((zp_pt(l)<zst).or.(zp_pt(l) &
         .ge.zen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
@@ -72,17 +72,17 @@
               end if
 
               else
-              if ((xp_pt(l).le.xst).or.(xp_pt(l) &
+              if ((xp_pt(l)<=xst).or.(xp_pt(l) &
         .ge.xen-g_dx)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((yp_pt(l).le.yst).or.(yp_pt(l) &
+              elseif ((yp_pt(l)<=yst).or.(yp_pt(l) &
         .ge.yen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((zp_pt(l).lt.zst).or.(zp_pt(l) &
+              elseif ((zp_pt(l)<zst).or.(zp_pt(l) &
         .ge.zen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
@@ -108,7 +108,7 @@
 
           np = np - out_cnt
 
-          if (out_cnt.gt.0) then
+          if (out_cnt>0) then
           write(202,*) ntime,'Removing',out_cnt,'particles' &
     ,'. Total remaining:',np
           endif
@@ -211,7 +211,7 @@
               read(15,*)
               read(15,*) tsnr
               read(15,*) ptnr
-              if ((tsnr.gt.0).and.(mod(itime,tsnr).eq.0)) then
+              if ((tsnr>0).and.(mod(itime,tsnr)==0)) then
               np=np+ptnr
               write(202,*) ntime,'Releasing',ptnr,'new particles ', &
         'within fraction',f
@@ -290,14 +290,14 @@
               if (random) read(35,*)xp,yp,zp,uop,vop,wop
 
               do l=frac1,frac_end
-                  if ((tsnr.gt.0).and.(mod(itime,tsnr).eq.0)) then
+                  if ((tsnr>0).and.(mod(itime,tsnr)==0)) then
 
                   if (random) then                                      !location
 
                   mindis=1.1*Dp
                   dist=0
 
-                  do while (dist.lt.mindis)                             !avoiding overlap
+                  do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
                       if (.not.LSPHERICAL) then !default cube release
                       xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
@@ -308,7 +308,7 @@
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
                       endif
                       do m=frac1,l
-                          if (l.ne.m) then
+                          if (l/=m) then
                           distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l) &
                     -yp_pt(m))**2+(zp_pt(l)-zp_pt(m))**2)
                           else
@@ -340,7 +340,7 @@
                   endif                                                 !tsnr
               enddo                                                       !particles
 
-              if ((tsnr.gt.0).and.(mod(itime,tsnr).eq.0)) frac1=frac1+ptnr
+              if ((tsnr>0).and.(mod(itime,tsnr)==0)) frac1=frac1+ptnr
 
           enddo                                                             !loop in fracs
 
@@ -362,9 +362,9 @@
           do l=1,np
 
 !     Comprobar si permanece en el dominio
-              if (xp_pt(l).lt.xst) then
+              if (xp_pt(l)<xst) then
               xp_pt(l)=xp_pt(l)+(xen-xst)                     !bubble comes back at the top (unlikely)
-              elseif(xp_pt(l).gt.xen) then
+              elseif(xp_pt(l)>xen) then
               xp_pt(l)=xp_pt(l)-(xen-xst)                     !bubble comes back at the bottom (likely)
               endif
 !       if (yp_pt(l).lt.yst) then

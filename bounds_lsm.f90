@@ -31,7 +31,7 @@
 !..... Boundary Conditions for PHI, zero gradient..
 !
 !=== EAST ===
-              IF (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) THEN
+              IF (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) THEN
               DO k = dom(ib)%ksp-pl, dom(ib)%kep+pl
                   DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                       DO ipl = 1,pl
@@ -42,7 +42,7 @@
               END IF
 !
 !=== WEST ===
-              IF (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) THEN
+              IF (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) THEN
               DO k = dom(ib)%ksp-pl, dom(ib)%kep+pl
                   DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                       DO ipl = 1,pl
@@ -53,7 +53,7 @@
               END IF
 !
 !=== BOTTOM ===
-              IF (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) THEN
+              IF (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) THEN
               DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
@@ -64,7 +64,7 @@
               END IF
 !
 !=== TOP ===
-              IF (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) THEN
+              IF (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) THEN
               DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
@@ -75,7 +75,7 @@
               END IF
 !
 !=== SOUTH ===
-              IF (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) THEN
+              IF (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) THEN
               DO k = dom(ib)%ksp-pl, dom(ib)%kep+pl
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
@@ -86,7 +86,7 @@
               END IF
 !
 !=== NORTH ===
-              IF (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) THEN
+              IF (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) THEN
               DO k = dom(ib)%ksp-pl, dom(ib)%kep+pl
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 0,pl

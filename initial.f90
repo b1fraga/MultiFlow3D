@@ -32,7 +32,7 @@
           read (12,*) bc_n
           read (12,*) bc_b
           read (12,*) bc_t
-          if (bc_w.eq.5) pressureforce=.TRUE.
+          if (bc_w==5) pressureforce=.TRUE.
           read (12,*) L_n,fric
           read (12,*) save_inflow,ITMAX_PI
           read (12,*)
@@ -76,7 +76,7 @@
 
           if (.not.LPT) np=0
 
-          if (trim(L_n).eq.'n') fric=fric**0.33
+          if (trim(L_n)=='n') fric=fric**0.33
 
 !        if(bc_w.eq.5 .or. bc_e.eq.5 .or.
 !     & bc_s.eq.5 .or. bc_n.eq.5 .or.
@@ -100,7 +100,7 @@
               dom(ib)%Tbc_bottom=Tbc_b
               dom(ib)%Tbc_top=Tbc_t
               dom(ib)%ngrid=ngrid_input
-              if (dom(ib)%bc_west.eq.7) read_inflow=.true.
+              if (dom(ib)%bc_west==7) read_inflow=.true.
           end do
 
 !        if(solver.eq.2 .and. LMR.eq.2) then
@@ -109,27 +109,27 @@
 !           stop
 !        end if
 
-          if(differencing.eq.3 .and. pl_ex.ne.2) then
+          if(differencing==3 .and. pl_ex/=2) then
           pl_ex=2
           print*,'error: you select WENO but do not assign', &
     '  correct number of ghost planes,now it is corrected to 2'
           end if
 
-          if(SGS .and. sgs_model.eq.3 .and. pl_ex.ne.2) then
+          if(SGS .and. sgs_model==3 .and. pl_ex/=2) then
           pl_ex=2
           print*,'error: you select 1-EQN model but do not assign', &
     '  correct number of ghost planes,now it is corrected to 2'
           end if
 
-          if (L_LSM .and. solver.eq.1) then
-          if (myrank.eq.0) then
+          if (L_LSM .and. solver==1) then
+          if (myrank==0) then
           print*,'Error: SIP solver not presently compatible with LSM'
           endif
           stop
           endif
 
-          if (L_LSM .and. differencing.ne.3) then
-          if (myrank.eq.0) then
+          if (L_LSM .and. differencing/=3) then
+          if (myrank==0) then
           print*,'Error: WENO differencing must be used with LSM'
           endif
           stop
@@ -203,7 +203,7 @@
               allocate(dom(ib)%dens(tti,ttj,ttk))
               allocate (dom(ib)%vis(tti,ttj,ttk))
 
-              if (sgs_model.eq.4) then
+              if (sgs_model==4) then
               allocate(dom(ib)%ksgs(tti,ttj,ttk))
               allocate(dom(ib)%ksgso(tti,ttj,ttk))
               allocate(dom(ib)%eps(tti,ttj,ttk))
@@ -225,7 +225,7 @@
               allocate(dom(ib)%mu(tti,ttj,ttk))
               endif
               if (LAS)   allocate(dom(ib)%mu(tti,ttj,ttk))
-              if (differencing.eq.3) allocate(dom(ib)%d1(tti,ttj,ttk), &
+              if (differencing==3) allocate(dom(ib)%d1(tti,ttj,ttk), &
         dom(ib)%dphi_dxplus(tti,ttj,ttk), &
         dom(ib)%dphi_dxminus(tti,ttj,ttk), &
         dom(ib)%dphi_dyplus(tti,ttj,ttk), &
@@ -246,7 +246,7 @@
               allocate (dom(ib)%tauwt2(tti,ttj))
               allocate (dom(ib)%tauwb2(tti,ttj))
 
-              if(solver.eq.2) then
+              if(solver==2) then
               allocate (dom(ib)%faz(ngrd_gl))
               end if
 
@@ -313,35 +313,35 @@
                   dom(ib)%zc(i)=dom(ib)%z(i)-0.5*dom(ib)%dz
               end do
 
-              if (dom(ib)%inext.ge.0) then
-              if(abs(dom(ib)%x(dom(ib)%iep)-dom(ib)%xel).gt.1e-5) then
+              if (dom(ib)%inext>=0) then
+              if(abs(dom(ib)%x(dom(ib)%iep)-dom(ib)%xel)>1e-5) then
               print*,'mycpu#:',myrank,' error-11'
               stop
               end if
               end if
 
-              if (dom(ib)%jnext.ge.0) then
-              if(abs(dom(ib)%y(dom(ib)%jep)-dom(ib)%yel).gt.1e-5) then
+              if (dom(ib)%jnext>=0) then
+              if(abs(dom(ib)%y(dom(ib)%jep)-dom(ib)%yel)>1e-5) then
               print*,'mycpu#:',myrank,' error-12'
               stop
               end if
               end if
 
-              if (dom(ib)%knext.ge.0) then
-              if(abs(dom(ib)%z(dom(ib)%kep)-dom(ib)%zel).gt.1e-5) then
+              if (dom(ib)%knext>=0) then
+              if(abs(dom(ib)%z(dom(ib)%kep)-dom(ib)%zel)>1e-5) then
               print*,'mycpu#:',myrank,' error-13'
               stop
               end if
               end if
 
-              if(solver.eq.2 .and. ngrd_gl.ge.2) then
+              if(solver==2 .and. ngrd_gl>=2) then
 
               is=dom(ib)%isp; ie=dom(ib)%iep
               js=dom(ib)%jsp; je=dom(ib)%jep
               ks=dom(ib)%ksp; ke=dom(ib)%kep
 
               do glevel=2,ngrd_gl
-                  if(glevel.gt.dom(ib)%ngrid) then
+                  if(glevel>dom(ib)%ngrid) then
                   gl=dom(ib)%ngrid
                   else
                   gl=glevel
@@ -358,9 +358,9 @@
                   nwyend=dom(ib)%y(dom(ib)%jsp-1)+ndy*(mgc_j-2)
                   nwzend=dom(ib)%z(dom(ib)%ksp-1)+ndz*(mgc_k-2)
 
-                  if((abs(dom(ib)%x(dom(ib)%iep)-nwxend).gt.1e-8) &
-            .or.(abs(dom(ib)%y(dom(ib)%jep)-nwyend).gt.1e-8) &
-            .or.(abs(dom(ib)%z(dom(ib)%kep)-nwzend).gt.1e-8)) then
+                  if((abs(dom(ib)%x(dom(ib)%iep)-nwxend)>1e-8) &
+            .or.(abs(dom(ib)%y(dom(ib)%jep)-nwyend)>1e-8) &
+            .or.(abs(dom(ib)%z(dom(ib)%kep)-nwzend)>1e-8)) then
                   print*,'==ERROR==> in multigrid: max ngrid value'
                   stop
                   end if
@@ -391,12 +391,12 @@
               jspr=pl+1; jepr=dom(ib)%ttc_j-pl
               kspr=pl+1; kepr=dom(ib)%ttc_k-pl
 
-              if(dom(ib)%iprev.lt.0) then
-              if (dom(ib)%bc_west.lt.61 .and. dom(ib)%bc_west.ne.4) then
+              if(dom(ib)%iprev<0) then
+              if (dom(ib)%bc_west<61 .and. dom(ib)%bc_west/=4) then
               do j=jspr,jepr
                   do k=kspr,kepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(dom(ib)%isu-1,j,k) .ge. 0.0) then
+                      if (dom(ib)%phi(dom(ib)%isu-1,j,k) >= 0.0) then
                       flomas=flomas+dom(ib)%u(dom(ib)%isu-1,j,k)* &
                 dom(ib)%dy*dom(ib)%dz
                       end if
@@ -409,12 +409,12 @@
               endif
               end if
 
-              if(dom(ib)%jprev.lt.0) then
-              if (dom(ib)%bc_south.lt.61 .and. dom(ib)%bc_south.ne.4) then
+              if(dom(ib)%jprev<0) then
+              if (dom(ib)%bc_south<61 .and. dom(ib)%bc_south/=4) then
               do k=kspr,kepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,dom(ib)%jsv-1,k) .ge. 0.0) then
+                      if (dom(ib)%phi(i,dom(ib)%jsv-1,k) >= 0.0) then
                       flomas=flomas+dom(ib)%v(i,dom(ib)%jsv-1,k)* &
                 dom(ib)%dx*dom(ib)%dz
                       end if
@@ -427,12 +427,12 @@
               endif
               end if
 
-              if(dom(ib)%kprev.lt.0) then
-              if (dom(ib)%bc_bottom.lt.61.and.dom(ib)%bc_bottom.ne.4) then
+              if(dom(ib)%kprev<0) then
+              if (dom(ib)%bc_bottom<61.and.dom(ib)%bc_bottom/=4) then
               do j=jspr,jepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,j,dom(ib)%ksw-1) .ge. 0.0) then
+                      if (dom(ib)%phi(i,j,dom(ib)%ksw-1) >= 0.0) then
                       flomas=flomas+dom(ib)%w(i,j,dom(ib)%ksw-1)* &
                 dom(ib)%dx*dom(ib)%dy
                       end if
@@ -471,12 +471,12 @@
               jspr=pl+1; jepr=dom(ib)%ttc_j-pl
               kspr=pl+1; kepr=dom(ib)%ttc_k-pl
 
-              if(dom(ib)%inext.lt.0) then
-              if (dom(ib)%bc_east.lt.61 .and. dom(ib)%bc_east.ne.4) then
+              if(dom(ib)%inext<0) then
+              if (dom(ib)%bc_east<61 .and. dom(ib)%bc_east/=4) then
               do j=jspr,jepr
                   do k=kspr,kepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(dom(ib)%ieu+1,j,k) .ge. 0.0) then
+                      if (dom(ib)%phi(dom(ib)%ieu+1,j,k) >= 0.0) then
                       fmout=fmout+dom(ib)%u(dom(ib)%ieu+1,j,k)* &
                 dom(ib)%dy*dom(ib)%dz
                       end if
@@ -489,12 +489,12 @@
               endif
               end if
 
-              if(dom(ib)%jnext.lt.0) then
-              if (dom(ib)%bc_north.lt.61 .and. dom(ib)%bc_north.ne.4) then
+              if(dom(ib)%jnext<0) then
+              if (dom(ib)%bc_north<61 .and. dom(ib)%bc_north/=4) then
               do k=kspr,kepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,dom(ib)%jev+1,k) .ge. 0.0) then
+                      if (dom(ib)%phi(i,dom(ib)%jev+1,k) >= 0.0) then
                       fmout=fmout+dom(ib)%v(i,dom(ib)%jev+1,k)* &
                 dom(ib)%dx*dom(ib)%dz
                       end if
@@ -507,12 +507,12 @@
               endif
               end if
 
-              if(dom(ib)%knext.lt.0) then
-              if (dom(ib)%bc_top.lt.61 .and. dom(ib)%bc_top.ne.4) then
+              if(dom(ib)%knext<0) then
+              if (dom(ib)%bc_top<61 .and. dom(ib)%bc_top/=4) then
               do j=jspr,jepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,j,dom(ib)%kew+1) .ge. 0.0) then
+                      if (dom(ib)%phi(i,j,dom(ib)%kew+1) >= 0.0) then
                       fmout=fmout+dom(ib)%w(i,j,dom(ib)%kew+1)* &
                 dom(ib)%dx*dom(ib)%dy
                       end if
@@ -535,8 +535,8 @@
           Mdef=flomas-fmout
 
           do ib=1,nbp
-              if(dom(ib)%inext.lt.0) then
-              if (dom(ib)%bc_east.lt.61 .and. dom(ib)%bc_east.ne.4) then
+              if(dom(ib)%inext<0) then
+              if (dom(ib)%bc_east<61 .and. dom(ib)%bc_east/=4) then
               do j=dom(ib)%jsu,dom(ib)%jeu
                   do k=dom(ib)%ksu,dom(ib)%keu
                       dom(ib)%u(dom(ib)%ieu+1,j,k)= &
@@ -560,8 +560,8 @@
               endif
               end if
 
-              if(dom(ib)%jnext.lt.0) then
-              if (dom(ib)%bc_north.lt.61 .and. dom(ib)%bc_north.ne.4) then
+              if(dom(ib)%jnext<0) then
+              if (dom(ib)%bc_north<61 .and. dom(ib)%bc_north/=4) then
               do i=dom(ib)%isu,dom(ib)%ieu
                   do k=dom(ib)%ksu,dom(ib)%keu
                       dom(ib)%u(i,dom(ib)%jeu+1,k)= &
@@ -585,8 +585,8 @@
               endif
               end if
 
-              if(dom(ib)%knext.lt.0) then
-              if (dom(ib)%bc_top.lt.61 .and. dom(ib)%bc_top.ne.4) then
+              if(dom(ib)%knext<0) then
+              if (dom(ib)%bc_top<61 .and. dom(ib)%bc_top/=4) then
               do i=dom(ib)%isu,dom(ib)%ieu
                   do j=dom(ib)%jsu,dom(ib)%jeu
                       dom(ib)%u(i,j,dom(ib)%keu+1)= &
@@ -661,7 +661,7 @@
               read (700) pll
               read (700) inind,jnind,knind
 
-              if(pll.ne.pl .and. myrank.eq.0) then
+              if(pll/=pl .and. myrank==0) then
               print*,'&*&* different number of overlapping layers!!',pl,pll
               write(numfile,*) '&*&* different number of overlapping layers!!'
               stop
@@ -792,23 +792,23 @@
               dom(ib)%tauwb  = 0.0; dom(ib)%tauwb2  = 0.0
               dom(ib)%tauwt  = 0.0; dom(ib)%tauwt2  = 0.0
 
-              if (sgs_model.gt.2) then
+              if (sgs_model>2) then
               dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1)**2.0
               dom(ib)%eps  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
               dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1)**2.0
               dom(ib)%epso  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
               endif
 
-              if (trim(keyword).eq.'channel') then
+              if (trim(keyword)=='channel') then
               if (.not.L_LSM) dom(ib)%u=ubulk
               ubw=ubulk; ube=ubulk; ubs=ubulk               !brunho2014
               ubn=ubulk; ubt=ubulk; ubb=ubulk
               vb=0.0; wb=0.0
-              else if (trim(keyword).eq.'cavity') then
+              else if (trim(keyword)=='cavity') then
               dom(ib)%u=0.0
               ubw=0.0; ube=0.0; ubs=0.0; ubn=2.0; ubt=0.0; ubb=0.0
               vb=0.0; wb=0.0
-              else if (trim(keyword).eq.'column') then
+              else if (trim(keyword)=='column') then
               dom(ib)%u=0.0
               ubw=0.0; ube=0.0; ubs=0.0; ubn=0.0; ubt=0.0; ubb=0.0
               vb=0.0; wb=0.0
@@ -817,11 +817,11 @@
               end if
 
 !..............U=> West and East ...............
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
               do k=1,ttk
                   do j=1,ttj
                       if (L_LSM) then                                        !I deleted 'or LSM_BASE'
-                      if (dom(ib)%zc(k).gt.length) then
+                      if (dom(ib)%zc(k)>length) then
                       dom(ib)%u(dom(ib)%isu-1,j,k) = 0.0
                       end if
                       else
@@ -830,11 +830,11 @@
                   end do
               end do
               end if
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
               do k=1,ttk
                   do j=1,ttj
                       if (L_LSM) then
-                      if (dom(ib)%zc(k).gt.length) then
+                      if (dom(ib)%zc(k)>length) then
                       dom(ib)%u(dom(ib)%ieu+1,j,k) = 0.0
                       end if
                       else
@@ -844,11 +844,11 @@
               end do
               end if
 !.............U=> South and North .................
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
               do k=1,ttk
                   do i=1,tti
                       if (L_LSM) then
-                      if (dom(ib)%zc(k).gt.length) then
+                      if (dom(ib)%zc(k)>length) then
                       dom(ib)%u(i,dom(ib)%jsu-1,k) = 0.0
                       end if
                       else
@@ -857,11 +857,11 @@
                   end do
               end do
               end if
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
               do k=1,ttk
                   do i=1,tti
                       if (L_LSM) then
-                      if (dom(ib)%zc(k).gt.length) then
+                      if (dom(ib)%zc(k)>length) then
                       dom(ib)%u(i,dom(ib)%jeu+1,k) = 0.0
                       end if
                       else
@@ -871,14 +871,14 @@
               end do
               end if
 !.............U=> Bottom and Top .................
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
               do j=1,ttj
                   do i=1,tti
                       dom(ib)%u(i,j,dom(ib)%ksu-1) = ubb
                   end do
               end do
               end if
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
               do j=1,ttj
                   do i=1,tti
                       if (L_LSM) then
@@ -890,14 +890,14 @@
               end do
               end if
 !........... V=> West and East ....................
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
               do k=1,ttk
                   do j=1,ttj
                       dom(ib)%v(dom(ib)%isv-1,j,k)    = vb
                   end do
               end do
               end if
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
               do k=1,ttk
                   do j=1,ttj
                       dom(ib)%v(dom(ib)%iev+1,j,k)  = vb
@@ -905,14 +905,14 @@
               end do
               end if
 !............V=> South and North ....................
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
               do k=1,ttk
                   do i=1,tti
                       dom(ib)%v(i,dom(ib)%jsv-1,k)    = vb
                   end do
               end do
               end if
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
               do k=1,ttk
                   do i=1,tti
                       dom(ib)%v(i,dom(ib)%jev+1,k)  = vb
@@ -920,14 +920,14 @@
               end do
               end if
 !.............V=> Bottom and Top .................
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
               do j=1,ttj
                   do i=1,tti
                       dom(ib)%v(i,j,dom(ib)%ksv-1)    = vb
                   end do
               end do
               end if
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
               do j=1,ttj
                   do i=1,tti
                       dom(ib)%v(i,j,dom(ib)%kev+1)  = vb
@@ -935,14 +935,14 @@
               end do
               end if
 !........... W=> West and East ....................
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
               do k=1,ttk
                   do j=1,ttj
                       dom(ib)%w(dom(ib)%isw-1,j,k)    = wb
                   end do
               end do
               end if
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
               do k=1,ttk
                   do j=1,ttj
                       dom(ib)%w(dom(ib)%iew+1,j,k)  = wb
@@ -950,14 +950,14 @@
               end do
               end if
 !............W=> South and North ....................
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
               do k=1,ttk
                   do i=1,tti
                       dom(ib)%w(i,dom(ib)%jsw-1,k)    = wb
                   end do
               end do
               end if
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
               do k=1,ttk
                   do i=1,tti
                       dom(ib)%w(i,dom(ib)%jew+1,k)  = wb
@@ -965,14 +965,14 @@
               end do
               end if
 !.............W=> Bottom and Top .................
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
               do j=1,ttj
                   do i=1,tti
                       dom(ib)%w(i,j,dom(ib)%ksw-1)    = wb
                   end do
               end do
               end if
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
               do j=1,ttj
                   do i=1,tti
                       dom(ib)%w(i,j,dom(ib)%kew+1)  = wb
@@ -983,11 +983,11 @@
 
 !.######### U=> When power law inlet condition, 7 Dic 2015 .##########
 !          IF (dom(ib)%bc_west.eq.12 .or. UPROF_SEM.eq.12) THEN
-              IF (dom(ib)%bc_west.eq.12) THEN
+              IF (dom(ib)%bc_west==12) THEN
               do i = dom(ib)%isu-1,dom(ib)%ieu+1
                   do j = dom(ib)%jsu-1,dom(ib)%jeu+1
                       do k = dom(ib)%ksu-1,dom(ib)%keu+1
-                          if (dom(ib)%yc(j).lt.((yen-yst)/2)) then
+                          if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(i,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.d0/7.d0)
                           else
@@ -999,11 +999,11 @@
                       enddo ; end do ;  end do
               END IF
 !.######### U=> When power law inlet condition, 7 Dic 2015 .##########
-              IF (dom(ib)%bc_west.eq.13) THEN
+              IF (dom(ib)%bc_west==13) THEN
               do i = dom(ib)%isu-1,dom(ib)%ieu+1
                   do j = dom(ib)%jsu-1,dom(ib)%jeu+1
                       do k = dom(ib)%ksu-1,dom(ib)%keu+1
-                          if (dom(ib)%yc(j).lt.((yen-yst)/2)) then
+                          if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(i,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1.d0/7.d0)
                           else
@@ -1019,7 +1019,7 @@
 
               jtime=itime_end-ntime
 
-              if (ntime*dt.lt.t_start_averaging2) then
+              if (ntime*dt<t_start_averaging2) then
               jtime=itime_end-INT(t_start_averaging2/dt)+1
               endif
 
@@ -1040,7 +1040,7 @@
 
 !.################################################
 !.###########  Synthetic Eddy Method, 14 Dic 2015    ##########
-          IF (bc_w.eq.8 .and. myrank.eq.0) then
+          IF (bc_w==8 .and. myrank==0) then
           print*,'Writing the SEM inlet'
           call SEM  !Generate the files for the inlet turbulent field
           print*,'Finish the SEM inlet'

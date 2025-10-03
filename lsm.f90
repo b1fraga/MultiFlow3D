@@ -23,7 +23,7 @@
           close(13)
 !WARNINGS
           if (L_LSMinit .and. (L_anim_phi .or. L_anim_grd)) then
-          if (myrank.eq.0) then
+          if (myrank==0) then
           print*,'Error: not possible to output animation files', &
     '  for LSM_init run!'
           endif
@@ -31,28 +31,28 @@
           endif
 
           if (L_LSMbase .and. L_LSMinit) then
-          if (myrank.eq.0) then
+          if (myrank==0) then
           print*,'Error: L_LSMbase and L_LSMinit cannot both be true!'
           endif
           stop
           endif
 
           if (L_LSMbase .and. L_LSM) then
-          if (myrank.eq.0) then
+          if (myrank==0) then
           print*,'Error: L_LSMbase and L_LSM cannot both be true!'
           endif
           stop
           endif
 
           if (L_LSMinit .and. (.not.L_LSM)) then
-          if (myrank.eq.0) then
+          if (myrank==0) then
           print*,'Error: L_LSMinit cannot be true if L_LSM is false!'
           endif
           stop
           endif
 
           if (L_anim_phi .and. (.not.L_LSM)) then
-          if (myrank.eq.0) then
+          if (myrank==0) then
           print*,'Error: L_anim_phi cannot be true if L_LSM is false!'
           endif
           stop
@@ -77,7 +77,7 @@
           do k=2,ttk
               do j=1,ttj
                   do i=1,tti
-                      if (dom(ib)%z(k-1).le.length) then
+                      if (dom(ib)%z(k-1)<=length) then
                       dom(ib)%u(i,j,k)=Ubulk
                       dom(ib)%uo(i,j,k)=Ubulk
                       dom(ib)%uoo(i,j,k)=Ubulk
@@ -93,7 +93,7 @@
           do k=2,ttk
               do j=1,ttj
                   do i=1,tti
-                      if (dom(ib)%phi(i,j,k).ge.0.0) then
+                      if (dom(ib)%phi(i,j,k)>=0.0) then
                       dom(ib)%u(i,j,k)=Ubulk
                       dom(ib)%uo(i,j,k)=Ubulk
                       dom(ib)%uoo(i,j,k)=Ubulk
@@ -311,10 +311,10 @@
                   do i=dom(ib)%isp,dom(ib)%iep
                       do j=dom(ib)%jsp,dom(ib)%jep
 
-                          if (i.eq.dom(ib)%isp) then
+                          if (i==dom(ib)%isp) then
                           uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
                                   5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
-                          else if (i.eq.dom(ib)%iep) then
+                          else if (i==dom(ib)%iep) then
                           uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
                              15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
                           else
@@ -322,10 +322,10 @@
                                9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
-                          if (j.eq.dom(ib)%jsp) then
+                          if (j==dom(ib)%jsp) then
                           vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
                                   5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
-                          else if (j.eq.dom(ib)%jep) then
+                          else if (j==dom(ib)%jep) then
                           vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
                              15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
                           else
@@ -333,10 +333,10 @@
                                9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
-                          if (k.eq.dom(ib)%ksp) then
+                          if (k==dom(ib)%ksp) then
                           wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
                                   5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
-                          else if (k.eq.dom(ib)%kep) then
+                          else if (k==dom(ib)%kep) then
                           wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
                              15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
                           else
@@ -370,10 +370,10 @@
                   do i=dom(ib)%isp,dom(ib)%iep
                       do j=dom(ib)%jsp,dom(ib)%jep
 
-                          if (i.eq.dom(ib)%isp) then
+                          if (i==dom(ib)%isp) then
                           uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
                                   5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
-                          else if (i.eq.dom(ib)%iep) then
+                          else if (i==dom(ib)%iep) then
                           uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
                              15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
                           else
@@ -381,10 +381,10 @@
                                9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
-                          if (j.eq.dom(ib)%jsp) then
+                          if (j==dom(ib)%jsp) then
                           vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
                                   5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
-                          else if (j.eq.dom(ib)%jep) then
+                          else if (j==dom(ib)%jep) then
                           vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
                              15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
                           else
@@ -392,10 +392,10 @@
                                9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
-                          if (k.eq.dom(ib)%ksp) then
+                          if (k==dom(ib)%ksp) then
                           wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
                                   5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
-                          else if (k.eq.dom(ib)%kep) then
+                          else if (k==dom(ib)%kep) then
                           wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
                              15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
                           else
@@ -430,10 +430,10 @@
                   do i=dom(ib)%isp,dom(ib)%iep
                       do j=dom(ib)%jsp,dom(ib)%jep
 
-                          if (i.eq.dom(ib)%isp) then
+                          if (i==dom(ib)%isp) then
                           uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
                                   5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
-                          else if (i.eq.dom(ib)%iep) then
+                          else if (i==dom(ib)%iep) then
                           uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
                              15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
                           else
@@ -441,10 +441,10 @@
                                9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
-                          if (j.eq.dom(ib)%jsp) then
+                          if (j==dom(ib)%jsp) then
                           vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
                                   5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
-                          else if (j.eq.dom(ib)%jep) then
+                          else if (j==dom(ib)%jep) then
                           vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
                              15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
                           else
@@ -452,10 +452,10 @@
                                9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
-                          if (k.eq.dom(ib)%ksp) then
+                          if (k==dom(ib)%ksp) then
                           wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
                                   5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
-                          else if (k.eq.dom(ib)%kep) then
+                          else if (k==dom(ib)%kep) then
                           wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
                              15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
                           else
@@ -475,26 +475,26 @@
 !
 ! Hold level to be held constant at inflow and outflow (if required - may help with stability in inflow-outflow sims)
 !
-                          if (trim(keyword).eq.'channel' .and. lends) then
-                          if (dom(ib)%iprev.lt.0) then
-                          if ((i.ge.dom(ib)%isu).and.(i.le.dom(ib)%isu+5)) then
-                          if (dom(ib)%zc(k).lt.length)   then
+                          if (trim(keyword)=='channel' .and. lends) then
+                          if (dom(ib)%iprev<0) then
+                          if ((i>=dom(ib)%isu).and.(i<=dom(ib)%isu+5)) then
+                          if (dom(ib)%zc(k)<length)   then
                           dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
-                          else if (dom(ib)%zc(k).gt.length)   then
+                          else if (dom(ib)%zc(k)>length)   then
                           dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
-                          else if (dom(ib)%zc(k).eq.length)  then
+                          else if (dom(ib)%zc(k)==length)  then
                           dom(ib)%phi(i,j,k) = 0.0
                           end if
                           end if
                           end if
 !          length=0.0354
-                          if  (dom(ib)%inext.lt.0) then
-                          if ((i.le.dom(ib)%ieu).and.(i.ge.dom(ib)%ieu-5)) then
-                          if (dom(ib)%zc(k).lt.length)   then
+                          if  (dom(ib)%inext<0) then
+                          if ((i<=dom(ib)%ieu).and.(i>=dom(ib)%ieu-5)) then
+                          if (dom(ib)%zc(k)<length)   then
                           dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
-                          else if (dom(ib)%zc(k).gt.length)   then
+                          else if (dom(ib)%zc(k)>length)   then
                           dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
-                          else if (dom(ib)%zc(k).eq.length)  then
+                          else if (dom(ib)%zc(k)==length)  then
                           dom(ib)%phi(i,j,k) = 0.0
                           end if
                           end if
@@ -544,10 +544,10 @@
                   do i=dom(ib)%isp,dom(ib)%iep
                       do j=dom(ib)%jsp,dom(ib)%jep
 
-                          if (i.eq.dom(ib)%isp) then
+                          if (i==dom(ib)%isp) then
                           uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
                                    5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
-                          else if (i.eq.dom(ib)%iep) then
+                          else if (i==dom(ib)%iep) then
                           uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
                               15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
                           else
@@ -555,10 +555,10 @@
                                 9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
-                          if (j.eq.dom(ib)%jsp) then
+                          if (j==dom(ib)%jsp) then
                           vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
                                    5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
-                          else if (j.eq.dom(ib)%jep) then
+                          else if (j==dom(ib)%jep) then
                           vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
                               15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
                           else
@@ -566,10 +566,10 @@
                                 9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
-                          if (k.eq.dom(ib)%ksp) then
+                          if (k==dom(ib)%ksp) then
                           wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
                                    5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
-                          else if (k.eq.dom(ib)%kep) then
+                          else if (k==dom(ib)%kep) then
                           wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
                               15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
                           else
@@ -577,25 +577,25 @@
                                 9.0*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 
-                          if (uijk.gt.0.0) &
+                          if (uijk>0.0) &
                        dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
-                          if (uijk.lt.0.0) &
+                          if (uijk<0.0) &
                        dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
-                          if (uijk.eq.0.0) &
+                          if (uijk==0.0) &
                        dom(ib)%dphi_dx(i,j,k) = 0.0
 
-                          if (vijk.gt.0.0) &
+                          if (vijk>0.0) &
                        dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
-                          if (vijk.lt.0.0) &
+                          if (vijk<0.0) &
                        dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
-                          if (vijk.eq.0.0) &
+                          if (vijk==0.0) &
                        dom(ib)%dphi_dy(i,j,k) = 0.0
 
-                          if (wijk.gt.0.0) &
+                          if (wijk>0.0) &
                        dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
-                          if (wijk.lt.0.0) &
+                          if (wijk<0.0) &
                        dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
-                          if (wijk.eq.0.0) &
+                          if (wijk==0.0) &
                        dom(ib)%dphi_dz(i,j,k) = 0.0
 
                       end do
@@ -753,10 +753,10 @@
               call mpi_allreduce(local_max_phidiff,max_phidiff,1,mpi_flt, &
         mpi_max,mpi_comm_world,ierr)
 
-              if ((max_phidiff.lt.reldif_lsm).and.(it.ge.1)) then
+              if ((max_phidiff<reldif_lsm).and.(it>=1)) then
               bool=.true.
               else
-              if (it.ge.ntime_reinit) then
+              if (it>=ntime_reinit) then
               bool=.true.
               else
               it=it+1
@@ -777,7 +777,7 @@
 
           end do
 
-          if (myrank.eq.0) then
+          if (myrank==0) then
           write(*,*) 'norm v (reinit)', max_abs, 'needed steps', it
           write(numfile3,'(i8,f18.8,i8,2f18.8)') ntime,max_abs,it,ctime, &
     dt
@@ -829,39 +829,39 @@
                           zm=dom(ib)%dphi_dzminus(i,j,k)
                           zp=dom(ib)%dphi_dzplus(i,j,k)
 
-                          if ((xm*lssig.gt.0.0).and.(xp*lssig.gt.-xm*lssig)) then
+                          if ((xm*lssig>0.0).and.(xp*lssig>-xm*lssig)) then
                           dom(ib)%dphi_dx(i,j,k)=dom(ib)%dphi_dxminus(i,j,k)
                           end if
 
-                          if((xp*lssig.lt.0.0).and.(xm*lssig.lt.-xp*lssig)) then
+                          if((xp*lssig<0.0).and.(xm*lssig<-xp*lssig)) then
                           dom(ib)%dphi_dx(i,j,k)=dom(ib)%dphi_dxplus(i,j,k)
                           end if
 
-                          if ((xp*lssig.gt.0.0).and.(xm*lssig.lt.0.0)) then
+                          if ((xp*lssig>0.0).and.(xm*lssig<0.0)) then
                           dom(ib)%dphi_dx(i,j,k)=0.0
                           end if
 
-                          if ((ym*lssig.gt.0.0).and.(yp*lssig.gt.-ym*lssig)) then
+                          if ((ym*lssig>0.0).and.(yp*lssig>-ym*lssig)) then
                           dom(ib)%dphi_dy(i,j,k)=dom(ib)%dphi_dyminus(i,j,k)
                           end if
 
-                          if ((yp*lssig.lt.0.0).and.(ym*lssig.lt.-yp*lssig)) then
+                          if ((yp*lssig<0.0).and.(ym*lssig<-yp*lssig)) then
                           dom(ib)%dphi_dy(i,j,k)=dom(ib)%dphi_dyplus(i,j,k)
                           end if
 
-                          if ((yp*lssig.gt.0.0).and.(ym*lssig.lt.0.0)) then
+                          if ((yp*lssig>0.0).and.(ym*lssig<0.0)) then
                           dom(ib)%dphi_dy(i,j,k) = 0.0
                           end if
 
-                          if ((zm*lssig.gt.0.0).and.(zp*lssig.gt.-zm*lssig)) then
+                          if ((zm*lssig>0.0).and.(zp*lssig>-zm*lssig)) then
                           dom(ib)%dphi_dz(i,j,k)=dom(ib)%dphi_dzminus(i,j,k)
                           end if
 
-                          if((zp*lssig.lt.0.0).and.(zm*lssig.lt.-zp*lssig)) then
+                          if((zp*lssig<0.0).and.(zm*lssig<-zp*lssig)) then
                           dom(ib)%dphi_dz(i,j,k)=dom(ib)%dphi_dzplus(i,j,k)
                           end if
 
-                          if ((zp*lssig.gt.0.0).and.(zm*lssig.lt.0.0)) then
+                          if ((zp*lssig>0.0).and.(zm*lssig<0.0)) then
                           dom(ib)%dphi_dz(i,j,k)=0.0
                           end if
 
@@ -913,14 +913,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) then
+              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
               do k=1,nr
                   do j=1,nq
                       fi(2,j,k)    = fi(3,j,k)
                       fi(1,j,k)    = fi(2,j,k)
                   end do
               end do
-              else if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) then
+              else if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
               do k=1,nr
                   do j=1,nq
                       fi(npp-1,j,k) = fi(npp-2,j,k)
@@ -1027,14 +1027,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) then
+              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
               do k=1,nr
                   do j=1,nq
                       fi(2,j,k)    = fi(3,j,k)
                       fi(1,j,k)    = fi(2,j,k)
                   end do
               end do
-              else if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) then
+              else if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
               do k=1,nr
                   do j=1,nq
                       fi(npp-1,j,k) = fi(npp-2,j,k)
@@ -1141,14 +1141,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) then
+              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
               do k=1,nr
                   do i=1,npp
                       fi(i,2,k)    = fi(i,3,k)
                       fi(i,1,k)    = fi(i,2,k)
                   end do
               end do
-              else if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) then
+              else if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
               do k=1,nr
                   do i=1,npp
                       fi(i,nq-1,k) = fi(i,nq-2,k)
@@ -1254,14 +1254,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) then
+              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
               do k=1,nr
                   do i=1,npp
                       fi(i,2,k)    = fi(i,3,k)
                       fi(i,1,k)    = fi(i,2,k)
                   end do
               end do
-              else if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) then
+              else if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
               do k=1,nr
                   do i=1,npp
                       fi(i,nq-1,k) = fi(i,nq-2,k)
@@ -1367,14 +1367,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) then
+              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
               do i=1,npp
                   do j=1,nq
                       fi(i,j,2)    = fi(i,j,3)
                       fi(i,j,1)    = fi(i,j,2)
                   end do
               end do
-              else if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) then
+              else if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
               do i=1,npp
                   do j=1,nq
                       fi(i,j,nr-1) = fi(i,j,nr-2)
@@ -1481,14 +1481,14 @@
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
 
-              if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) then
+              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
               do i=1,npp
                   do j=1,nq
                       fi(i,j,2)    = fi(i,j,3)
                       fi(i,j,1)    = fi(i,j,2)
                   end do
               end do
-              else if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) then
+              else if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
               do i=1,npp
                   do j=1,nq
                       fi(i,j,nr-1) = fi(i,j,nr-2)
@@ -1580,12 +1580,12 @@
                   do i=dom(ib)%isp-pl,dom(ib)%iep+pl
                       do j=dom(ib)%jsp-pl,dom(ib)%jep+pl
 
-                          if (dom(ib)%phi(i,j,k).lt.(-1.0*epsl)) &
+                          if (dom(ib)%phi(i,j,k)<(-1.0*epsl)) &
                     dom(ib)%h_phi(i,j,k) = 0.0  ! h_phi=0 above free surface
 
-                          if (dom(ib)%phi(i,j,k).gt.(epsl)) dom(ib)%h_phi(i,j,k) = 1.0  ! h_phi=1.0 below free surface
+                          if (dom(ib)%phi(i,j,k)>(epsl)) dom(ib)%h_phi(i,j,k) = 1.0  ! h_phi=1.0 below free surface
 
-                          if (abs(dom(ib)%phi(i,j,k)).le.epsl) then
+                          if (abs(dom(ib)%phi(i,j,k))<=epsl) then
 !
 ! Transition zone across free surface (2 grid cells width either side)
 !

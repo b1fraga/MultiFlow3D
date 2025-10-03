@@ -79,7 +79,7 @@
               wpg_sv(ls) = wop_loc(ls)
               dpg_sv(ls) = dp_loc(ls)
           enddo
-          if (npg_loc.gt.0) then
+          if (npg_loc>0) then
           do ls=1,npg_loc               ! save ghost particles
               xpg_sv(ls+np_loc) = xpg_loc(ls)
               ypg_sv(ls+np_loc) = ypg_loc(ls)
@@ -93,7 +93,7 @@
 
           do ib=1,nbp
               ! ====================> p2p collision
-              IF (id(l).eq.dom_id(ib)) then
+              IF (id(l)==dom_id(ib)) then
               do l2 = 1,tot_np
                   dis_x = xpg_sv(l2)-xp_sv(l)                           ! difference on coordinate in x
                   dis_y = ypg_sv(l2)-yp_sv(l)                           ! difference on coordinate in y
@@ -101,7 +101,7 @@
                   dis_dd = (dp_loc(l)+dpg_sv(l2))*0.5                   ! sum up Radius
                   dis_xyz = sqrt(dis_x**2+dis_y**2+dis_z**2)
                   lambda_p = 0.375*0.2*(dp_sv(l)*0.5+dpg_sv(l2)*0.5)          ! CFL for particle-particle
-                  if ((dis_xyz.ne.0.d0).and.(dis_xyz.lt.(dis_dd+lambda_p))) then          !
+                  if ((dis_xyz/=0.d0).and.(dis_xyz<(dis_dd+lambda_p))) then          !
 
                   !           write(myrank+700,*) l1,zp_sv(l1),wp_sv(l1)
                   dif1_uvw = up_sv(l)*dis_x/dis_xyz+vp_sv(l)*dis_y/dis_xyz &
@@ -149,7 +149,7 @@
               ENDIF                         ! distance
           enddo                         ! end p2p loop
 
-          if (npg_loc.gt.0) then
+          if (npg_loc>0) then
           deallocate (xpg_loc,ypg_loc,zpg_loc)
           deallocate (uopg_loc,vopg_loc,wopg_loc)
           deallocate (dpg_loc,rhopg_loc)
@@ -193,7 +193,7 @@
          (3.1416**2+(alog(e_col))**2)
 
 ! ----------------------- collisions with bottom wall ----------------------------------
-          if (zp_loc(l).lt.lambda_w+0.5*dp_loc(l)) then
+          if (zp_loc(l)<lambda_w+0.5*dp_loc(l)) then
 
           !a. overlap
           deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
@@ -202,14 +202,14 @@
           wp_pt(l) = wp_pt(l) + dt*fcol_n/mp
           !c. tangential force
           fcol_t=mu_f*fcol_n
-          if (bc_b.ne.3) then                 !slip condition
+          if (bc_b/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           vp_pt(l) = vp_pt(l) + dt*fcol_t/mp
           endif
           !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
           endif
 ! ----------------------- collisions with top wall ----------------------------------
-          if (zp_loc(l).gt.zen-(lambda_w+0.5*dp_loc(l))) then
+          if (zp_loc(l)>zen-(lambda_w+0.5*dp_loc(l))) then
 
           !a. overlap
           deltap=max(zp_loc(l)-(zen+0.5*dp_loc(l)),0.d0)
@@ -218,7 +218,7 @@
           wp_pt(l) = wp_pt(l) + dt*fcol_n/mp
           !c. tangential force
           fcol_t=mu_f*fcol_n
-          if (bc_t.ne.3) then                 !slip condition
+          if (bc_t/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           vp_pt(l) = vp_pt(l) + dt*fcol_t/mp
           endif
@@ -226,7 +226,7 @@
 
           endif
 ! ----------------------- collisions with south wall ----------------------------------
-          if (yp_loc(l).lt.lambda_v+0.5*dp_loc(l)) then
+          if (yp_loc(l)<lambda_v+0.5*dp_loc(l)) then
 
           !a. overlap
           deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
@@ -235,13 +235,13 @@
           vp_pt(l) = vp_pt(l) + dt*fcol_n/mp
           !c. tangential force
           fcol_t=mu_f*fcol_n
-          if (bc_s.ne.3) then                 !slip condition
+          if (bc_s/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           wp_pt(l) = wp_pt(l) + dt*fcol_t/mp
           endif
           endif
 ! ----------------------- collisions with north wall ----------------------------------
-          if (yp_loc(l).gt.yen-(lambda_v+0.5*dp_loc(l))) then
+          if (yp_loc(l)>yen-(lambda_v+0.5*dp_loc(l))) then
 
 !a. overlap
           deltap=max(yp_loc(l)-(yen+0.5*dp_loc(l)),0.d0)
@@ -252,7 +252,7 @@
 !c. tangential force
           fcol_t=mu_f*fcol_n
 
-          if (bc_n.ne.3) then                 !slip condition
+          if (bc_n/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           wp_pt(l) = wp_pt(l) + dt*fcol_t/mp
           endif

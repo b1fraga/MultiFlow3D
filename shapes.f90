@@ -21,20 +21,20 @@
 
           M=numIB   ;  maxnode = 0 ; L=0
 
-          if (linfin(numIB).eq.1) then
+          if (linfin(numIB)==1) then
           zini(M)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))
-          else if (linfin(numIB).eq.0) then
+          else if (linfin(numIB)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))
           endif
 
           maxc=INT(R(M)/dxm(numIB))+1
 
-          if(cmax(M).gt.maxc) cmax(M)=maxc
+          if(cmax(M)>maxc) cmax(M)=maxc
 
 
           DO K=1,nlay
-              if(linfin(M).eq.0) then   !This adds the lids of the finite
-              if (K.le.cmax(M) .or. K.ge.(nlay-cmax(M)+1)) then
+              if(linfin(M)==0) then   !This adds the lids of the finite
+              if (K<=cmax(M) .or. K>=(nlay-cmax(M)+1)) then
               clay=maxc
               else
               clay=cmax(M)
@@ -122,10 +122,10 @@
           Rtemp = R(M); nodes(M) = 0; c =1
 
           maxc=INT(R(M)/dxm(numIB))+1
-          if(cmax(M).gt.maxc) cmax(M)=maxc
+          if(cmax(M)>maxc) cmax(M)=maxc
 
-          Do while (Rtemp(c).ge.0.d0 .and. c.le.maxc)
-              IF (c.eq.1) then
+          Do while (Rtemp(c)>=0.d0 .and. c<=maxc)
+              IF (c==1) then
               nodes(M) = nodes(M) + NINT(2.d0*PI*Rtemp(c)/dxm(numIB))
               nodes_percyl(c) =     NINT(2.d0*PI*Rtemp(c)/dxm(numIB))
               else
@@ -133,25 +133,25 @@
         NINT(2.d0*PI*Rtemp(c)/(dxm(numIB)))
               nodes_percyl(c)=NINT(2.0*PI*Rtemp(c)/(dxm(numIB)))
               end if
-              IF (Rtemp(c).eq.0.d0) nodes(M)        = nodes(M) + 1
-              IF (Rtemp(c).eq.0.d0) nodes_percyl(c) = 1
+              IF (Rtemp(c)==0.d0) nodes(M)        = nodes(M) + 1
+              IF (Rtemp(c)==0.d0) nodes_percyl(c) = 1
               c = c + 1
               Rtemp(c) = Rtemp(c-1) - dxm(numIB)
           End do
 
           ctot = c - 1
 
-          if (linfin(M).eq.1) then
+          if (linfin(M)==1) then
           zini(M)=zst ;   nlay=((zen-zst)/dzm(numIB))
           endif
-          if (linfin(M).eq.0) then
+          if (linfin(M)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))!-1
           endif
 
           L=1
           Do K=1,nlay
-              if(linfin(M).eq.0) then   !This adds the lids of the finite
-              if (K.le.cmax(M) .or. K.ge.(nlay-cmax(M)+1)) then
+              if(linfin(M)==0) then   !This adds the lids of the finite
+              if (K<=cmax(M) .or. K>=(nlay-cmax(M)+1)) then
               ctot=maxc
               else
               ctot=cmax(M)
@@ -219,7 +219,7 @@
           nodezmin=Cz(M)-R(M); nodezmax=Cz(M)+R(M)
 
           nin =2.d0*R(M)/dxm(numIB)
-          if(abs(nin-2.0*R(M)/dxm(numIB)).ge.0.999999999) &
+          if(abs(nin-2.0*R(M)/dxm(numIB))>=0.999999999) &
     then
           nin=nin+1
           print*,'absurd-x!!!!!'
@@ -227,7 +227,7 @@
           nin=nin+1
 
           njn =2.d0*R(M)/dym(numIB)
-          if(abs(njn-2.0*R(M)/dym(numIB)).ge.0.999999999) &
+          if(abs(njn-2.0*R(M)/dym(numIB))>=0.999999999) &
     then
           njn=njn+1
           print*,'absurd-y!!!!!'
@@ -235,7 +235,7 @@
           njn=njn+1
 
           nkn =2.d0*R(M)/dzm(numIB)
-          if(abs(nkn-2.0*R(M)/dzm(numIB)).ge.0.999999999) &
+          if(abs(nkn-2.0*R(M)/dzm(numIB))>=0.999999999) &
     then
           nkn=nkn+1
           print*,'absurd-y!!!!!'
@@ -249,23 +249,23 @@
               Do I = 1, nin
                   Do J = 1, njn
                       L = (k-1)*nin*njn + (I-1)*njn + J
-                      IF (I.eq.1) THEN
+                      IF (I==1) THEN
                       nodex(M,L) = nodexmin
-                      else IF (I.eq.nin) THEN
+                      else IF (I==nin) THEN
                       nodex(M,L) = nodexmax
                       ELSE
                       nodex(M,L) = nodex(M,L-njn) + dxm(numIB)
                       END IF
-                      IF (J.eq.1) THEN
+                      IF (J==1) THEN
                       nodey(M,L) = nodeymin
-                      else IF (J.eq.njn) THEN
+                      else IF (J==njn) THEN
                       nodey(M,L) = nodeymax
                       ELSE
                       nodey(M,L) = nodey(M,L-1) + dym(numIB)
                       END IF
-                      IF (K.eq.1) THEN
+                      IF (K==1) THEN
                       nodez(M,L) = nodezmin
-                      else IF (K.eq.nkn) THEN
+                      else IF (K==nkn) THEN
                       nodez(M,L) = nodezmax
                       ELSE
                       nodez(M,L) = nodez(M,L-nin*njn) + dzm(numIB)
@@ -331,32 +331,32 @@
 
           do izr = 1,nzr(M)
               c =1
-              if (izr.eq.1) then
+              if (izr==1) then
               Rtemp_layer(M,izr,c) = 0.d0
               else
               Rtemp_layer(M,izr,c) = R(M)*cos(thz(M)*(izr-1)-(PI/2.d0))
               ztemp_layer(M,izr) = R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))+Cz(M)
               end if
 
-              do while (Rtemp_layer(M,izr,c).ge.0.)     !gt!!!
+              do while (Rtemp_layer(M,izr,c)>=0.)     !gt!!!
                   nodes_layer(M,izr) = nodes_layer(M,izr) + &
             NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                   nodes_percyl_layer(M,izr,c) = &
             NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
-                  if (Rtemp_layer(M,izr,c).eq.0.) then
+                  if (Rtemp_layer(M,izr,c)==0.) then
                   nodes_layer(M,izr) = nodes_layer(M,izr) + 1
                   nodes_percyl_layer(M,izr,c) = 1
                   end if
                   c = c + 1
                   Rtemp_layer(M,izr,c) = Rtemp_layer(M,izr,c-1)- dxm(numIB)
 
-                  if(c.ge.cmax(M)) goto 555
+                  if(c>=cmax(M)) goto 555
 
               end do
 
   555         CONTINUE
               ctot_layer(M,izr) = c - 1
-              if(ctot_layer(M,izr) .gt. 100) then
+              if(ctot_layer(M,izr) > 100) then
               print*, 'allocate problem in Rtemp_layer'
               end if
           end do
@@ -364,7 +364,7 @@
           M=numIB
           izr=1
           K = 1
-          do while(izr.le.nzr(M))
+          do while(izr<=nzr(M))
               do c = 1,ctot_layer(M,izr)
                   thc = 2.d0*PI/nodes_percyl_layer(M,izr,c)
                   do L = 1,nodes_percyl_layer(M,izr,c)
@@ -429,9 +429,9 @@
               Cxor(numIB)=Cx(numIB)
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
-              if (linfin(numIB).eq.1) then
+              if (linfin(numIB)==1) then
               zini(numIB)=0.d0 ;   nlay=((xen-xst)/(dxm(numIB)))!-1
-              else if (linfin(numIB).eq.0) then
+              else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/(dxm(numIB)))!-1
               endif
 !           nlay=((xen-xst)/dxm)-1   !# of x-layers
@@ -457,9 +457,9 @@
               Cxor(numIB)=Cx(numIB)
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
-              if (linfin(numIB).eq.1) then
+              if (linfin(numIB)==1) then
               zini(numIB)=0.d0 ;   nlay=((yen-yst)/dym(numIB))!-1
-              else if (linfin(numIB).eq.0) then
+              else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dym(numIB))!-1
               endif
 !           nlay=((yen-yst)/dym(numIB))-1   !# of y-layers
@@ -485,9 +485,9 @@
               Cxor(numIB)=Cx(numIB)
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
-              if (linfin(numIB).eq.1) then
+              if (linfin(numIB)==1) then
               zini(numIB)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))!-1  !it was-1
-              else if (linfin(numIB).eq.0) then
+              else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dzm(numIB))!-1
               endif
 !           nlay=((zen-zst)/dzm)-1   !# of z-layers
@@ -527,26 +527,26 @@
 !       ENDDO
 
           DO I=1,nin
-              if (nodex(numIB,I).lt.0.0) then
+              if (nodex(numIB,I)<0.0) then
               write(6,*)'APAMPAO, point',I,'is out of domain',nodex(numIB,I)
-              elseif (nodex(numIB,I).le.1.d-10) then
+              elseif (nodex(numIB,I)<=1.d-10) then
               nodex(numIB,I)=1.d-10
               endif
-              if (nodey(numIB,I).lt.0.0) then
+              if (nodey(numIB,I)<0.0) then
               write(6,*)'ERROR, point',I,'is out of domain',nodey(numIB,I)
-              elseif (nodey(numIB,I).le.1.d-10) then
+              elseif (nodey(numIB,I)<=1.d-10) then
               nodey(numIB,I)=1.d-10
               endif
-              if (nodez(numIB,I).lt.0.0) then
+              if (nodez(numIB,I)<0.0) then
               write(6,*)'ERROR, point',I,'is out of domain',nodez(numIB,I)
-              elseif (nodez(numIB,I).le.1.d-10) then
+              elseif (nodez(numIB,I)<=1.d-10) then
               nodez(numIB,I)=1.d-10
               endif
           ENDDO
 
 
-          IF (imb_shape(numIB).eq.5 .and. turax(numIB).eq.1 .and. &
-       pitch(numIB).lt.0.000) then
+          IF (imb_shape(numIB)==5 .and. turax(numIB)==1 .and. &
+       pitch(numIB)<0.000) then
           angle=pitch(numIB)*PI/180.d0     !Angle of attack in radians
           do i=1,nin*nlay          !Rotate the body.
               nodex(numIB,i)=nodex(numIB,i)*cos(angle)- &
@@ -574,8 +574,8 @@
           enddo
           ENDIF
 
-          if(imb_shape(numIB).eq.5) call imb_number(numIB)
-          if(imb_shape(numIB).ne.5) print*,'subroutine not finished'
+          if(imb_shape(numIB)==5) call imb_number(numIB)
+          if(imb_shape(numIB)/=5) print*,'subroutine not finished'
           close(2)
 
    88     FORMAT (i5)
@@ -603,7 +603,7 @@
           IF(.not.LSELFST(numIB)) write(6,*)'Turbine Self-Starting   :  NO'
           write(2,*)'variables="x","y","z"'
 !-----------------  1- body      --------------------------------
-          if (imbnumber(numIB).eq.1) then
+          if (imbnumber(numIB)==1) then
           do i=1,K
               nodex(numIB,i) = nodex(numIB,i)
               nodey(numIB,i) = nodey(numIB,i)
@@ -612,7 +612,7 @@
           enddo
           endif
 !-----------------  2- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.2) then
+          IF (imbnumber(numIB)==2) then
           do i=1,K
               nodex(numIB,i) = nodex(numIB,i)
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
@@ -629,7 +629,7 @@
           enddo
           ENDIF
 !-----------------  3- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.3) then
+          IF (imbnumber(numIB)==3) then
           do i=1,K
               nodex(numIB,i) = nodex(numIB,i)
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
@@ -662,7 +662,7 @@
           enddo
           ENDIF
 !-----------------  4- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.4) then
+          IF (imbnumber(numIB)==4) then
           do i=1,K
               nodex(numIB,i) = nodex(numIB,i)
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
@@ -719,20 +719,20 @@
 
           if (.NOT.LSELFST(K)) rads(numIB)=radsin(numIB)*CTIME
 
-          IF (myrank.ne.master) RETURN
+          IF (myrank/=master) RETURN
 
           Geom_Time1=301 ;
           K=nodes(numIB)/imbnumber(numIB) !Nodes per body
 
 
-          IF (turax(numIB).eq.1) then   ! Vertical Axis Turbine
+          IF (turax(numIB)==1) then   ! Vertical Axis Turbine
           do L=1,K
               nodexlocal(numIB,L)=-R0(numIB,L)*sin(rads(numIB)-alpha0(numIB,L))
               nodeylocal(numIB,L)= R0(numIB,L)*cos(rads(numIB)-alpha0(numIB,L))
           enddo
 !-----------------  1- body      --------------------------------
-          IF (imbnumber(numIB).eq.1) then
-          if (mod(itime,n_out).eq.0) then
+          IF (imbnumber(numIB)==1) then
+          if (mod(itime,n_out)==0) then
           write(char_block,'(I8)') itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
           char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
@@ -746,18 +746,18 @@
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0) then
+              if (mod(itime,n_out)==0) then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
               endif
           enddo
 
-          if (mod(itime,n_out).eq.0)  close(Geom_Time1)
+          if (mod(itime,n_out)==0)  close(Geom_Time1)
           ENDIF
 !-----------------  2- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.2) then
+          IF (imbnumber(numIB)==2) then
 
-          if (mod(itime,n_out).eq.0) then
+          if (mod(itime,n_out)==0) then
           write(char_block,'(I8)') itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
           char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
@@ -771,24 +771,24 @@
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0) then
+              if (mod(itime,n_out)==0) then
               write(Geom_Time1,89)nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
               endif
           enddo
           do i=1,K
               nodex(numIB,K+i)=-nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,K+i)=-nodeylocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0) then
+              if (mod(itime,n_out)==0) then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
               endif
           enddo
-          if (mod(itime,n_out).eq.0)   close(Geom_Time1)
+          if (mod(itime,n_out)==0)   close(Geom_Time1)
           ENDIF
 !-----------------  3- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.3) then
+          IF (imbnumber(numIB)==3) then
 
-          if (mod(itime,n_out).eq.0) then
+          if (mod(itime,n_out)==0) then
           write(char_block,'(I8)') itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
           char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
@@ -803,7 +803,7 @@
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)! + R(numIB)
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
               endif
@@ -815,7 +815,7 @@
            nodeylocal(numIB,i)*(-0.5)
               nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.)/2
               nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)! - R(numIB)*0.5
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
               endif
@@ -828,19 +828,19 @@
               nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.)/2
               nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)! - R(numIB)*0.5
 
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,2*K+i),nodey(numIB,2*K+i),nodez(numIB,2*K+i)
               endif
           enddo
 
-          if (mod(itime,n_out).eq.0) close(Geom_Time1)
+          if (mod(itime,n_out)==0) close(Geom_Time1)
 
           ENDIF
 
 !-----------------  4- bodies      --------------------------------
-          IF (imbnumber(numIB).eq.4) then
-          if (mod(itime,n_out).eq.0) then
+          IF (imbnumber(numIB)==4) then
+          if (mod(itime,n_out)==0) then
           write(char_block,'(I8)') itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
           char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
@@ -854,7 +854,7 @@
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
               endif
@@ -862,7 +862,7 @@
           do i=1,K
               nodex(numIB,K+i)=-nodeylocal(numIB,i) + Cxor(numIB)
               nodey(numIB,K+i)=nodexlocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
               endif
@@ -870,7 +870,7 @@
           do i=1,K
               nodex(numIB,2*K+i)=-nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,2*K+i)=-nodeylocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,2*K+i),nodey(numIB,2*K+i),nodez(numIB,2*K+i)
               endif
@@ -878,26 +878,26 @@
           do i=1,K
               nodex(numIB,3*K+i)=nodeylocal(numIB,i)  + Cxor(numIB)
               nodey(numIB,3*K+i)=-nodexlocal(numIB,i) + Cyor(numIB)
-              if (mod(itime,n_out).eq.0)  then
+              if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,3*K+i),nodey(numIB,3*K+i),nodez(numIB,3*K+i)
               endif
           enddo
 
-          if (mod(itime,n_out).eq.0)  close(Geom_Time1)
+          if (mod(itime,n_out)==0)  close(Geom_Time1)
           ENDIF
 
 !-------------------------------------------------------------------
           ENDIF
-          IF (turax(numIB).eq.2) then   ! Horizontal Axis Turbine
+          IF (turax(numIB)==2) then   ! Horizontal Axis Turbine
 
           do L=1,nodes(numIB)
               nodeylocal(numIB,L)=R0(numIB,L)*sin(rads(numIB)+alpha0(numIB,L))
               nodezlocal(numIB,L)=R0(numIB,L)*cos(rads(numIB)+alpha0(numIB,L))
           enddo
 !-----------------  1- body      --------------------------------
-          IF (imbnumber(numIB).eq.1) then
-          if (mod(itime,n_out).eq.0) then
+          IF (imbnumber(numIB)==1) then
+          if (mod(itime,n_out)==0) then
           write(char_block,'(I8)') itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
           char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
@@ -911,13 +911,13 @@
           do i=1,nodes(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
               nodez(numIB,i) = nodezlocal(numIB,i) + Czor(numIB)
-              if (mod(itime,n_out).eq.0) then
+              if (mod(itime,n_out)==0) then
               write(Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
               endif
           enddo
 
-          if (mod(itime,n_out).eq.0)  close(Geom_Time1)
+          if (mod(itime,n_out)==0)  close(Geom_Time1)
           ENDIF
 
 

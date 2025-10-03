@@ -71,15 +71,15 @@
 !..........................................................................
 !=== West ===> ..  4=wall  ..   1=Inlet
 !..........................................................................
-              if (dom(ib)%iprev.lt.0) then
-              if (dom(ib)%bc_west.eq.4) then
+              if (dom(ib)%iprev<0) then
+              if (dom(ib)%bc_west==4) then
               do k=ks-1,ke+1
                   do j=js-1,je+1
                       dom(ib)%vis(is,j,k)= rrey
                       dom(ib)%vis(is-1,j,k)= dom(ib)%vis(is,j,k)
                   end do
               end do
-              else if (dom(ib)%bc_west.eq.1) then
+              else if (dom(ib)%bc_west==1) then
               do k=ks-1,ke+1
                   do j=js-1,je+1
                       dom(ib)%vis(is-1,j,k)= dom(ib)%vis(is,j,k)
@@ -102,15 +102,15 @@
 !..........................................................................
 !=== East ===> ..  4=wall  ..   2=Outflow
 !..........................................................................
-              if (dom(ib)%inext.lt.0) then
-              if (dom(ib)%bc_east.eq.4) then
+              if (dom(ib)%inext<0) then
+              if (dom(ib)%bc_east==4) then
               do k=ks-1,ke+1
                   do j=js-1,je+1
                       dom(ib)%vis(ie,j,k)= rrey
                       dom(ib)%vis(ie+1,j,k)= dom(ib)%vis(ie,j,k)
                   end do
               end do
-              else if (dom(ib)%bc_east.eq.2) then
+              else if (dom(ib)%bc_east==2) then
               do k=ks-1,ke+1
                   do j=js-1,je+1
                       dom(ib)%vis(ie+1,j,k)= dom(ib)%vis(ie,j,k)
@@ -133,8 +133,8 @@
 !..........................................................................
 !=== South ===> ..   4=wall ..   3=Symmetry
 !..........................................................................
-              if (dom(ib)%jprev.lt.0) then
-              if (dom(ib)%bc_south.eq.4) then
+              if (dom(ib)%jprev<0) then
+              if (dom(ib)%bc_south==4) then
               do k=ks-1,ke+1
                   do i=is-1,ie+1
                       dom(ib)%vis(i,js,k)= rrey
@@ -158,8 +158,8 @@
 !..........................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
 !..........................................................................
-              if (dom(ib)%jnext.lt.0) then
-              if (dom(ib)%bc_north.eq.4) then
+              if (dom(ib)%jnext<0) then
+              if (dom(ib)%bc_north==4) then
               do k=ks-1,ke+1
                   do i=is-1,ie+1
                       dom(ib)%vis(i,je,k) = rrey
@@ -183,8 +183,8 @@
 !..........................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
 !..........................................................................
-              if (dom(ib)%kprev.lt.0) then
-              if (dom(ib)%bc_bottom.eq.4) then
+              if (dom(ib)%kprev<0) then
+              if (dom(ib)%bc_bottom==4) then
               do j=js-1,je+1
                   do i=is-1,ie+1
                       dom(ib)%vis(i,j,ks)= rrey
@@ -208,8 +208,8 @@
 !..........................................................................
 !=== Top ===>  ..   4=wall ..     3=Symmetry
 !..........................................................................
-              if (dom(ib)%knext.lt.0) then
-              if (dom(ib)%bc_top.eq.4) then
+              if (dom(ib)%knext<0) then
+              if (dom(ib)%bc_top==4) then
               do j=js-1,je+1
                   do i=is-1,ie+1
                       dom(ib)%vis(i,j,ke)   = rrey
@@ -267,10 +267,10 @@
 
                           dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
                           dom(ib)%epso(i,j,k)=dom(ib)%eps(i,j,k)
-                          if (dom(ib)%epso(i,j,k).lt.1.0d-07) then
+                          if (dom(ib)%epso(i,j,k)<1.0d-07) then
                           dom(ib)%epso(i,j,k)=1.0d-07
                           endif
-                          if (dom(ib)%ksgso(i,j,k).lt.1.0d-07) then
+                          if (dom(ib)%ksgso(i,j,k)<1.0d-07) then
                           dom(ib)%ksgso(i,j,k)=1.0d-07
                           endif
                       end do
@@ -302,14 +302,14 @@
                           prod=min(prod,20.*dom(ib)%epso(i,j,k))
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                          if(dom(ib)%uoo(i-1,j,k).gt.0.0) then
+                          if(dom(ib)%uoo(i-1,j,k)>0.0) then
                           ku=dom(ib)%ksgso(i-2,j,k)
                           kc=dom(ib)%ksgso(i-1,j,k)
                           kd=dom(ib)%ksgso(i,j,k)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%uoo(i-1,j,k).lt.0.0) then
+                          else if(dom(ib)%uoo(i-1,j,k)<0.0) then
                           ku=dom(ib)%ksgso(i+1,j,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i-1,j,k)
@@ -319,14 +319,14 @@
                           else
                           km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i-1,j,k))
                           end if
-                          if(dom(ib)%uoo(i,j,k).gt.0.0) then
+                          if(dom(ib)%uoo(i,j,k)>0.0) then
                           ku=dom(ib)%ksgso(i-1,j,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i+1,j,k)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%uoo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%uoo(i,j,k)<0.0) then
                           ku=dom(ib)%ksgso(i+2,j,k)
                           kc=dom(ib)%ksgso(i+1,j,k)
                           kd=dom(ib)%ksgso(i,j,k)
@@ -339,14 +339,14 @@
                           dukdx=(dom(ib)%uoo(i,j,k)*kp-dom(ib)%uoo(i-1,j,k)*km) &
                     /dom(ib)%dx
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%voo(i,j-1,k).gt.0.0) then
+                          if(dom(ib)%voo(i,j-1,k)>0.0) then
                           ku=dom(ib)%ksgso(i,j-2,k)
                           kc=dom(ib)%ksgso(i,j-1,k)
                           kd=dom(ib)%ksgso(i,j,k)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%voo(i,j-1,k).lt.0.0) then
+                          else if(dom(ib)%voo(i,j-1,k)<0.0) then
                           ku=dom(ib)%ksgso(i,j+1,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j-1,k)
@@ -356,14 +356,14 @@
                           else
                           km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j-1,k))
                           end if
-                          if(dom(ib)%voo(i,j,k).gt.0.0) then
+                          if(dom(ib)%voo(i,j,k)>0.0) then
                           ku=dom(ib)%ksgso(i,j-1,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j+1,k)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%voo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%voo(i,j,k)<0.0) then
                           ku=dom(ib)%ksgso(i,j+2,k)
                           kc=dom(ib)%ksgso(i,j+1,k)
                           kd=dom(ib)%ksgso(i,j,k)
@@ -376,14 +376,14 @@
                           dvkdy=(dom(ib)%voo(i,j,k)*kp-dom(ib)%voo(i,j-1,k)*km) &
                     /dom(ib)%dy
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%woo(i,j,k-1).gt.0.0) then
+                          if(dom(ib)%woo(i,j,k-1)>0.0) then
                           ku=dom(ib)%ksgso(i,j,k-2)
                           kc=dom(ib)%ksgso(i,j,k-1)
                           kd=dom(ib)%ksgso(i,j,k)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%woo(i,j,k-1).lt.0.0) then
+                          else if(dom(ib)%woo(i,j,k-1)<0.0) then
                           ku=dom(ib)%ksgso(i,j,k+1)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j,k-1)
@@ -393,14 +393,14 @@
                           else
                           km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k-1))
                           end if
-                          if(dom(ib)%woo(i,j,k).gt.0.0) then
+                          if(dom(ib)%woo(i,j,k)>0.0) then
                           ku=dom(ib)%ksgso(i,j,k-1)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j,k+1)
                           b_r=max(0.0, &
                     min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
                           kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%woo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%woo(i,j,k)<0.0) then
                           ku=dom(ib)%ksgso(i,j,k+2)
                           kc=dom(ib)%ksgso(i,j,k+1)
                           kd=dom(ib)%ksgso(i,j,k)
@@ -509,7 +509,7 @@
                           endif
 
                           dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
-                          if (dom(ib)%ksgso(i,j,k).lt.1.0d-07) then
+                          if (dom(ib)%ksgso(i,j,k)<1.0d-07) then
                           dom(ib)%ksgso(i,j,k)=1.0d-07
                           endif
                       end do
@@ -535,7 +535,7 @@
                     *2.0*vsgs*strain(i,j,k)
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Convection: Locating upstream, central and downstream nodes and interpolating k using previous time step
-                          if(dom(ib)%uoo(i-1,j,k).gt.0.0) then
+                          if(dom(ib)%uoo(i-1,j,k)>0.0) then
                           epsu=dom(ib)%epso(i-2,j,k)
                           epsc=dom(ib)%epso(i-1,j,k)
                           epsd=dom(ib)%epso(i,j,k)
@@ -543,7 +543,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsm=epsc+0.5*b_r*(epsc-epsu)                     !what's b_r?
-                          else if(dom(ib)%uoo(i-1,j,k).lt.0.0) then
+                          else if(dom(ib)%uoo(i-1,j,k)<0.0) then
                           epsu=dom(ib)%epso(i+1,j,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i-1,j,k)
@@ -554,7 +554,7 @@
                           else
                           epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i-1,j,k))
                           end if
-                          if(dom(ib)%uoo(i,j,k).gt.0.0) then
+                          if(dom(ib)%uoo(i,j,k)>0.0) then
                           epsu=dom(ib)%epso(i-1,j,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i+1,j,k)
@@ -562,7 +562,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%uoo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%uoo(i,j,k)<0.0) then
                           epsu=dom(ib)%epso(i+2,j,k)
                           epsc=dom(ib)%epso(i+1,j,k)
                           epsd=dom(ib)%epso(i,j,k)
@@ -576,7 +576,7 @@
                           epsdudx=(dom(ib)%uoo(i,j,k)*epsp-dom(ib)%uoo(i-1,j,k)*epsm)&       !calculating convective term
                     /dom(ib)%dx
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%voo(i,j-1,k).gt.0.0) then
+                          if(dom(ib)%voo(i,j-1,k)>0.0) then
                           epsu=dom(ib)%epso(i,j-2,k)
                           epsc=dom(ib)%epso(i,j-1,k)
                           epsd=dom(ib)%epso(i,j,k)
@@ -584,7 +584,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsm=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%voo(i,j-1,k).lt.0.0) then
+                          else if(dom(ib)%voo(i,j-1,k)<0.0) then
                           epsu=dom(ib)%epso(i,j+1,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j-1,k)
@@ -595,7 +595,7 @@
                           else
                           epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j-1,k))
                           end if
-                          if(dom(ib)%voo(i,j,k).gt.0.0) then
+                          if(dom(ib)%voo(i,j,k)>0.0) then
                           epsu=dom(ib)%epso(i,j-1,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j+1,k)
@@ -603,7 +603,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%voo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%voo(i,j,k)<0.0) then
                           epsu=dom(ib)%epso(i,j+2,k)
                           epsc=dom(ib)%epso(i,j+1,k)
                           epsd=dom(ib)%epso(i,j,k)
@@ -617,7 +617,7 @@
                           epsdvdy=(dom(ib)%voo(i,j,k)*epsp-dom(ib)%voo(i,j-1,k)*epsm) &
                     /dom(ib)%dy
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%woo(i,j,k-1).gt.0.0) then
+                          if(dom(ib)%woo(i,j,k-1)>0.0) then
                           epsu=dom(ib)%epso(i,j,k-2)
                           epsc=dom(ib)%epso(i,j,k-1)
                           epsd=dom(ib)%epso(i,j,k)
@@ -625,7 +625,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsm=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%woo(i,j,k-1).lt.0.0) then
+                          else if(dom(ib)%woo(i,j,k-1)<0.0) then
                           epsu=dom(ib)%epso(i,j,k+1)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j,k-1)
@@ -636,7 +636,7 @@
                           else
                           epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j,k-1))
                           end if
-                          if(dom(ib)%woo(i,j,k).gt.0.0) then
+                          if(dom(ib)%woo(i,j,k)>0.0) then
                           epsu=dom(ib)%epso(i,j,k-1)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j,k+1)
@@ -644,7 +644,7 @@
                     min(2.0*((epsd-epsc)/(epsc-epsu)), &
                     0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
                           epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%woo(i,j,k).lt.0.0) then
+                          else if(dom(ib)%woo(i,j,k)<0.0) then
                           epsu=dom(ib)%epso(i,j,k+2)
                           epsc=dom(ib)%epso(i,j,k+1)
                           epsd=dom(ib)%epso(i,j,k)

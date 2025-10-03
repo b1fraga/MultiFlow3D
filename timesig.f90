@@ -16,7 +16,7 @@
 
           do i=1,n_unstpt
               do ib=1,nbp
-                  if (dom_id(ib).eq.id_unst(i)) then
+                  if (dom_id(ib)==id_unst(i)) then
                   !crear nombre
                   write(numpt,'(i2)') i
                   unst='unst_'//trim(adjustl(numpt))//'.dat'
@@ -73,7 +73,7 @@
           character (LEN=5) :: name_end
           character (LEN=3) :: dominio
 
-          if (ireadinlet.eq.10001) ireadinlet=0
+          if (ireadinlet==10001) ireadinlet=0
           ireadinlet=ireadinlet+1
 
           write(name_end,'(I5)') ireadinlet
