@@ -466,12 +466,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%iprev=i
                   end if
@@ -490,12 +490,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%inext=i
                   end if
@@ -515,12 +515,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%jprev=i
                   end if
@@ -539,12 +539,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08) then
+                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%jnext=i
                   end if
@@ -564,12 +564,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%kprev=i
                   end if
@@ -588,12 +588,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%zel-zcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%knext=i
                   end if
@@ -633,9 +633,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   dom(ib)%corprev1=i; say=say+1
                   end if
                   end if
@@ -647,9 +647,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   dom(ib)%corprev2=i; say=say+1
                   end if
                   end if
@@ -661,9 +661,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   dom(ib)%corprev3=i; say=say+1
                   end if
                   end if
@@ -675,9 +675,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   dom(ib)%corprev4=i; say=say+1
                   end if
                   end if
@@ -689,9 +689,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   dom(ib)%cornext1=i; say=say+1
                   end if
                   end if
@@ -703,9 +703,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   dom(ib)%cornext2=i; say=say+1
                   end if
                   end if
@@ -717,9 +717,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   dom(ib)%cornext3=i; say=say+1
                   end if
                   end if
@@ -731,9 +731,9 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   dom(ib)%cornext4=i; say=say+1
                   end if
                   end if
@@ -770,10 +770,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev1=i; say=say+1
                   end if
                   end if
@@ -786,10 +786,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev2=i; say=say+1
                   end if
                   end if
@@ -802,10 +802,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev3=i; say=say+1
                   end if
                   end if
@@ -818,10 +818,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zsl-zcor(i,2))<1E-08) then
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev4=i; say=say+1
                   end if
                   end if
@@ -834,10 +834,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08) then
-                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev5=i; say=say+1
                   end if
                   end if
@@ -850,10 +850,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08) then
-                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   dom(ib)%edgprev6=i; say=say+1
                   end if
                   end if
@@ -866,10 +866,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext1=i; say=say+1
                   end if
                   end if
@@ -882,10 +882,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext2=i; say=say+1
                   end if
                   end if
@@ -898,10 +898,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext3=i; say=say+1
                   end if
                   end if
@@ -914,10 +914,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08 .and. &
-               abs(dom(ib)%zel-zcor(i,1))<1E-08) then
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext4=i; say=say+1
                   end if
                   end if
@@ -930,10 +930,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%yel-ycor(i,1))<1E-08) then
-                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
+                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext5=i; say=say+1
                   end if
                   end if
@@ -946,10 +946,10 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08 .and. &
-               abs(dom(ib)%ysl-ycor(i,2))<1E-08) then
-                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
+               abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
+                  if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   dom(ib)%edgnext6=i; say=say+1
                   end if
                   end if
@@ -984,12 +984,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(xen-xcor(i,2))<1E-08) then
+                  if(abs(xen-xcor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_ip=i
                   end if
@@ -1012,12 +1012,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(xst-xcor(i,1))<1E-08) then
+                  if(abs(xst-xcor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_in=i
                   end if
@@ -1040,12 +1040,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(yen-ycor(i,2))<1E-08) then
+                  if(abs(yen-ycor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_jp=i
                   end if
@@ -1068,12 +1068,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(yst-ycor(i,1))<1E-08) then
+                  if(abs(yst-ycor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_jn=i
                   end if
@@ -1096,12 +1096,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(zen-zcor(i,2))<1E-08) then
+                  if(abs(zen-zcor(i,2))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_kp=i
                   end if
@@ -1124,12 +1124,12 @@
               say=0;
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
-                  if(abs(zst-zcor(i,1))<1E-08) then
+                  if(abs(zst-zcor(i,1))<1E-08_dp) then
 
-                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08 &
-            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08 &
-            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08 &
-            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08) then
+                  if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%xel-xcor(i,2))<1E-08_dp &
+            .and. abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
+            .and. abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
                   say=say+1
                   dom(ib)%per_kn=i
                   end if
