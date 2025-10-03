@@ -86,7 +86,7 @@
           allocate (Fu(np),Fv(np),Fw(np),rhop_old(np))
           allocate (ptsinproc(nprocs),ptsinproc_g(nprocs))
 
-          open(30,file='LPT.cin')             !reopen the file to read the details of every fraction
+          open(30,file='input/LPT.cin')             !reopen the file to read the details of every fraction
           read(30,*)                          !header
           read(30,*)                          !PSIcell/ball
           read(30,*)                          !nfrac
