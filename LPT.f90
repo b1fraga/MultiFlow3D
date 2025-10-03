@@ -92,7 +92,7 @@
 
                   IF (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
 
-                  Vp = 3.1416*dp_loc(l)**3.d0/6.d0
+                  Vp = 3.1416_dp*dp_loc(l)**3.d0/6.d0
 
                   ip(l)=INT((xp_loc(l)-dom(ib)%x(is-1)-1.d-12)/dom(ib)%dx)+1+pl
                   jp(l)=INT((yp_loc(l)-dom(ib)%y(js-1)-1.d-12)/dom(ib)%dy)+1+pl

@@ -431,7 +431,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           double precision :: theta, phi, pi
           double precision :: u,v,w, ra
 
-          pi = 3.1416d0 !Set value to pi
+          pi = 3.1416_dpd0 !Set value to pi
 
 !             if (sphere_optn.gt.3_dp) print*, 'ERROR!! Invalid spherical ',
 !      &       'release option! Valid options are 0 to 3'

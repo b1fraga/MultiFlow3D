@@ -44,9 +44,9 @@
 
           !2.0_dp Damping
           e_col=1.d0
-          mp=rhop_loc(l)*(4/3)*3.1416*(0.5_dp*dp_loc(l))**3
+          mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
           theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
-         (3.1416**2+(alog(e_col))**2)
+         (3.1416_dp**2+(alog(e_col))**2)
 
           tot_np = np_loc+npg_loc
 
@@ -189,9 +189,9 @@
 
           !3.0_dp Damping
           e_col=1.d0
-          mp=rhop_loc(l)*(4/3)*3.1416*(0.5_dp*dp_loc(l))**3
+          mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
           theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
-         (3.1416**2+(alog(e_col))**2)
+         (3.1416_dp**2+(alog(e_col))**2)
 
 ! ----------------------- collisions with bottom wall ----------------------------------
           if (zp_loc(l)<lambda_w+0.5_dp*dp_loc(l)) then
