@@ -386,17 +386,17 @@
                     dom(ib)%wwm(i+1,j,k)+dom(ib)%wwm(i,j+1,k)+ &
                     dom(ib)%wwm(i+1,j+1,k))
 
-                          uvml  =0.125*(dom(ib)%uvm(i,j,k)+ &
+                          uvml  =0.125_dp*(dom(ib)%uvm(i,j,k)+ &
                     dom(ib)%uvm(i+1,j,k)    +dom(ib)%uvm(i,j+1,k)+ &
                     dom(ib)%uvm(i+1,j+1,k)  +dom(ib)%uvm(i,j,k+1)+ &
                     dom(ib)%uvm(i+1,j,k+1)  +dom(ib)%uvm(i,j+1,k+1)+ &
                     dom(ib)%uvm(i+1,j+1,k+1))
-                          uwml  =0.125*(dom(ib)%uwm(i,j,k)+ &
+                          uwml  =0.125_dp*(dom(ib)%uwm(i,j,k)+ &
                     dom(ib)%uwm(i+1,j,k)    +dom(ib)%uwm(i,j+1,k)+ &
                     dom(ib)%uwm(i+1,j+1,k)  +dom(ib)%uwm(i,j,k+1)+ &
                     dom(ib)%uwm(i+1,j,k+1)  +dom(ib)%uwm(i,j+1,k+1)+ &
                     dom(ib)%uwm(i+1,j+1,k+1))
-                          vwml  =0.125*(dom(ib)%vwm(i,j,k)+ &
+                          vwml  =0.125_dp*(dom(ib)%vwm(i,j,k)+ &
                     dom(ib)%vwm(i+1,j,k)    +dom(ib)%vwm(i,j+1,k)+ &
                     dom(ib)%vwm(i+1,j+1,k)  +dom(ib)%vwm(i,j,k+1)+ &
                     dom(ib)%vwm(i+1,j,k+1)  +dom(ib)%vwm(i,j+1,k+1)+ &

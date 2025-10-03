@@ -167,7 +167,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -206,7 +206,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -245,7 +245,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -299,7 +299,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -346,7 +346,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -393,7 +393,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1115,7 +1115,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1154,7 +1154,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1193,7 +1193,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1247,7 +1247,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1294,7 +1294,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1341,7 +1341,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2162,7 +2162,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2201,7 +2201,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2240,7 +2240,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2294,7 +2294,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2341,7 +2341,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2388,7 +2388,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3089,7 +3089,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3128,7 +3128,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3167,7 +3167,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3221,7 +3221,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3268,7 +3268,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3315,7 +3315,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do

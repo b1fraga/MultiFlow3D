@@ -4,6 +4,7 @@
           use multidata
           use mpi
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ijk,ib,op,nly,chck_f,chck_c,no1,no2
           integer :: is,ie,js,je,ks,ke,ief,jef,kef,iec,jec,kec
@@ -280,7 +281,7 @@
               do k=no1,nkc+no2; do j=no1,njc+no2; do i=no1,nic+no2
                           i1=2*i-pl-1; i2=2*i-pl; j1=2*j-pl-1; j2=2*j-pl
                           k1=2*k-pl-1; k2=2*k-pl
-                          fic(ib,i,j,k)=0.125*(fi(i1,j1,k1)+fi(i1,j1,k2)+ &
+                          fic(ib,i,j,k)=0.125_dp*(fi(i1,j1,k1)+fi(i1,j1,k2)+ &
                     fi(i1,j2,k1)+fi(i1,j2,k2)+fi(i2,j1,k1)+fi(i2,j1,k2)+ &
                     fi(i2,j2,k1)+fi(i2,j2,k2))
                       end do; end do; end do; end if

@@ -53,7 +53,7 @@ SELECT CASE (cond)
   CASE (65)
 !.....specify constants for 1/8 power law ..............................
     aaa = 8.3_dp
-    bbb = 0.125
+    bbb = 0.125_dp
 
 END SELECT
 

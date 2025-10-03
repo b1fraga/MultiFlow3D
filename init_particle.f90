@@ -289,40 +289,40 @@
                     dom(ib)%w(i+1,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i+1,j+1,k))
 
-                          p_cn  =0.125*(dom(ib)%p(i,j,k)+ &
+                          p_cn  =0.125_dp*(dom(ib)%p(i,j,k)+ &
                     dom(ib)%p(i+1,j,k)    +dom(ib)%p(i,j+1,k)+ &
                     dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+ &
                     dom(ib)%p(i+1,j,k+1)  +dom(ib)%p(i,j+1,k+1)+ &
                     dom(ib)%p(i+1,j+1,k+1))
                           if (LSCALAR) then
-                          S_cn  =0.125*(dom(ib)%S(i,j,k)+ &
+                          S_cn  =0.125_dp*(dom(ib)%S(i,j,k)+ &
                     dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+ &
                     dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+ &
                     dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+ &
                     dom(ib)%S(i+1,j+1,k+1))
-                          rho_cn  =0.125*(dom(ib)%dens(i,j,k)+ &
+                          rho_cn  =0.125_dp*(dom(ib)%dens(i,j,k)+ &
                     dom(ib)%dens(i+1,j,k)    +dom(ib)%dens(i,j+1,k)+ &
                     dom(ib)%dens(i+1,j+1,k)  +dom(ib)%dens(i,j,k+1)+ &
                     dom(ib)%dens(i+1,j,k+1)  +dom(ib)%dens(i,j+1,k+1)+ &
                     dom(ib)%dens(i+1,j+1,k+1))
                           endif
-!                 k_cn  =0.125*(dom(ib)%ksgs(i,j,k)+
+!                 k_cn  =0.125_dp*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
 !     &dom(ib)%ksgs(i+1,j+1,k)  +dom(ib)%ksgs(i,j,k+1)+
 !     &dom(ib)%ksgs(i+1,j,k+1)  +dom(ib)%ksgs(i,j+1,k+1)+
 !     &dom(ib)%ksgs(i+1,j+1,k+1))
-!                 eps_cn  =0.125*(dom(ib)%eps(i,j,k)+
+!                 eps_cn  =0.125_dp*(dom(ib)%eps(i,j,k)+
 !     &dom(ib)%eps(i+1,j,k)    +dom(ib)%eps(i,j+1,k)+
 !     &dom(ib)%eps(i+1,j+1,k)  +dom(ib)%eps(i,j,k+1)+
 !     &dom(ib)%eps(i+1,j,k+1)  +dom(ib)%eps(i,j+1,k+1)+
 !     &dom(ib)%eps(i+1,j+1,k+1))
-!                 vis_cn  =0.125*(dom(ib)%vis(i,j,k)+
+!                 vis_cn  =0.125_dp*(dom(ib)%vis(i,j,k)+
 !     &dom(ib)%vis(i+1,j,k)    +dom(ib)%vis(i,j+1,k)+
 !     &dom(ib)%vis(i+1,j+1,k)  +dom(ib)%vis(i,j,k+1)+
 !     &dom(ib)%vis(i+1,j,k+1)  +dom(ib)%vis(i,j+1,k+1)+
 !     &dom(ib)%vis(i+1,j+1,k+1))
                           if (LENERGY) then
-                          T_cn  =0.125*(dom(ib)%T(i,j,k)+ &
+                          T_cn  =0.125_dp*(dom(ib)%T(i,j,k)+ &
                     dom(ib)%T(i+1,j,k)    +dom(ib)%T(i,j+1,k)+ &
                     dom(ib)%T(i+1,j+1,k)  +dom(ib)%T(i,j,k+1)+ &
                     dom(ib)%T(i+1,j,k+1)  +dom(ib)%T(i,j+1,k+1)+ &

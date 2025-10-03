@@ -98,7 +98,7 @@
                               ij7 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2)
                               ij8 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2) +1
 
-                              dom(ib)%dens_mg(ijk_lsm)=0.125*(dom(ib)%dens_mg(ij1)+ &
+                              dom(ib)%dens_mg(ijk_lsm)=0.125_dp*(dom(ib)%dens_mg(ij1)+ &
                         dom(ib)%dens_mg(ij2)+dom(ib)%dens_mg(ij3)+dom(ib)%dens_mg(ij4) + &
                         dom(ib)%dens_mg(ij5)+dom(ib)%dens_mg(ij6)+dom(ib)%dens_mg(ij7) + &
                         dom(ib)%dens_mg(ij8))
@@ -744,7 +744,7 @@
                           ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
 
-                          dom(ib)%cof(ijksu)=0.125*(resf(2*i-2,2*j-2,2*k-2)+ &
+                          dom(ib)%cof(ijksu)=0.125_dp*(resf(2*i-2,2*j-2,2*k-2)+ &
                     resf(2*i-1,2*j-2,2*k-2)+resf(2*i-2,2*j-1,2*k-2)+ &
                     resf(2*i-1,2*j-1,2*k-2)+resf(2*i-2,2*j-2,2*k-1)+ &
                     resf(2*i-1,2*j-2,2*k-1)+resf(2*i-2,2*j-1,2*k-1)+ &
