@@ -118,11 +118,11 @@
           do ib=1,nbp
               dtvisc=max(mul/densl,mug/densg)* &
         (2.0_dp/(dxx)+2.0_dp/(dyy)+2.0_dp/(dzz))
-              Cu=1./((umax/dom(ib)%dx+dtvisc)+sqrt((umax/dom(ib)%dx+ &
+              Cu=1.0_dp/((umax/dom(ib)%dx+dtvisc)+sqrt((umax/dom(ib)%dx+ &
         dtvisc)**2+4.*abs(gx)/dom(ib)%dx))
-              Cv=1./((vmax/dom(ib)%dy+dtvisc)+sqrt((vmax/dom(ib)%dy+ &
+              Cv=1.0_dp/((vmax/dom(ib)%dy+dtvisc)+sqrt((vmax/dom(ib)%dy+ &
         dtvisc)**2+4.*abs(gy)/dom(ib)%dy))
-              Cw=1./((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+ &
+              Cw=1.0_dp/((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+ &
         dtvisc)**2+4.*abs(gz)/dom(ib)%dz))
               dt = 2.*safety_factor*min(Cu,Cv,Cw)
           end do

@@ -15,7 +15,7 @@
 ! Set some constants ---------------------
 ! ..... 3-STEP RUNGE KUTTA
           if (conv_sch==4) then
-          alfark(1)=1./3.
+          alfark(1)=1.0_dp/3.
           alfark(2)=0.5_dp
           alfark(3)=1.0_dp
           kuttacond=3
@@ -73,7 +73,7 @@
               if (read_inflow) then
               if (ireadinlet==ITMAX_PI.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.and.iaddinlet==-1) then
+              elseif (ireadinlet==1.0_dp.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet
@@ -81,7 +81,7 @@
               elseif ((bc_w==8)) then
               if (ireadinlet==ITMAX_SEM.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.and.iaddinlet==-1) then
+              elseif (ireadinlet==1.0_dp.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet

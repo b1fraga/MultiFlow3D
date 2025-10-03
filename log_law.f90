@@ -44,8 +44,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_west==61) then               !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
                       do while ((conv>(1.d-3)).and. &
@@ -88,8 +88,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_east==61) then               !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
                       do while ((conv>(1.d-3)).and. &
@@ -133,8 +133,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_south==61) then              !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
                       do while ((conv>(1.d-3)).and. &
@@ -178,8 +178,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_north==61) then              !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
                       do while ((conv>(1.d-3)).and. &
@@ -224,8 +224,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_bottom==61) then             !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
 
@@ -273,8 +273,8 @@
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
                       elseif (dom(ib)%bc_top==61) then                !smooth wall
-                      conv  = 1.
-                      ustar = 1.
+                      conv  = 1.0_dp
+                      ustar = 1.0_dp
                       icont = 0
                       tkmax = 10
                       do while ((conv>(1.d-3)).and. &

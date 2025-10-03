@@ -23,7 +23,7 @@
           character*8 :: chb1
           character*25 :: gf
 
-          alfark(1)=1./3.
+          alfark(1)=1.0_dp/3.
           alfark(2)=0.5_dp
           alfark(3)=1.0_dp
 

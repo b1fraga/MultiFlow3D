@@ -81,18 +81,18 @@
                       do j = js,je
                           ijk=j+(i-1)*nj+(k-1)*nij
                           lb(ib,ijk)=dom(ib)%ab(i,j,k)/ &
-                    (1.+alfa*(un(ib,ijk-nij)+ue(ib,ijk-nij)))
+                    (1.0_dp+alfa*(un(ib,ijk-nij)+ue(ib,ijk-nij)))
                           lw(ib,ijk)=dom(ib)%aw(i,j,k)/ &
-                    (1.+alfa*(un(ib,ijk-nj)+ut(ib,ijk-nj)))
+                    (1.0_dp+alfa*(un(ib,ijk-nj)+ut(ib,ijk-nj)))
                           ls(ib,ijk)=dom(ib)%as(i,j,k)/ &
-                    (1.+alfa*(ue(ib,ijk-1)+ut(ib,ijk-1)))
+                    (1.0_dp+alfa*(ue(ib,ijk-1)+ut(ib,ijk-1)))
                           p1=alfa*(lb(ib,ijk)*un(ib,ijk-nij)+ &
                     lw(ib,ijk)*un(ib,ijk-nj))
                           p2=alfa*(lb(ib,ijk)*ue(ib,ijk-nij)+ &
                     ls(ib,ijk)*ue(ib,ijk-1))
                           p3=alfa*(lw(ib,ijk)*ut(ib,ijk-nj)+ &
                     ls(ib,ijk)*ut(ib,ijk-1))
-                          lpr(ib,ijk)=1./(dom(ib)%ap(i,j,k)+p1+p2+p3- &
+                          lpr(ib,ijk)=1.0_dp/(dom(ib)%ap(i,j,k)+p1+p2+p3- &
                     lb(ib,ijk)*ut(ib,ijk-nij)-lw(ib,ijk)*ue(ib,ijk-nj)- &
                     ls(ib,ijk)*un(ib,ijk-1)+small)
                           un(ib,ijk)=(dom(ib)%an(i,j,k)-p1)*lpr(ib,ijk)

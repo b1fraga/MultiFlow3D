@@ -192,7 +192,7 @@
           integer :: is,ie,js,je,ks,ke
           !++++++++++may need to edit constitutive relationship
           dom(ib)%dens(i,j,k) = &
-    999.8_dp/(1.+0.000088*(dom(ib)%T(i,j,k)+20.))
+    999.8_dp/(1.0_dp+0.000088*(dom(ib)%T(i,j,k)+20.))
           dom(ib)%mu(i,j,k) = &
     2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.-413.d0))
           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)

@@ -60,10 +60,10 @@ END SELECT
 
 !.....constant factors .................................................
 
-          const1 = 0.5_dp * (1. - bbb) * aaa ** ((1. + bbb) / (1. - bbb))
-          const2 = (1. + bbb) / aaa
-          const3 = aaa ** (2. / (1. - bbb))
-          const4 = 2. / (1. + bbb)
+          const1 = 0.5_dp * (1.0_dp - bbb) * aaa ** ((1.0_dp + bbb) / (1.0_dp - bbb))
+          const2 = (1.0_dp + bbb) / aaa
+          const3 = aaa ** (2. / (1.0_dp - bbb))
+          const4 = 2. / (1.0_dp + bbb)
 
           SELECT CASE (bound)
 
@@ -82,16 +82,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauww(j,k)=(sub*tausub+(1.-sub)*taupow)   !tau_1
+                      dom(ib)%tauww(j,k)=(sub*tausub+(1.0_dp-sub)*taupow)   !tau_1
                       dom(ib)%tauww2(j,k)=dom(ib)%tauww(j,k)/vtan       !needs to be multiplied by a velocity component to provide tau_1j
                   end do
               end do
@@ -112,16 +112,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauwe(j,k)=(sub*tausub+(1.-sub)*taupow)   !units m2/s2
+                      dom(ib)%tauwe(j,k)=(sub*tausub+(1.0_dp-sub)*taupow)   !units m2/s2
                       dom(ib)%tauwe2(j,k)=dom(ib)%tauwe(j,k)/vtan       !units m/s
                   end do
               end do
@@ -142,16 +142,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauws(i,k)=(sub*tausub+(1.-sub)*taupow)
+                      dom(ib)%tauws(i,k)=(sub*tausub+(1.0_dp-sub)*taupow)
                       dom(ib)%tauws2(i,k)=dom(ib)%tauws(i,k)/vtan
                   end do
               end do
@@ -172,16 +172,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauwn(i,k)=(sub*tausub+(1.-sub)*taupow)
+                      dom(ib)%tauwn(i,k)=(sub*tausub+(1.0_dp-sub)*taupow)
                       dom(ib)%tauwn2(i,k)=dom(ib)%tauwn(i,k)/vtan
                   end do
               end do
@@ -202,16 +202,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauwb(i,j)=(sub*tausub+(1.-sub)*taupow)
+                      dom(ib)%tauwb(i,j)=(sub*tausub+(1.0_dp-sub)*taupow)
                       dom(ib)%tauwb2(i,j)=dom(ib)%tauwb(i,j)/vtan
                   end do
               end do
@@ -232,16 +232,16 @@ END SELECT
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
-                      rycell = 1. / dycell
+                      rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
 
                       tausub   = rrey * vtan / delta
-                      taupow   = ( const1 * (rrey * rycell)**(1.+bbb) + &
+                      taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
                            ( const2 * (rrey * rycell)**bbb) * vtan) &
                               ** const4
-                      dom(ib)%tauwt(i,j)=(sub*tausub+(1.-sub)*taupow)
+                      dom(ib)%tauwt(i,j)=(sub*tausub+(1.0_dp-sub)*taupow)
                       dom(ib)%tauwt2(i,j)=dom(ib)%tauwt(i,j)/vtan
                   end do
               end do

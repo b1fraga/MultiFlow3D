@@ -380,7 +380,7 @@
                           ratio = ratio ** 3
 
                           if (ratio<12.) then
-                          damp = sqrt (1. - exp (-ratio) )
+                          damp = sqrt (1.0_dp - exp (-ratio) )
                           endif
                           endif
 

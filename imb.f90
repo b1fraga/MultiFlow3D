@@ -233,7 +233,7 @@ module imb
             action="write")
                   write (forcefilej,*)'Variables="TIME","Deg","Fx","Fy","Fz"'
                   IF(imb_shape(K)==5 .and. i==1)then
-                  lambda=radsin(K)*R(K)/1.
+                  lambda=radsin(K)*R(K)/1.0_dp
                   sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416)
                   revoltime=2.d0*PI/radsin(K)
                   write(6,'(a,i1)')   '        Turbine  ',K,''

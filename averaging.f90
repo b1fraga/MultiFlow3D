@@ -29,13 +29,13 @@
                           if (L_LSM) then
                           if (dom(ib)%phi(i,j,k)>=0.0_dp) then
                           dom(ib)%ntav1(i,j,k)=dom(ib)%ntav1(i,j,k)+1
-                          dom(ib)%facp1(i,j,k)=1./dom(ib)%ntav1(i,j,k)
-                          dom(ib)%facm1(i,j,k)=1.-dom(ib)%facp1(i,j,k)
+                          dom(ib)%facp1(i,j,k)=1.0_dp/dom(ib)%ntav1(i,j,k)
+                          dom(ib)%facm1(i,j,k)=1.0_dp-dom(ib)%facp1(i,j,k)
                           end if
                           else
                           dom(ib)%ntav1(i,j,k)=dom(ib)%ntav1(i,j,k)+1
-                          dom(ib)%facp1(i,j,k)=1./dom(ib)%ntav1(i,j,k)
-                          dom(ib)%facm1(i,j,k)=1.-dom(ib)%facp1(i,j,k)
+                          dom(ib)%facp1(i,j,k)=1.0_dp/dom(ib)%ntav1(i,j,k)
+                          dom(ib)%facm1(i,j,k)=1.0_dp-dom(ib)%facp1(i,j,k)
                           end if
                       end do
                   end do
@@ -51,13 +51,13 @@
                           if (L_LSM) then
                           if (dom(ib)%phi(i,j,k)>=0.0_dp) then
                           dom(ib)%ntav2(i,j,k)=dom(ib)%ntav2(i,j,k)+1
-                          dom(ib)%facp2(i,j,k)=1./dom(ib)%ntav2(i,j,k)
-                          dom(ib)%facm2(i,j,k)=1.-dom(ib)%facp2(i,j,k)
+                          dom(ib)%facp2(i,j,k)=1.0_dp/dom(ib)%ntav2(i,j,k)
+                          dom(ib)%facm2(i,j,k)=1.0_dp-dom(ib)%facp2(i,j,k)
                           end if
                           else
                           dom(ib)%ntav2(i,j,k)=dom(ib)%ntav2(i,j,k)+1
-                          dom(ib)%facp2(i,j,k)=1./dom(ib)%ntav2(i,j,k)
-                          dom(ib)%facm2(i,j,k)=1.-dom(ib)%facp2(i,j,k)
+                          dom(ib)%facp2(i,j,k)=1.0_dp/dom(ib)%ntav2(i,j,k)
+                          dom(ib)%facm2(i,j,k)=1.0_dp-dom(ib)%facp2(i,j,k)
                           end if
                       end do
                   end do

@@ -31,15 +31,15 @@
           if (r<=-2.5_dp) then
           phi_r2smth = 0.0_dp
           else if ((r>=-2.5_dp).and.(r<=-1.5_dp)) then
-          phi_r2smth= -1./8./PI*(-5.*PI-2.*PI*r+4.*sin(PI/4.*(-2.*r-1.)))
+          phi_r2smth= -1.0_dp/8./PI*(-5.*PI-2.*PI*r+4.*sin(PI/4.*(-2.*r-1.0_dp)))
           else if ((r>=-1.5_dp).and.(r<=0.0_dp)) then
-          phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(-2.*r+1.)) &
-                             -2.*sin(PI/4.*(-2.*r-1.)))
+          phi_r2smth = 1.0_dp/4./PI*(PI+2.*sin(PI/4.*(-2.*r+1.0_dp)) &
+                             -2.*sin(PI/4.*(-2.*r-1.0_dp)))
           else if ((r>=0.0_dp).and.(r<=1.5_dp)) then
-          phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(2.*r+1.)) &
-                             -2.*sin(PI/4.*(2.*r-1.)))
+          phi_r2smth = 1.0_dp/4./PI*(PI+2.*sin(PI/4.*(2.*r+1.0_dp)) &
+                             -2.*sin(PI/4.*(2.*r-1.0_dp)))
           else if ((r>=1.5_dp).and.(r<=2.5_dp)) then
-          phi_r2smth= -1./8./PI*(-5.*PI+2.*PI*r+4.*sin(PI/4.*(2.*r-1.)))
+          phi_r2smth= -1.0_dp/8./PI*(-5.*PI+2.*PI*r+4.*sin(PI/4.*(2.*r-1.0_dp)))
           else if (r>=2.5_dp) then
           phi_r2smth = 0.0_dp
           end if
