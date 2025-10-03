@@ -43,7 +43,7 @@ SELECT CASE (cond)
   CASE (63)
 !.....specify constants for 1/6 power law ..............................
     aaa = 8.3_dp
-    bbb = 0.1666666666
+    bbb = 0.1666666666_dp
 
   CASE (64)
 !.....specify constants for 1/7 power law ..............................

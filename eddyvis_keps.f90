@@ -34,7 +34,7 @@
               call eddyv_eps(alfark(rk))
           enddo
 
-          cmu=0.09
+          cmu=0.09_dp
 
           do ib=1,nbp
 
@@ -57,7 +57,7 @@
                     cmu*dom(ib)%ksgs(i,j,k)**2.0_dp/dom(ib)%eps(i,j,k)               !laminar + eddy viscosity
 
                           dom(ib)%vis(i,j,k) = min(dom(ib)%vis(i,j,k), &
-                    0.33*dom(ib)%ksgs(i,j,k)*sqrt(1.5_dp/strain(i,j,k)))
+                    0.33_dp*dom(ib)%ksgs(i,j,k)*sqrt(1.5_dp/strain(i,j,k)))
                       enddo ; enddo ; enddo
 !   enddo
 
@@ -255,8 +255,8 @@
           double precision :: alfark
           double precision :: strain
 
-          sigmak=1.00
-          cmu = 0.09
+          sigmak=1.00_dp
+          cmu = 0.09_dp
 
           do ib=1,nbp
               do k=1,dom(ib)%ttc_k
@@ -301,7 +301,7 @@
 
                           prod=0.75_dp*2.0_dp*vsgs*strain(i,j,k)
 
-                          prod=min(prod,20.*dom(ib)%epso(i,j,k))
+                          prod=min(prod,20.0_dp*dom(ib)%epso(i,j,k))
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                           if(dom(ib)%uoo(i-1,j,k)>0.0_dp) then
@@ -499,7 +499,7 @@
           double precision :: conv,diff,prod,other
           double precision :: alfark,strain
 
-          c1eps=1.44; c2eps=1.92 ; sigmaeps=1.31 ; cmu=0.09
+          c1eps=1.44_dp; c2eps=1.92_dp ; sigmaeps=1.31_dp ; cmu=0.09_dp
 
           do ib=1,nbp
 

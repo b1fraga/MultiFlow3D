@@ -107,6 +107,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,sn
           double precision resid
@@ -142,7 +143,7 @@
 
                           write (88,88) dom(ib)%xc(i),dom(ib)%yc(j), &
                     dom(ib)%zc(k),abs(resid)
-                          if(abs(resid)>1e-6) write (78,88) dom(ib)%xc(i), &
+                          if(abs(resid)>1e-6_dp) write (78,88) dom(ib)%xc(i), &
                     dom(ib)%yc(j),dom(ib)%zc(k),abs(resid)
                       end do
                   end do

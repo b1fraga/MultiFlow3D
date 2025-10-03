@@ -546,7 +546,7 @@
 
 
           IF (imb_shape(numIB)==5 .and. turax(numIB)==1 .and. &
-       pitch(numIB)<0.000) then
+       pitch(numIB)<0.000_dp) then
           angle=pitch(numIB)*PI/180.d0     !Angle of attack in radians
           do i=1,nin*nlay          !Rotate the body.
               nodex(numIB,i)=nodex(numIB,i)*cos(angle)- &

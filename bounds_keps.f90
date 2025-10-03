@@ -208,7 +208,7 @@
           double precision :: rk1,drkdy,lz
           double precision :: dx,dy,dz,kappa,delta
 
-          kappa=0.41
+          kappa=0.41_dp
           lz=zen-zst
           if (L_LSM) lz=length
           if (L_LSMbase) lz=length
@@ -255,7 +255,7 @@
                   else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(is-1-ly,j,k) = &
-                    0.09**0.75_dp*dom(ib)%ksgs(is-1-ly,j,k)**1.5_dp/(0.07*lz)
+                    0.09_dp**0.75_dp*dom(ib)%ksgs(is-1-ly,j,k)**1.5_dp/(0.07_dp*lz)
                       end do; end do
                   else if (dom(ib)%bc_west/=5) then
                   do k=ks-1,ke+1; do j=js-1,je+1

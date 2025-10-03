@@ -457,7 +457,7 @@
                   gamma_p=rhop_loc(l)/dens                                          ! constant density
                   endif
 
-                  if ((dp_loc(l))<0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
+                  if ((dp_loc(l))<0.00001_dp) then !Particles with dp<10um treated as passive Aleks 05/2022
                   up_pt(l) = ui_pt(l)
                   vp_pt(l) = vi_pt(l)
                   wp_pt(l) = wi_pt(l)
@@ -494,7 +494,7 @@
                   IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
 
-                  if ((dp_loc(l))>=0.00001) then !only do calcs if dp>=10um
+                  if ((dp_loc(l))>=0.00001_dp) then !only do calcs if dp>=10um
                   !Update slip velocity
                   a = up_pt(l)-ui_pt(l)
                   b = vp_pt(l)-vi_pt(l)

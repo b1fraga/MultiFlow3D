@@ -11,6 +11,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: ib,i,j,k,tti,ttj,ttk
           integer :: is,ie,js,je,ks,ke
@@ -26,7 +27,7 @@
                   do j=1,ttj
                       do i=1,tti
 
-                          if (dom(ib)%z(k)<0.05) then  !sludge
+                          if (dom(ib)%z(k)<0.05_dp) then  !sludge
                           dom(ib)%S(i,j,k) = 1
                           else
                           dom(ib)%S(i,j,k) = 0 !fresh water
@@ -236,7 +237,7 @@
                     atS*dom(ib)%So(i,j,k+1) + ab_S*dom(ib)%So(i,j,k-1))
 
                           dom(ib)%S(i,j,k)=dom(ib)%So(i,j,k)-dt*(conv+diff)
-                          dom(ib)%dens(i,j,k)=(0.007587*dom(ib)%S(i,j,k)+0.9947)*1000.0_dp
+                          dom(ib)%dens(i,j,k)=(0.007587_dp*dom(ib)%S(i,j,k)+0.9947_dp)*1000.0_dp
 
 !   if (dom(ib)%S(i,j,k) .lt. 0.0_dp) then
 !   write (81,*) dom(ib)%S(i,j,k), dom(ib)%So(i,j,k)
@@ -413,6 +414,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer ib,i,j,k
@@ -422,8 +424,8 @@
               do i=dom(ib)%isp,dom(ib)%iep
                   do j=dom(ib)%jsp,dom(ib)%jep
                       do k=dom(ib)%ksp,dom(ib)%kep
-                          n=0.6894+0.0046831*(dom(ib)%T(i,j,j)-273) &
-                    -0.042813*dom(ib)%S(i,j,k)
+                          n=0.6894_dp+0.0046831_dp*(dom(ib)%T(i,j,j)-273) &
+                    -0.042813_dp*dom(ib)%S(i,j,k)
                           if (strain(i,j,k)>1d-8) then
                           dom(ib)%mu(i,j,k)= rrey*dens*strain(i,j,k)**(n-1.d0)
                           else
@@ -449,8 +451,8 @@
           !constitutive relationship is for density
           do ib=1,nbp
               do i=1,dom(ib)%ttc_i;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
-                          dom(ib)%dens(i,j,k)=0.0367*dom(ib)%S(i,j,k)**3.d0 &       !based on sludge on this case
-                                -2.38*dom(ib)%S(i,j,k)**2.d0 &
+                          dom(ib)%dens(i,j,k)=0.0367_dp*dom(ib)%S(i,j,k)**3.d0 &       !based on sludge on this case
+                                -2.38_dp*dom(ib)%S(i,j,k)**2.d0 &
                                 +14.6_dp*dom(ib)%S(i,j,k)+1000
 
                       enddo;enddo;enddo

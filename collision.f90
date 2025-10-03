@@ -100,7 +100,7 @@
                   dis_z = zpg_sv(l2)-zp_sv(l)                           ! difference on coordinate in z
                   dis_dd = (dp_loc(l)+dpg_sv(l2))*0.5_dp                   ! sum up Radius
                   dis_xyz = sqrt(dis_x**2+dis_y**2+dis_z**2)
-                  lambda_p = 0.375*0.2_dp*(dp_sv(l)*0.5_dp+dpg_sv(l2)*0.5_dp)          ! CFL for particle-particle
+                  lambda_p = 0.375_dp*0.2_dp*(dp_sv(l)*0.5_dp+dpg_sv(l2)*0.5_dp)          ! CFL for particle-particle
                   if ((dis_xyz/=0.d0).and.(dis_xyz<(dis_dd+lambda_p))) then          !
 
                   !           write(myrank+700,*) l1,zp_sv(l1),wp_sv(l1)

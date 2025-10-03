@@ -15,7 +15,7 @@
           double precision ustar,yplus,ustarold,conv,Ecte,kappa
 
           small = 1.e-30_dp
-          kappa = 0.41
+          kappa = 0.41_dp
           Ecte  = 9.0_dp
 
 
@@ -52,7 +52,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
@@ -96,7 +96,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
@@ -141,7 +141,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
@@ -186,7 +186,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
@@ -233,7 +233,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
@@ -281,7 +281,7 @@
                 (icont<tkmax))
                           icont=icont+1
                           ustarold = ustar
-                          yplus = max(1.0000001,delta*ustar/rrey)
+                          yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo

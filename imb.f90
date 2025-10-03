@@ -681,7 +681,7 @@ module imb
 !The index of the neighbours number nl to the Lagrangian L are:
                               I_nr_U(L,nl)=I ;  J_nr_U(L,nl)=J ;  K_nr_U(L,nl)=K
                               dhtotal=dhtotal+dh1_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 876
+                              if(dhtotal>=0.9999_dp) goto 876
   212                         CONTINUE
                           END DO
   211                     CONTINUE
@@ -709,7 +709,7 @@ module imb
 
                               I_nr_V(L,nl)=I ;  J_nr_V(L,nl)=J ;  K_nr_V(L,nl)=K
                               dhtotal=dhtotal+dh2_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 877
+                              if(dhtotal>=0.9999_dp) goto 877
   222                         CONTINUE
                           END DO
   221                     CONTINUE
@@ -737,7 +737,7 @@ module imb
 
                               I_nr_W(L,nl)=I ;  J_nr_W(L,nl)=J ;  K_nr_W(L,nl)=K
                               dhtotal=dhtotal+dh3_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 878
+                              if(dhtotal>=0.9999_dp) goto 878
   232                         CONTINUE
                           END DO
   231                     CONTINUE
@@ -796,7 +796,7 @@ module imb
 
                               I_nr_T(L,nl)=I ;  J_nr_T(L,nl)=J ;  K_nr_T(L,nl)=K
                               dhtotal=dhtotal+dh4_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 880
+                              if(dhtotal>=0.9999_dp) goto 880
   252                         CONTINUE
                           END DO
   251                     CONTINUE
@@ -990,7 +990,7 @@ module imb
 
                               !ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 700
+                              IF (dhtotal>=0.9999_dp) GOTO 700
 
   212                         CONTINUE
                           END DO
@@ -1045,7 +1045,7 @@ module imb
 
                               !ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 701
+                              IF (dhtotal>=0.9999_dp) GOTO 701
   222                         CONTINUE
                           END DO
   221                     CONTINUE
@@ -1092,7 +1092,7 @@ module imb
                               KmaxW(L)=nl
                               I_nr_W(L,nl)=I ; J_nr_W(L,nl)=J ; K_nr_W(L,nl)=K
                               !ENDIF
-                              IF (dhtotal>=0.9999) GOTO 702
+                              IF (dhtotal>=0.9999_dp) GOTO 702
   232                         CONTINUE
                           END DO
   231                     CONTINUE
@@ -1205,7 +1205,7 @@ module imb
 
 !       ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 704
+                              IF (dhtotal>=0.9999_dp) GOTO 704
 
   252                         CONTINUE
                           END DO
@@ -1430,7 +1430,7 @@ module imb
                   end do
 
                   alph          = rads(M)+(iii-1)*2.0_dp*PI/imbnumber(M)
-                  alpharads=alph*180./PI
+                  alpharads=alph*180.0_dp/PI
 
                   write(forcefilej,88) CTIME,alpharads,fx_loc,fy_loc,fz_loc
 

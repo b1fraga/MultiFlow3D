@@ -207,7 +207,7 @@
 
           aa(1)=-3.0_dp
           do ii=2,301
-              aa(ii)=aa(ii-1)+0.02
+              aa(ii)=aa(ii-1)+0.02_dp
               xicount=0
               do i =1, ni
                   do j=1,nj

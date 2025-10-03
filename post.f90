@@ -423,6 +423,7 @@
           use vars
           use multidata
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer :: sn,sn1,i,j,k,toti,totj,totk
@@ -472,7 +473,7 @@
         ' i=',toti,', ',' j=',totj,', k= ',totk, &
         'zonetype=', 'ordered',', DATAPACKING=point'
               else if (L_LSMinit) then
-              write (88,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', 0.00000, &
+              write (88,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', 0.00000_dp, &
         ' i=',toti,', ',' j=',totj,', k= ',totk, &
         'zonetype=', 'ordered',', DATAPACKING=point'
               else

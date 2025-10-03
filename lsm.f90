@@ -1578,7 +1578,7 @@
           implicit none
           integer :: i,j,k,n_epsl,ib,tti,ttj,ttk
           real :: epsl
-          real, parameter :: pi = 3.14159265359
+          real, parameter :: pi = 3.14159265359_dp
 !
 ! Define an infinitely differentiable smoothed heaviside function h_phi
 !

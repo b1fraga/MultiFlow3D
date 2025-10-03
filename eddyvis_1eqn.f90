@@ -27,7 +27,7 @@
           alfark(2)=0.5_dp
           alfark(3)=1.0_dp
 
-          cons_k=0.05; cons_eps=1.00
+          cons_k=0.05_dp; cons_eps=1.00_dp
 
           do rk=1,3
 

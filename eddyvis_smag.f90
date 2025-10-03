@@ -374,12 +374,12 @@
                           damp= 1.0_dp
 
                           if (vandriest .and. chk_wallboun==1) then
-                          if(abs(dnmin-1e10)<0.001) print*,'errorrrrr1'
+                          if(abs(dnmin-1e10_dp)<0.001_dp) print*,'errorrrrr1'
                           yplus = dnmin * Re * utauw
                           ratio = min (yplus/25.0_dp,100.0_dp)
                           ratio = ratio ** 3
 
-                          if (ratio<12.) then
+                          if (ratio<12.0_dp) then
                           damp = sqrt (1.0_dp - exp (-ratio) )
                           endif
                           endif

@@ -32,8 +32,8 @@
           print*,'error in sipsol'
           end if
 
-          alfa=0.92
-          small=1e-20
+          alfa=0.92_dp
+          small=1e-20_dp
 
           xx=-1; maxttc_ijk=0
           do ib=1,nbp
@@ -192,8 +192,8 @@
 ! --- TERMINATION JUDGEMENT
               reldif=abs (rsm - relast)
               relast=rsm
-              if (rsm<=0.001)    goto 2100
-              if (reldif<=0.00001) goto 2100
+              if (rsm<=0.001_dp)    goto 2100
+              if (reldif<=0.00001_dp) goto 2100
           end do
 
           nsweep = nsweep - 1

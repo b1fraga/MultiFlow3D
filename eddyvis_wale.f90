@@ -23,7 +23,7 @@
           character*25 :: gf
 
 
-          cw=0.46
+          cw=0.46_dp
 
           do ib=1,nbp
 
@@ -41,9 +41,9 @@
 
                           if (LENERGY) then
                           dom(ib)%dens(i,j,k) = &
-                    999.8_dp/(1.0_dp+0.000088*(dom(ib)%T(i,j,k)+20.))
+                    999.8_dp/(1.0_dp+0.000088_dp*(dom(ib)%T(i,j,k)+20.0_dp))
                           dom(ib)%mu(i,j,k) = &
-                    2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.-413.d0))
+                    2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.0_dp-413.d0))
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                           endif
 

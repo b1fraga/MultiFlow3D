@@ -18,7 +18,7 @@
           umax=0.0_dp
           vmax=0.0_dp
           wmax=0.0_dp
-          small=1e-30
+          small=1e-30_dp
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 

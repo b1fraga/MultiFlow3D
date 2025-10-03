@@ -77,7 +77,7 @@
 
           if (.not.LPT) np=0
 
-          if (trim(L_n)=='n') fric=fric**0.33
+          if (trim(L_n)=='n') fric=fric**0.33_dp
 
 !        if(bc_w.eq.5_dp .or. bc_e.eq.5_dp .or.
 !     & bc_s.eq.5_dp .or. bc_n.eq.5_dp .or.
@@ -534,7 +534,7 @@
           call MPI_ALLREDUCE(buffer_fmout,fmout,1,MPI_FLT,MPI_SUM, &
     MPI_COMM_WORLD,ierr)
 
-          fct=flomas/(fmout+1.E-30)
+          fct=flomas/(fmout+1.E-30_dp)
 
           Mdef=flomas-fmout
 
@@ -799,9 +799,9 @@
 
               if (sgs_model>2) then
               dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
-              dom(ib)%eps  = 0.09**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07*lz)
+              dom(ib)%eps  = 0.09_dp**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07_dp*lz)
               dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
-              dom(ib)%epso  = 0.09**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07*lz)
+              dom(ib)%epso  = 0.09_dp**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07_dp*lz)
               endif
 
               if (trim(keyword)=='channel') then
