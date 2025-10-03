@@ -42,7 +42,7 @@
               nif=2*(ni-2*pl)+2*pl
               njf=2*(nj-2*pl)+2*pl
               nkf=2*(nk-2*pl)+2*pl
-              if(rdiv(dom_id(ib)).eq.1) then
+              if(rdiv(dom_id(ib))==1) then
               nic=ni; njc=nj; nkc=nk
               else
               nic=int((ni-2*pl)/2)+2*pl
@@ -54,8 +54,8 @@
               nixf=max(nif,nixf); njxf=max(njf,njxf); nkxf=max(nkf,nkxf)
           end do
 
-          if(chck_c.eq.1) allocate(fic(nbp,nixc,njxc,nkxc))
-          if(chck_f.eq.1) allocate(fif(nbp,nixf,njxf,nkxf))
+          if(chck_c==1) allocate(fic(nbp,nixc,njxc,nkxc))
+          if(chck_f==1) allocate(fif(nbp,nixf,njxf,nkxf))
 
           do ib=1,nbp
               ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
@@ -68,7 +68,7 @@
 
               if(dom(ib)%fine_ng) then
 
-              if(pl.eq.1) then
+              if(pl==1) then
               no1=pl+1; no2=-pl
               else
               no1=pl; no2=1-pl
@@ -256,7 +256,7 @@
               njc=int((nj-2*pl)/2)+2*pl
               nkc=int((nk-2*pl)/2)+2*pl
 
-              if(pl.eq.1) then
+              if(pl==1) then
               no1=pl+1; no2=-pl
               else
               no1=pl; no2=1-pl
@@ -286,7 +286,7 @@
               do ib=1,nbp
                   ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
 
-                  if(pl.eq.1) then
+                  if(pl==1) then
                   no1=pl+1; no2=-pl
                   else
                   no1=pl; no2=1-pl
@@ -307,18 +307,18 @@
                   njf=2*(nj-2*pl)+2*pl
                   nkf=2*(nk-2*pl)+2*pl
 
-                  if(LMR.eq.2) then
+                  if(LMR==2) then
                   isf=pl+1;     jsf=pl+1;     ksf=pl+1
                   ief=nif-pl;   jef=njf-pl;   kef=nkf-pl-1
-                  if(ly.eq.0) ksf=pl+2
-                  if(ly.eq.0) kef=nkf-pl-2
+                  if(ly==0) ksf=pl+2
+                  if(ly==0) kef=nkf-pl-2
                   else
                   isf=pl+1;     jsf=pl+1;     ksf=pl+1
                   ief=nif-pl;   jef=njf-pl;   kef=nkf-pl
-                  if(ly.eq.0) ksf=pl+2
+                  if(ly==0) ksf=pl+2
                   end if
 
-                  if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) kef=kef-1
+                  if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) kef=kef-1
                   isprf=pl+1; ieprf=nif-pl
                   jsprf=pl+1; jeprf=njf-pl
                   ksprf=pl+1; keprf=nkf-pl
@@ -329,7 +329,7 @@
                   njc=int((nj-2*pl)/2)+2*pl
                   nkc=int((nk-2*pl)/2)+2*pl
 
-                  if(LMR.eq.2) then
+                  if(LMR==2) then
                   isc=pl+1;   jsc=pl+1;   ksc=pl
                   iec=nic-pl; jec=njc-pl; kec=nkc-pl
                   else
@@ -337,7 +337,7 @@
                   iec=nic-pl; jec=njc-pl; kec=nkc-pl
                   end if
 
-                  if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) kec=kec-1
+                  if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) kec=kec-1
                   isprc=pl+1; ieprc=nic-pl
                   jsprc=pl+1; jeprc=njc-pl
                   ksprc=pl+1; keprc=nkc-pl
@@ -346,15 +346,15 @@
 !..........................................................................
 !=== Previous Neighbor  ===>
 !..........................................................................
-                  if (dom(ib)%iprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%iprev)) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%iprev)) then
+                  if (dom(ib)%iprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%iprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%iprev)) then
                   sbuf => dom(dom_indid(dom(ib)%iprev))%recvb_p1
                   else
                   sbuf => dom(ib) % sendb_m1
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%iprev)) then
                   tsend=njc*nkc; trecv=nj*nk
                   do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
@@ -367,7 +367,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%iprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
                   tag=1*10**5+dom(ib)%iprev
                   ta=2
 
@@ -380,16 +380,16 @@
                   end if
                   end if
 
-                  if (dom(ib)%jprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jprev)) then
+                  if (dom(ib)%jprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jprev)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%jprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%jprev)) then
                   sbuf => dom(dom_indid(dom(ib)%jprev))%recvb_p2
                   else
                   sbuf => dom(ib) % sendb_m2
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
                   tsend=nic*nkc; trecv=ni*nk
                   do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
@@ -402,7 +402,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
                   tag=3*10**5+dom(ib)%jprev
                   ta=4
 
@@ -415,18 +415,18 @@
                   end if
                   end if
 
-                  if (dom(ib)%kprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%kprev)) then
+                  if (dom(ib)%kprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%kprev)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%kprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%kprev)) then
                   sbuf => dom(dom_indid(dom(ib)%kprev))%recvb_p3
                   else
                   sbuf => dom(ib) % sendb_m3
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%kprev)) then
                   tsend=nic*njc; trecv=ni*nj
-                  if(normal_inter.eq.1) then
+                  if(normal_inter==1) then
                   do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j
                           sbuf(ijk)=fic(ib,i,j,ksc+ly)
                       end do; end do
@@ -452,7 +452,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%kprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
                   tag=5*10**5+dom(ib)%kprev
                   ta=6
 
@@ -467,16 +467,16 @@
 !..........................................................................
 !=== Next Neighbor ===>
 !..........................................................................
-                  if (dom(ib)%inext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%inext)) then
+                  if (dom(ib)%inext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%inext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%inext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%inext)) then
                   sbuf => dom(dom_indid(dom(ib)%inext))%recvb_m1
                   else
                   sbuf => dom(ib) % sendb_p1
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%inext)) then
                   tsend=njc*nkc; trecv=nj*nk
                   do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
@@ -489,7 +489,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%inext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
                   tag=2*10**5+dom(ib)%inext
                   ta=1
 
@@ -502,16 +502,16 @@
                   end if
                   end if
 
-                  if (dom(ib)%jnext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jnext)) then
+                  if (dom(ib)%jnext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jnext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%jnext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%jnext)) then
                   sbuf => dom(dom_indid(dom(ib)%jnext))%recvb_m2
                   else
                   sbuf => dom(ib) % sendb_p2
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jnext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
                   tsend=nic*nkc; trecv=ni*nk
                   do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i;
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
@@ -524,7 +524,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jnext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
                   tag=4*10**5+dom(ib)%jnext
                   ta=3
 
@@ -537,18 +537,18 @@
                   end if
                   end if
 
-                  if (dom(ib)%knext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%knext)) then
+                  if (dom(ib)%knext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%knext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%knext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%knext)) then
                   sbuf => dom(dom_indid(dom(ib)%knext))%recvb_m3
                   else
                   sbuf => dom(ib) % sendb_p3
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%knext)) then
                   tsend=nic*njc; trecv=ni*nj
-                  if(normal_inter.eq.1) then
+                  if(normal_inter==1) then
                   do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j;
                           sbuf(ijk)=fic(ib,i,j,kec-ly)
                       end do; end do
@@ -574,7 +574,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%knext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
                   tag=6*10**5+dom(ib)%knext
                   ta=5
 
@@ -588,19 +588,19 @@
                   end if
 
 !======================================================================
-                  if (ly.eq.0)  then
+                  if (ly==0)  then
 !======================================================================
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev1)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev1)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev1))%rc1p
                   else
                   sbuf => dom(ib) % sc1m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev1)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jsprc-1+pl2; k=ksprc-1+pl3
@@ -614,7 +614,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
                   tag=7*10**5+dom(ib)%corprev1
 
                   call MPI_IRECV  (dom(ib)%rc1m(1),(pl+1)**3,MPI_FLT, &
@@ -625,16 +625,16 @@
                   end if
                   end if
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev2)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev2)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev2))%rc2p
                   else
                   sbuf => dom(ib) % sc2m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev2)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jeprc+1-pl2; k=ksprc-1+pl3
@@ -648,7 +648,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
                   tag=9*10**5+dom(ib)%corprev2
 
                   call MPI_IRECV  (dom(ib)%rc2m(1),(pl+1)**3,MPI_FLT, &
@@ -659,16 +659,16 @@
                   end if
                   end if
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev3)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev3)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev3))%rc3p
                   else
                   sbuf => dom(ib) % sc3m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev3)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jeprc+1-pl2; k=ksprc-1+pl3;
@@ -682,7 +682,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
                   tag=11*10**5+dom(ib)%corprev3
 
                   call MPI_IRECV  (dom(ib)%rc3m(1),(pl+1)**3,MPI_FLT, &
@@ -693,16 +693,16 @@
                   end if
                   end if
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev4)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev4)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev4))%rc4p
                   else
                   sbuf => dom(ib) % sc4m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev4)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jsprc-1+pl2; k=ksprc-1+pl3;
@@ -716,7 +716,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
                   tag=13*10**5+dom(ib)%corprev4
 
                   call MPI_IRECV  (dom(ib)%rc4m(1),(pl+1)**3,MPI_FLT, &
@@ -727,16 +727,16 @@
                   end if
                   end if
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext1)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext1)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext1))%rc1m
                   else
                   sbuf => dom(ib) % sc1p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext1)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jeprc+1-pl2; k=keprc+1-pl3
@@ -750,7 +750,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
                   tag=8*10**5+dom(ib)%cornext1
 
                   call MPI_IRECV  (dom(ib)%rc1p(1),(pl+1)**3,MPI_FLT, &
@@ -761,16 +761,16 @@
                   end if
                   end if
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext2)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext2)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext2))%rc2m
                   else
                   sbuf => dom(ib) % sc2p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext2)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jsprc-1+pl2; k=keprc+1-pl3
@@ -784,7 +784,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
                   tag=10*10**5+dom(ib)%cornext2
 
                   call MPI_IRECV  (dom(ib)%rc2p(1),(pl+1)**3,MPI_FLT, &
@@ -795,16 +795,16 @@
                   end if
                   end if
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext3)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext3)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext3))%rc3m
                   else
                   sbuf => dom(ib) % sc3p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext3)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jsprc-1+pl2; k=keprc+1-pl3
@@ -818,7 +818,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
                   tag=12*10**5+dom(ib)%cornext3
 
                   call MPI_IRECV  (dom(ib)%rc3p(1),(pl+1)**3,MPI_FLT, &
@@ -829,16 +829,16 @@
                   end if
                   end if
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext4)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext4)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext4))%rc4m
                   else
                   sbuf => dom(ib) % sc4p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext4)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jeprc+1-pl2; k=keprc+1-pl3
@@ -852,7 +852,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
                   tag=14*10**5+dom(ib)%cornext4
 
                   call MPI_IRECV  (dom(ib)%rc4p(1),(pl+1)**3,MPI_FLT, &
@@ -863,16 +863,16 @@
                   end if
                   end if
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev1)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev1)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev1))%re1p
                   else
                   sbuf => dom(ib) % se1m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev1)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -888,7 +888,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
                   tag=15*10**5+dom(ib)%edgprev1
 
                   call MPI_IRECV  (dom(ib)%re1m(1),trecv,MPI_FLT, &
@@ -899,16 +899,16 @@
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev2)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev2)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev2))%re2p
                   else
                   sbuf => dom(ib) % se2m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev2)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -924,7 +924,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
                   tag=17*10**5+dom(ib)%edgprev2
 
                   call MPI_IRECV  (dom(ib)%re2m(1),trecv,MPI_FLT, &
@@ -935,16 +935,16 @@
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev3)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev3)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev3))%re3p
                   else
                   sbuf => dom(ib) % se3m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev3)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -960,7 +960,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
                   tag=19*10**5+dom(ib)%edgprev3
 
                   call MPI_IRECV  (dom(ib)%re3m(1),trecv,MPI_FLT, &
@@ -971,16 +971,16 @@
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev4)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev4)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev4))%re4p
                   else
                   sbuf => dom(ib) % se4m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev4)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -996,7 +996,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
                   tag=21*10**5+dom(ib)%edgprev4
 
                   call MPI_IRECV  (dom(ib)%re4m(1),trecv,MPI_FLT, &
@@ -1007,16 +1007,16 @@
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev5)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev5)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev5)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev5)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev5))%re5p
                   else
                   sbuf => dom(ib) % se5m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev5)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev5)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1032,7 +1032,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
                   tag=23*10**5+dom(ib)%edgprev5
 
                   call MPI_IRECV  (dom(ib)%re5m(1),trecv,MPI_FLT, &
@@ -1043,16 +1043,16 @@
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev6)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev6)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev6)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev6)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev6))%re6p
                   else
                   sbuf => dom(ib) % se6m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev6)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev6)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1068,7 +1068,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
                   tag=25*10**5+dom(ib)%edgprev6
 
                   call MPI_IRECV  (dom(ib)%re6m(1),trecv,MPI_FLT, &
@@ -1079,16 +1079,16 @@
                   end if
                   end if
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext1)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext1)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext1))%re1m
                   else
                   sbuf => dom(ib) % se1p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext1)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1104,7 +1104,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
                   tag=16*10**5+dom(ib)%edgnext1
 
                   call MPI_IRECV  (dom(ib)%re1p(1),trecv,MPI_FLT, &
@@ -1115,16 +1115,16 @@
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext2)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext2)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext2))%re2m
                   else
                   sbuf => dom(ib) % se2p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext2)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1140,7 +1140,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
                   tag=18*10**5+dom(ib)%edgnext2
 
                   call MPI_IRECV  (dom(ib)%re2p(1),trecv,MPI_FLT, &
@@ -1151,16 +1151,16 @@
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext3)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext3)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext3))%re3m
                   else
                   sbuf => dom(ib) % se3p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext3)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1176,7 +1176,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
                   tag=20*10**5+dom(ib)%edgnext3
 
                   call MPI_IRECV  (dom(ib)%re3p(1),trecv,MPI_FLT, &
@@ -1187,16 +1187,16 @@
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext4)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext4)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext4))%re4m
                   else
                   sbuf => dom(ib) % se4p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext4)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1212,7 +1212,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
                   tag=22*10**5+dom(ib)%edgnext4
 
                   call MPI_IRECV  (dom(ib)%re4p(1),trecv,MPI_FLT, &
@@ -1223,16 +1223,16 @@
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext5)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext5)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext5)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext5)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext5))%re5m
                   else
                   sbuf => dom(ib) % se5p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext5)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext5)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1248,7 +1248,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
                   tag=24*10**5+dom(ib)%edgnext5
 
                   call MPI_IRECV  (dom(ib)%re5p(1),trecv,MPI_FLT, &
@@ -1259,16 +1259,16 @@
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext6)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext6)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext6)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext6)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext6))%re6m
                   else
                   sbuf => dom(ib) % se6p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext6)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext6)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1284,7 +1284,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
                   tag=26*10**5+dom(ib)%edgnext6
 
                   call MPI_IRECV  (dom(ib)%re6p(1),trecv,MPI_FLT, &
@@ -1303,7 +1303,7 @@
               do ib=1,nbp
                   ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
 
-                  if(pl.eq.1) then
+                  if(pl==1) then
                   no1=pl+1; no2=-pl
                   else
                   no1=pl; no2=1-pl
@@ -1324,18 +1324,18 @@
                   njf=2*(nj-2*pl)+2*pl
                   nkf=2*(nk-2*pl)+2*pl
 
-                  if(LMR.eq.2) then
+                  if(LMR==2) then
                   isf=pl+1;     jsf=pl+1;     ksf=pl+1
                   ief=nif-pl;   jef=njf-pl;   kef=nkf-pl-1
-                  if(ly.eq.0) ksf=pl+2
-                  if(ly.eq.0) kef=nkf-pl-2
+                  if(ly==0) ksf=pl+2
+                  if(ly==0) kef=nkf-pl-2
                   else
                   isf=pl+1;     jsf=pl+1;     ksf=pl+1
                   ief=nif-pl;   jef=njf-pl;   kef=nkf-pl
-                  if(ly.eq.0) ksf=pl+2
+                  if(ly==0) ksf=pl+2
                   end if
 
-                  if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) kef=kef-1
+                  if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) kef=kef-1
                   isprf=pl+1; ieprf=nif-pl
                   jsprf=pl+1; jeprf=njf-pl
                   ksprf=pl+1; keprf=nkf-pl
@@ -1346,7 +1346,7 @@
                   njc=int((nj-2*pl)/2)+2*pl
                   nkc=int((nk-2*pl)/2)+2*pl
 
-                  if(LMR.eq.2) then
+                  if(LMR==2) then
                   isc=pl+1;   jsc=pl+1;   ksc=pl
                   iec=nic-pl; jec=njc-pl; kec=nkc-pl
                   else
@@ -1354,7 +1354,7 @@
                   iec=nic-pl; jec=njc-pl; kec=nkc-pl
                   end if
 
-                  if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) kec=kec-1
+                  if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) kec=kec-1
                   isprc=pl+1; ieprc=nic-pl
                   jsprc=pl+1; jeprc=njc-pl
                   ksprc=pl+1; keprc=nkc-pl
@@ -1363,15 +1363,15 @@
 !..........................................................................
 !=== Previous Neighbor  ===>
 !..........................................................................
-                  if (dom(ib)%iprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%iprev)) then
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%iprev)) then
+                  if (dom(ib)%iprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%iprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%iprev)) then
                   sbuf => dom(dom_indid(dom(ib)%iprev))%recvb_p1
                   else
                   sbuf => dom(ib) % sendb_m1
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%iprev)) then
                   tsend=njc*nkc; trecv=nj*nk
                   do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
@@ -1384,7 +1384,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%iprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
                   tag=1*10**5+dom(ib)%iprev
                   ta=2
 
@@ -1395,16 +1395,16 @@
                   end if
                   end if
 
-                  if (dom(ib)%jprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jprev)) then
+                  if (dom(ib)%jprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jprev)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%jprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%jprev)) then
                   sbuf => dom(dom_indid(dom(ib)%jprev))%recvb_p2
                   else
                   sbuf => dom(ib) % sendb_m2
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
                   tsend=nic*nkc; trecv=ni*nk
                   do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
@@ -1417,7 +1417,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
                   tag=3*10**5+dom(ib)%jprev
                   ta=4
 
@@ -1428,18 +1428,18 @@
                   end if
                   end if
 
-                  if (dom(ib)%kprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%kprev)) then
+                  if (dom(ib)%kprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%kprev)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%kprev)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%kprev)) then
                   sbuf => dom(dom_indid(dom(ib)%kprev))%recvb_p3
                   else
                   sbuf => dom(ib) % sendb_m3
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%kprev)) then
                   tsend=nic*njc; trecv=ni*nj
-                  if(normal_inter.eq.1) then
+                  if(normal_inter==1) then
                   do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j
                           sbuf(ijk)=fic(ib,i,j,ksc+ly)
                       end do; end do
@@ -1465,7 +1465,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%kprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
                   tag=5*10**5+dom(ib)%kprev
                   ta=6
 
@@ -1478,16 +1478,16 @@
 !..........................................................................
 !=== Next Neighbor ===>
 !..........................................................................
-                  if (dom(ib)%inext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%inext)) then
+                  if (dom(ib)%inext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%inext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%inext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%inext)) then
                   sbuf => dom(dom_indid(dom(ib)%inext))%recvb_m1
                   else
                   sbuf => dom(ib) % sendb_p1
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%inext)) then
                   tsend=njc*nkc; trecv=nj*nk
                   do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
@@ -1500,7 +1500,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%inext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
                   tag=2*10**5+dom(ib)%inext
                   ta=1
 
@@ -1511,16 +1511,16 @@
                   end if
                   end if
 
-                  if (dom(ib)%jnext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jnext)) then
+                  if (dom(ib)%jnext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jnext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%jnext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%jnext)) then
                   sbuf => dom(dom_indid(dom(ib)%jnext))%recvb_m2
                   else
                   sbuf => dom(ib) % sendb_p2
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jnext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
                   tsend=nic*nkc; trecv=ni*nk
                   do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i;
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
@@ -1533,7 +1533,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jnext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
                   tag=4*10**5+dom(ib)%jnext
                   ta=3
 
@@ -1544,18 +1544,18 @@
                   end if
                   end if
 
-                  if (dom(ib)%knext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%knext)) then
+                  if (dom(ib)%knext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%knext)) then
 
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(dom(ib)%knext)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(dom(ib)%knext)) then
                   sbuf => dom(dom_indid(dom(ib)%knext))%recvb_m3
                   else
                   sbuf => dom(ib) % sendb_p3
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%knext)) then
                   tsend=nic*njc; trecv=ni*nj
-                  if(normal_inter.eq.1) then
+                  if(normal_inter==1) then
                   do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j;
                           sbuf(ijk)=fic(ib,i,j,kec-ly)
                       end do; end do
@@ -1581,7 +1581,7 @@
                       end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%knext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
                   tag=6*10**5+dom(ib)%knext
                   ta=5
 
@@ -1593,19 +1593,19 @@
                   end if
 
 !======================================================================
-                  if (ly.eq.0)  then
+                  if (ly==0)  then
 !======================================================================
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev1)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev1)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev1))%rc1p
                   else
                   sbuf => dom(ib) % sc1m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev1)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jsprc-1+pl2; k=ksprc-1+pl3
@@ -1619,7 +1619,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
                   tag=7*10**5+dom(ib)%corprev1
 
                   call MPI_SEND (dom(ib)%sc1m(1),(pl+1)**3,MPI_FLT, &
@@ -1628,16 +1628,16 @@
                   end if
                   end if
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev2)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev2)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev2))%rc2p
                   else
                   sbuf => dom(ib) % sc2m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev2)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jeprc+1-pl2; k=ksprc-1+pl3
@@ -1651,7 +1651,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
                   tag=9*10**5+dom(ib)%corprev2
 
                   call MPI_SEND (dom(ib)%sc2m(1),(pl+1)**3,MPI_FLT, &
@@ -1660,16 +1660,16 @@
                   end if
                   end if
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev3)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev3)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev3))%rc3p
                   else
                   sbuf => dom(ib) % sc3m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev3)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jeprc+1-pl2; k=ksprc-1+pl3;
@@ -1683,7 +1683,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
                   tag=11*10**5+dom(ib)%corprev3
 
                   call MPI_SEND (dom(ib)%sc3m(1),(pl+1)**3,MPI_FLT, &
@@ -1692,16 +1692,16 @@
                   end if
                   end if
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev4)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%corprev4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%corprev4)) then
                   sbuf => dom(dom_indid(dom(ib)%corprev4))%rc4p
                   else
                   sbuf => dom(ib) % sc4m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%corprev4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev4)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jsprc-1+pl2; k=ksprc-1+pl3;
@@ -1715,7 +1715,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
                   tag=13*10**5+dom(ib)%corprev4
 
                   call MPI_SEND (dom(ib)%sc4m(1),(pl+1)**3,MPI_FLT, &
@@ -1724,16 +1724,16 @@
                   end if
                   end if
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext1)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext1)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext1))%rc1m
                   else
                   sbuf => dom(ib) % sc1p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext1)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jeprc+1-pl2; k=keprc+1-pl3
@@ -1747,7 +1747,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
                   tag=8*10**5+dom(ib)%cornext1
 
                   call MPI_SEND (dom(ib)%sc1p(1),(pl+1)**3,MPI_FLT, &
@@ -1756,16 +1756,16 @@
                   end if
                   end if
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext2)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext2)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext2))%rc2m
                   else
                   sbuf => dom(ib) % sc2p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext2)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ieprc+1-pl1; j=jsprc-1+pl2; k=keprc+1-pl3
@@ -1779,7 +1779,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
                   tag=10*10**5+dom(ib)%cornext2
 
                   call MPI_SEND (dom(ib)%sc2p(1),(pl+1)**3,MPI_FLT, &
@@ -1788,16 +1788,16 @@
                   end if
                   end if
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext3)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext3)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext3))%rc3m
                   else
                   sbuf => dom(ib) % sc3p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext3)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jsprc-1+pl2; k=keprc+1-pl3
@@ -1811,7 +1811,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
                   tag=12*10**5+dom(ib)%cornext3
 
                   call MPI_SEND (dom(ib)%sc3p(1),(pl+1)**3,MPI_FLT, &
@@ -1820,16 +1820,16 @@
                   end if
                   end if
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext4)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%cornext4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%cornext4)) then
                   sbuf => dom(dom_indid(dom(ib)%cornext4))%rc4m
                   else
                   sbuf => dom(ib) % sc4p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%cornext4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext4)) then
                   do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=isprc-1+pl1; j=jeprc+1-pl2; k=keprc+1-pl3
@@ -1843,7 +1843,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
                   tag=14*10**5+dom(ib)%cornext4
 
                   call MPI_SEND (dom(ib)%sc4p(1),(pl+1)**3,MPI_FLT, &
@@ -1852,16 +1852,16 @@
                   end if
                   end if
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev1)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev1)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev1))%re1p
                   else
                   sbuf => dom(ib) % se1m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev1)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1877,7 +1877,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
                   tag=15*10**5+dom(ib)%edgprev1
 
                   call MPI_SEND (dom(ib)%se1m(1),tsend,MPI_FLT, &
@@ -1886,16 +1886,16 @@
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev2)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev2)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev2))%re2p
                   else
                   sbuf => dom(ib) % se2m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev2)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1911,7 +1911,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
                   tag=17*10**5+dom(ib)%edgprev2
 
                   call MPI_SEND (dom(ib)%se2m(1),tsend,MPI_FLT, &
@@ -1920,16 +1920,16 @@
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev3)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev3)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev3))%re3p
                   else
                   sbuf => dom(ib) % se3m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev3)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1945,7 +1945,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
                   tag=19*10**5+dom(ib)%edgprev3
 
                   call MPI_SEND (dom(ib)%se3m(1),tsend,MPI_FLT, &
@@ -1954,16 +1954,16 @@
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev4)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev4)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev4))%re4p
                   else
                   sbuf => dom(ib) % se4m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev4)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -1979,7 +1979,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
                   tag=21*10**5+dom(ib)%edgprev4
 
                   call MPI_SEND (dom(ib)%se4m(1),tsend,MPI_FLT, &
@@ -1988,16 +1988,16 @@
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev5)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev5)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev5)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev5)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev5))%re5p
                   else
                   sbuf => dom(ib) % se5m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev5)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev5)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2013,7 +2013,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
                   tag=23*10**5+dom(ib)%edgprev5
 
                   call MPI_SEND (dom(ib)%se5m(1),tsend,MPI_FLT, &
@@ -2022,16 +2022,16 @@
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev6)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev6)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgprev6)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgprev6)) then
                   sbuf => dom(dom_indid(dom(ib)%edgprev6))%re6p
                   else
                   sbuf => dom(ib) % se6m
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgprev6)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev6)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2047,7 +2047,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
                   tag=25*10**5+dom(ib)%edgprev6
 
                   call MPI_SEND (dom(ib)%se6m(1),tsend,MPI_FLT, &
@@ -2056,16 +2056,16 @@
                   end if
                   end if
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext1)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext1)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext1)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext1)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext1))%re1m
                   else
                   sbuf => dom(ib) % se1p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext1)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext1)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2081,7 +2081,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
                   tag=16*10**5+dom(ib)%edgnext1
 
                   call MPI_SEND (dom(ib)%se1p(1),tsend,MPI_FLT, &
@@ -2090,16 +2090,16 @@
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext2)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext2)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext2)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext2)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext2))%re2m
                   else
                   sbuf => dom(ib) % se2p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext2)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext2)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2115,7 +2115,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
                   tag=18*10**5+dom(ib)%edgnext2
 
                   call MPI_SEND (dom(ib)%se2p(1),tsend,MPI_FLT, &
@@ -2124,16 +2124,16 @@
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext3)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext3)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext3)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext3)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext3))%re3m
                   else
                   sbuf => dom(ib) % se3p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext3)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext3)) then
                   tsend=njc*pll; trecv=nj*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2149,7 +2149,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
                   tag=20*10**5+dom(ib)%edgnext3
 
                   call MPI_SEND (dom(ib)%se3p(1),tsend,MPI_FLT, &
@@ -2158,16 +2158,16 @@
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext4)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext4)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext4)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext4)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext4))%re4m
                   else
                   sbuf => dom(ib) % se4p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext4)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext4)) then
                   tsend=nic*pll; trecv=ni*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2183,7 +2183,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
                   tag=22*10**5+dom(ib)%edgnext4
 
                   call MPI_SEND (dom(ib)%se4p(1),tsend,MPI_FLT, &
@@ -2192,16 +2192,16 @@
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext5)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext5)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext5)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext5)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext5))%re5m
                   else
                   sbuf => dom(ib) % se5p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext5)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext5)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2217,7 +2217,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
                   tag=24*10**5+dom(ib)%edgnext5
 
                   call MPI_SEND (dom(ib)%se5p(1),tsend,MPI_FLT, &
@@ -2226,16 +2226,16 @@
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext6)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext6)) then
 
-                  if (dom_ad(dom_id(ib)).eq.dom_ad(dom(ib)%edgnext6)) then
+                  if (dom_ad(dom_id(ib))==dom_ad(dom(ib)%edgnext6)) then
                   sbuf => dom(dom_indid(dom(ib)%edgnext6))%re6m
                   else
                   sbuf => dom(ib) % se6p
                   end if
 
-                  if(rdiv(dom_id(ib)).gt.rdiv(dom(ib)%edgnext6)) then
+                  if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext6)) then
                   tsend=nkc*pll; trecv=nk*pll
                   do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2251,7 +2251,7 @@
                           end do; end do; end do
                   end if
 
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
                   tag=26*10**5+dom(ib)%edgnext6
 
                   call MPI_SEND (dom(ib)%se6p(1),tsend,MPI_FLT, &
@@ -2283,72 +2283,72 @@
                   ks=dom(ib)%ksw; ke=dom(ib)%kew
 
 !======================================================================
-                  if (ly.eq.0)  then
+                  if (ly==0)  then
 !======================================================================
 !=====> previous cor #1
-                  if (dom(ib)%corprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev1)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev1)) then
+                  if (dom(ib)%corprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
                   call MPI_WAIT(dom(ib)%rq_c1m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ispr-pl1; j=jspr-pl2; k=kspr-pl3
-                              if(i.lt.is .or. j.lt.js .or. k.lt.ks) &
+                              if(i<is .or. j<js .or. k<ks) &
                         fi(i,j,k)=dom(ib) % rc1m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous cor #2
-                  if (dom(ib)%corprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev2)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev2)) then
+                  if (dom(ib)%corprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
                   call MPI_WAIT(dom(ib)%rq_c2m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ispr-pl1; j=jepr+pl2; k=kspr-pl3
-                              if(i.lt.is .or. j.gt.je .or. k.lt.ks) &
+                              if(i<is .or. j>je .or. k<ks) &
                         fi(i,j,k)=dom(ib) % rc2m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous cor #3
-                  if (dom(ib)%corprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev3)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev3)) then
+                  if (dom(ib)%corprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
                   call MPI_WAIT(dom(ib)%rq_c3m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=iepr+pl1; j=jepr+pl2; k=kspr-pl3
-                              if(i.gt.ie .or. j.gt.je .or. k.lt.ks) &
+                              if(i>ie .or. j>je .or. k<ks) &
                         fi(i,j,k)=dom(ib) % rc3m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous cor #4
-                  if (dom(ib)%corprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%corprev4)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%corprev4)) then
+                  if (dom(ib)%corprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%corprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
                   call MPI_WAIT(dom(ib)%rq_c4m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=iepr+pl1; j=jspr-pl2; k=kspr-pl3
-                              if(i.gt.ie .or. j.lt.js .or. k.lt.ks) &
+                              if(i>ie .or. j<js .or. k<ks) &
                         fi(i,j,k)=dom(ib) % rc4m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next cor #1
-                  if (dom(ib)%cornext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext1)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext1)) then
+                  if (dom(ib)%cornext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
                   call MPI_WAIT(dom(ib)%rq_c1p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
@@ -2357,15 +2357,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=iepr+pl1; j=jepr+pl2; k=kepr+pl3
-                              if(i.gt.ie .or. j.gt.je .or. k.gt.ke) &
+                              if(i>ie .or. j>je .or. k>ke) &
                         fi(i,j,k)=dom(ib) % rc1p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next cor #2
-                  if (dom(ib)%cornext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext2)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext2)) then
+                  if (dom(ib)%cornext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
                   call MPI_WAIT(dom(ib)%rq_c2p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
@@ -2374,15 +2374,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=iepr+pl1; j=jspr-pl2; k=kepr+pl3
-                              if(i.gt.ie .or. j.lt.js .or. k.gt.ke) &
+                              if(i>ie .or. j<js .or. k>ke) &
                         fi(i,j,k)=dom(ib) % rc2p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next cor #3
-                  if (dom(ib)%cornext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext3)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext3)) then
+                  if (dom(ib)%cornext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
                   call MPI_WAIT(dom(ib)%rq_c3p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
@@ -2391,15 +2391,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ispr-pl1; j=jspr-pl2; k=kepr+pl3
-                              if(i.lt.is .or. j.lt.js .or. k.gt.ke) &
+                              if(i<is .or. j<js .or. k>ke) &
                         fi(i,j,k)=dom(ib) % rc3p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next cor #4
-                  if (dom(ib)%cornext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%cornext4)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%cornext4)) then
+                  if (dom(ib)%cornext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%cornext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
                   call MPI_WAIT(dom(ib)%rq_c4p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
@@ -2408,105 +2408,105 @@
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
                               i=ispr-pl1; j=jepr+pl2; k=kepr+pl3
-                              if(i.lt.is .or. j.gt.je .or. k.gt.ke) &
+                              if(i<is .or. j>je .or. k>ke) &
                         fi(i,j,k)=dom(ib) % rc4p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #1
-                  if (dom(ib)%edgprev1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev1)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev1)) then
+                  if (dom(ib)%edgprev1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
                   call MPI_WAIT(dom(ib)%rq_e1m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=ispr-pl1; j=nn; k=kspr-pl2
-                              if(i.lt.is .or. k.lt.ks) &
+                              if(i<is .or. k<ks) &
                         fi(i,j,k)=dom(ib) % re1m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #2
-                  if (dom(ib)%edgprev2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev2)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev2)) then
+                  if (dom(ib)%edgprev2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
                   call MPI_WAIT(dom(ib)%rq_e2m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=nn; j=jepr+pl1; k=kspr-pl2
-                              if(j.gt.je .or. k.lt.ks) &
+                              if(j>je .or. k<ks) &
                         fi(i,j,k)=dom(ib) % re2m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #3
-                  if (dom(ib)%edgprev3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev3)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev3)) then
+                  if (dom(ib)%edgprev3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
                   call MPI_WAIT(dom(ib)%rq_e3m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=iepr+pl1; j=nn; k=kspr-pl2
-                              if(i.gt.ie .or. k.lt.ks) &
+                              if(i>ie .or. k<ks) &
                         fi(i,j,k)=dom(ib) % re3m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #4
-                  if (dom(ib)%edgprev4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev4)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev4)) then
+                  if (dom(ib)%edgprev4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
                   call MPI_WAIT(dom(ib)%rq_e4m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=nn; j=jspr-pl1; k=kspr-pl2
-                              if(j.lt.js .or. k.lt.ks) &
+                              if(j<js .or. k<ks) &
                         fi(i,j,k)=dom(ib) % re4m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #5
-                  if (dom(ib)%edgprev5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev5)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev5)) then
+                  if (dom(ib)%edgprev5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
                   call MPI_WAIT(dom(ib)%rq_e5m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=ispr-pl1 ; j=jspr-pl2; k=nn
-                              if(i.lt.is .or. j.lt.js) &
+                              if(i<is .or. j<js) &
                         fi(i,j,k)=dom(ib) % re5m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> previous edge #6
-                  if (dom(ib)%edgprev6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgprev6)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgprev6)) then
+                  if (dom(ib)%edgprev6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgprev6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
                   call MPI_WAIT(dom(ib)%rq_e6m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=ispr-pl1 ; j=jepr+pl2; k=nn
-                              if(i.lt.is .or. j.gt.je) &
+                              if(i<is .or. j>je) &
                         fi(i,j,k)=dom(ib) % re6m(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #1
-                  if (dom(ib)%edgnext1.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext1)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext1)) then
+                  if (dom(ib)%edgnext1>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext1)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
                   call MPI_WAIT(dom(ib)%rq_e1p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
@@ -2515,15 +2515,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=iepr+pl1; j=nn; k=kepr+pl2
-                              if(i.gt.ie .or. k.gt.ke) &
+                              if(i>ie .or. k>ke) &
                         fi(i,j,k)=dom(ib) % re1p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #2
-                  if (dom(ib)%edgnext2.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext2)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext2)) then
+                  if (dom(ib)%edgnext2>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext2)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
                   call MPI_WAIT(dom(ib)%rq_e2p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
@@ -2532,15 +2532,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=nn; j=jspr-pl1; k=kepr+pl2
-                              if(j.lt.js .or. k.gt.ke) &
+                              if(j<js .or. k>ke) &
                         fi(i,j,k)=dom(ib) % re2p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #3
-                  if (dom(ib)%edgnext3.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext3)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext3)) then
+                  if (dom(ib)%edgnext3>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext3)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
                   call MPI_WAIT(dom(ib)%rq_e3p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
@@ -2549,15 +2549,15 @@
                   do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=ispr-pl1; j=nn; k=kepr+pl2
-                              if(i.lt.is .or. k.gt.ke) &
+                              if(i<is .or. k>ke) &
                         fi(i,j,k)=dom(ib) % re3p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #4
-                  if (dom(ib)%edgnext4.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext4)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext4)) then
+                  if (dom(ib)%edgnext4>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext4)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
                   call MPI_WAIT(dom(ib)%rq_e4p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
@@ -2566,37 +2566,37 @@
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=nn; j=jepr+pl1; k=kepr+pl2
-                              if(j.gt.je .or. k.gt.ke) &
+                              if(j>je .or. k>ke) &
                         fi(i,j,k)=dom(ib) % re4p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #5
-                  if (dom(ib)%edgnext5.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext5)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext5)) then
+                  if (dom(ib)%edgnext5>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext5)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
                   call MPI_WAIT(dom(ib)%rq_e5p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=iepr+pl1 ; j=jepr+pl2; k=nn
-                              if(i.gt.ie .or. j.gt.je) &
+                              if(i>ie .or. j>je) &
                         fi(i,j,k)=dom(ib) % re5p(ijk)
                           end do; end do; end do
                   end if
                   end if
 !=====> next edge #6
-                  if (dom(ib)%edgnext6.ge.0) then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%edgnext6)) then
-                  if (dom_ad(dom_id(ib)).ne.dom_ad(dom(ib)%edgnext6)) then
+                  if (dom(ib)%edgnext6>=0) then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%edgnext6)) then
+                  if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
                   call MPI_WAIT(dom(ib)%rq_e6p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                               i=iepr+pl1 ; j=jspr-pl2; k=nn
-                              if(i.gt.ie .or. j.lt.js) &
+                              if(i>ie .or. j<js) &
                         fi(i,j,k)=dom(ib) % re6p(ijk)
                           end do; end do; end do
                   end if
@@ -2607,15 +2607,15 @@
 !..............................................................................
 !=== Previous Neighbor  ===>
 !..............................................................................
-                  if (dom(ib)%iprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%iprev)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%iprev)) then
+                  if (dom(ib)%iprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%iprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
                   call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(LMR.eq.2 .and. &
-            rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev)) kspr=pl
+                  if(LMR==2 .and. &
+            rdiv(dom_id(ib))<rdiv(dom(ib)%iprev)) kspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext3.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext3)) kepr=nk-pl-1
@@ -2626,15 +2626,15 @@
                   end if
                   end if
 
-                  if (dom(ib)%jprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jprev)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jprev)) then
+                  if (dom(ib)%jprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
                   call MPI_WAIT(dom(ib)%rq_m2,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(LMR.eq.2 .and. &
-            rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev)) kspr=pl
+                  if(LMR==2 .and. &
+            rdiv(dom_id(ib))<rdiv(dom(ib)%jprev)) kspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext2.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext2)) kepr=nk-pl-1
@@ -2645,15 +2645,15 @@
                   end if
                   end if
 
-                  if (dom(ib)%kprev.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%kprev)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%kprev)) then
+                  if (dom(ib)%kprev>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%kprev)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
                   call MPI_WAIT(dom(ib)%rq_m3,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(LMR.eq.2 .and. ly.eq.0 .and. &
-            rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev)) then
+                  if(LMR==2 .and. ly==0 .and. &
+            rdiv(dom_id(ib))>rdiv(dom(ib)%kprev)) then
                   do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                           fi(i,j,ks-1-ly)=( &
                     dom(ib) %recvb_m3(ijk)+3.0*fi(i,j,ks-ly)-fi(i,j,ks+1-ly))/3.0
@@ -2672,15 +2672,15 @@
 !..............................................................................
 !=== Next Neighbor  ===>
 !..............................................................................
-                  if (dom(ib)%inext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%inext)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%inext)) then
+                  if (dom(ib)%inext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%inext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
                   call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(LMR.eq.2 .and. &
-            rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext)) kspr=pl
+                  if(LMR==2 .and. &
+            rdiv(dom_id(ib))<rdiv(dom(ib)%inext)) kspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext1.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext1)) kepr=nk-pl-1
@@ -2691,15 +2691,15 @@
                   end if
                   end if
 
-                  if (dom(ib)%jnext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%jnext)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%jnext)) then
+                  if (dom(ib)%jnext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%jnext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
                   call MPI_WAIT(dom(ib)%rq_p2,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(LMR.eq.2 .and. &
-            rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext)) kspr=pl
+                  if(LMR==2 .and. &
+            rdiv(dom_id(ib))<rdiv(dom(ib)%jnext)) kspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext4.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jnext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext4)) kepr=nk-pl-1
@@ -2710,15 +2710,15 @@
                   end if
                   end if
 
-                  if (dom(ib)%knext.ge.0)  then
-                  if(rdiv(dom_id(ib)).ne.rdiv(dom(ib)%knext)) then
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(dom(ib)%knext)) then
+                  if (dom(ib)%knext>=0)  then
+                  if(rdiv(dom_id(ib))/=rdiv(dom(ib)%knext)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
                   call MPI_WAIT(dom(ib)%rq_p3,MPI_STATUS_IGNORE,ierr)
                   end if
                   ispr=pl+1;    jspr=pl+1;  kspr=pl+1
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
-                  if(ly.eq.0 .and. &
-            rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext)) then
+                  if(ly==0 .and. &
+            rdiv(dom_id(ib))>rdiv(dom(ib)%knext)) then
                   do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                           fi(i,j,ke+1+ly)=( &
                     dom(ib) %recvb_p3(ijk)+3.0*fi(i,j,ke+ly)-fi(i,j,ke+ly-1))/3.0
@@ -2736,8 +2736,8 @@
 !==========================================================================
           end do
 
-          if(chck_c.eq.1) deallocate(fic)
-          if(chck_f.eq.1) deallocate(fif)
+          if(chck_c==1) deallocate(fic)
+          if(chck_f==1) deallocate(fif)
 
           return
       end subroutine exchangew

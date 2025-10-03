@@ -10,7 +10,7 @@
 
           rmax=0.0
 
-          if(differencing.eq.2) then
+          if(differencing==2) then
           do ib=1,nbp
               fact=0.0
               fact1=0.0
@@ -87,14 +87,14 @@
               jsp=dom(ib)%jsp; jep=dom(ib)%jep
               ksp=dom(ib)%ksp; kep=dom(ib)%kep
 !...................... west and east............................
-              if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) then
+              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
               do k=ksp-1,kep+1
                   do j=jsp-1,jep+1
                       dom(ib)%p(isp-1,j,k)  =dom(ib)%p(isp,j,k)
                   end do
               end do
               end if
-              if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) then
+              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
               do k=ksp-1,kep+1
                   do j=jsp-1,jep+1
                       dom(ib)%p(iep+1,j,k)  =dom(ib)%p(iep,j,k)
@@ -102,14 +102,14 @@
               end do
               end if
 !.....................south and north.........................
-              if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) then
+              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
               do k=ksp-1,kep+1
                   do i=isp-1,iep+1
                       dom(ib)%p(i,jsp-1,k)  =dom(ib)%p(i,jsp,k)
                   end do
               end do
               end if
-              if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) then
+              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
               do k=ksp-1,kep+1
                   do i=isp-1,iep+1
                       dom(ib)%p(i,jep+1,k)  =dom(ib)%p(i,jep,k)
@@ -117,14 +117,14 @@
               end do
               end if
 !.....................bottom and top.........................
-              if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) then
+              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
               do j=jsp-1,jep+1
                   do i=isp-1,iep+1
                       dom(ib)%p(i,j,ksp-1)  =dom(ib)%p(i,j,ksp)
                   end do
               end do
               end if
-              if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) then
+              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
               do j=jsp-1,jep+1
                   do i=isp-1,iep+1
                       dom(ib)%p(i,j,kep+1)  =dom(ib)%p(i,j,kep)
@@ -221,12 +221,12 @@
               jspr=pl+1; jepr=dom(ib)%ttc_j-pl
               kspr=pl+1; kepr=dom(ib)%ttc_k-pl
 
-              if(dom(ib)%iprev.lt.0) then                       !west
+              if(dom(ib)%iprev<0) then                       !west
               do j=jspr,jepr
                   do k=kspr,kepr
                       isp=dom(ib)%isu-1
                       if (L_LSM) then
-                      if (dom(ib)%phi(isp,j,k) .ge. 0.0) then
+                      if (dom(ib)%phi(isp,j,k) >= 0.0) then
                       flwsum_loc=flwsum_loc+ &
                 dom(ib)%u(isp,j,k)*dom(ib)%dy*dom(ib)%dz* &
                 (dom(ib)%dens(isp,j,k)/densl)
@@ -234,7 +234,7 @@
                 (dom(ib)%dens(isp,j,k)/densl)
                       end if
                       else if (L_LSMbase) then
-                      if (dom(ib)%z(k) .le. length) then
+                      if (dom(ib)%z(k) <= length) then
                       flwsum_loc=flwsum_loc+ &
                 dom(ib)%u(isp,j,k)*dom(ib)%dy*dom(ib)%dz
                       A_loc=A_loc+dom(ib)%dy*dom(ib)%dz
@@ -309,17 +309,17 @@
                           dom(ib)%at(i,j,k)=1.0/(dom(ib)%dz*dom(ib)%dz)
                           dom(ib)%ab(i,j,k)=1.0/(dom(ib)%dz*dom(ib)%dz)
 
-                          if (dom(ib)%iprev.lt.0 .and. dom(ib)%bc_west.ne.5) &
+                          if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) &
                     dom(ib)%aw(isp,j,k)=0.0
-                          if (dom(ib)%inext.lt.0 .and. dom(ib)%bc_east.ne.5) &
+                          if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) &
                     dom(ib)%ae(iep,j,k)=0.0
-                          if (dom(ib)%jprev.lt.0 .and. dom(ib)%bc_south.ne.5) &
+                          if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) &
                     dom(ib)%as(i,jsp,k)=0.0
-                          if (dom(ib)%jnext.lt.0 .and. dom(ib)%bc_north.ne.5) &
+                          if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) &
                     dom(ib)%an(i,jep,k)=0.0
-                          if (dom(ib)%kprev.lt.0 .and. dom(ib)%bc_bottom.ne.5) &
+                          if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) &
                     dom(ib)%ab(i,j,ksp)=0.0
-                          if (dom(ib)%knext.lt.0 .and. dom(ib)%bc_top.ne.5) &
+                          if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) &
                     dom(ib)%at(i,j,kep)=0.0
 
 
@@ -340,7 +340,7 @@
 
           call calmas
 
-          if (rmax.lt.eps.and.iter.gt.1)  goto 3000
+          if (rmax<eps.and.iter>1)  goto 3000
 
           call sipsol(44)
 
@@ -374,12 +374,12 @@
 
           call calvel
 
-          if (iter.lt.niter) goto 1000
+          if (iter<niter) goto 1000
 
  3000     continue
 
-          if(rmax.gt.100.0) then
-          if(myrank.eq.0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
+          if(rmax>100.0) then
+          if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
           write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
 
           !call tecgrid(itime)
@@ -389,7 +389,7 @@
           !call tecplot_w(itime)
           !call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
-          if(myrank.eq.0) then
+          if(myrank==0) then
           open (unit=101, file='final_ctime.dat')
           write (101,'(i8,3F15.6)') &
     ntime,ctime,forcn,qstpn,count
@@ -405,7 +405,7 @@
           call boundv
           call boundw
 
-          if (myrank.eq.0) then
+          if (myrank==0) then
           wtimedum = MPI_WTIME ( ) - wtime
           write (6,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
      ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &

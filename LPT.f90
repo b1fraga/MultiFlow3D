@@ -44,7 +44,7 @@
           allocate (up_pt(np_loc),vp_pt(np_loc),wp_pt(np_loc))
           allocate (Fpu(np_loc),Fpv(np_loc),Fpw(np_loc))
 
-          if (np_loc.le.100) nt = 1
+          if (np_loc<=100) nt = 1
           !if (np_loc.gt.100) nt = OMP_threads
 
           call OMP_SET_NUM_THREADS(nt)
@@ -89,7 +89,7 @@
 !$OMP DO SCHEDULE (DYNAMIC,1)
               do l=1,np_loc
 
-                  IF (id(l).eq.dom_id(ib)) then                                     !particle belongs to THIS block
+                  IF (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
 
                   Vp = 3.1416*dp_loc(l)**3.d0/6.d0
 
@@ -114,36 +114,36 @@
 
 !locate the u,v and w nodes
 
-                  if (xp_loc(l).gt.dom(ib)%xc(ip(l))) then
+                  if (xp_loc(l)>dom(ib)%xc(ip(l))) then
 
                   ipu(l) = ip(l)
 !     ipux(l) = ip(l) - 1
 
-                  elseif (xp_loc(l).le.dom(ib)%xc(ip(l))) then
+                  elseif (xp_loc(l)<=dom(ib)%xc(ip(l))) then
 
                   ipu(l) = ip(l) - 1
 !     ipux(l) = ip(l)
 
                   endif
 
-                  if (yp_loc(l).gt.dom(ib)%yc(jp(l))) then
+                  if (yp_loc(l)>dom(ib)%yc(jp(l))) then
 
                   jpv(l) = jp(l)
 !     jpvy(l) = jp(l) - 1
 
-                  elseif (yp_loc(l).le.dom(ib)%yc(jp(l))) then
+                  elseif (yp_loc(l)<=dom(ib)%yc(jp(l))) then
 
                   jpv(l) = jp(l) - 1
 !     jpvy(l) = jp(l)
 
                   end if
 
-                  if (zp_loc(l).gt.dom(ib)%zc(kp(l))) then
+                  if (zp_loc(l)>dom(ib)%zc(kp(l))) then
 
                   kpw(l) = kp(l)
 !     kpwz(l) = kp(l) - 1
 
-                  elseif (zp_loc(l).le.dom(ib)%zc(kp(l))) then
+                  elseif (zp_loc(l)<=dom(ib)%zc(kp(l))) then
 
                   kpw(l) = kp(l) - 1
 !     kpwz(l) = kp(l)
@@ -158,8 +158,8 @@
 
                   !Ball
 
-                  IF (order.eq.3.or.order.eq.6) then
-                  if (ipu(l).eq.ip(l)) then
+                  IF (order==3.or.order==6) then
+                  if (ipu(l)==ip(l)) then
                   iballs_u = ipu(l) - 1 * NINT(rx/dom(ib)%dx)
                   iballe_u = ipu(l) + m * NINT(rx/dom(ib)%dx)
                   iballs_v = ip(l) - 1 * NINT(rx/dom(ib)%dx)
@@ -174,7 +174,7 @@
                   iballs_w = ip(l) - m * NINT(rx/dom(ib)%dx)
                   iballe_w = ip(l) + 1 * NINT(rx/dom(ib)%dx)
                   endif
-                  if (jpv(l).eq.jp(l)) then
+                  if (jpv(l)==jp(l)) then
                   jballs_u = jp(l) - 1 * NINT(ry/dom(ib)%dy)
                   jballe_u = jp(l) + m * NINT(ry/dom(ib)%dy)
                   jballs_v = jpv(l) - 1 * NINT(ry/dom(ib)%dy)
@@ -189,7 +189,7 @@
                   jballs_w = jp(l) - m * NINT(ry/dom(ib)%dy)
                   jballe_w = jp(l) + 1 * NINT(ry/dom(ib)%dy)
                   endif
-                  if (kpw(l).eq.kp(l)) then
+                  if (kpw(l)==kp(l)) then
                   kballs_u = kp(l) - 1 * NINT(rz/dom(ib)%dz)
                   kballe_u = kp(l) + m * NINT(rz/dom(ib)%dz)
                   kballs_v = kp(l) - 1 * NINT(rz/dom(ib)%dz)
@@ -349,8 +349,8 @@
                   REp = dp_loc(l)* (sqrt((uop_loc(l)-ui_pt(l))**2.d0+(vop_loc(l) &
                  -vi_pt(l))**2.d0+(wop_loc(l)-wi_pt(l))**2.d0))/(1.d0/Re)
 
-                  if (REp.le.800) Cd = 24.d0*(1.d0+0.15d0*(REp**0.687d0))/REp
-                  if (REp.gt.800) Cd = 0.44d0
+                  if (REp<=800) Cd = 24.d0*(1.d0+0.15d0*(REp**0.687d0))/REp
+                  if (REp>800) Cd = 0.44d0
 
                   !Vorticity calculation
                   dudy = 0.0
@@ -456,7 +456,7 @@
                   gamma_p=rhop_loc(l)/dens                                          ! constant density
                   endif
 
-                  if ((dp_loc(l)).lt.0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
+                  if ((dp_loc(l))<0.00001) then !Particles with dp<10um treated as passive Aleks 05/2022
                   up_pt(l) = ui_pt(l)
                   vp_pt(l) = vi_pt(l)
                   wp_pt(l) = wi_pt(l)
@@ -493,7 +493,7 @@
                   IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
 
-                  if ((dp_loc(l)).ge.0.00001) then !only do calcs if dp>=10um
+                  if ((dp_loc(l))>=0.00001) then !only do calcs if dp>=10um
                   !Update slip velocity
                   a = up_pt(l)-ui_pt(l)
                   b = vp_pt(l)-vi_pt(l)
@@ -612,13 +612,13 @@
                   endif
 
 !     Actualizar velocidad paso previo
-                  if    (abs(up_pt(l)).gt.10.d0*abs(uop_pt(l))) then
+                  if    (abs(up_pt(l))>10.d0*abs(uop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',up_pt(l),l
                   !stop
-                  elseif (abs(vp_pt(l)).gt.10.d0*abs(vop_pt(l))) then
+                  elseif (abs(vp_pt(l))>10.d0*abs(vop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',vp_pt(l),l
                   !stop
-                  elseif (abs(wp_pt(l)).gt.10.d0*abs(wop_pt(l))) then
+                  elseif (abs(wp_pt(l))>10.d0*abs(wop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',wp_pt(l),l
                   !stop
                   endif
@@ -710,7 +710,7 @@
 !           enddo
 !     endif
 
-          if (np_loc.gt.0) then
+          if (np_loc>0) then
           deallocate (xp_loc,yp_loc,zp_loc)
           deallocate (uop_loc,vop_loc,wop_loc)
           deallocate (Fpu,Fpv,Fpw)

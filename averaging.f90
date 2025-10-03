@@ -21,12 +21,12 @@
           do ib=1,nbp
 
 !.....For first order moments
-              if (ctime.ge.t_start_averaging1) then
+              if (ctime>=t_start_averaging1) then
               do k=1,dom(ib)%ttc_k
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%ntav1(i,j,k)=dom(ib)%ntav1(i,j,k)+1
                           dom(ib)%facp1(i,j,k)=1./dom(ib)%ntav1(i,j,k)
                           dom(ib)%facm1(i,j,k)=1.-dom(ib)%facp1(i,j,k)
@@ -43,12 +43,12 @@
               endif
 
 !.....For second order moments
-              if (ctime.ge.t_start_averaging2) then
+              if (ctime>=t_start_averaging2) then
               do k=1,dom(ib)%ttc_k
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%ntav2(i,j,k)=dom(ib)%ntav2(i,j,k)+1
                           dom(ib)%facp2(i,j,k)=1./dom(ib)%ntav2(i,j,k)
                           dom(ib)%facm2(i,j,k)=1.-dom(ib)%facp2(i,j,k)
@@ -70,7 +70,7 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%um(i,j,k)=dom(ib)%facm1(i,j,k)* &
                     dom(ib)%um(i,j,k)+dom(ib)%facp1(i,j,k)*dom(ib)%u(i,j,k)
                           ufuf=(dom(ib)%u(i,j,k)-dom(ib)%um(i,j,k))* &
@@ -94,7 +94,7 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%vm(i,j,k)=dom(ib)%facm1(i,j,k)* &
                     dom(ib)%vm(i,j,k)+dom(ib)%facp1(i,j,k)*dom(ib)%v(i,j,k)
                           vfvf=(dom(ib)%v(i,j,k)-dom(ib)%vm(i,j,k))* &
@@ -118,7 +118,7 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%wm(i,j,k)=dom(ib)%facm1(i,j,k)* &
                     dom(ib)%wm(i,j,k)+dom(ib)%facp1(i,j,k)*dom(ib)%w(i,j,k)
                           wfwf=(dom(ib)%w(i,j,k)-dom(ib)%wm(i,j,k))* &
@@ -144,7 +144,7 @@
                           if (L_LSM) then
                           dom(ib)%phim(i,j,k)=dom(ib)%facm1(i,j,k)* &
                      dom(ib)%phim(i,j,k)+dom(ib)%facp1(i,j,k)*dom(ib)%phi(i,j,k)
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           dom(ib)%pm(i,j,k)=dom(ib)%facm1(i,j,k)* &
                     dom(ib)%pm(i,j,k)+dom(ib)%facp1(i,j,k)*dom(ib)%p(i,j,k)
 !                  dom(ib)%pf(i,j,k)=dom(ib)%p(i,j,k)-dom(ib)%pm(i,j,k)
@@ -183,7 +183,7 @@
                   do j=2,dom(ib)%ttc_j
                       do i=2,dom(ib)%ttc_i
                           if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k).ge.0.0) then
+                          if (dom(ib)%phi(i,j,k)>=0.0) then
                           ucf=0.5*((dom(ib)%u(i-1,j,k)-dom(ib)%um(i-1,j,k))+ &
                     (dom(ib)%u(i,j,k)-dom(ib)%um(i,j,k)))
                           vcf=0.5*((dom(ib)%v(i,j-1,k)-dom(ib)%vm(i,j-1,k))+ &
@@ -245,12 +245,12 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSMbase) then
-                          if (dom(ib)%zc(k).le.length) then
+                          if (dom(ib)%zc(k)<=length) then
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k) + &
                      random_number_normal(0.0,fnoise)
                           endif
                           else if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k) .ge. 0.0) then
+                          if (dom(ib)%phi(i,j,k) >= 0.0) then
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k) + &
                     random_number_normal(0.0,fnoise)
                           endif
@@ -266,12 +266,12 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSMbase) then
-                          if (dom(ib)%zc(k).le.length) then
+                          if (dom(ib)%zc(k)<=length) then
                           dom(ib)%v(i,j,k) = dom(ib)%v(i,j,k) + &
                     random_number_normal(0.0,fnoise)
                           endif
                           else if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k) .ge. 0.0) then
+                          if (dom(ib)%phi(i,j,k) >= 0.0) then
                           dom(ib)%v(i,j,k) = dom(ib)%v(i,j,k) + &
                     random_number_normal(0.0,fnoise)
                           endif
@@ -287,12 +287,12 @@
                   do j=1,dom(ib)%ttc_j
                       do i=1,dom(ib)%ttc_i
                           if (L_LSMbase) then
-                          if (dom(ib)%zc(k).le.length) then
+                          if (dom(ib)%zc(k)<=length) then
                           dom(ib)%w(i,j,k) = dom(ib)%w(i,j,k) + &
                     random_number_normal(0.0,fnoise)
                           endif
                           else if (L_LSM) then
-                          if (dom(ib)%phi(i,j,k) .ge. 0.0) then
+                          if (dom(ib)%phi(i,j,k) >= 0.0) then
                           dom(ib)%w(i,j,k) = dom(ib)%w(i,j,k) + &
                     random_number_normal(0.0,fnoise)
                           endif

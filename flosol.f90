@@ -13,13 +13,13 @@
 
 ! Set some constants ---------------------
 ! ..... 3-STEP RUNGE KUTTA
-          if (conv_sch.eq.4) then
+          if (conv_sch==4) then
           alfark(1)=1./3.
           alfark(2)=0.5
           alfark(3)=1.0
           kuttacond=3
 ! ..... 2-STEP RUNGE KUTTA
-          else if (conv_sch.eq.3) then
+          else if (conv_sch==3) then
           alfark(1)=0.5
           alfark(2)=1.0
           alfark(3)=1.0
@@ -53,7 +53,7 @@
           ireadinlet = 0
           iaddinlet = 1
 
-          if (myrank.eq.1) then
+          if (myrank==1) then
           open(unit=203, file='worktime.dat')
           write(203,*)'Variables=it,C-D,PSolver,IBM,LPT,Total'
           endif
@@ -61,7 +61,7 @@
 !================== Start Time Loop ====================================
           do itime=itime_start,itime_end
 
-              if (myrank.eq.1) wtime_total = MPI_WTIME ( )
+              if (myrank==1) wtime_total = MPI_WTIME ( )
 
               if (L_dt) call checkdt
 
@@ -70,17 +70,17 @@
 
 !----------------------reading inflow data------------------------------!brunho2014
               if (read_inflow) then
-              if (ireadinlet.eq.ITMAX_PI.and.iaddinlet.eq.1) then
+              if (ireadinlet==ITMAX_PI.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet.eq.1.and.iaddinlet.eq.-1) then
+              elseif (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet
 !---------------------------reading SEM---------------------------------!Pablo2015
-              elseif ((bc_w.eq.8)) then
-              if (ireadinlet.eq.ITMAX_SEM.and.iaddinlet.eq.1) then
+              elseif ((bc_w==8)) then
+              if (ireadinlet==ITMAX_SEM.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet.eq.1.and.iaddinlet.eq.-1) then
+              elseif (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet
@@ -109,7 +109,7 @@
               call heaviside
               end if
               if (LPT) then                             !Brunho2013-2024
-              if (myrank.eq.0) then
+              if (myrank==0) then
               call release_pt                                             !release new particles if any fraction requires
               if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
               call alloc_pt                                               !if not periodic, particles that leave the domain are removed
@@ -117,24 +117,24 @@
               call MPI_pt
               endif
               if(SGS) then
-              if(sgs_model.eq.1) then
+              if(sgs_model==1) then
               call eddyv_smag
-              else if(sgs_model.eq.2) then
+              else if(sgs_model==2) then
               call eddyv_wale
-              else if(sgs_model.eq.3) then
+              else if(sgs_model==3) then
               call eddyv_1eqn
-              else if(sgs_model.eq.4) then
+              else if(sgs_model==4) then
               call eddyv_keps
               end if
               end if
 
               if (pressureforce) call pressure_forcing
 
-              if (myrank.eq.0) wtime_cd = MPI_WTIME ( )
+              if (myrank==0) wtime_cd = MPI_WTIME ( )
 
-              if(conv_sch.eq.3 .or. conv_sch.eq.4) then
+              if(conv_sch==3 .or. conv_sch==4) then
               do kutta=1,kuttacond
-                  if (kutta.eq.1) then
+                  if (kutta==1) then
                   alfabc = 1
                   else
                   alfabc = 0
@@ -149,7 +149,7 @@
                     case (3)
                       call rungek_convWENO
                   end select
-                  if (diff_sch.eq.3) then
+                  if (diff_sch==3) then
                   select case (differencing)
                     case (1)
                       call rungek_diff2nd !
@@ -161,7 +161,7 @@
                   else
                   call diffusion
                   end if
-                  if (kutta.lt.kuttacond) call calvel
+                  if (kutta<kuttacond) call calvel
               end do
               else
               call convection
@@ -169,38 +169,38 @@
               end if
 
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
-              if (myrank.eq.0) wtime_cd=MPI_WTIME( )-wtime_cd
+              if (myrank==0) wtime_cd=MPI_WTIME( )-wtime_cd
 
-              if (myrank.eq.0) wtime_lpt = MPI_WTIME ( )                    !Brunho2013
+              if (myrank==0) wtime_lpt = MPI_WTIME ( )                    !Brunho2013
               if (LPT) then
               call exchange(11)
               call exchange(22)
               call exchange(33)
               if (LENERGY) call exchange(10)
-              if (np_loc.gt.0) call particle_tracking           !Procs without particles do not enter
+              if (np_loc>0) call particle_tracking           !Procs without particles do not enter
               call final_LPT
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
               endif
 
-              if (myrank.eq.0) wtime_lpt = MPI_WTIME ( ) - wtime_lpt
+              if (myrank==0) wtime_lpt = MPI_WTIME ( ) - wtime_lpt
 
-              if (myrank.eq.1) wtime_ib = MPI_WTIME ( )
+              if (myrank==1) wtime_ib = MPI_WTIME ( )
               if (LIMB)  call IBM                           !Pablo2015
-              if (myrank.eq.1) wtime_ib = MPI_WTIME ( ) - wtime_ib
+              if (myrank==1) wtime_ib = MPI_WTIME ( ) - wtime_ib
 
               call correctoutflux
 
-              if (myrank.eq.1) wtime_solver = MPI_WTIME ( )
-              if(solver.eq.1) then
+              if (myrank==1) wtime_solver = MPI_WTIME ( )
+              if(solver==1) then
               call pressure_1sweep
-              else if(solver.eq.2) then
+              else if(solver==2) then
               call newsolv_mg
               end if
-              if (myrank.eq.1) wtime_solver = MPI_WTIME ( ) - wtime_solver
+              if (myrank==1) wtime_solver = MPI_WTIME ( ) - wtime_solver
 
               if (time_averaging) call update_mean
 
-              if (MOD(itime,10).eq.0 .and. myrank.eq.0)  then
+              if (MOD(itime,10)==0 .and. myrank==0)  then
               wtimedum = MPI_WTIME ( ) - wtime
 
               write (6,5000) itime,ctime,dt,dtavg
@@ -217,11 +217,11 @@
 !           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
 
 !-----------Saving unsteady variables-----------------------------------
-              if (ctime.ge.t_start_averaging2) then                 !Brunho 2014
+              if (ctime>=t_start_averaging2) then                 !Brunho 2014
               jjtime = jjtime + 1
               do ii=1,n_unstpt
                   DO ib=1,nbp
-                      if (dom_id(ib).eq.id_unst(ii)) then
+                      if (dom_id(ib)==id_unst(ii)) then
                       dom(ib)%u_unst(ii,jjtime)= &
                 dom(ib)%u(i_unst(ii),j_unst(ii),k_unst(ii))
                       dom(ib)%v_unst(ii,jjtime)= &
@@ -251,7 +251,7 @@
               enddo
 !-----------Saving inflow-----------------------------------------------!Brunho2014
               DO ib=1,nbp
-                  if ((save_inflow).and.(mod(dom_id(ib),idom).eq.0)) then
+                  if ((save_inflow).and.(mod(dom_id(ib),idom)==0)) then
                   call write_inflow(ib)
                   endif
               ENDDO
@@ -260,17 +260,17 @@
 
 !------write solution in tecplot format------------------------------
               if (LTRANSIENT) then
-              if ((mod(itime,tsteps_pt).eq.0).and. &
-        (itime.gt.itime_start)) then
+              if ((mod(itime,tsteps_pt)==0).and. &
+        (itime>itime_start)) then
               call TECPLOT(count)
               if (LPT) then
-              if (myrank.eq.0.and.np.gt.0) call TECPARTICLE(count)
+              if (myrank==0.and.np>0) call TECPARTICLE(count)
               endif
               count = count + 1
               endif
               end if
 
-              if ((mod(itime,n_out).eq.0).and.(itime.ge.itime_start)) then
+              if ((mod(itime,n_out)==0).and.(itime>=itime_start)) then
 !              call tecgrid(itime)
 !              call tec_turb(itime)
 !              call tecplot_p(itime)
@@ -279,13 +279,13 @@
 !              call tecplot_w(itime)
               if (L_LSM) call tecplot_phi(itime)
               call tecbin(itime)
-              if (ctime.ge.t_start_averaging2)  call timesig
+              if (ctime>=t_start_averaging2)  call timesig
               open (unit=101, file='final_ctime.dat')
-              if(myrank.eq.0) write (101,'(i8,3F15.6)') &
+              if(myrank==0) write (101,'(i8,3F15.6)') &
         ntime,ctime,forcn,qstpn,count,ntav1_count, &
         ntav2_count
               close(101)
-              if (myrank.eq.0) then
+              if (myrank==0) then
               open(30,file='final_particle.dat')
               write(30,*) np
               if (LPT) then
@@ -301,7 +301,7 @@
 
 
 !-----------------------------------------------------------------------
-              if (myrank.eq.1) then
+              if (myrank==1) then
               wtime_total = MPI_WTIME ( ) - wtime_total
               write(203,*) 'solver',wtime_solver
               write(203,*) 'ibm',wtime_ib
@@ -314,9 +314,9 @@
 
           itime = itime - 1
 
-          if (myrank.eq.1) close(203)
+          if (myrank==1) close(203)
 
-          if (mod(itime,n_out).ne.0) then
+          if (mod(itime,n_out)/=0) then
 !              call tecgrid(itime)
 !              call tec_turb(itime)
 !              call tecplot_p(itime)
@@ -326,13 +326,13 @@
 !              if (LSCALAR) call tecplot_S(itime)
           call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
-          if (ctime.ge.t_start_averaging2)  call timesig
+          if (ctime>=t_start_averaging2)  call timesig
           open (unit=101, file='final_ctime.dat')
-          if(myrank.eq.0) write (101,'(i8,3F15.6)') &
+          if(myrank==0) write (101,'(i8,3F15.6)') &
     ntime,ctime,forcn,qstpn,count,ntav1_count, &
     ntav2_count
           close(101)
-          if (myrank.eq.0) then
+          if (myrank==0) then
           open(30,file='final_particle.dat')
           write(30,*) np
           if (LPT) then
@@ -346,8 +346,8 @@
           end if   !myrank
           endif
 
-          if (myrank.eq.0) write (6,*) 'ctime=' , ctime
-          if (myrank.eq.0) write (numfile,*) 'ctime=' , ctime
+          if (myrank==0) write (6,*) 'ctime=' , ctime
+          if (myrank==0) write (numfile,*) 'ctime=' , ctime
 
  5000     format(/1x,10(1h=),' nrtstp=',i8,2x,'ctime=',e14.6,2x, &
      'dt=',e14.6,'  dtavg=',e14.6)

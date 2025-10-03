@@ -134,10 +134,10 @@
 
           dt=dt1
 
-          if(itime.ne.itime_start) then
-          if(dt.lt.dtavg*0.1) then
+          if(itime/=itime_start) then
+          if(dt<dtavg*0.1) then
           print*,'#*#*#*#*#*# dt becomes smaller, check result!!!!'
-          if (myrank.eq.0) &
+          if (myrank==0) &
     write(numfile,*) '#*#*#*# dt becomes smaller, check result!!!!'
           call tecgrid(itime)
           call tecplot_p(itime)
@@ -145,7 +145,7 @@
           call tecplot_v(itime)
           call tecplot_w(itime)
           call tecbin(itime)
-          if(myrank.eq.0) then
+          if(myrank==0) then
           open (unit=101, file='final_ctime.dat')
           write (101,'(i8,3F15.6)') &
     ntime,ctime,forcn,qstpn,count

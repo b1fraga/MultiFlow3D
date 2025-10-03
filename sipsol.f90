@@ -19,13 +19,13 @@
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 
-          if(ifi.eq.11) then
+          if(ifi==11) then
           iff=1
-          else if(ifi.eq.22) then
+          else if(ifi==22) then
           iff=2
-          else if(ifi.eq.33) then
+          else if(ifi==33) then
           iff=3
-          else if(ifi.eq.44) then
+          else if(ifi==44) then
           iff=4
           else
           print*,'error in sipsol'
@@ -36,7 +36,7 @@
 
           xx=-1; maxttc_ijk=0
           do ib=1,nbp
-              if(dom(ib)%ttc_ijk.gt.maxttc_ijk) then
+              if(dom(ib)%ttc_ijk>maxttc_ijk) then
               maxttc_ijk=dom(ib)%ttc_ijk
               xx=ib
               end if
@@ -52,15 +52,15 @@
           res=0.0
 
           do ib=1,nbp
-              if(ifi.eq.11) then
+              if(ifi==11) then
               is=dom(ib)%isu; ie=dom(ib)%ieu
               js=dom(ib)%jsu; je=dom(ib)%jeu
               ks=dom(ib)%ksu; ke=dom(ib)%keu
-              else if(ifi.eq.22) then
+              else if(ifi==22) then
               is=dom(ib)%isv; ie=dom(ib)%iev
               js=dom(ib)%jsv; je=dom(ib)%jev
               ks=dom(ib)%ksv; ke=dom(ib)%kev
-              else if(ifi.eq.33) then
+              else if(ifi==33) then
               is=dom(ib)%isw; ie=dom(ib)%iew
               js=dom(ib)%jsw; je=dom(ib)%jew
               ks=dom(ib)%ksw; ke=dom(ib)%kew
@@ -112,17 +112,17 @@
 
               do ib=1,nbp
 
-                  if(ifi.eq.11) then
+                  if(ifi==11) then
                   fi => dom(ib)%ustar
                   is=dom(ib)%isu; ie=dom(ib)%ieu
                   js=dom(ib)%jsu; je=dom(ib)%jeu
                   ks=dom(ib)%ksu; ke=dom(ib)%keu
-                  else if(ifi.eq.22) then
+                  else if(ifi==22) then
                   fi => dom(ib)%vstar
                   is=dom(ib)%isv; ie=dom(ib)%iev
                   js=dom(ib)%jsv; je=dom(ib)%jev
                   ks=dom(ib)%ksv; ke=dom(ib)%kev
-                  else if(ifi.eq.33) then
+                  else if(ifi==33) then
                   fi => dom(ib)%wstar
                   is=dom(ib)%isw; ie=dom(ib)%iew
                   js=dom(ib)%jsw; je=dom(ib)%jew
@@ -182,7 +182,7 @@
               call MPI_ALLREDUCE(buffer_resab,resab,1,MPI_FLT,MPI_SUM, &
         MPI_COMM_WORLD,ierr)
 
-              if(nsweep.eq.1) res1=resab
+              if(nsweep==1) res1=resab
               rsm=resab/(res1+small)
 
               call exchange(ifi)
@@ -191,8 +191,8 @@
 ! --- TERMINATION JUDGEMENT
               reldif=abs (rsm - relast)
               relast=rsm
-              if (rsm.le.0.001)    goto 2100
-              if (reldif.le.0.00001) goto 2100
+              if (rsm<=0.001)    goto 2100
+              if (reldif<=0.00001) goto 2100
           end do
 
           nsweep = nsweep - 1

@@ -25,7 +25,7 @@
           double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
           logical :: random, LSPHERICAL, LSURFACE
 
-          if (myrank.eq.0) then
+          if (myrank==0) then
           write(6,*)'................................................'
           write(6,*)'      LAGRANGIAN PARTICLE TRACKING ON'
           write(6,*)'................................................'
@@ -54,9 +54,9 @@
               read(10,*)                    !fraction header
               read(10,*) tsnr
               read(10,*) ptnr
-              if (tsnr.eq.-1) then
+              if (tsnr==-1) then
               np=np+ptnr              !now we calculate the total number of particles to allocate the variables
-              if (myrank.eq.0)write(202,*) 'Initialising Lagrangian' &
+              if (myrank==0)write(202,*) 'Initialising Lagrangian' &
         ,' field. Releasing',ptnr,'new particles in fraction',f
               endif
 
@@ -94,9 +94,9 @@
           read(30,*)                          !Lcolwall
           read(30,*)                          !k_n
 
-          IF (myrank.eq.0) then
+          IF (myrank==0) then
 
-          IF (np_restart.gt.0) then            !there were particles before
+          IF (np_restart>0) then            !there were particles before
           do l=1,np_restart
               read(20,*) xp_pt(l),yp_pt(l),zp_pt(l)
               read(20,*) uop_pt(l),vop_pt(l),wop_pt(l)
@@ -136,12 +136,12 @@
               read(30,*) random
               if (random) read(30,*)xp,yp,zp,uop,vop,wop
               do l=frac1,frac_end
-                  if (tsnr.eq.-1) then                                      !only initial release if no continuous release
+                  if (tsnr==-1) then                                      !only initial release if no continuous release
                   if (random) then                                            !location
                   mindis=1.1*Dp
                   dist=0
                   ll=0
-                  do while (dist.lt.mindis)                             !avoiding overlap
+                  do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
                       ll=ll+1
                       if (.not.LSPHERICAL) then !default cube release
@@ -153,7 +153,7 @@
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
                       endif
                       do m=frac1,l
-                          if (l.ne.m) then
+                          if (l/=m) then
                           distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l) &
                     -yp_pt(m))**2+(zp_pt(l)-zp_pt(m))**2)
                           else
@@ -161,7 +161,7 @@
                           endif
                           dist=min(dist,distance)
                       enddo
-                      if (ll.gt.1000) then
+                      if (ll>1000) then
                       write(6,*) '================================'
                       write(6,*) 'Release area too small.'
                       write(6,*) 'Cannot create so many particles'
@@ -200,7 +200,7 @@
 
               enddo                                                       !loop in particles within frac
 
-              if (tsnr.eq.-1) frac1=frac1+ptnr
+              if (tsnr==-1) frac1=frac1+ptnr
 
           enddo                                                             !loop in fracs
           end if                                                            !RESTART
@@ -440,7 +440,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           theta = pi * u !for circle: 2.0d0 * pi * u
 
           if (.not.LSURFACE) then !if releasing inside volume/area, generate random r
-          if (sphere_optn.eq.0) then
+          if (sphere_optn==0) then
           call random_number(w)
           ra = r * (w ** (1.0d0/3.0d0)) !generate within a 3D volume
           else

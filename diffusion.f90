@@ -11,9 +11,9 @@
 
 ! ------ Compute coefficients for diffusion terms
 
-          if(diff_sch.eq.1) then
+          if(diff_sch==1) then
           fac=dt
-          else if(diff_sch.eq.2) then
+          else if(diff_sch==2) then
           fac=dt/2.0
           end if
 
@@ -45,21 +45,21 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev.lt.0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext.lt.0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev.lt.0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext.lt.0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev.lt.0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext.lt.0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
 
                           dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
 
-                          if(diff_sch.eq.1) then
+                          if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%ustar(i,j,k)+dom(ib)%su(i,j,k)
-                          else if(diff_sch.eq.2) then
+                          else if(diff_sch==2) then
                           dom(ib)%su(i,j,k)=((1.0- &
                     dom(ib)%ap(i,j,k))*dom(ib)%u(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%u(i-1,j,k)- &
@@ -113,21 +113,21 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev.lt.0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext.lt.0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev.lt.0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext.lt.0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev.lt.0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext.lt.0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
 
                           dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
 
-                          if(diff_sch.eq.1) then
+                          if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%vstar(i,j,k)+dom(ib)%su(i,j,k)
-                          else if(diff_sch.eq.2) then
+                          else if(diff_sch==2) then
                           dom(ib)%su(i,j,k)=((1.0- &
                     dom(ib)%ap(i,j,k))*dom(ib)%v(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%v(i-1,j,k)- &
@@ -178,21 +178,21 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev.lt.0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext.lt.0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev.lt.0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext.lt.0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev.lt.0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext.lt.0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
 
                           dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
 
-                          if(diff_sch.eq.1) then
+                          if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%wstar(i,j,k)+dom(ib)%su(i,j,k)
-                          else if(diff_sch.eq.2) then
+                          else if(diff_sch==2) then
                           dom(ib)%su(i,j,k)=((1.0- &
                     dom(ib)%ap(i,j,k))*dom(ib)%w(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%w(i-1,j,k)- &

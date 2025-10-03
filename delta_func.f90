@@ -10,11 +10,11 @@
           real :: PI,abr
           PI = 4.D0*DATAN(1.D0)
           abr=SQRT(r*r)
-          if (abr.ge.1.5) then
+          if (abr>=1.5) then
           phi_r1smth = 0.0
-          else if ((abr.lt.1.5).and.(abr.ge.0.5)) then
+          else if ((abr<1.5).and.(abr>=0.5)) then
           phi_r1smth = 9./8.-3.*abr/2+abr**2/2
-          else if ((abr.lt.0.5).and.(abr.ge.0.0)) then
+          else if ((abr<0.5).and.(abr>=0.0)) then
           phi_r1smth = 3./4.-abr**2
           end if
           return
@@ -26,19 +26,19 @@
           real, intent(in) :: r
           real :: PI
           PI = 4.D0*DATAN(1.D0)
-          if (r.le.-2.5) then
+          if (r<=-2.5) then
           phi_r2smth = 0.0
-          else if ((r.ge.-2.5).and.(r.le.-1.5)) then
+          else if ((r>=-2.5).and.(r<=-1.5)) then
           phi_r2smth= -1./8./PI*(-5.*PI-2.*PI*r+4.*sin(PI/4.*(-2.*r-1.)))
-          else if ((r.ge.-1.5).and.(r.le.0.0)) then
+          else if ((r>=-1.5).and.(r<=0.0)) then
           phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(-2.*r+1.)) &
                              -2.*sin(PI/4.*(-2.*r-1.)))
-          else if ((r.ge.0.0).and.(r.le.1.5)) then
+          else if ((r>=0.0).and.(r<=1.5)) then
           phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(2.*r+1.)) &
                              -2.*sin(PI/4.*(2.*r-1.)))
-          else if ((r.ge.1.5).and.(r.le.2.5)) then
+          else if ((r>=1.5).and.(r<=2.5)) then
           phi_r2smth= -1./8./PI*(-5.*PI+2.*PI*r+4.*sin(PI/4.*(2.*r-1.)))
-          else if (r.ge.2.5) then
+          else if (r>=2.5) then
           phi_r2smth = 0.0
           end if
 
@@ -49,17 +49,17 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-1.5) then
+          if (r<=-1.5) then
           phi_r3 = 0.0
-          else if ((r.ge.-1.5).and.(r.le.-0.5)) then
+          else if ((r>=-1.5).and.(r<=-0.5)) then
           phi_r3 = 1.0/6.0*(5.0+3.0*r-sqrt(-3.0*(1.0+r)**2+1.0))
-          else if ((r.ge.-0.5).and.(r.le.0.0)) then
+          else if ((r>=-0.5).and.(r<=0.0)) then
           phi_r3 = 1.0/3.0*(1.0+sqrt(-3.0*r**2+1.0))
-          else if ((r.ge.0.0).and.(r.le.0.5)) then
+          else if ((r>=0.0).and.(r<=0.5)) then
           phi_r3 = 1.0/3.0*(1.0+sqrt(-3.0*r**2+1.0))
-          else if ((r.ge.0.5).and.(r.le.1.5)) then
+          else if ((r>=0.5).and.(r<=1.5)) then
           phi_r3 = 1.0/6.0*(5.0-3.0*r-sqrt(-3.0*(1.0-r)**2+1.0))
-          else if (r.ge.1.5) then
+          else if (r>=1.5) then
           phi_r3 = 0.0
           end if
 
@@ -72,25 +72,25 @@
           real, intent(in) :: r
           real :: PI
           PI = 4.D0*DATAN(1.D0)
-          if (r.le.-2.0) then
+          if (r<=-2.0) then
           phi_r3smth2 = 0.0
-          else if ((r.ge.-2.0).and.(r.le.-1.0)) then
+          else if ((r>=-2.0).and.(r<=-1.0)) then
           phi_r3smth2 = 55.0/48.0 - sqrt(3.0)*pi/108.0 + 13.0*r/12.0 &
     + r**2/4.0 + (-2.0*r-3.0)/48.0*sqrt(-12.0*r**2-36.0*r-23.0) &
     + sqrt(3.0)/36.0*ASIN(sqrt(3.0)/2.0*(-2.0*r-3.0))
-          else if ((r.ge.-1.0).and.(r.le.0.0)) then
+          else if ((r>=-1.0).and.(r<=0.0)) then
           phi_r3smth2 = 17.0/48.0 + sqrt(3.0)*pi/108.0 - r/4.0 &
     - r**2/4.0 + (2.0*r+1.0)/16.0*sqrt(-12.0*r**2-12.0*r+1.0) &
     - sqrt(3.0)/12.0*ASIN(sqrt(3.0)/2.0*(-2.0*r-1.0))
-          else if ((r.ge.0.0).and.(r.le.1.0)) then
+          else if ((r>=0.0).and.(r<=1.0)) then
           phi_r3smth2 = 17.0/48.0 + sqrt(3.0)*pi/108.0 + r/4.0 &
     - r**2/4.0 + (-2.0*r+1.0)/16.0*sqrt(-12.0*r**2+12.0*r+1.0) &
     - sqrt(3.0)/12.0*ASIN(sqrt(3.0)/2.0*(2.0*r-1.0))
-          else if ((r.ge.1.0).and.(r.le.2.0)) then
+          else if ((r>=1.0).and.(r<=2.0)) then
           phi_r3smth2 = 55.0/48.0 - sqrt(3.0)*pi/108.0 - 13.0*r/12.0 &
     + r**2/4.0 + (2.0*r-3.0)/48.0*sqrt(-12.0*r**2+36.0*r-23.0) &
     + sqrt(3.0)/36.0*ASIN(sqrt(3.0)/2.0*(2.0*r-3.0))
-          else if (r.ge.2.0) then
+          else if (r>=2.0) then
           phi_r3smth2 = 0.0
           end if
 
@@ -113,22 +113,22 @@
 
 !       PI = 4.D0*DATAN(1.D0)
 
-          if (r.le.-2.0) then
+          if (r<=-2.0) then
           phi_r3smth = 0.0
-          else if ((r.ge.-2.0).and.(r.le.-1.0)) then
+          else if ((r>=-2.0).and.(r<=-1.0)) then
           phi_r3smth = scal1 + scal2*r + scal4*ASIN(scal6*(-2.0*r-3.0)) &
     + 0.25*r**2 + (-2.0*r-3.0)/48.0*sqrt(-12.0*r**2-36.0*r-23.0)
-          else if ((r.ge.-1.0).and.(r.le.0.0)) then
+          else if ((r>=-1.0).and.(r<=0.0)) then
           phi_r3smth = scal3 - r/4.0 - scal5*ASIN(scal6*(-2.0*r-1.0)) &
     - 0.25*r**2 + (2.0*r+1.0)/16.0*sqrt(-12.0*r**2-12.0*r+1.0)
-          else if ((r.ge.0.0).and.(r.le.1.0)) then
+          else if ((r>=0.0).and.(r<=1.0)) then
 
           phi_r3smth = scal3 + r/4.0 - scal5*ASIN(scal6*(2.0*r-1.0)) &
     - 0.25*r**2 + (-2.0*r+1.0)/16.0*sqrt(-12.0*r**2+12.0*r+1.0)
-          else if ((r.ge.1.0).and.(r.le.2.0)) then
+          else if ((r>=1.0).and.(r<=2.0)) then
           phi_r3smth = scal1 - scal2*r + scal4*ASIN(scal6*(2.0*r-3.0)) &
     + 0.25*r**2 + (2.0*r-3.0)/48.0*sqrt(-12.0*r**2+36.0*r-23.0)
-          else if (r.ge.2.0) then
+          else if (r>=2.0) then
           phi_r3smth = 0.0
           end if
 
@@ -139,17 +139,17 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-2.0) then
+          if (r<=-2.0) then
           phi_r4 = 0.0
-          else if ((r.ge.-2.0).and.(r.le.-1.0)) then
+          else if ((r>=-2.0).and.(r<=-1.0)) then
           phi_r4 = 1.0/8.0*(5.0+2.0*r-sqrt(-7.0-12.0*r-4.0*r**2))
-          else if ((r.ge.-1.0).and.(r.le.0.0)) then
+          else if ((r>=-1.0).and.(r<=0.0)) then
           phi_r4 = 1.0/8.0*(3.0+2.0*r+sqrt(1.0-4.0*r-4.0*r**2))
-          else if ((r.ge.0.0).and.(r.le.1.0)) then
+          else if ((r>=0.0).and.(r<=1.0)) then
           phi_r4 = 1.0/8.0*(3.0-2.0*r+sqrt(1.0+4.0*r-4.0*r**2))
-          else if ((r.ge.1.0).and.(r.le.2.0)) then
+          else if ((r>=1.0).and.(r<=2.0)) then
           phi_r4 = 1.0/8.0*(5.0-2.0*r-sqrt(-7.0+12.0*r-4.0*r**2))
-          else if (r.ge.2.0) then
+          else if (r>=2.0) then
           phi_r4 = 0.0
           end if
 
@@ -163,16 +163,16 @@
           real :: PI,ar
           PI = 4.D0*DATAN(1.D0)
           ar=abs(r)
-          if ((ar.ge.0.0).and.(ar.le.0.5)) then
+          if ((ar>=0.0).and.(ar<=0.5)) then
           phi_r4smth = 3.0/8.0+ PI/32.0 - r*r/4.0
-          else if ((ar.ge.0.5).and.(ar.le.1.5)) then
+          else if ((ar>=0.5).and.(ar<=1.5)) then
           phi_r4smth = 1.0/4.0 + (1.0-ar)/8.0*SQRT(-2.0+8.0*ar -4.0*r*r) &
      -1.0/8.0*ASIN(sqrt(2.0)*(ar-1.0))
-          else if ((ar.ge.1.5).and.(ar.le.2.5)) then
+          else if ((ar>=1.5).and.(ar<=2.5)) then
           phi_r4smth = 17.0/16.0 - PI/64.0 - 3.0*ar/4.0+ r*r/8.0 &
      + (ar-2.0)/16.0 * SQRT(-14.0+ 16.0*ar - 4.0*r*r) &
      + 1.0/16.0*ASIN(sqrt(2.0)*(ar-2.0))
-          else if (ar.ge.2.5) then
+          else if (ar>=2.5) then
           phi_r4smth = 0.0
           end if
           return
@@ -184,15 +184,15 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-1.5) then
+          if (r<=-1.5) then
           cd2_0 = 0.0
-          else if ((r.ge.-1.5).and.(r.le.-0.5)) then
+          else if ((r>=-1.5).and.(r<=-0.5)) then
           cd2_0 = 0.5*r+0.75
-          else if ((r.ge.-0.5).and.(r.le.0.5)) then
+          else if ((r>=-0.5).and.(r<=0.5)) then
           cd2_0 = 0.5
-          else if ((r.ge.0.5).and.(r.le.1.5)) then
+          else if ((r>=0.5).and.(r<=1.5)) then
           cd2_0 = -0.5*r+0.75
-          else if (r.ge.1.5) then
+          else if (r>=1.5) then
           cd2_0 = 0.0
           end if
 
@@ -204,15 +204,15 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-1.5) then
+          if (r<=-1.5) then
           dcd2_0 = 0.0
-          else if ((r.ge.-1.5).and.(r.le.-0.5)) then
+          else if ((r>=-1.5).and.(r<=-0.5)) then
           dcd2_0 = 0.5
-          else if ((r.ge.-0.5).and.(r.le.0.5)) then
+          else if ((r>=-0.5).and.(r<=0.5)) then
           dcd2_0 = 0.0
-          else if ((r.ge.0.5).and.(r.le.1.5)) then
+          else if ((r>=0.5).and.(r<=1.5)) then
           dcd2_0 = -0.5
-          else if (r.ge.1.5) then
+          else if (r>=1.5) then
           dcd2_0 = 0.0
           end if
 
@@ -224,15 +224,15 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-2.0) then
+          if (r<=-2.0) then
           cd2_1 = 0.0
-          else if ((r.ge.-2.0).and.(r.le.-1.0)) then
+          else if ((r>=-2.0).and.(r<=-1.0)) then
           cd2_1 = 0.25*r**2+r+1.0
-          else if ((r.ge.-1.0).and.(r.le.1.0)) then
+          else if ((r>=-1.0).and.(r<=1.0)) then
           cd2_1 = -0.25*r**2+0.5
-          else if ((r.ge.1.0).and.(r.le.2.0)) then
+          else if ((r>=1.0).and.(r<=2.0)) then
           cd2_1 = 0.25*r**2-r+1.0
-          else if (r.ge.2.0) then
+          else if (r>=2.0) then
           cd2_1 = 0.0
           end if
 
@@ -245,15 +245,15 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-2.0) then
+          if (r<=-2.0) then
           dcd2_1 = 0.0
-          else if ((r.ge.-2.0).and.(r.le.-1.0)) then
+          else if ((r>=-2.0).and.(r<=-1.0)) then
           dcd2_1 = 0.5*r+1.0
-          else if ((r.ge.-1.0).and.(r.le.1.0)) then
+          else if ((r>=-1.0).and.(r<=1.0)) then
           dcd2_1 = -0.5*r
-          else if ((r.ge.1.0).and.(r.le.2.0)) then
+          else if ((r>=1.0).and.(r<=2.0)) then
           dcd2_1 = 0.5*r-1.0
-          else if (r.ge.2.0) then
+          else if (r>=2.0) then
           dcd2_1 = 0.0
           end if
 
@@ -327,17 +327,17 @@
 !######################################################################
           implicit none
           real, intent(in) :: r
-          if (r.le.-1.5) then
+          if (r<=-1.5) then
           dphi_r3 = 0.0
-          else if ((r.ge.-1.5).and.(r.le.-0.5)) then
+          else if ((r>=-1.5).and.(r<=-0.5)) then
           dphi_r3 = 1.0/6.0*(3.0-0.5*(-3.0*(1.0+r)**2+1.0)**(-0.5) &
     *(-6.0*(1.0+r)))
-          else if ((r.ge.-0.5).and.(r.le.0.5)) then
+          else if ((r>=-0.5).and.(r<=0.5)) then
           dphi_r3 = 1.0/6.0*(-3.0*r**2+1.0)**(-0.5)*(-6.0*r)
-          else if ((r.ge.0.5).and.(r.le.1.5)) then
+          else if ((r>=0.5).and.(r<=1.5)) then
           dphi_r3 = 1.0/6.0*(-3.0-0.5*(-3.0*(1.0-r)**2+1.0)**(-0.5) &
     *(6.0*(1.0-r)))
-          else if (r.ge.1.5) then
+          else if (r>=1.5) then
           dphi_r3 = 0.0
           end if
 

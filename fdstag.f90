@@ -39,19 +39,19 @@
           if(.not.LRESTART) then
           if (time_averaging) then
           call update_mean
-          if (noise.gt.0.0) call add_noise(noise)
+          if (noise>0.0) call add_noise(noise)
           end if
           end if
 
           if (LPT) then                     !Brunho2013
-          if (myrank.eq.0)  open(unit=202, file='particle_log')
+          if (myrank==0)  open(unit=202, file='particle_log')
           call init_particle
           endif
 
-          if ((solver.eq.2).and.(.not.L_LSM)) call coeff
+          if ((solver==2).and.(.not.L_LSM)) call coeff
 
           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
-          if(myrank.eq.0) then
+          if(myrank==0) then
           write (numfile,*) '============START ITERATIONS========='
           write (6,*) '============START ITERATIONS========='
           end if

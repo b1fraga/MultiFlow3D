@@ -141,14 +141,14 @@
 !..........................................................................
 !=== West ===>
 !..........................................................................
-                  if (dom(ib)%bc_west.eq.5 .and. dom(ib)%iprev.lt.0) then
-                  if (dom(ib)%inext.lt.0) then
+                  if (dom(ib)%bc_west==5 .and. dom(ib)%iprev<0) then
+                  if (dom(ib)%inext<0) then
                   do k=1,dom(ib)%ttc_k; do j=1,dom(ib)%ttc_j
                           fi(is-1-ly,j,k)= fi(ie-ly,j,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_ip
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p1
                   else
                   sbuf => dom(ib) % sendb_m1
@@ -160,7 +160,7 @@
                           sbuf(ijk)=fi(is+ly,j,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=1*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=2*10**6+dom_id(ib)*10**4+my_cor
                   call MPI_IRECV  (dom(ib)%recvb_m1(1),tsend,MPI_FLT, &
@@ -172,14 +172,14 @@
 !..........................................................................
 !=== East ===>
 !..........................................................................
-                  if (dom(ib)%bc_east.eq.5 .and. dom(ib)%inext.lt.0) then
-                  if (dom(ib)%iprev.lt.0) then              !one only domain in that direction, no transfer needed
+                  if (dom(ib)%bc_east==5 .and. dom(ib)%inext<0) then
+                  if (dom(ib)%iprev<0) then              !one only domain in that direction, no transfer needed
                   do k=1,dom(ib)%ttc_k; do j=1,dom(ib)%ttc_j
                           fi(ie+1+ly,j,k)= fi(is+ly,j,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_in
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m1
                   else
                   sbuf => dom(ib) % sendb_p1
@@ -191,7 +191,7 @@
                           sbuf(ijk)=fi(ie-ly,j,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=2*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=1*10**6+dom_id(ib)*10**4+my_cor
                   call MPI_IRECV  (dom(ib)%recvb_p1(1),tsend,MPI_FLT, &
@@ -203,14 +203,14 @@
 !..........................................................................
 !=== South ===>
 !..........................................................................
-                  if (dom(ib)%bc_south.eq.5 .and. dom(ib)%jprev.lt.0) then
-                  if (dom(ib)%jnext.lt.0) then
+                  if (dom(ib)%bc_south==5 .and. dom(ib)%jprev<0) then
+                  if (dom(ib)%jnext<0) then
                   do k=1,dom(ib)%ttc_k; do i=1,dom(ib)%ttc_i
                           fi(i,js-1-ly,k)= fi(i,je-ly,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_jp
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p2
                   else
                   sbuf => dom(ib) % sendb_m2
@@ -222,7 +222,7 @@
                           sbuf(ijk)=fi(i,js+ly,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=3*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=4*10**6+dom_id(ib)*10**4+my_cor
 
@@ -235,14 +235,14 @@
 !..........................................................................
 !=== North ===>
 !..........................................................................
-                  if (dom(ib)%bc_north.eq.5 .and. dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%jprev.lt.0) then
+                  if (dom(ib)%bc_north==5 .and. dom(ib)%jnext<0) then
+                  if (dom(ib)%jprev<0) then
                   do k=1,dom(ib)%ttc_k; do i=1,dom(ib)%ttc_i
                           fi(i,je+1+ly,k)= fi(i,js+ly,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_jn
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m2
                   else
                   sbuf => dom(ib) % sendb_p2
@@ -254,7 +254,7 @@
                           sbuf(ijk)=fi(i,je-ly,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=4*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=3*10**6+dom_id(ib)*10**4+my_cor
 
@@ -267,14 +267,14 @@
 !..........................................................................
 !=== Bottom ===>
 !..........................................................................
-                  if (dom(ib)%bc_bottom.eq.5 .and. dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%knext.lt.0) then
+                  if (dom(ib)%bc_bottom==5 .and. dom(ib)%kprev<0) then
+                  if (dom(ib)%knext<0) then
                   do j=1,dom(ib)%ttc_j; do i=1,dom(ib)%ttc_i
                           fi(i,j,ks-1-ly)= fi(i,j,ke-ly)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_kp
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p3
                   else
                   sbuf => dom(ib) % sendb_m3
@@ -286,7 +286,7 @@
                           sbuf(ijk)=fi(i,j,ks+ly)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=5*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=6*10**6+dom_id(ib)*10**4+my_cor
 
@@ -299,14 +299,14 @@
 !..........................................................................
 !=== Top ===>
 !..........................................................................
-                  if (dom(ib)%bc_top.eq.5 .and. dom(ib)%knext.lt.0) then
-                  if (dom(ib)%kprev.lt.0) then
+                  if (dom(ib)%bc_top==5 .and. dom(ib)%knext<0) then
+                  if (dom(ib)%kprev<0) then
                   do j=1,dom(ib)%ttc_j; do i=1,dom(ib)%ttc_i
                           fi(i,j,ke+1+ly)= fi(i,j,ks+ly)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_kn
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m3
                   else
                   sbuf => dom(ib) % sendb_p3
@@ -318,7 +318,7 @@
                           sbuf(ijk)=fi(i,j,ke-ly)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=6*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=5*10**6+dom_id(ib)*10**4+my_cor
 
@@ -458,14 +458,14 @@
 !..........................................................................
 !=== West ===>
 !..........................................................................
-                  if (dom(ib)%bc_west.eq.5 .and. dom(ib)%iprev.lt.0) then
-                  if (dom(ib)%inext.lt.0) then
+                  if (dom(ib)%bc_west==5 .and. dom(ib)%iprev<0) then
+                  if (dom(ib)%inext<0) then
                   do k=1,dom(ib)%ttc_k; do j=1,dom(ib)%ttc_j
                           fi(is-1-ly,j,k)= fi(ie-ly,j,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_ip
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p1
                   else
                   sbuf => dom(ib) % sendb_m1
@@ -477,7 +477,7 @@
                           sbuf(ijk)=fi(is+ly,j,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=1*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=2*10**6+dom_id(ib)*10**4+my_cor
 
@@ -489,14 +489,14 @@
 !..........................................................................
 !=== East ===>
 !..........................................................................
-                  if (dom(ib)%bc_east.eq.5 .and. dom(ib)%inext.lt.0) then
-                  if (dom(ib)%iprev.lt.0) then              !one only domain in that direction, no transfer needed
+                  if (dom(ib)%bc_east==5 .and. dom(ib)%inext<0) then
+                  if (dom(ib)%iprev<0) then              !one only domain in that direction, no transfer needed
                   do k=1,dom(ib)%ttc_k; do j=1,dom(ib)%ttc_j
                           fi(ie+1+ly,j,k)= fi(is+ly,j,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_in
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m1
                   else
                   sbuf => dom(ib) % sendb_p1
@@ -508,7 +508,7 @@
                           sbuf(ijk)=fi(ie-ly,j,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=2*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=1*10**6+dom_id(ib)*10**4+my_cor
 
@@ -520,14 +520,14 @@
 !..........................................................................
 !=== South ===>
 !..........................................................................
-                  if (dom(ib)%bc_south.eq.5 .and. dom(ib)%jprev.lt.0) then
-                  if (dom(ib)%jnext.lt.0) then
+                  if (dom(ib)%bc_south==5 .and. dom(ib)%jprev<0) then
+                  if (dom(ib)%jnext<0) then
                   do k=1,dom(ib)%ttc_k; do i=1,dom(ib)%ttc_i
                           fi(i,js-1-ly,k)= fi(i,je-ly,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_jp
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p2
                   else
                   sbuf => dom(ib) % sendb_m2
@@ -539,7 +539,7 @@
                           sbuf(ijk)=fi(i,js+ly,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=3*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=4*10**6+dom_id(ib)*10**4+my_cor
 
@@ -551,14 +551,14 @@
 !..........................................................................
 !=== North ===>
 !..........................................................................
-                  if (dom(ib)%bc_north.eq.5 .and. dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%jprev.lt.0) then
+                  if (dom(ib)%bc_north==5 .and. dom(ib)%jnext<0) then
+                  if (dom(ib)%jprev<0) then
                   do k=1,dom(ib)%ttc_k; do i=1,dom(ib)%ttc_i
                           fi(i,je+1+ly,k)= fi(i,js+ly,k)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_jn
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m2
                   else
                   sbuf => dom(ib) % sendb_p2
@@ -570,7 +570,7 @@
                           sbuf(ijk)=fi(i,je-ly,k)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=4*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=3*10**6+dom_id(ib)*10**4+my_cor
 
@@ -582,14 +582,14 @@
 !..........................................................................
 !=== Bottom ===>
 !..........................................................................
-                  if (dom(ib)%bc_bottom.eq.5 .and. dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%knext.lt.0) then
+                  if (dom(ib)%bc_bottom==5 .and. dom(ib)%kprev<0) then
+                  if (dom(ib)%knext<0) then
                   do j=1,dom(ib)%ttc_j; do i=1,dom(ib)%ttc_i
                           fi(i,j,ks-1-ly)= fi(i,j,ke-ly)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_kp
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_p3
                   else
                   sbuf => dom(ib) % sendb_m3
@@ -601,7 +601,7 @@
                           sbuf(ijk)=fi(i,j,ks+ly)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag1=5*10**6+my_cor    *10**4+dom_id(ib)
                   tag2=6*10**6+dom_id(ib)*10**4+my_cor
 
@@ -613,14 +613,14 @@
 !..........................................................................
 !=== Top ===>
 !..........................................................................
-                  if (dom(ib)%bc_top.eq.5 .and. dom(ib)%knext.lt.0) then
-                  if (dom(ib)%kprev.lt.0) then
+                  if (dom(ib)%bc_top==5 .and. dom(ib)%knext<0) then
+                  if (dom(ib)%kprev<0) then
                   do j=1,dom(ib)%ttc_j; do i=1,dom(ib)%ttc_i
                           fi(i,j,ke+1+ly)= fi(i,j,ks+ly)
                       end do; end do
                   else
                   my_cor=dom(ib)%per_kn
-                  if (dom_ad(dom_id(ib)) .eq. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) == dom_ad(my_cor)) then
                   sbuf => dom(dom_indid(my_cor))%recvb_m3
                   else
                   sbuf => dom(ib) % sendb_p3
@@ -632,7 +632,7 @@
                           sbuf(ijk)=fi(i,j,ke-ly)
                       end do; end do
 
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   tag3=6*10**6+my_cor    *10**4+dom_id(ib)
                   tag4=5*10**6+dom_id(ib)*10**4+my_cor
 
@@ -746,10 +746,10 @@
 !..........................................................................
 !=== West ===>
 !..........................................................................
-                  if (dom(ib)%bc_west.eq.5 .and. &
-            dom(ib)%iprev.lt.0 .and. dom(ib)%inext.ge.0) then
+                  if (dom(ib)%bc_west==5 .and. &
+            dom(ib)%iprev<0 .and. dom(ib)%inext>=0) then
                   my_cor=dom(ib)%per_ip
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_m1
@@ -761,10 +761,10 @@
 !..........................................................................
 !=== East ===>
 !..........................................................................
-                  if (dom(ib)%bc_east.eq.5 .and. &
-            dom(ib)%inext.lt.0 .and. dom(ib)%iprev.ge.0) then
+                  if (dom(ib)%bc_east==5 .and. &
+            dom(ib)%inext<0 .and. dom(ib)%iprev>=0) then
                   my_cor=dom(ib)%per_in
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_p1
@@ -776,10 +776,10 @@
 !..........................................................................
 !=== South ===>
 !..........................................................................
-                  if (dom(ib)%bc_south.eq.5 .and. &
-            dom(ib)%jprev.lt.0 .and. dom(ib)%jnext.ge.0) then
+                  if (dom(ib)%bc_south==5 .and. &
+            dom(ib)%jprev<0 .and. dom(ib)%jnext>=0) then
                   my_cor=dom(ib)%per_jp
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_m2,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_m2
@@ -791,10 +791,10 @@
 !..........................................................................
 !=== North ===>
 !..........................................................................
-                  if (dom(ib)%bc_north.eq.5 .and. &
-            dom(ib)%jnext.lt.0 .and. dom(ib)%jprev.ge.0) then
+                  if (dom(ib)%bc_north==5 .and. &
+            dom(ib)%jnext<0 .and. dom(ib)%jprev>=0) then
                   my_cor=dom(ib)%per_jn
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_p2,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_p2
@@ -806,10 +806,10 @@
 !..........................................................................
 !=== Bottom ===>
 !..........................................................................
-                  if (dom(ib)%bc_bottom.eq.5 .and. &
-            dom(ib)%kprev.lt.0 .and. dom(ib)%knext.ge.0) then
+                  if (dom(ib)%bc_bottom==5 .and. &
+            dom(ib)%kprev<0 .and. dom(ib)%knext>=0) then
                   my_cor=dom(ib)%per_kp
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_m3,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_m3
@@ -821,10 +821,10 @@
 !..........................................................................
 !=== Top ===>
 !..........................................................................
-                  if (dom(ib)%bc_top.eq.5 .and. &
-            dom(ib)%knext.lt.0 .and. dom(ib)%kprev.ge.0) then
+                  if (dom(ib)%bc_top==5 .and. &
+            dom(ib)%knext<0 .and. dom(ib)%kprev>=0) then
                   my_cor=dom(ib)%per_kn
-                  if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+                  if (dom_ad(dom_id(ib)) /= dom_ad(my_cor)) then
                   call MPI_WAIT(dom(ib)%rq_p3,MPI_STATUS_IGNORE,ierr)
                   end if
                   rbuf => dom(ib) % recvb_p3

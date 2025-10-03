@@ -53,16 +53,16 @@
               call calvel
               call calmas
 
-              if (rmax.lt.eps.and.iter.gt.1)  goto 3000
+              if (rmax<eps.and.iter>1)  goto 3000
 
           end do
 
-          if (myrank.eq.0) print*,'not converged!! ',maxcy,rmax
-          if (myrank.eq.0) write(numfile,*)'not converged!! ',maxcy,rmax
+          if (myrank==0) print*,'not converged!! ',maxcy,rmax
+          if (myrank==0) write(numfile,*)'not converged!! ',maxcy,rmax
  3000     continue
 
-          if(rmax.gt.100.0) then
-          if(myrank.eq.0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
+          if(rmax>100.0) then
+          if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
           write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
 
           !call tecgrid(itime)
@@ -71,7 +71,7 @@
           !call tecplot_v(itime)
           !call tecplot_w(itime)
           !call tecbin(itime)
-          if(myrank.eq.0) then
+          if(myrank==0) then
           open (unit=101, file='final_ctime.dat')
           write (101,'(i8,3F15.6)')&
     ntime,ctime,forcn,qstpn,count
@@ -88,7 +88,7 @@
           call boundw
 
 
-          if(myrank.eq.0) then
+          if(myrank==0) then
           wtimedum = MPI_WTIME ( ) - wtime
           write(6,'(1x,a,i8,a,e13.6,a,i8)') &
     ' ntime:',ntime,' rmax:',rmax,'     iter',iter
@@ -112,7 +112,7 @@
           character*8 :: chb
           character*25 :: gf,gf2
 
-          if ((mod(itime,n_out).eq.0).and.(itime.gt.itime_start)) then
+          if ((mod(itime,n_out)==0).and.(itime>itime_start)) then
 
           do ib=1,nbp
               write(chb,'(i8)') dom_id(ib)
@@ -141,7 +141,7 @@
 
                           write (88,88) dom(ib)%xc(i),dom(ib)%yc(j), &
                     dom(ib)%zc(k),abs(resid)
-                          if(abs(resid).gt.1e-6) write (78,88) dom(ib)%xc(i), &
+                          if(abs(resid)>1e-6) write (78,88) dom(ib)%xc(i), &
                     dom(ib)%yc(j),dom(ib)%zc(k),abs(resid)
                       end do
                   end do

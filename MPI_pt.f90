@@ -118,7 +118,7 @@
 
           endif !Lcol
 
-          IF (Myrank.eq.0) THEN
+          IF (Myrank==0) THEN
 
           X_MPI = -1.d12
           if (Lcol) Xg_MPI = -1.d12
@@ -177,7 +177,7 @@
               nzdom_iprev = INT((zp_pt(lp)-zst-1d-12)/(lz/kdom))
               lpt_block_iprev(lp) = idom*jdom*(nzdom_iprev)+idom &
                                   *(nydom_iprev)+nxdom_iprev
-              if (lpt_block_iprev(lp).ne.lpt_block(lp)) then
+              if (lpt_block_iprev(lp)/=lpt_block(lp)) then
               lpt_proc_iprev(lp)=dom_ad(lpt_block_iprev(lp))+1
               ptsinproc_g(lpt_proc_iprev(lp))= &
         ptsinproc_g(lpt_proc_iprev(lp))+1
@@ -189,7 +189,7 @@
               lpt_block_jprev(lp) = idom*jdom*(nzdom_jprev)+idom*(nydom_jprev) &
                                     +nxdom_jprev
 
-              if (lpt_block_jprev(lp).ne.lpt_block(lp)) then
+              if (lpt_block_jprev(lp)/=lpt_block(lp)) then
               lpt_proc_jprev(lp)=dom_ad(lpt_block_jprev(lp))+1
               ptsinproc_g(lpt_proc_jprev(lp))= &
         ptsinproc_g(lpt_proc_jprev(lp))+1
@@ -201,7 +201,7 @@
               lpt_block_kprev(lp) = idom*jdom*(nzdom_kprev) &
                    +idom*(nydom_kprev)+nxdom_kprev
 
-              if (lpt_block_kprev(lp).ne.lpt_block(lp)) then
+              if (lpt_block_kprev(lp)/=lpt_block(lp)) then
               lpt_proc_kprev(lp)=dom_ad(lpt_block_kprev(lp))+1
               ptsinproc_g(lpt_proc_kprev(lp))= &
         ptsinproc_g(lpt_proc_kprev(lp))+1
@@ -209,39 +209,39 @@
 
 !           endif
               !=== Next Neighbor  ===>
-              if (abs(xp_pt(lp)-xen).gt.dx) then
+              if (abs(xp_pt(lp)-xen)>dx) then
               nxdom_inext = INT((xp_pt(lp)+dx-xst-1d-12)/(lx/idom))
               nydom_inext = INT((yp_pt(lp)-yst-1d-12)/(ly/jdom))
               nzdom_inext = INT((zp_pt(lp)-zst-1d-12)/(lz/kdom))
               lpt_block_inext(lp) = idom*jdom*(nzdom_inext)+idom*(nydom_inext) &
                                     +nxdom_inext
-              if (lpt_block_inext(lp).ne.lpt_block(lp)) then
+              if (lpt_block_inext(lp)/=lpt_block(lp)) then
               lpt_proc_inext(lp)=dom_ad(lpt_block_inext(lp))+1
               ptsinproc_g(lpt_proc_inext(lp))= &
         ptsinproc_g(lpt_proc_inext(lp))+1
               endif
               endif
               ! -+-
-              if (abs(yp_pt(lp)-yen).gt.dy) then
+              if (abs(yp_pt(lp)-yen)>dy) then
               nxdom_jnext = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
               nydom_jnext = INT((yp_pt(lp)+dy-yst-1d-12)/(ly/jdom))
               nzdom_jnext = INT((zp_pt(lp)-zst-1d-12)/(lz/kdom))
               lpt_block_jnext(lp) = idom*jdom*(nzdom_jnext)+idom*(nydom_jnext) &
                                     +nxdom_jnext
-              if (lpt_block_jnext(lp).ne.lpt_block(lp)) then
+              if (lpt_block_jnext(lp)/=lpt_block(lp)) then
               lpt_proc_jnext(lp)=dom_ad(lpt_block_jnext(lp))+1
               ptsinproc_g(lpt_proc_jnext(lp))= &
         ptsinproc_g(lpt_proc_jnext(lp))+1
               endif
               endif
               ! --+
-              if (abs(zp_pt(lp)-zen).gt.dz) then
+              if (abs(zp_pt(lp)-zen)>dz) then
               nxdom_knext = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
               nydom_knext = INT((yp_pt(lp)-yst-1d-12)/(ly/jdom))
               nzdom_knext = INT((zp_pt(lp)+dz-zst-1d-12)/(lz/kdom))
               lpt_block_knext(lp) = idom*jdom*(nzdom_knext)+idom*(nydom_knext) &
                                    +nxdom_knext
-              if (lpt_block_knext(lp).ne.lpt_block(lp)) then
+              if (lpt_block_knext(lp)/=lpt_block(lp)) then
               lpt_proc_knext(lp)=dom_ad(lpt_block_knext(lp))+1
               ptsinproc_g(lpt_proc_knext(lp))= &
         ptsinproc_g(lpt_proc_knext(lp))+1
@@ -256,7 +256,7 @@
 !           write(6,*)'1',o,ptsinproc(o)
               ii=1
               DO l=1,np
-                  if(lpt_proc(l).eq.(o)) then
+                  if(lpt_proc(l)==(o)) then
                   X_MPI(ii+np*(o-1))=xp_pt(l)                     !superarrays
                   Y_MPI(ii+np*(o-1))=yp_pt(l)
                   Z_MPI(ii+np*(o-1))=zp_pt(l)
@@ -298,10 +298,10 @@
 !     &           lpt_proc_cornext3(ll),lpt_proc_cornext4(ll)
 
                   if (         &                             ! ghost particles
-            (lpt_proc_iprev(ll).eq.(oo)).or.(lpt_proc_jprev(ll).eq.(oo)).or. &
-            (lpt_proc_kprev(ll).eq.(oo)).or.(lpt_proc_inext(ll).eq.(oo)).or. &
-            (lpt_proc_jnext(ll).eq.(oo)).or. &
-            (lpt_proc_knext(ll).eq.(oo))) then                    !.or.
+            (lpt_proc_iprev(ll)==(oo)).or.(lpt_proc_jprev(ll)==(oo)).or. &
+            (lpt_proc_kprev(ll)==(oo)).or.(lpt_proc_inext(ll)==(oo)).or. &
+            (lpt_proc_jnext(ll)==(oo)).or. &
+            (lpt_proc_knext(ll)==(oo))) then                    !.or.
 !     &           (lpt_proc_corprev1(ll).eq.(oo)).or.
 !     &           (lpt_proc_corprev2(ll).eq.(oo)).or.
 !     &           (lpt_proc_corprev3(ll).eq.(oo)).or.
@@ -431,7 +431,7 @@
 ! real particles
 ! --------------------------------
 
-          if (np_loc.gt.0) then
+          if (np_loc>0) then
 
           allocate (xp_loc(np_loc),yp_loc(np_loc),zp_loc(np_loc))
           allocate (uop_loc(np_loc),vop_loc(np_loc),wop_loc(np_loc))
@@ -446,7 +446,7 @@
 
           ii=0
           do l=1,np
-              if (X_MPI_loc(l).ne.-1.d12) then
+              if (X_MPI_loc(l)/=-1.d12) then
               ii=ii+1
               xp_loc(l)=X_MPI_loc(l)
               yp_loc(l)=Y_MPI_loc(l)
@@ -462,7 +462,7 @@
               id(l)=id_MPI_loc(l)
               endif
           enddo
-          if (ii.ne.np_loc) then
+          if (ii/=np_loc) then
           write(6,*)'MPI ERROR in proc:',myrank
           write(6,*)'np_loc=',np_loc,'=/=',ii
           stop
@@ -475,7 +475,7 @@
 ! --------------------------------
           if (Lcol) then
 
-          if (npg_loc.gt.0) then
+          if (npg_loc>0) then
 
           allocate (xpg_loc(npg_loc),ypg_loc(npg_loc),zpg_loc(npg_loc))
           allocate (uopg_loc(npg_loc),vopg_loc(npg_loc),wopg_loc(npg_loc))
@@ -484,7 +484,7 @@
           iii=0
           do ll=1,np
 !                 write(myrank+2000,*) ll,Xg_MPI_loc(ll)
-              if (Xg_MPI_loc(ll).ne.-1.d12) then
+              if (Xg_MPI_loc(ll)/=-1.d12) then
               iii=iii+1
               xpg_loc(ll)=Xg_MPI_loc(ll)
               ypg_loc(ll)=Yg_MPI_loc(ll)
@@ -500,7 +500,7 @@
 !                       idg(ll)=idg_MPI_loc(ll)
               endif
           enddo
-          if (iii.ne.npg_loc) then
+          if (iii/=npg_loc) then
           write(6,*)'MPI ERROR in proc (ghost particles):',myrank
           write(6,*)'npg_loc=',npg_loc,'=/=',iii
           stop

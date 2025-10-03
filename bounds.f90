@@ -34,16 +34,16 @@
 !..............................................................................
 !=== West ===> ..   4=wall  ..    1=Inflow  ..  7=read inflow
 !..............................................................................
-                  if (dom(ib)%iprev.lt.0) then
-                  if ((dom(ib)%bc_west.eq.4).or.(dom(ib)%bc_west.ge.61)) then
+                  if (dom(ib)%iprev<0) then
+                  if ((dom(ib)%bc_west==4).or.(dom(ib)%bc_west>=61)) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%u(is-1-ly,j,k)= 0.0
                       end do; end do
 
-                  else if (dom(ib)%bc_west.eq.1) then
+                  else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           if (L_LSM) then
-                          if (dom(ib)%phi(is,j,k) .ge. 0.0) then
+                          if (dom(ib)%phi(is,j,k) >= 0.0) then
                           dom(ib)%u(is-1-ly,j,k)= ubulk
                           else
                           dom(ib)%u(is-1-ly,j,k)= 0.0
@@ -53,7 +53,7 @@
                           end if
                       end do; end do
 
-                  else if (dom(ib)%bc_west.eq.7) then                   !brunho2014 reading slices
+                  else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
@@ -73,7 +73,7 @@
                       end do; end do
                   close (405)
 
-                  else if (dom(ib)%bc_west.eq.8) then                   !Pablo 14/12/2015 reading SEM inlet
+                  else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
                   write(name_end,'(I6)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(6-strlen))// &
@@ -90,8 +90,8 @@
                           k=kk+pl-1 ; j=jj+pl-1
                           read(405,*)up,dummy,dummy
 
-                          if (UPROF_SEM.eq.12) then         !1/7th power law inlet condition Pablo 7/12/2015 (WITH SEM)
-                          if (dom(ib)%yc(j).lt.((yen-yst)/2)) then
+                          if (UPROF_SEM==12) then         !1/7th power law inlet condition Pablo 7/12/2015 (WITH SEM)
+                          if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1./7.)
                           else
@@ -105,9 +105,9 @@
                           endif
                       end do ; end do
 
-                  else if (dom(ib)%bc_west.eq.12) then      !1/7th power law inlet condition Pablo 7/12/2015 (No SEM)
+                  else if (dom(ib)%bc_west==12) then      !1/7th power law inlet condition Pablo 7/12/2015 (No SEM)
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          if (dom(ib)%yc(j).lt.((yen-yst)/2)) then
+                          if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1./7.)
                           else
@@ -118,9 +118,9 @@
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1./7.)
                       enddo ; end do
 
-                  else if (dom(ib)%bc_west.eq.13) then      !1/7th power law inlet condition Pablo 7/12/2015
+                  else if (dom(ib)%bc_west==13) then      !1/7th power law inlet condition Pablo 7/12/2015
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          if (dom(ib)%yc(j).lt.((yen-yst)/2)) then
+                          if (dom(ib)%yc(j)<((yen-yst)/2)) then
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*dom(ib)%yc(j)/(yen-yst)))**(1./7.)
                           else
@@ -133,20 +133,20 @@
 !...............................................................................
 !=== East ===> ..  4=wall  ..   2=Outflow
 !...............................................................................
-                  if (dom(ib)%inext.lt.0) then
-                  if ((dom(ib)%bc_east.eq.4).or.(dom(ib)%bc_east.ge.61)) then
+                  if (dom(ib)%inext<0) then
+                  if ((dom(ib)%bc_east==4).or.(dom(ib)%bc_east>=61)) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%u(ie+1+ly,j,k)= 0.0
                       end do; end do
 
-                  else if (dom(ib)%bc_east.eq.2 .or.dom(ib)%bc_east.eq.21) then
-                  if (alfabc.eq.1)then
+                  else if (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
+                  if (alfabc==1)then
                   do k=ks-1,ke+1; do j=js-1,je+1
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) .ge. 0.0) then
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%u(ie+1+ly,j,k)=dom(ib)%u(ie,j,k)
                           else
                           dom(ib)%u(ie+1+ly,j,k)=dom(ib)%uoo(ie+1+ly,j,k) &
@@ -159,7 +159,7 @@
 
                           else      !no LSM
 
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%u(ie+1+ly,j,k)=dom(ib)%u(ie,j,k)
                           else
                           dom(ib)%u(ie+1+ly,j,k)=dom(ib)%uoo(ie+1+ly,j,k) &
@@ -175,21 +175,21 @@
 !...............................................................................
 !=== South ===> ..   4=wall ..   3=Symmetry .. 6=Wall function
 !...............................................................................
-                  if (dom(ib)%jprev.lt.0) then
+                  if (dom(ib)%jprev<0) then
 
-                  if (dom(ib)%bc_south.eq.4) then
+                  if (dom(ib)%bc_south==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,js-1-ly,k)= -dom(ib)%u(i,js+ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_south.eq.3) then
+                  else if (dom(ib)%bc_south==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,js-1-ly,k)= dom(ib)%u(i,js+ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_south.ge.61) then                 !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_south.lt.63) &
+                  else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_south<63) &
             call log_law(3,ib)
-                  if (dom(ib)%bc_south.ge.63) &
+                  if (dom(ib)%bc_south>=63) &
             call wall_function(3,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauws2(i,k) &
@@ -209,21 +209,21 @@
 !.............................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
 !.............................................................................
-                  if (dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%bc_north.eq.4) then
+                  if (dom(ib)%jnext<0) then
+                  if (dom(ib)%bc_north==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,je+1+ly,k)   = - dom(ib)%u(i,je-ly,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_north.eq.3) then
+                  else if (dom(ib)%bc_north==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,je+1+ly,k)   =  dom(ib)%u(i,je-ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_north.ge.61) then                 !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_north.lt.63) &
+                  else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_north<63) &
             call log_law(4,ib)
-                  if (dom(ib)%bc_north.ge.63) &
+                  if (dom(ib)%bc_north>=63) &
             call wall_function(4,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwn2(i,k) &
@@ -243,26 +243,26 @@
 !...............................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
 !...............................................................................
-                  if (dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%bc_bottom.eq.4) then
+                  if (dom(ib)%kprev<0) then
+                  if (dom(ib)%bc_bottom==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ks-1-ly)= -dom(ib)%u(i,j,ks+ly)
                       end do; end do
 
-                  else if (dom(ib)%bc_bottom.eq.1) then
+                  else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ks-1-ly)= 0.0
                       end do; end do
 
-                  else if (dom(ib)%bc_bottom.eq.3) then
+                  else if (dom(ib)%bc_bottom==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ks-1-ly)= dom(ib)%u(i,j,ks+ly)
                       end do; end do
-                  else if (dom(ib)%bc_bottom.ge.61) then                    !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_bottom.lt.63) &
+                  else if (dom(ib)%bc_bottom>=61) then                    !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_bottom<63) &
             call log_law(5,ib)
-                  if (dom(ib)%bc_bottom.ge.63) &
+                  if (dom(ib)%bc_bottom>=63) &
             call wall_function(5,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwb2(i,j) &
@@ -285,9 +285,9 @@
 !=== Top ===>  ..   4=wall ..     3=Symmetry
 !.............................................................................
                   if (L_LSMbase) then
-                  if (dom(ib)%z(1).le.length .and. dom(ib)%z(ke).ge.length) then
+                  if (dom(ib)%z(1)<=length .and. dom(ib)%z(ke)>=length) then
                   k=1
-                  do while (dom(ib)%z(k).le.length)
+                  do while (dom(ib)%z(k)<=length)
                       k=k+1
                   end do
                   ktop=k-1
@@ -298,20 +298,20 @@
                   end if
                   end if
 
-                  if (dom(ib)%knext.lt.0) then
-                  if (dom(ib)%bc_top.eq.4) then
+                  if (dom(ib)%knext<0) then
+                  if (dom(ib)%bc_top==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ke+1+ly)   = - dom(ib)%u(i,j,ke-ly)
                       end do; end do
-                  else if (dom(ib)%bc_top.eq.3) then
+                  else if (dom(ib)%bc_top==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ke+1+ly)= dom(ib)%u(i,j,ke-ly)
                       end do; end do
-                  else if (dom(ib)%bc_top.ge.61) then                   !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_top.lt.63) &
+                  else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_top<63) &
             call log_law(6,ib)
-                  if (dom(ib)%bc_top.ge.63) &
+                  if (dom(ib)%bc_top>=63) &
             call wall_function(6,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwt2(i,j) &
@@ -330,7 +330,7 @@
                   end if
 
               end do
-              if(diff_sch.ne.3) call boundcoef(1)
+              if(diff_sch/=3) call boundcoef(1)
           end do
       end subroutine
 !#############################################################################
@@ -368,21 +368,21 @@
 !...............................................................................
 !=== West ===>   4=wall   ..    1=Inflow
 !...............................................................................
-                  if (dom(ib)%iprev.lt.0) then
-                  if (dom(ib)%bc_west.eq.4) then
+                  if (dom(ib)%iprev<0) then
+                  if (dom(ib)%bc_west==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(is-1-ly,j,k)= -dom(ib)%v(is+ly,j,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_west.eq.1.or.dom(ib)%bc_west.eq.12) then
+                  else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(is-1-ly,j,k)=0.0
                       end do; end do
-                  else if (dom(ib)%bc_west.ge.61) then                  !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_west.lt.63) &
+                  else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_west<63) &
             call log_law(1,ib)
-                  if (dom(ib)%bc_west.ge.63) &
+                  if (dom(ib)%bc_west>=63) &
             call wall_function(1,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauww2(j,k) &
@@ -397,7 +397,7 @@
                           dom(ib)%v(is-1-ly,j,k)= -dom(ib)%v(is,j,k)
                       end do; end do
                   endif
-                  else if (dom(ib)%bc_west.eq.7) then                   !brunho2014 reading slices
+                  else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
@@ -420,7 +420,7 @@
                       end do; end do
                   close(405)
 
-                  else if (dom(ib)%bc_west.eq.8) then                   !Pablo 14/12/2015 reading SEM inlet
+                  else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
@@ -443,20 +443,20 @@
 !...............................................................................
 !=== East ===>   4=wall   ..    2=Outflow
 !...............................................................................
-                  if (dom(ib)%inext.lt.0) then
-                  if (dom(ib)%bc_east.eq.4) then
+                  if (dom(ib)%inext<0) then
+                  if (dom(ib)%bc_east==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(ie+1+ly,j,k)= -dom(ib)%v(ie-ly,j,k)
                       end do; end do
 
-                  else if(dom(ib)%bc_east.eq.2 .or.dom(ib)%bc_east.eq.21) then
-                  if (alfabc.eq.1) then
+                  else if(dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
+                  if (alfabc==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) .ge. 0.0) then
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%v(ie+1+ly,j,k)= dom(ib)%v(ie,j,k)
                           else
                           dom(ib)%v(ie+1+ly,j,k)= dom(ib)%voo(ie+1+ly,j,k) &
@@ -469,7 +469,7 @@
 
                           else                                  !no LSM
 
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%v(ie+1+ly,j,k)= dom(ib)%v(ie,j,k)
                           else
                           dom(ib)%v(ie+1+ly,j,k)= dom(ib)%voo(ie+1+ly,j,k) &
@@ -480,11 +480,11 @@
                           endif
                       end do; end do
                   end if
-                  else if (dom(ib)%bc_east.ge.61) then                  !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_east.lt.63) &
+                  else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_east<63) &
             call log_law(2,ib)
-                  if (dom(ib)%bc_east.ge.63) &
+                  if (dom(ib)%bc_east>=63) &
             call wall_function(2,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauwe2(j,k) &
@@ -504,13 +504,13 @@
 !...............................................................................
 !=== South ===>   4=wall   ..    3=Symmetry
 !...............................................................................
-                  if (dom(ib)%jprev.lt.0) then
-                  if (dom(ib)%bc_south.eq.3) then
+                  if (dom(ib)%jprev<0) then
+                  if (dom(ib)%bc_south==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%v(i,js-1-ly,k)=0.0
                       end do; end do
 
-                  else if ((dom(ib)%bc_south.eq.4).or.(dom(ib)%bc_south.ge.61)) then
+                  else if ((dom(ib)%bc_south==4).or.(dom(ib)%bc_south>=61)) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%v(i,js-1-ly,k)=0.0
                       end do; end do
@@ -519,13 +519,13 @@
 !...............................................................................
 !=== North ===>   4=wall   ..    3=Symmetry
 !...............................................................................
-                  if (dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%bc_north.eq.3) then
+                  if (dom(ib)%jnext<0) then
+                  if (dom(ib)%bc_north==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%v(i,je+1+ly,k)=0.0
                       end do; end do
 
-                  else if ((dom(ib)%bc_north.eq.4).or.(dom(ib)%bc_north.ge.61)) then
+                  else if ((dom(ib)%bc_north==4).or.(dom(ib)%bc_north>=61)) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%v(i,je+1+ly,k)=0.0
                       end do; end do
@@ -534,26 +534,26 @@
 !...............................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
 !...............................................................................
-                  if (dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%bc_bottom.eq.4) then
+                  if (dom(ib)%kprev<0) then
+                  if (dom(ib)%bc_bottom==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ks-1-ly)= -dom(ib)%v(i,j,ks+ly)
                       end do; end do
 
-                  else if (dom(ib)%bc_bottom.eq.1) then
+                  else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ks-1-ly)= 0.0
                       end do; end do
 
-                  else if (dom(ib)%bc_bottom.eq.3) then
+                  else if (dom(ib)%bc_bottom==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ks-1-ly)= dom(ib)%v(i,j,ks+ly)
                       end do; end do
-                  else if (dom(ib)%bc_bottom.ge.61) then                !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_bottom.lt.63) &
+                  else if (dom(ib)%bc_bottom>=61) then                !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_bottom<63) &
               call log_law(5,ib)
-                  if (dom(ib)%bc_bottom.ge.63) &
+                  if (dom(ib)%bc_bottom>=63) &
             call wall_function(5,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallv = dom(ib)%tauwb2(i,j) &
@@ -574,9 +574,9 @@
 !=== Top ===>   4=wall   ..    3=Symmetry
 !...............................................................................
                   if (L_LSMbase) then
-                  if (dom(ib)%z(1).le.length .and. dom(ib)%z(ke).ge.length) then
+                  if (dom(ib)%z(1)<=length .and. dom(ib)%z(ke)>=length) then
                   k=1
-                  do while (dom(ib)%z(k).le.length)
+                  do while (dom(ib)%z(k)<=length)
                       k=k+1
                   end do
                   ktop=k-1
@@ -587,20 +587,20 @@
                   end if
                   end if
 
-                  if (dom(ib)%knext.lt.0) then
-                  if (dom(ib)%bc_top.eq.4) then
+                  if (dom(ib)%knext<0) then
+                  if (dom(ib)%bc_top==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ke+1+ly)= -dom(ib)%v(i,j,ke-ly)
                       end do; end do
-                  else if (dom(ib)%bc_top.eq.3) then
+                  else if (dom(ib)%bc_top==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ke+1+ly)= dom(ib)%v(i,j,ke-ly)
                       end do; end do
-                  else if (dom(ib)%bc_top.ge.61) then                   !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_top.lt.63) &
+                  else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_top<63) &
             call log_law(6,ib)
-                  if (dom(ib)%bc_top.ge.63) &
+                  if (dom(ib)%bc_top>=63) &
             call wall_function(6,ib)
 
                   do j=js-1,je+1; do i=is-1,ie+1
@@ -620,7 +620,7 @@
                   end if
 
               end do
-              if(diff_sch.ne.3) call boundcoef(2)
+              if(diff_sch/=3) call boundcoef(2)
           end do
       end subroutine
 !#############################################################################
@@ -657,21 +657,21 @@
 !...............................................................................
 !=== West ===>   4=wall   ..    1=Inflow
 !...............................................................................
-                  if (dom(ib)%iprev.lt.0) then
-                  if (dom(ib)%bc_west.eq.4) then
+                  if (dom(ib)%iprev<0) then
+                  if (dom(ib)%bc_west==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(is-1-ly,j,k)= -dom(ib)%w(is+ly,j,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_west.eq.1.or.dom(ib)%bc_west.eq.12) then
+                  else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(is-1-ly,j,k)= 0.0
                       end do; end do
-                  else if (dom(ib)%bc_west.ge.61) then                  !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_west.lt.63) &
+                  else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_west<63) &
             call log_law(1,ib)
-                  if (dom(ib)%bc_west.ge.63) &
+                  if (dom(ib)%bc_west>=63) &
             call wall_function(1,ib)
 
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -687,7 +687,7 @@
                           dom(ib)%w(is-1-ly,j,k)= -dom(ib)%w(is,j,k)
                       end do; end do
                   endif
-                  else if (dom(ib)%bc_west.eq.7) then                   !brunho2014 reading slices
+                  else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
@@ -714,7 +714,7 @@
                       end do; end do
                   close(405)
 
-                  else if (dom(ib)%bc_west.eq.8) then                   !Pablo 14/12/2015 reading SEM inlet
+                  else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
@@ -738,20 +738,20 @@
 !...............................................................................
 !=== East ===>   4=wall   ..    2=Outflow
 !...............................................................................
-                  if (dom(ib)%inext.lt.0) then
-                  if (dom(ib)%bc_east.eq.4) then
+                  if (dom(ib)%inext<0) then
+                  if (dom(ib)%bc_east==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(ie+1+ly,j,k)= -dom(ib)%w(ie-ly,j,k)
                       end do; end do
 
-                  elseif (dom(ib)%bc_east.eq.2 .or.dom(ib)%bc_east.eq.21) then
-                  if (alfabc.eq.1) then
+                  elseif (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
+                  if (alfabc==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) .ge. 0.0) then
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%w(ie+1+ly,j,k)= dom(ib)%w(ie,j,k)
                           else
                           dom(ib)%w(ie+1+ly,j,k)= dom(ib)%woo(ie+1+ly,j,k) &
@@ -763,7 +763,7 @@
                           endif
 
                           else  !no LSM
-                          if (dom(ib)%bc_east.eq.2) then
+                          if (dom(ib)%bc_east==2) then
                           dom(ib)%w(ie+1+ly,j,k)= dom(ib)%w(ie,j,k)
                           else
                           dom(ib)%w(ie+1+ly,j,k)= dom(ib)%woo(ie+1+ly,j,k) &
@@ -774,11 +774,11 @@
 
                       end do; end do
                   end if
-                  else if (dom(ib)%bc_east.ge.61) then                  !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_east.lt.63) &
+                  else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_east<63) &
             call log_law(2,ib)
-                  if (dom(ib)%bc_east.ge.63) &
+                  if (dom(ib)%bc_east>=63) &
             call wall_function(2,ib)
 
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -799,21 +799,21 @@
 !...............................................................................
 !=== South ===> ..   4=wall ..   3=Symmetry
 !...............................................................................
-                  if (dom(ib)%jprev.lt.0) then
-                  if (dom(ib)%bc_south.eq.4) then
+                  if (dom(ib)%jprev<0) then
+                  if (dom(ib)%bc_south==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,js-1-ly,k)= -dom(ib)%w(i,js+ly,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_south.eq.3) then
+                  else if (dom(ib)%bc_south==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,js-1-ly,k)= dom(ib)%w(i,js+ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_south.ge.61) then                 !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_south.lt.63) &
+                  else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_south<63) &
             call log_law(3,ib)
-                  if (dom(ib)%bc_south.ge.63) &
+                  if (dom(ib)%bc_south>=63) &
             call wall_function(3,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauws2(i,k) &
@@ -833,20 +833,20 @@
 !.............................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
 !.............................................................................
-                  if (dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%bc_north.eq.4) then
+                  if (dom(ib)%jnext<0) then
+                  if (dom(ib)%bc_north==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,je+1+ly,k)   = - dom(ib)%w(i,je-ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_north.eq.3) then
+                  else if (dom(ib)%bc_north==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,je+1+ly,k)   =  dom(ib)%w(i,je-ly,k)
                       end do; end do
-                  else if (dom(ib)%bc_north.ge.61) then                 !Wall functions Bruño2014
-                  if (ly.eq.0) then
-                  if (dom(ib)%bc_north.lt.63) &
+                  else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
+                  if (ly==0) then
+                  if (dom(ib)%bc_north<63) &
             call log_law(4,ib)
-                  if (dom(ib)%bc_north.ge.63) &
+                  if (dom(ib)%bc_north>=63) &
             call wall_function(4,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauwn2(i,k) &
@@ -866,19 +866,19 @@
 !...............................................................................
 !=== Bottom ===>   4=wall   ..    3=Symmetry
 !...............................................................................
-                  if (dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%bc_bottom.eq.3) then
+                  if (dom(ib)%kprev<0) then
+                  if (dom(ib)%bc_bottom==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ks-1-ly)=0.0
                       end do; end do
 
-                  else if ((dom(ib)%bc_bottom.eq.4).or. &
-            (dom(ib)%bc_bottom.ge.61)) then
+                  else if ((dom(ib)%bc_bottom==4).or. &
+            (dom(ib)%bc_bottom>=61)) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ks-1-ly)=0.0
                       end do; end do
 
-                  else if (dom(ib)%bc_bottom.eq.1) then
+                  else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ks-1-ly)=1.1
                       end do; end do
@@ -888,9 +888,9 @@
 !=== Top ===>   4=wall   ..    3=Symmetry
 !...............................................................................
                   if (L_LSMbase) then
-                  if (dom(ib)%z(1).le.length .and. dom(ib)%z(ke).ge.length) then
+                  if (dom(ib)%z(1)<=length .and. dom(ib)%z(ke)>=length) then
                   k=1
-                  do while (dom(ib)%z(k).le.length)
+                  do while (dom(ib)%z(k)<=length)
                       k=k+1
                   enddo
                   ktop=k-1
@@ -900,13 +900,13 @@
                       enddo; enddo
                   end if
                   end if
-                  if (dom(ib)%knext.lt.0) then
-                  if (dom(ib)%bc_top.eq.3) then
+                  if (dom(ib)%knext<0) then
+                  if (dom(ib)%bc_top==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ke+1+ly)=0.0
                       end do; end do
-                  else if ((dom(ib)%bc_top.eq.4).or. &
-            (dom(ib)%bc_top.ge.61)) then
+                  else if ((dom(ib)%bc_top==4).or. &
+            (dom(ib)%bc_top>=61)) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ke+1+ly)=0.0
                       end do; end do
@@ -914,7 +914,7 @@
                   end if
 
               end do
-              if(diff_sch.ne.3) call boundcoef(3)
+              if(diff_sch/=3) call boundcoef(3)
           end do
       end subroutine
 !##############################################################################
@@ -956,11 +956,11 @@
 !..............................................................................
 !=== West ===> ..   4=wall  ..    1=Inflow
 !..............................................................................
-              if (dom(ib)%iprev.lt.0) then
+              if (dom(ib)%iprev<0) then
               do k=ks,ke; do j=js,je
                       d=fac*dom(ib)%vis(is,j,k)/dxx
                       dom(ib)%ap(is,j,k)=dom(ib)%ap(is,j,k)+d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(is,j,k)=dom(ib)%su(is,j,k)+d*fi(is-1,j,k)
                       else
                       dom(ib)%su(is,j,k)=dom(ib)%su(is,j,k)+2.0*d*fi(is-1,j,k)
@@ -970,11 +970,11 @@
 !...............................................................................
 !=== East ===> ..  4=wall  ..   2=Outflow
 !...............................................................................
-              if (dom(ib)%inext.lt.0) then
+              if (dom(ib)%inext<0) then
               do k=ks,ke; do j=js,je
                       d=fac*dom(ib)%vis(ie,j,k)/dxx
                       dom(ib)%ap(ie,j,k)=dom(ib)%ap(ie,j,k)+d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(ie,j,k)=dom(ib)%su(ie,j,k)+d*fi(ie+1,j,k)
                       else
                       dom(ib)%su(ie,j,k)=dom(ib)%su(ie,j,k)+2.0*d*fi(ie+1,j,k)
@@ -984,11 +984,11 @@
 !...............................................................................
 !=== South ===> ..   4=wall ..   3=Symmetry ..
 !...............................................................................
-              if (dom(ib)%jprev.lt.0) then
+              if (dom(ib)%jprev<0) then
               do k=ks,ke; do i=is,ie
                       d=fac*dom(ib)%vis(i,js,k)/dyy
                       dom(ib)%ap(i,js,k)=dom(ib)%ap(i,js,k)+d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(i,js,k)=dom(ib)%su(i,js,k)+d*fi(i,js-1,k)
                       else
                       dom(ib)%su(i,js,k)=dom(ib)%su(i,js,k)+2.0*d*fi(i,js-1,k)
@@ -998,11 +998,11 @@
 !.............................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
 !.............................................................................
-              if (dom(ib)%jnext.lt.0) then
+              if (dom(ib)%jnext<0) then
               do k=ks,ke; do i=is,ie
                       d=fac*dom(ib)%vis(i,je,k)/dyy
                       dom(ib)%ap(i,je,k)=dom(ib)%ap(i,je,k)+d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(i,je,k)=dom(ib)%su(i,je,k)+d*fi(i,je+1,k)
                       else
                       dom(ib)%su(i,je,k)=dom(ib)%su(i,je,k)+2.0*d*fi(i,je+1,k)
@@ -1012,11 +1012,11 @@
 !...............................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
 !...............................................................................
-              if (dom(ib)%kprev.lt.0) then
+              if (dom(ib)%kprev<0) then
               do j=js,je; do i=is,ie
                       d=fac*dom(ib)%vis(i,j,ks)/dzz
                       dom(ib)%ap(i,j,ks)= dom(ib)%ap(i,j,ks) + d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(i,j,ks)=dom(ib)%su(i,j,ks)+d*fi(i,j,ks-1)
                       else
                       dom(ib)%su(i,j,ks)=dom(ib)%su(i,j,ks)+2.0*d*fi(i,j,ks-1)
@@ -1026,11 +1026,11 @@
 !.............................................................................
 !=== Top ===>  ..   4=wall ..     3=Symmetry
 !.............................................................................
-              if (dom(ib)%knext.lt.0) then
+              if (dom(ib)%knext<0) then
               do j=js,je; do i=is,ie
                       d=fac*dom(ib)%vis(i,j,ke)/dzz
                       dom(ib)%ap(i,j,ke)=dom(ib)%ap(i,j,ke)+d
-                      if(diff_sch.eq.1) then
+                      if(diff_sch==1) then
                       dom(ib)%su(i,j,ke)=dom(ib)%su(i,j,ke)+d*fi(i,j,ke+1)
                       else
                       dom(ib)%su(i,j,ke)=dom(ib)%su(i,j,ke)+2.0*d*fi(i,j,ke+1)
@@ -1061,12 +1061,12 @@
 !..............................................................................
 !=== West ===>
 !..............................................................................
-                  if (dom(ib)%iprev.lt.0) then
-                  if (dom(ib)%bc_west.eq.4.or.dom(ib)%bc_west.ge.61) then
+                  if (dom(ib)%iprev<0) then
+                  if (dom(ib)%bc_west==4.or.dom(ib)%bc_west>=61) then
                   do k=1,nk; do j=1,nj
                           dom(ib)%ksgs(is-1-ly,j,k)= 0.0
                       end do; end do
-                  else if (dom(ib)%bc_west.ne.5) then
+                  else if (dom(ib)%bc_west/=5) then
                   do k=1,nk; do j=1,nj
                           dom(ib)%ksgs(is-1-ly,j,k)= dom(ib)%ksgs(is,j,k)
                       end do; end do
@@ -1075,12 +1075,12 @@
 !...............................................................................
 !=== East ===>
 !...............................................................................
-                  if (dom(ib)%inext.lt.0) then
-                  if (dom(ib)%bc_east.eq.4.or.dom(ib)%bc_east.ge.61) then
+                  if (dom(ib)%inext<0) then
+                  if (dom(ib)%bc_east==4.or.dom(ib)%bc_east>=61) then
                   do k=1,nk; do j=1,nj
                           dom(ib)%ksgs(ie+1+ly,j,k)= 0.0
                       end do; end do
-                  else if (dom(ib)%bc_east.ne.5) then
+                  else if (dom(ib)%bc_east/=5) then
                   do k=1,nk; do j=1,nj
                           dom(ib)%ksgs(ie+1+ly,j,k)= dom(ib)%ksgs(ie,j,k)
                       end do; end do
@@ -1089,12 +1089,12 @@
 !...............................................................................
 !=== South ===>
 !...............................................................................
-                  if (dom(ib)%jprev.lt.0) then
-                  if (dom(ib)%bc_south.eq.4.or.dom(ib)%bc_south.ge.61) then
+                  if (dom(ib)%jprev<0) then
+                  if (dom(ib)%bc_south==4.or.dom(ib)%bc_south>=61) then
                   do k=1,nk; do i=1,ni
                           dom(ib)%ksgs(i,js-1-ly,k)= 0.0
                       end do; end do
-                  else if (dom(ib)%bc_south.ne.5) then
+                  else if (dom(ib)%bc_south/=5) then
                   do k=1,nk; do i=1,ni
                           dom(ib)%ksgs(i,js-1-ly,k)= dom(ib)%ksgs(i,js,k)
                       end do; end do
@@ -1103,12 +1103,12 @@
 !.............................................................................
 !=== North ===>
 !.............................................................................
-                  if (dom(ib)%jnext.lt.0) then
-                  if (dom(ib)%bc_north.eq.4.or.dom(ib)%bc_north.ge.61) then
+                  if (dom(ib)%jnext<0) then
+                  if (dom(ib)%bc_north==4.or.dom(ib)%bc_north>=61) then
                   do k=1,nk; do i=1,ni
                           dom(ib)%ksgs(i,je+1+ly,k) = 0.0
                       end do; end do
-                  else if (dom(ib)%bc_north.ne.5) then
+                  else if (dom(ib)%bc_north/=5) then
                   do k=1,nk; do i=1,ni
                           dom(ib)%ksgs(i,je+1+ly,k) = dom(ib)%ksgs(i,je,k)
                       end do; end do
@@ -1117,12 +1117,12 @@
 !...............................................................................
 !=== Bottom ===>
 !...............................................................................
-                  if (dom(ib)%kprev.lt.0) then
-                  if (dom(ib)%bc_bottom.eq.4.or.dom(ib)%bc_bottom.ge.61) then
+                  if (dom(ib)%kprev<0) then
+                  if (dom(ib)%bc_bottom==4.or.dom(ib)%bc_bottom>=61) then
                   do j=1,nj; do i=1,ni
                           dom(ib)%ksgs(i,j,ks-1-ly)= 0.0
                       end do; end do
-                  else if (dom(ib)%bc_bottom.ne.5) then
+                  else if (dom(ib)%bc_bottom/=5) then
                   do j=1,nj; do i=1,ni
                           dom(ib)%ksgs(i,j,ks-1-ly)= dom(ib)%ksgs(i,j,ks)
                       end do; end do
@@ -1131,12 +1131,12 @@
 !.............................................................................
 !=== Top ===>
 !.............................................................................
-                  if (dom(ib)%knext.lt.0) then
-                  if (dom(ib)%bc_top.eq.4.or.dom(ib)%bc_top.ge.61) then
+                  if (dom(ib)%knext<0) then
+                  if (dom(ib)%bc_top==4.or.dom(ib)%bc_top>=61) then
                   do j=1,nj; do i=1,ni
                           dom(ib)%ksgs(i,j,ke+1+ly) = 0.0
                       end do; end do
-                  else if (dom(ib)%bc_top.ne.5) then
+                  else if (dom(ib)%bc_top/=5) then
                   do j=1,nj; do i=1,ni
                           dom(ib)%ksgs(i,j,ke+1+ly) = dom(ib)%ksgs(i,j,ke)
                       end do; end do
