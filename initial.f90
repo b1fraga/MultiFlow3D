@@ -360,9 +360,9 @@
                   nwyend=dom(ib)%y(dom(ib)%jsp-1)+ndy*(mgc_j-2)
                   nwzend=dom(ib)%z(dom(ib)%ksp-1)+ndz*(mgc_k-2)
 
-                  if((abs(dom(ib)%x(dom(ib)%iep)-nwxend)>1e-8) &
-            .or.(abs(dom(ib)%y(dom(ib)%jep)-nwyend)>1e-8) &
-            .or.(abs(dom(ib)%z(dom(ib)%kep)-nwzend)>1e-8)) then
+                  if((abs(dom(ib)%x(dom(ib)%iep)-nwxend)>1E-8_dp) &
+            .or.(abs(dom(ib)%y(dom(ib)%jep)-nwyend)>1E-8_dp) &
+            .or.(abs(dom(ib)%z(dom(ib)%kep)-nwzend)>1E-8_dp)) then
                   print*,'==ERROR==> in multigrid: max ngrid value'
                   stop
                   end if

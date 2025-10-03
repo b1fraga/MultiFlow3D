@@ -82,17 +82,17 @@
               n2=(dom(ib)%yel-dom(ib)%ysl)/g_dy
               n3=(dom(ib)%zel-dom(ib)%zsl)/g_dz
 
-              if (abs(n1-nint(n1))>1e-8) then
+              if (abs(n1-nint(n1))>1E-8_dp) then
               print*,'error1 in localparameters', &
         dom_id(ib),(dom(ib)%xel-dom(ib)%xsl),g_dx,n1
               stop
               end if
-              if (abs(n2-nint(n2))>1e-8) then
+              if (abs(n2-nint(n2))>1E-8_dp) then
               print*,'error2 in localparameters', &
         dom_id(ib),(dom(ib)%yel-dom(ib)%ysl),g_dy,n2
               stop
               end if
-              if (abs(n3-nint(n3))>1e-8) then
+              if (abs(n3-nint(n3))>1E-8_dp) then
               print*,'error3 in localparameters', &
         dom_id(ib),(dom(ib)%zel-dom(ib)%zsl),g_dz,n3
               stop
