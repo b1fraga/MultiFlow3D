@@ -297,9 +297,9 @@
                               dom(ib)%ustar(i-1,j,k)=0.0_dp
                               dom(ib)%vstar(i,j-1,k)=0.0_dp
                               dom(ib)%wstar(i,j,k-1)=0.0_dp
-                              dom(ib)%ustar(i,j,k)=0.
-                              dom(ib)%vstar(i,j,k)=0.
-                              dom(ib)%wstar(i,j,k)=0.
+                              dom(ib)%ustar(i,j,k)=0.0_dp
+                              dom(ib)%vstar(i,j,k)=0.0_dp
+                              dom(ib)%wstar(i,j,k)=0.0_dp
                               end if
                           end do
                       end do

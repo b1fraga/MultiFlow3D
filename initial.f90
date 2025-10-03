@@ -748,7 +748,7 @@
 !       if (dom(ib)%z(k).gt.0_dp.66) then
 !              dom(ib)%T(i,j,k)=5.;  dom(ib)%To(i,j,k)=5.
 !       elseif (dom(ib)%z(k).le.0_dp.66.and.dom(ib)%z(k).gt.0_dp.33) then
-!              dom(ib)%T(i,j,k)=0.;  dom(ib)%To(i,j,k)=0.
+!              dom(ib)%T(i,j,k)=0.0_dp;  dom(ib)%To(i,j,k)=0.0_dp
 !       elseif (dom(ib)%z(k).le.0_dp.33) then
 !              dom(ib)%T(i,j,k)=-5.;  dom(ib)%To(i,j,k)=-5.
 !       endif

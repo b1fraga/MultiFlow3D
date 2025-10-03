@@ -338,12 +338,12 @@
               ztemp_layer(M,izr) = R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))+Cz(M)
               end if
 
-              do while (Rtemp_layer(M,izr,c)>=0.)     !gt!!!
+              do while (Rtemp_layer(M,izr,c)>=0.0_dp)     !gt!!!
                   nodes_layer(M,izr) = nodes_layer(M,izr) + &
             NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                   nodes_percyl_layer(M,izr,c) = &
             NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
-                  if (Rtemp_layer(M,izr,c)==0.) then
+                  if (Rtemp_layer(M,izr,c)==0.0_dp) then
                   nodes_layer(M,izr) = nodes_layer(M,izr) + 1
                   nodes_percyl_layer(M,izr,c) = 1
                   end if

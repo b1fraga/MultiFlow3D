@@ -85,7 +85,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
@@ -115,7 +115,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
@@ -145,7 +145,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
@@ -175,7 +175,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
@@ -205,7 +205,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
@@ -235,7 +235,7 @@ END SELECT
                       rycell = 1.0_dp / dycell
                       vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
-                      sub    = MAX (SIGN(1.0_dp,dvtan),0.)
+                      sub    = MAX (SIGN(1.0_dp,dvtan),0.0_dp)
 
                       tausub   = rrey * vtan / delta
                       taupow   = ( const1 * (rrey * rycell)**(1.0_dp+bbb) + &
