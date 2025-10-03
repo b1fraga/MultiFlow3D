@@ -638,22 +638,22 @@
           enddo
           do i=1,K
               nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
-                        nodeylocal(numIB,i)*(SQRT(3.)/2)
-              nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.)/2)+ &
+                        nodeylocal(numIB,i)*(SQRT(3.0_dp)/2)
+              nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.0_dp)/2)+ &
                         nodeylocal(numIB,i)*(-0.5_dp)
               nodex(numIB,K+i)=nodex(numIB,K+i)+Cxor(numIB)- &
-        R(numIB)*SQRT(3.)/2
+        R(numIB)*SQRT(3.0_dp)/2
               nodey(numIB,K+i)=nodey(numIB,K+i)+Cyor(numIB)-R(numIB)*0.5_dp
               nodez(numIB,K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
           enddo
           do i=1,K
               nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
-                            nodeylocal(numIB,i)*(-SQRT(3.)/2)
-              nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.)/2)+ &
+                            nodeylocal(numIB,i)*(-SQRT(3.0_dp)/2)
+              nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.0_dp)/2)+ &
                             nodeylocal(numIB,i)*(-0.5_dp)
               nodex(numIB,2*K+i)=nodex(numIB,2*K+i)+Cxor(numIB)+ &
-        R(numIB)*SQRT(3.)/2
+        R(numIB)*SQRT(3.0_dp)/2
               nodey(numIB,2*K+i)=nodey(numIB,2*K+i)+Cyor(numIB)- &
         R(numIB)*0.5_dp
               nodez(numIB,2*K+i)=nodez(numIB,i)
@@ -813,7 +813,7 @@
             nodeylocal(numIB,i)*(SQRT(3.d0)/2.d0)
               nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.d0)/2.d0)+ &
            nodeylocal(numIB,i)*(-0.5_dp)
-              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.)/2
+              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.0_dp)/2
               nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
@@ -825,7 +825,7 @@
                nodeylocal(numIB,i)*(-SQRT(3.d0)/2.d0)
               nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.d0)/2.d0)+ &
                            nodeylocal(numIB,i)*(-0.5_dp)
-              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.)/2
+              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.0_dp)/2
               nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
 
               if (mod(itime,n_out)==0)  then

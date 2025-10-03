@@ -15,7 +15,7 @@
 ! Set some constants ---------------------
 ! ..... 3-STEP RUNGE KUTTA
           if (conv_sch==4) then
-          alfark(1)=1.0_dp/3.
+          alfark(1)=1.0_dp/3.0_dp
           alfark(2)=0.5_dp
           alfark(3)=1.0_dp
           kuttacond=3

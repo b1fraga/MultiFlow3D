@@ -187,7 +187,7 @@
 !       k_n=1.72d7
 !       k_t=1.48d7
 
-          !3. Damping
+          !3.0_dp Damping
           e_col=1.d0
           mp=rhop_loc(l)*(4/3)*3.1416*(0.5_dp*dp_loc(l))**3
           theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &

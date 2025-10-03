@@ -14,9 +14,9 @@
           if (abr>=1.5_dp) then
           phi_r1smth = 0.0_dp
           else if ((abr<1.5_dp).and.(abr>=0.5_dp)) then
-          phi_r1smth = 9./8.-3.*abr/2+abr**2/2
+          phi_r1smth = 9./8.-3.0_dp*abr/2+abr**2/2
           else if ((abr<0.5_dp).and.(abr>=0.0_dp)) then
-          phi_r1smth = 3./4.-abr**2
+          phi_r1smth = 3.0_dp/4.-abr**2
           end if
           return
       end function

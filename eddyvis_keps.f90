@@ -17,7 +17,7 @@
           double precision :: dx,dy,dz
           double precision :: alfark(3),strain
 
-          alfark(1)=1.0_dp/3.
+          alfark(1)=1.0_dp/3.0_dp
           !alfark(1)=1.0_dp/4.
           alfark(2)=0.5_dp
           ! alfark(2)=0.4_dp
