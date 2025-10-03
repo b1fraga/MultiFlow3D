@@ -316,21 +316,21 @@
               end do
 
               if (dom(ib)%inext>=0) then
-              if(abs(dom(ib)%x(dom(ib)%iep)-dom(ib)%xel)>1e-5) then
+              if(abs(dom(ib)%x(dom(ib)%iep)-dom(ib)%xel)>1e-5_dp) then
               print*,'mycpu#:',myrank,' error-11'
               stop
               end if
               end if
 
               if (dom(ib)%jnext>=0) then
-              if(abs(dom(ib)%y(dom(ib)%jep)-dom(ib)%yel)>1e-5) then
+              if(abs(dom(ib)%y(dom(ib)%jep)-dom(ib)%yel)>1e-5_dp) then
               print*,'mycpu#:',myrank,' error-12'
               stop
               end if
               end if
 
               if (dom(ib)%knext>=0) then
-              if(abs(dom(ib)%z(dom(ib)%kep)-dom(ib)%zel)>1e-5) then
+              if(abs(dom(ib)%z(dom(ib)%kep)-dom(ib)%zel)>1e-5_dp) then
               print*,'mycpu#:',myrank,' error-13'
               stop
               end if
