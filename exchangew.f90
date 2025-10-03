@@ -101,19 +101,19 @@
                           kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl-1; !(i,j)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
-                    -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125
+                    -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl; ii=2*i-pl; jj=2*j-pl-1; !(i+1,j)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
-                    +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125
+                    +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl; !(i,j+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
-                    +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125
+                    +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl; ii=2*i-pl; jj=2*j-pl; !(i+1,j+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
-                    -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125
+                    -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
 !!!!
 
                           tr1=0.5_dp*(fi(i-1,j-1,k)+fi(i-1,j-1,k+1))
@@ -166,41 +166,41 @@
                           kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl-1; !(i,j)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
-                    -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125
+                    -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl-1; !(i+1,j)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
-                    +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125
+                    +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl; !(i,j+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
-                    +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125
+                    +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
                           kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl; !(i+1,j+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
-                    -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125
+                    -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
 !!!!
 
 !        kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl-1; !(i,j)
-!        fif(ib,ii,jj,kk)=0.0078125 * (
+!        fif(ib,ii,jj,kk)=0.0078125_dp * (
 !     & +3.0d0*fi(i-1,j-1,k) +15.0d0*fi(i,j-1,k)
 !     & -2.0d0*fi(i+1,j-1,k) +15.0d0*fi(i-1,j,k)
 !     & +128.0d0*fi(i,j,k)   -15.0d0*fi(i+1,j,k)
 !     & -2.0d0*fi(i-1,j+1,k) -15.0d0*fi(i,j+1,k) +1.0d0*fi(i+1,j+1,k))
 !        kk=2*k-pl; ii=2*i-pl; jj=2*j-pl-1; !(i+1,j)
-!        fif(ib,ii,jj,kk)=0.0078125 * (
+!        fif(ib,ii,jj,kk)=0.0078125_dp * (
 !     & -2.0d0*fi(i-1,j-1,k) +15.0d0*fi(i,j-1,k)
 !     & +3.0d0*fi(i+1,j-1,k) -15.0d0*fi(i-1,j,k)
 !     & +128.0d0*fi(i,j,k)   +15.0d0*fi(i+1,j,k)
 !     & +1.0d0*fi(i-1,j+1,k) -15.0d0*fi(i,j+1,k) -2.0d0*fi(i+1,j+1,k))
 !        kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl; !(i,j+1)
-!        fif(ib,ii,jj,kk)=0.0078125 * (
+!        fif(ib,ii,jj,kk)=0.0078125_dp * (
 !     & -2.0d0*fi(i-1,j-1,k) -15.0d0*fi(i,j-1,k)
 !     & +1.0d0*fi(i+1,j-1,k) +15.0d0*fi(i-1,j,k)
 !     & +128.0d0*fi(i,j,k)   -15.0d0*fi(i+1,j,k)
 !     & +3.0d0*fi(i-1,j+1,k) +15.0d0*fi(i,j+1,k) -2.0d0*fi(i+1,j+1,k))
 !        kk=2*k-pl; ii=2*i-pl; jj=2*j-pl; !(i+1,j+1)
-!        fif(ib,ii,jj,kk)=0.0078125 * (
+!        fif(ib,ii,jj,kk)=0.0078125_dp * (
 !     & +1.0d0*fi(i-1,j-1,k) -15.0d0*fi(i,j-1,k)
 !     & -2.0d0*fi(i+1,j-1,k) -15.0d0*fi(i-1,j,k)
 !     & +128.0d0*fi(i,j,k)   +15.0d0*fi(i+1,j,k)
