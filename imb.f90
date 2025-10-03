@@ -1264,11 +1264,11 @@ module imb
                   !===================Drag Force====================================(Bruño 24)
                   if (LDrag) then
                   UIB_loc=U_Beta1_loc(L)-sign(U_Beta1_loc(L),0.5_dp*U_Beta1_loc(L)**2 &
-            *0.44*(PI*0.5_dp**2.d0*dx**2.d0))
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
                   VIB_loc=U_Beta2_loc(L)-sign(U_Beta2_loc(L),0.5_dp*U_Beta2_loc(L)**2 &
-            *0.44*(PI*0.5_dp**2.d0*dx**2.d0))
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
                   WIB_loc=U_Beta3_loc(L)-sign(U_Beta2_loc(L),0.5_dp*U_Beta3_loc(L)**2 &
-            *0.44*(PI*0.5_dp**2.d0*dx**2.d0))
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
                   endif
                   !====================Rotating body================================
                   M=lag_bod_loc(L)
