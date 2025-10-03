@@ -219,7 +219,7 @@
           nodezmin=Cz(M)-R(M); nodezmax=Cz(M)+R(M)
 
           nin =2.d0*R(M)/dxm(numIB)
-          if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999) &
+          if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999_dp) &
     then
           nin=nin+1
           print*,'absurd-x!!!!!'
@@ -227,7 +227,7 @@
           nin=nin+1
 
           njn =2.d0*R(M)/dym(numIB)
-          if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999) &
+          if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999_dp) &
     then
           njn=njn+1
           print*,'absurd-y!!!!!'
@@ -235,7 +235,7 @@
           njn=njn+1
 
           nkn =2.d0*R(M)/dzm(numIB)
-          if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999) &
+          if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999_dp) &
     then
           nkn=nkn+1
           print*,'absurd-y!!!!!'
