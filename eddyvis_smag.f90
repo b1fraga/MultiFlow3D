@@ -3,6 +3,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,chk_wallboun
           integer :: ib,is,ie,js,je,ks,ke
@@ -72,7 +73,7 @@
               end if
               endif
 
-              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0/3.0)
+              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
               is=dom(ib)%isp; ie=dom(ib)%iep
               js=dom(ib)%jsp; je=dom(ib)%jep
@@ -140,8 +141,8 @@
                           if (dom(ib)%iprev<0) then
                           if (dom(ib)%bc_west>=61 .or. dom(ib)%bc_west==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i+1,j,k)+dom(ib)%u(i,j,k) )
@@ -166,8 +167,8 @@
                           if (dom(ib)%inext<0) then
                           if (dom(ib)%bc_east>=61 .or. dom(ib)%bc_east==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k) )
@@ -192,8 +193,8 @@
                           if (dom(ib)%jprev<0) then
                           if (dom(ib)%bc_south>=61 .or. dom(ib)%bc_south==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i,j+1,k)+dom(ib)%u(i-1,j+1,k) )
@@ -218,8 +219,8 @@
                           if (dom(ib)%jnext<0) then
                           if (dom(ib)%bc_north>=61 .or. dom(ib)%bc_north==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i,j-1,k)+dom(ib)%u(i-1,j-1,k) )
@@ -244,8 +245,8 @@
                           if (dom(ib)%kprev<0) then
                           if (dom(ib)%bc_bottom>=61 .or. dom(ib)%bc_bottom==4) then
 
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
                           ufv_n1=0.5*( dom(ib)%u(i,j,k+1)+dom(ib)%u(i-1,j,k+1) )
@@ -269,8 +270,8 @@
                           if (k==dom(ib)%kep) then
                           if (dom(ib)%knext<0) then
                           if (dom(ib)%bc_top>=61 .or. dom(ib)%bc_top==4) then
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
                           ufv_n1=0.5*( dom(ib)%u(i,j,k-1)+dom(ib)%u(i-1,j,k-1) )
@@ -370,12 +371,12 @@
                           endif
 
 
-                          damp= 1.0
+                          damp= 1.0_dp
 
                           if (vandriest .and. chk_wallboun==1) then
                           if(abs(dnmin-1e10)<0.001) print*,'errorrrrr1'
                           yplus = dnmin * Re * utauw
-                          ratio = min (yplus/25.0,100.0)
+                          ratio = min (yplus/25.0_dp,100.0_dp)
                           ratio = ratio ** 3
 
                           if (ratio<12.) then
@@ -386,7 +387,7 @@
 !==========================================================================
 ! ..... EDDY VISCOSITY CALCULATION
 !==========================================================================
-                          l_s  = (cs1 * delta_grid * damp)**2.0
+                          l_s  = (cs1 * delta_grid * damp)**2.0_dp
 
                           s12 = 0.5 * (dudy + dvdx)
 
@@ -587,6 +588,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,bound
           double precision delta,n_x,n_y,n_z,vnor,vtan
@@ -600,17 +602,17 @@
           endif
           small = 1.e-30
 
-          dom(ib)%tauww=0.0; dom(ib)%tauwe=0.0
-          dom(ib)%tauwn=0.0; dom(ib)%tauws=0.0
-          dom(ib)%tauwt=0.0; dom(ib)%tauwb=0.0
+          dom(ib)%tauww=0.0_dp; dom(ib)%tauwe=0.0_dp
+          dom(ib)%tauwn=0.0_dp; dom(ib)%tauws=0.0_dp
+          dom(ib)%tauwt=0.0_dp; dom(ib)%tauwb=0.0_dp
 
           SELECT CASE (bound)
 
             CASE (1)
               delta=0.5*dom(ib)%dx
-              n_x=1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%isp
               do k=dom(ib)%ksp,dom(ib)%kep
                   do j=dom(ib)%jsp,dom(ib)%jep
@@ -625,9 +627,9 @@
 
             CASE (2)
               delta=0.5*dom(ib)%dx
-              n_x=-1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=-1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%iep
               do k=dom(ib)%ksp,dom(ib)%kep
                   do j=dom(ib)%jsp,dom(ib)%jep
@@ -642,9 +644,9 @@
 
             CASE (3)
               delta=0.5*dom(ib)%dy
-              n_x=0.0
-              n_y=1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jsp
               do k=dom(ib)%ksp,dom(ib)%kep
                   do i=dom(ib)%isp,dom(ib)%iep
@@ -659,9 +661,9 @@
 
             CASE (4)
               delta=0.5*dom(ib)%dy
-              n_x=0.0
-              n_y=-1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=-1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jep
               do k=dom(ib)%ksp,dom(ib)%kep
                   do i=dom(ib)%isp,dom(ib)%iep
@@ -676,9 +678,9 @@
 
             CASE (5)
               delta=0.5*dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=1.0_dp
               k=dom(ib)%ksp
               do j=dom(ib)%jsp,dom(ib)%jep
                   do i=dom(ib)%isp,dom(ib)%iep
@@ -693,9 +695,9 @@
 
             CASE (6)
               delta=0.5*dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=-1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=-1.0_dp
               k=dom(ib)%kep
               do j=dom(ib)%jsp,dom(ib)%jep
                   do i=dom(ib)%isp,dom(ib)%iep

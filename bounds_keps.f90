@@ -5,6 +5,7 @@
 !##############################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ly
           integer :: is,ie,js,je,ks,ke
@@ -44,7 +45,7 @@
                   else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%ksgs(is-1-ly,j,k)= &
-                    (3.d0/2.d0)*(ubulk*0.1)**2.0
+                    (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west/=5) then                   !if 5->exchange, if 2,3 -> dk/dn=0
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -200,6 +201,7 @@
           use vars
           use multidata
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ly
           integer :: is,ie,js,je,ks,ke
@@ -233,7 +235,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           rk1 = sqrt(dom(ib)%ksgs(is,j,k))
                           drkdy = rk1 /(0.5*dom(ib)%dx)
-                          dom(ib)%eps(is-1-ly,j,k)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(is-1-ly,j,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west>=63) then                  !Wall functions
                   if (ly==0) call wall_function(1,ib)
@@ -269,7 +271,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           rk1 = sqrt(dom(ib)%ksgs(ie,j,k))
                           drkdy = rk1 /(0.5*dom(ib)%dx)
-                          dom(ib)%eps(ie+1+ly,j,k)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(ie+1+ly,j,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_east>=63) then                  !Wall functions
                   if (ly==0) call wall_function(2,ib)
@@ -300,7 +302,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,js,k))
                           drkdy = rk1 /(0.5*dom(ib)%dy)
-                          dom(ib)%eps(i,js-1-ly,k)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(i,js-1-ly,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_south>=63) then                 !Wall functions
                   if (ly==0) call wall_function(3,ib)
@@ -331,7 +333,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,je,k))
                           drkdy = rk1 /(0.5*dom(ib)%dy)
-                          dom(ib)%eps(i,je+1+ly,k)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(i,je+1+ly,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_north>=63) then                 !Wall functions
                   if (ly==0) call wall_function(4,ib)
@@ -362,7 +364,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,j,ks))
                           drkdy = rk1 /(0.5*dom(ib)%dz)
-                          dom(ib)%eps(i,j,ks-1-ly)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(i,j,ks-1-ly)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_bottom>=63) then                    !Wall functions
                   if (ly==0) call wall_function(5,ib)
@@ -395,7 +397,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,j,ke))
                           drkdy = rk1 /(0.5*dom(ib)%dz)
-                          dom(ib)%eps(i,j,ke+1+ly)= 2.d0*rrey*drkdy**2.0
+                          dom(ib)%eps(i,j,ke+1+ly)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_top>=63) then                   !Wall functions
                   if (ly==0) call wall_function(6,ib)

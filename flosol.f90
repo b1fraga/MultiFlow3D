@@ -5,6 +5,7 @@
           use mpi
           use multidata
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real ( kind =8 )  :: wtimedum,wtime_total,wtime_solver,wtime_ib
           real (kind =8) :: wtime_cd,wtime_lpt
@@ -16,23 +17,23 @@
           if (conv_sch==4) then
           alfark(1)=1./3.
           alfark(2)=0.5
-          alfark(3)=1.0
+          alfark(3)=1.0_dp
           kuttacond=3
 ! ..... 2-STEP RUNGE KUTTA
           else if (conv_sch==3) then
           alfark(1)=0.5
-          alfark(2)=1.0
-          alfark(3)=1.0
+          alfark(2)=1.0_dp
+          alfark(3)=1.0_dp
           kuttacond=2
           end if
 
           alfabc = 1
-          alfapr = 1.0
+          alfapr = 1.0_dp
 
           if (.not.LRESTART) count = 1
 
 !        numfile1=1002; numfile2=1003; numfile3=1004
-!        if(myrank.eq.0) then
+!        if(myrank.eq.0_dp) then
 !           if (pressureforce) then
 !              open (unit=numfile1, file='forcn.dat')
 !              write (numfile1,*)

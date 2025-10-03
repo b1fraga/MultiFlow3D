@@ -4,6 +4,7 @@
           use multidata
           use mpi
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ijk,ib,op,chck_f,chck_c,no1,no2
           integer :: is,ie,js,je,ks,ke,ief,jef,kef,iec,jec,kec,ic,jc,kc
@@ -134,100 +135,100 @@
 !        do k=no1,nk+no2; do j=no1,nj+no2; do i=no1,ni+no2
 !
 !        kk=2*k-pl-1; ii=2*i-pl-1; jj=2*j-pl-1; !(i-1/4,j-1/4,k-1/4)
-!        fif(ib,ii,jj,kk)=(125.0*fi(i-1,j-1,k-1)+750.0*fi(i,j-1,k-1)-
-!     &75.0*fi(i+1,j-1,k-1)+750.0*fi(i-1,j,k-1)+4500.0*fi(i,j,k-1)-
-!     &450.0*fi(i+1,j,k-1)-75.0*fi(i-1,j+1,k-1)-450.0*fi(i,j+1,k-1)+
-!     &45.0*fi(i+1,j+1,k-1)+750.0*fi(i-1,j-1,k)+4500.0*fi(i,j-1,k)-
-!     &450.0*fi(i+1,j-1,k)+4500.0*fi(i-1,j,k)+27000.0*fi(i,j,k)-
-!     &2700.0*fi(i+1,j,k)-450.0*fi(i-1,j+1,k)-2700.0*fi(i,j+1,k)+
-!     &270.0*fi(i+1,j+1,k)-75.0*fi(i-1,j-1,k+1)-450.0*fi(i,j-1,k+1)+
-!     &45.0*fi(i+1,j-1,k+1)-450.0*fi(i-1,j,k+1)-2700.0*fi(i,j,k+1)+
-!     &270.0*fi(i+1,j,k+1)+45.0*fi(i-1,j+1,k+1)+270.0*fi(i,j+1,k+1)-
-!     &27.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(125.0_dp*fi(i-1,j-1,k-1)+750.0_dp*fi(i,j-1,k-1)-
+!     &75.0_dp*fi(i+1,j-1,k-1)+750.0_dp*fi(i-1,j,k-1)+4500.0_dp*fi(i,j,k-1)-
+!     &450.0_dp*fi(i+1,j,k-1)-75.0_dp*fi(i-1,j+1,k-1)-450.0_dp*fi(i,j+1,k-1)+
+!     &45.0_dp*fi(i+1,j+1,k-1)+750.0_dp*fi(i-1,j-1,k)+4500.0_dp*fi(i,j-1,k)-
+!     &450.0_dp*fi(i+1,j-1,k)+4500.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)-
+!     &2700.0_dp*fi(i+1,j,k)-450.0_dp*fi(i-1,j+1,k)-2700.0_dp*fi(i,j+1,k)+
+!     &270.0_dp*fi(i+1,j+1,k)-75.0_dp*fi(i-1,j-1,k+1)-450.0_dp*fi(i,j-1,k+1)+
+!     &45.0_dp*fi(i+1,j-1,k+1)-450.0_dp*fi(i-1,j,k+1)-2700.0_dp*fi(i,j,k+1)+
+!     &270.0_dp*fi(i+1,j,k+1)+45.0_dp*fi(i-1,j+1,k+1)+270.0_dp*fi(i,j+1,k+1)-
+!     &27.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl-1; ii=2*i-pl; jj=2*j-pl-1;   !(i+1/4,j-1/4,k-1/4)
-!        fif(ib,ii,jj,kk)=(-75.0*fi(i-1,j-1,k-1)+750.0*fi(i,j-1,k-1)+
-!     &125.0*fi(i+1,j-1,k-1)-450.0*fi(i-1,j,k-1)+4500.0*fi(i,j,k-1)+
-!     &750.0*fi(i+1,j,k-1)+45.0*fi(i-1,j+1,k-1)-450.0*fi(i,j+1,k-1)-
-!     &75.0*fi(i+1,j+1,k-1)-450.0*fi(i-1,j-1,k)+4500.0*fi(i,j-1,k)+
-!     &750.0*fi(i+1,j-1,k)-2700.0*fi(i-1,j,k)+27000.0*fi(i,j,k)+
-!     &4500.0*fi(i+1,j,k)+270.0*fi(i-1,j+1,k)-2700.0*fi(i,j+1,k)-
-!     &450.0*fi(i+1,j+1,k)+45.0*fi(i-1,j-1,k+1)-450.0*fi(i,j-1,k+1)-
-!     &75.0*fi(i+1,j-1,k+1)+270.0*fi(i-1,j,k+1)-2700.0*fi(i,j,k+1)-
-!     &450.0*fi(i+1,j,k+1)-27.0*fi(i-1,j+1,k+1)+270.0*fi(i,j+1,k+1)+
-!     &45.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(-75.0_dp*fi(i-1,j-1,k-1)+750.0_dp*fi(i,j-1,k-1)+
+!     &125.0_dp*fi(i+1,j-1,k-1)-450.0_dp*fi(i-1,j,k-1)+4500.0_dp*fi(i,j,k-1)+
+!     &750.0_dp*fi(i+1,j,k-1)+45.0_dp*fi(i-1,j+1,k-1)-450.0_dp*fi(i,j+1,k-1)-
+!     &75.0_dp*fi(i+1,j+1,k-1)-450.0_dp*fi(i-1,j-1,k)+4500.0_dp*fi(i,j-1,k)+
+!     &750.0_dp*fi(i+1,j-1,k)-2700.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)+
+!     &4500.0_dp*fi(i+1,j,k)+270.0_dp*fi(i-1,j+1,k)-2700.0_dp*fi(i,j+1,k)-
+!     &450.0_dp*fi(i+1,j+1,k)+45.0_dp*fi(i-1,j-1,k+1)-450.0_dp*fi(i,j-1,k+1)-
+!     &75.0_dp*fi(i+1,j-1,k+1)+270.0_dp*fi(i-1,j,k+1)-2700.0_dp*fi(i,j,k+1)-
+!     &450.0_dp*fi(i+1,j,k+1)-27.0_dp*fi(i-1,j+1,k+1)+270.0_dp*fi(i,j+1,k+1)+
+!     &45.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl-1; ii=2*i-pl-1; jj=2*j-pl;   !(i-1/4,j+1/4,k-1/4)
-!        fif(ib,ii,jj,kk)=(-75.0*fi(i-1,j-1,k-1)-450.0*fi(i,j-1,k-1)+
-!     &45.0*fi(i+1,j-1,k-1)+750.0*fi(i-1,j,k-1)+4500.0*fi(i,j,k-1)-
-!     &450.0*fi(i+1,j,k-1)+125.0*fi(i-1,j+1,k-1)+750.0*fi(i,j+1,k-1)-
-!     &75.0*fi(i+1,j+1,k-1)-450.0*fi(i-1,j-1,k)-2700.0*fi(i,j-1,k)+
-!     &270.0*fi(i+1,j-1,k)+4500.0*fi(i-1,j,k)+27000.0*fi(i,j,k)-
-!     &2700.0*fi(i+1,j,k)+750.0*fi(i-1,j+1,k)+4500.0*fi(i,j+1,k)-
-!     &450.0*fi(i+1,j+1,k)+45.0*fi(i-1,j-1,k+1)+270.0*fi(i,j-1,k+1)-
-!     &27.0*fi(i+1,j-1,k+1)-450.0*fi(i-1,j,k+1)-2700.0*fi(i,j,k+1)+
-!     &270.0*fi(i+1,j,k+1)-75.0*fi(i-1,j+1,k+1)-450.0*fi(i,j+1,k+1)+
-!     &45.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(-75.0_dp*fi(i-1,j-1,k-1)-450.0_dp*fi(i,j-1,k-1)+
+!     &45.0_dp*fi(i+1,j-1,k-1)+750.0_dp*fi(i-1,j,k-1)+4500.0_dp*fi(i,j,k-1)-
+!     &450.0_dp*fi(i+1,j,k-1)+125.0_dp*fi(i-1,j+1,k-1)+750.0_dp*fi(i,j+1,k-1)-
+!     &75.0_dp*fi(i+1,j+1,k-1)-450.0_dp*fi(i-1,j-1,k)-2700.0_dp*fi(i,j-1,k)+
+!     &270.0_dp*fi(i+1,j-1,k)+4500.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)-
+!     &2700.0_dp*fi(i+1,j,k)+750.0_dp*fi(i-1,j+1,k)+4500.0_dp*fi(i,j+1,k)-
+!     &450.0_dp*fi(i+1,j+1,k)+45.0_dp*fi(i-1,j-1,k+1)+270.0_dp*fi(i,j-1,k+1)-
+!     &27.0_dp*fi(i+1,j-1,k+1)-450.0_dp*fi(i-1,j,k+1)-2700.0_dp*fi(i,j,k+1)+
+!     &270.0_dp*fi(i+1,j,k+1)-75.0_dp*fi(i-1,j+1,k+1)-450.0_dp*fi(i,j+1,k+1)+
+!     &45.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl-1; ii=2*i-pl; jj=2*j-pl;     !(i+1/4,j+1/4,k-1/4)
-!        fif(ib,ii,jj,kk)=(45.0*fi(i-1,j-1,k-1)-450.0*fi(i,j-1,k-1)-
-!     &75.0*fi(i+1,j-1,k-1)-450.0*fi(i-1,j,k-1)+4500.0*fi(i,j,k-1)+
-!     &750.0*fi(i+1,j,k-1)-75.0*fi(i-1,j+1,k-1)+750.0*fi(i,j+1,k-1)+
-!     &125.0*fi(i+1,j+1,k-1)+270.0*fi(i-1,j-1,k)-2700.0*fi(i,j-1,k)-
-!     &450.0*fi(i+1,j-1,k)-2700.0*fi(i-1,j,k)+27000.0*fi(i,j,k)+
-!     &4500.0*fi(i+1,j,k)-450.0*fi(i-1,j+1,k)+4500.0*fi(i,j+1,k)+
-!     &750.0*fi(i+1,j+1,k)-27.0*fi(i-1,j-1,k+1)+270.0*fi(i,j-1,k+1)+
-!     &45.0*fi(i+1,j-1,k+1)+270.0*fi(i-1,j,k+1)-2700.0*fi(i,j,k+1)-
-!     &450.0*fi(i+1,j,k+1)+45.0*fi(i-1,j+1,k+1)-450.0*fi(i,j+1,k+1)-
-!     &75.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(45.0_dp*fi(i-1,j-1,k-1)-450.0_dp*fi(i,j-1,k-1)-
+!     &75.0_dp*fi(i+1,j-1,k-1)-450.0_dp*fi(i-1,j,k-1)+4500.0_dp*fi(i,j,k-1)+
+!     &750.0_dp*fi(i+1,j,k-1)-75.0_dp*fi(i-1,j+1,k-1)+750.0_dp*fi(i,j+1,k-1)+
+!     &125.0_dp*fi(i+1,j+1,k-1)+270.0_dp*fi(i-1,j-1,k)-2700.0_dp*fi(i,j-1,k)-
+!     &450.0_dp*fi(i+1,j-1,k)-2700.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)+
+!     &4500.0_dp*fi(i+1,j,k)-450.0_dp*fi(i-1,j+1,k)+4500.0_dp*fi(i,j+1,k)+
+!     &750.0_dp*fi(i+1,j+1,k)-27.0_dp*fi(i-1,j-1,k+1)+270.0_dp*fi(i,j-1,k+1)+
+!     &45.0_dp*fi(i+1,j-1,k+1)+270.0_dp*fi(i-1,j,k+1)-2700.0_dp*fi(i,j,k+1)-
+!     &450.0_dp*fi(i+1,j,k+1)+45.0_dp*fi(i-1,j+1,k+1)-450.0_dp*fi(i,j+1,k+1)-
+!     &75.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl-1;   !(i-1/4,j-1/4,k+1/4)
-!        fif(ib,ii,jj,kk)=(-75.0*fi(i-1,j-1,k-1)-450.0*fi(i,j-1,k-1)+
-!     &45.0*fi(i+1,j-1,k-1)-450.0*fi(i-1,j,k-1)-2700.0*fi(i,j,k-1)+
-!     &270.0*fi(i+1,j,k-1)+45.0*fi(i-1,j+1,k-1)+270.0*fi(i,j+1,k-1)-
-!     &27.0*fi(i+1,j+1,k-1)+750.0*fi(i-1,j-1,k)+4500.0*fi(i,j-1,k)-
-!     &450.0*fi(i+1,j-1,k)+4500.0*fi(i-1,j,k)+27000.0*fi(i,j,k)-
-!     &2700.0*fi(i+1,j,k)-450.0*fi(i-1,j+1,k)-2700.0*fi(i,j+1,k)+
-!     &270.0*fi(i+1,j+1,k)+125.0*fi(i-1,j-1,k+1)+750.0*fi(i,j-1,k+1)-
-!     &75.0*fi(i+1,j-1,k+1)+750.0*fi(i-1,j,k+1)+4500.0*fi(i,j,k+1)-
-!     &450.0*fi(i+1,j,k+1)-75.0*fi(i-1,j+1,k+1)-450.0*fi(i,j+1,k+1)+
-!     &45.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(-75.0_dp*fi(i-1,j-1,k-1)-450.0_dp*fi(i,j-1,k-1)+
+!     &45.0_dp*fi(i+1,j-1,k-1)-450.0_dp*fi(i-1,j,k-1)-2700.0_dp*fi(i,j,k-1)+
+!     &270.0_dp*fi(i+1,j,k-1)+45.0_dp*fi(i-1,j+1,k-1)+270.0_dp*fi(i,j+1,k-1)-
+!     &27.0_dp*fi(i+1,j+1,k-1)+750.0_dp*fi(i-1,j-1,k)+4500.0_dp*fi(i,j-1,k)-
+!     &450.0_dp*fi(i+1,j-1,k)+4500.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)-
+!     &2700.0_dp*fi(i+1,j,k)-450.0_dp*fi(i-1,j+1,k)-2700.0_dp*fi(i,j+1,k)+
+!     &270.0_dp*fi(i+1,j+1,k)+125.0_dp*fi(i-1,j-1,k+1)+750.0_dp*fi(i,j-1,k+1)-
+!     &75.0_dp*fi(i+1,j-1,k+1)+750.0_dp*fi(i-1,j,k+1)+4500.0_dp*fi(i,j,k+1)-
+!     &450.0_dp*fi(i+1,j,k+1)-75.0_dp*fi(i-1,j+1,k+1)-450.0_dp*fi(i,j+1,k+1)+
+!     &45.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl; ii=2*i-pl; jj=2*j-pl-1;     !(i+1/4,j-1/4,k+1/4)
-!        fif(ib,ii,jj,kk)=(45.0*fi(i-1,j-1,k-1)-450.0*fi(i,j-1,k-1)-
-!     &75.0*fi(i+1,j-1,k-1)+270.0*fi(i-1,j,k-1)-2700.0*fi(i,j,k-1)-
-!     &450.0*fi(i+1,j,k-1)-27.0*fi(i-1,j+1,k-1)+270.0*fi(i,j+1,k-1)+
-!     &45.0*fi(i+1,j+1,k-1)-450.0*fi(i-1,j-1,k)+4500.0*fi(i,j-1,k)+
-!     &750.0*fi(i+1,j-1,k)-2700.0*fi(i-1,j,k)+27000.0*fi(i,j,k)+
-!     &4500.0*fi(i+1,j,k)+270.0*fi(i-1,j+1,k)-2700.0*fi(i,j+1,k)-
-!     &450.0*fi(i+1,j+1,k)-75.0*fi(i-1,j-1,k+1)+750.0*fi(i,j-1,k+1)+
-!     &125.0*fi(i+1,j-1,k+1)-450.0*fi(i-1,j,k+1)+4500.0*fi(i,j,k+1)+
-!     &750.0*fi(i+1,j,k+1)+45.0*fi(i-1,j+1,k+1)-450.0*fi(i,j+1,k+1)-
-!     &75.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(45.0_dp*fi(i-1,j-1,k-1)-450.0_dp*fi(i,j-1,k-1)-
+!     &75.0_dp*fi(i+1,j-1,k-1)+270.0_dp*fi(i-1,j,k-1)-2700.0_dp*fi(i,j,k-1)-
+!     &450.0_dp*fi(i+1,j,k-1)-27.0_dp*fi(i-1,j+1,k-1)+270.0_dp*fi(i,j+1,k-1)+
+!     &45.0_dp*fi(i+1,j+1,k-1)-450.0_dp*fi(i-1,j-1,k)+4500.0_dp*fi(i,j-1,k)+
+!     &750.0_dp*fi(i+1,j-1,k)-2700.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)+
+!     &4500.0_dp*fi(i+1,j,k)+270.0_dp*fi(i-1,j+1,k)-2700.0_dp*fi(i,j+1,k)-
+!     &450.0_dp*fi(i+1,j+1,k)-75.0_dp*fi(i-1,j-1,k+1)+750.0_dp*fi(i,j-1,k+1)+
+!     &125.0_dp*fi(i+1,j-1,k+1)-450.0_dp*fi(i-1,j,k+1)+4500.0_dp*fi(i,j,k+1)+
+!     &750.0_dp*fi(i+1,j,k+1)+45.0_dp*fi(i-1,j+1,k+1)-450.0_dp*fi(i,j+1,k+1)-
+!     &75.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl;     !(i-1/4,j+1/4,k+1/4)
-!        fif(ib,ii,jj,kk)=(45.0*fi(i-1,j-1,k-1)+270.0*fi(i,j-1,k-1)-
-!     &27.0*fi(i+1,j-1,k-1)-450.0*fi(i-1,j,k-1)-2700.0*fi(i,j,k-1)+
-!     &270.0*fi(i+1,j,k-1)-75.0*fi(i-1,j+1,k-1)-450.0*fi(i,j+1,k-1)+
-!     &45.0*fi(i+1,j+1,k-1)-450.0*fi(i-1,j-1,k)-2700.0*fi(i,j-1,k)+
-!     &270.0*fi(i+1,j-1,k)+4500.0*fi(i-1,j,k)+27000.0*fi(i,j,k)-
-!     &2700.0*fi(i+1,j,k)+750.0*fi(i-1,j+1,k)+4500.0*fi(i,j+1,k)-
-!     &450.0*fi(i+1,j+1,k)-75.0*fi(i-1,j-1,k+1)-450.0*fi(i,j-1,k+1)+
-!     &45.0*fi(i+1,j-1,k+1)+750.0*fi(i-1,j,k+1)+4500.0*fi(i,j,k+1)-
-!     &450.0*fi(i+1,j,k+1)+125.0*fi(i-1,j+1,k+1)+750.0*fi(i,j+1,k+1)-
-!     &75.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(45.0_dp*fi(i-1,j-1,k-1)+270.0_dp*fi(i,j-1,k-1)-
+!     &27.0_dp*fi(i+1,j-1,k-1)-450.0_dp*fi(i-1,j,k-1)-2700.0_dp*fi(i,j,k-1)+
+!     &270.0_dp*fi(i+1,j,k-1)-75.0_dp*fi(i-1,j+1,k-1)-450.0_dp*fi(i,j+1,k-1)+
+!     &45.0_dp*fi(i+1,j+1,k-1)-450.0_dp*fi(i-1,j-1,k)-2700.0_dp*fi(i,j-1,k)+
+!     &270.0_dp*fi(i+1,j-1,k)+4500.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)-
+!     &2700.0_dp*fi(i+1,j,k)+750.0_dp*fi(i-1,j+1,k)+4500.0_dp*fi(i,j+1,k)-
+!     &450.0_dp*fi(i+1,j+1,k)-75.0_dp*fi(i-1,j-1,k+1)-450.0_dp*fi(i,j-1,k+1)+
+!     &45.0_dp*fi(i+1,j-1,k+1)+750.0_dp*fi(i-1,j,k+1)+4500.0_dp*fi(i,j,k+1)-
+!     &450.0_dp*fi(i+1,j,k+1)+125.0_dp*fi(i-1,j+1,k+1)+750.0_dp*fi(i,j+1,k+1)-
+!     &75.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        kk=2*k-pl; ii=2*i-pl; jj=2*j-pl;       !(i+1/4,j+1/4,k+1/4)
-!        fif(ib,ii,jj,kk)=(-27.0*fi(i-1,j-1,k-1)+270.0*fi(i,j-1,k-1)+
-!     &45.0*fi(i+1,j-1,k-1)+270.0*fi(i-1,j,k-1)-2700.0*fi(i,j,k-1)-
-!     &450.0*fi(i+1,j,k-1)+45.0*fi(i-1,j+1,k-1)-450.0*fi(i,j+1,k-1)-
-!     &75.0*fi(i+1,j+1,k-1)+270.0*fi(i-1,j-1,k)-2700.0*fi(i,j-1,k)-
-!     &450.0*fi(i+1,j-1,k)-2700.0*fi(i-1,j,k)+27000.0*fi(i,j,k)+
-!     &4500.0*fi(i+1,j,k)-450.0*fi(i-1,j+1,k)+4500.0*fi(i,j+1,k)+
-!     &750.0*fi(i+1,j+1,k)+45.0*fi(i-1,j-1,k+1)-450.0*fi(i,j-1,k+1)-
-!     &75.0*fi(i+1,j-1,k+1)-450.0*fi(i-1,j,k+1)+4500.0*fi(i,j,k+1)+
-!     &750.0*fi(i+1,j,k+1)-75.0*fi(i-1,j+1,k+1)+750.0*fi(i,j+1,k+1)+
-!     &125.0*fi(i+1,j+1,k+1))/32768.0
+!        fif(ib,ii,jj,kk)=(-27.0_dp*fi(i-1,j-1,k-1)+270.0_dp*fi(i,j-1,k-1)+
+!     &45.0_dp*fi(i+1,j-1,k-1)+270.0_dp*fi(i-1,j,k-1)-2700.0_dp*fi(i,j,k-1)-
+!     &450.0_dp*fi(i+1,j,k-1)+45.0_dp*fi(i-1,j+1,k-1)-450.0_dp*fi(i,j+1,k-1)-
+!     &75.0_dp*fi(i+1,j+1,k-1)+270.0_dp*fi(i-1,j-1,k)-2700.0_dp*fi(i,j-1,k)-
+!     &450.0_dp*fi(i+1,j-1,k)-2700.0_dp*fi(i-1,j,k)+27000.0_dp*fi(i,j,k)+
+!     &4500.0_dp*fi(i+1,j,k)-450.0_dp*fi(i-1,j+1,k)+4500.0_dp*fi(i,j+1,k)+
+!     &750.0_dp*fi(i+1,j+1,k)+45.0_dp*fi(i-1,j-1,k+1)-450.0_dp*fi(i,j-1,k+1)-
+!     &75.0_dp*fi(i+1,j-1,k+1)-450.0_dp*fi(i-1,j,k+1)+4500.0_dp*fi(i,j,k+1)+
+!     &750.0_dp*fi(i+1,j,k+1)-75.0_dp*fi(i-1,j+1,k+1)+750.0_dp*fi(i,j+1,k+1)+
+!     &125.0_dp*fi(i+1,j+1,k+1))/32768.0_dp
 !
 !        end do; end do; end do; end if
 
@@ -235,9 +236,9 @@
               chc1=real(ni-2*pl)
               chc2=real(nj-2*pl)
               chc3=real(nk-2*pl)
-              if(mod(chc1,2.0)/=0.0) print*,'err-p-i'
-              if(mod(chc2,2.0)/=0.0) print*,'err-p-j'
-              if(mod(chc3,2.0)/=0.0) print*,'err-p-k'
+              if(mod(chc1,2.0_dp)/=0.0_dp) print*,'err-p-i'
+              if(mod(chc2,2.0_dp)/=0.0_dp) print*,'err-p-j'
+              if(mod(chc3,2.0_dp)/=0.0_dp) print*,'err-p-k'
               nic=int((ni-2*pl)/2)+2*pl
               njc=int((nj-2*pl)/2)+2*pl
               nkc=int((nk-2*pl)/2)+2*pl
@@ -311,9 +312,9 @@
               do k=ksc,kec; do j=jsc,jec; ijk=(k-1)*njc+j
                       j1=2*j-pl-1; j2=2*j-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(is,j1,k1)+fi(is,j2,k1)+fi(is,j1,k2)+fi(is,j2,k2))/6.0+ &
+                (fi(is,j1,k1)+fi(is,j2,k1)+fi(is,j1,k2)+fi(is,j2,k2))/6.0_dp+ &
                 (fi(is+1,j1,k1)+fi(is+1,j2,k1)+ &
-                fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0
+                fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
@@ -326,28 +327,28 @@
                 15.0d0 *fi(is,jc+1,kc-1)+150.0d0*fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )-90.0d0 *fi(is,jc+1,kc  )- &
                 15.0d0 *fi(is,jc-1,kc+1)-90.0d0 *fi(is,jc  ,kc+1)+ &
-                9.0d0  *fi(is,jc+1,kc+1))/1024.0
+                9.0d0  *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(is,jc-1,kc-1)+150.0d0*fi(is,jc  ,kc-1)+ &
                 25.0d0 *fi(is,jc+1,kc-1)-90.0d0 *fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )+150.0d0*fi(is,jc+1,kc  )+ &
                 9.0d0  *fi(is,jc-1,kc+1)-90.0d0 *fi(is,jc  ,kc+1)- &
-                15.0d0 *fi(is,jc+1,kc+1))/1024.0
+                15.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-(pl+1); ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(is,jc-1,kc-1)-90.0d0 *fi(is,jc  ,kc-1)+ &
                 9.0d0  *fi(is,jc+1,kc-1)+150.0d0*fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )-90.0d0 *fi(is,jc+1,kc  )+ &
                 25.0d0 *fi(is,jc-1,kc+1)+150.0d0*fi(is,jc  ,kc+1)- &
-                15.0d0 *fi(is,jc+1,kc+1))/1024.0
+                15.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(is,jc-1,kc-1)-90.0d0 *fi(is,jc  ,kc-1)- &
                 15.0d0 *fi(is,jc+1,kc-1)-90.0d0 *fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )+150.0d0*fi(is,jc+1,kc  )- &
                 15.0d0 *fi(is,jc-1,kc+1)+150.0d0*fi(is,jc  ,kc+1)+ &
-                25.0d0 *fi(is,jc+1,kc+1))/1024.0
+                25.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -379,9 +380,9 @@
               do k=ksc,kec; do i=isc,iec; ijk=(k-1)*nic+i
                       i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(i1,js,k1)+fi(i2,js,k1)+fi(i1,js,k2)+fi(i2,js,k2))/6.0+ &
+                (fi(i1,js,k1)+fi(i2,js,k1)+fi(i1,js,k2)+fi(i2,js,k2))/6.0_dp+ &
                 (fi(i1,js+1,k1)+fi(i2,js+1,k1)+ &
-                fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0
+                fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
@@ -394,28 +395,28 @@
                 15.0d0 *fi(ic+1,js,kc-1)+150.0d0*fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )-90.0d0 *fi(ic+1,js,kc  )- &
                 15.0d0 *fi(ic-1,js,kc+1)-90.0d0 *fi(ic  ,js,kc+1)+ &
-                9.0d0  *fi(ic+1,js,kc+1))/1024.0
+                9.0d0  *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,js,kc-1)+150.0d0*fi(ic  ,js,kc-1)+ &
                 25.0d0 *fi(ic+1,js,kc-1)-90.0d0 *fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )+150.0d0*fi(ic+1,js,kc  )+ &
                 9.0d0  *fi(ic-1,js,kc+1)-90.0d0 *fi(ic  ,js,kc+1)- &
-                15.0d0 *fi(ic+1,js,kc+1))/1024.0
+                15.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-(pl+1); ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,js,kc-1)-90.0d0 *fi(ic  ,js,kc-1)+ &
                 9.0d0  *fi(ic+1,js,kc-1)+150.0d0*fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )-90.0d0 *fi(ic+1,js,kc  )+ &
                 25.0d0 *fi(ic-1,js,kc+1)+150.0d0*fi(ic  ,js,kc+1)- &
-                15.0d0 *fi(ic+1,js,kc+1))/1024.0
+                15.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,js,kc-1)-90.0d0 *fi(ic  ,js,kc-1)- &
                 15.0d0 *fi(ic+1,js,kc-1)-90.0d0 *fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )+150.0d0*fi(ic+1,js,kc  )- &
                 15.0d0 *fi(ic-1,js,kc+1)+150.0d0*fi(ic  ,js,kc+1)+ &
-                25.0d0 *fi(ic+1,js,kc+1))/1024.0
+                25.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -447,9 +448,9 @@
               do i=isc,iec; do j=jsc,jec; ijk=(i-1)*njc+j
                       i1=2*i-pl-1; i2=2*i-pl; j1=2*j-pl-1; j2=2*j-pl
                       sbuf(ijk)= &
-                (fi(i1,j1,ks)+fi(i1,j2,ks)+fi(i2,j1,ks)+fi(i2,j2,ks))/6.0+ &
+                (fi(i1,j1,ks)+fi(i1,j2,ks)+fi(i2,j1,ks)+fi(i2,j2,ks))/6.0_dp+ &
                 (fi(i1,j1,ks+1)+fi(i1,j2,ks+1)+ &
-                fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0
+                fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
@@ -462,28 +463,28 @@
                 15.0d0 *fi(ic-1,jc+1,ks)+150.0d0*fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)-90.0d0 *fi(ic  ,jc+1,ks)- &
                 15.0d0 *fi(ic+1,jc-1,ks)-90.0d0 *fi(ic+1,jc  ,ks)+ &
-                9.0d0  *fi(ic+1,jc+1,ks))/1024.0
+                9.0d0  *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-(pl+1); j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ks)+150.0d0*fi(ic-1,jc  ,ks)+ &
                 25.0d0 *fi(ic-1,jc+1,ks)-90.0d0 *fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)+150.0d0*fi(ic  ,jc+1,ks)+ &
                 9.0d0  *fi(ic+1,jc-1,ks)-90.0d0 *fi(ic+1,jc  ,ks)- &
-                15.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-pl; j=2*jc-(pl+1); ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ks)-90.0d0 *fi(ic-1,jc  ,ks)+ &
                 9.0d0  *fi(ic-1,jc+1,ks)+150.0d0*fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)-90.0d0 *fi(ic  ,jc+1,ks)+ &
                 25.0d0 *fi(ic+1,jc-1,ks)+150.0d0*fi(ic+1,jc  ,ks)- &
-                15.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-pl; j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,jc-1,ks)-90.0d0 *fi(ic-1,jc  ,ks)- &
                 15.0d0 *fi(ic-1,jc+1,ks)-90.0d0 *fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)+150.0d0*fi(ic  ,jc+1,ks)- &
                 15.0d0 *fi(ic+1,jc-1,ks)+150.0d0*fi(ic+1,jc  ,ks)+ &
-                25.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                25.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                   end do
               end do
               end if
@@ -517,9 +518,9 @@
               do k=ksc,kec; do j=jsc,jec; ijk=(k-1)*njc+j
                       j1=2*j-pl-1; j2=2*j-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(ie,j1,k1)+fi(ie,j2,k1)+fi(ie,j1,k2)+fi(ie,j2,k2))/6.0+ &
+                (fi(ie,j1,k1)+fi(ie,j2,k1)+fi(ie,j1,k2)+fi(ie,j2,k2))/6.0_dp+ &
                 (fi(ie-1,j1,k1)+fi(ie-1,j2,k1)+ &
-                fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0
+                fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
@@ -532,28 +533,28 @@
                 15.0d0 *fi(ie,jc+1,kc-1)+150.0d0*fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )-90.0d0 *fi(ie,jc+1,kc  )- &
                 15.0d0 *fi(ie,jc-1,kc+1)-90.0d0 *fi(ie,jc  ,kc+1)+ &
-                9.0d0  *fi(ie,jc+1,kc+1))/1024.0
+                9.0d0  *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ie,jc-1,kc-1)+150.0d0*fi(ie,jc  ,kc-1)+ &
                 25.0d0 *fi(ie,jc+1,kc-1)-90.0d0 *fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )+150.0d0*fi(ie,jc+1,kc  )+ &
                 9.0d0  *fi(ie,jc-1,kc+1)-90.0d0 *fi(ie,jc  ,kc+1)- &
-                15.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                15.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-(pl+1); ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ie,jc-1,kc-1)-90.0d0 *fi(ie,jc  ,kc-1)+ &
                 9.0d0  *fi(ie,jc+1,kc-1)+150.0d0*fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )-90.0d0 *fi(ie,jc+1,kc  )+ &
                 25.0d0 *fi(ie,jc-1,kc+1)+150.0d0*fi(ie,jc  ,kc+1)- &
-                15.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                15.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ie,jc-1,kc-1)-90.0d0 *fi(ie,jc  ,kc-1)- &
                 15.0d0 *fi(ie,jc+1,kc-1)-90.0d0 *fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )+150.0d0*fi(ie,jc+1,kc  )- &
                 15.0d0 *fi(ie,jc-1,kc+1)+150.0d0*fi(ie,jc  ,kc+1)+ &
-                25.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                25.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -585,9 +586,9 @@
               do k=ksc,kec; do i=isc,iec; ijk=(k-1)*nic+i
                       i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(i1,je,k1)+fi(i2,je,k1)+fi(i1,je,k2)+fi(i2,je,k2))/6.0+ &
+                (fi(i1,je,k1)+fi(i2,je,k1)+fi(i1,je,k2)+fi(i2,je,k2))/6.0_dp+ &
                 (fi(i1,je-1,k1)+fi(i2,je-1,k1)+ &
-                fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0
+                fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
@@ -600,28 +601,28 @@
                 15.0d0 *fi(ic+1,je,kc-1)+150.0d0*fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )-90.0d0 *fi(ic+1,je,kc  )- &
                 15.0d0 *fi(ic-1,je,kc+1)-90.0d0 *fi(ic  ,je,kc+1)+ &
-                9.0d0  *fi(ic+1,je,kc+1))/1024.0
+                9.0d0  *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,je,kc-1)+150.0d0*fi(ic  ,je,kc-1)+ &
                 25.0d0 *fi(ic+1,je,kc-1)-90.0d0 *fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )+150.0d0*fi(ic+1,je,kc  )+ &
                 9.0d0  *fi(ic-1,je,kc+1)-90.0d0 *fi(ic  ,je,kc+1)- &
-                15.0d0 *fi(ic+1,je,kc+1))/1024.0
+                15.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-(pl+1); ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,je,kc-1)-90.0d0 *fi(ic  ,je,kc-1)+ &
                 9.0d0  *fi(ic+1,je,kc-1)+150.0d0*fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )-90.0d0 *fi(ic+1,je,kc  )+ &
                 25.0d0 *fi(ic-1,je,kc+1)+150.0d0*fi(ic  ,je,kc+1)- &
-                15.0d0 *fi(ic+1,je,kc+1))/1024.0
+                15.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,je,kc-1)-90.0d0 *fi(ic  ,je,kc-1)- &
                 15.0d0 *fi(ic+1,je,kc-1)-90.0d0 *fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )+150.0d0*fi(ic+1,je,kc  )- &
                 15.0d0 *fi(ic-1,je,kc+1)+150.0d0*fi(ic  ,je,kc+1)+ &
-                25.0d0 *fi(ic+1,je,kc+1))/1024.0
+                25.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -653,9 +654,9 @@
               do i=isc,iec; do j=jsc,jec; ijk=(i-1)*njc+j
                       i1=2*i-pl-1; i2=2*i-pl; j1=2*j-pl-1; j2=2*j-pl
                       sbuf(ijk)= &
-                (fi(i1,j1,ke)+fi(i1,j2,ke)+fi(i2,j1,ke)+fi(i2,j2,ke))/6.0+ &
+                (fi(i1,j1,ke)+fi(i1,j2,ke)+fi(i2,j1,ke)+fi(i2,j2,ke))/6.0_dp+ &
                 (fi(i1,j1,ke-1)+fi(i1,j2,ke-1)+ &
-                fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0
+                fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
@@ -668,28 +669,28 @@
                 15.0d0 *fi(ic-1,jc+1,ke)+150.0d0*fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)-90.0d0 *fi(ic  ,jc+1,ke)- &
                 15.0d0 *fi(ic+1,jc-1,ke)-90.0d0 *fi(ic+1,jc  ,ke)+ &
-                9.0d0  *fi(ic+1,jc+1,ke))/1024.0
+                9.0d0  *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-(pl+1); j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ke)+150.0d0*fi(ic-1,jc  ,ke)+ &
                 25.0d0 *fi(ic-1,jc+1,ke)-90.0d0 *fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)+150.0d0*fi(ic  ,jc+1,ke)+ &
                 9.0d0  *fi(ic+1,jc-1,ke)-90.0d0 *fi(ic+1,jc  ,ke)- &
-                15.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-pl; j=2*jc-(pl+1); ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ke)-90.0d0 *fi(ic-1,jc  ,ke)+ &
                 9.0d0  *fi(ic-1,jc+1,ke)+150.0d0*fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)-90.0d0 *fi(ic  ,jc+1,ke)+ &
                 25.0d0 *fi(ic+1,jc-1,ke)+150.0d0*fi(ic+1,jc  ,ke)- &
-                15.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-pl; j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,jc-1,ke)-90.0d0 *fi(ic-1,jc  ,ke)- &
                 15.0d0 *fi(ic-1,jc+1,ke)-90.0d0 *fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)+150.0d0*fi(ic  ,jc+1,ke)- &
                 15.0d0 *fi(ic+1,jc-1,ke)+150.0d0*fi(ic+1,jc  ,ke)+ &
-                25.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                25.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                   end do
               end do
               end if
@@ -1470,9 +1471,9 @@
               do k=ksc,kec; do j=jsc,jec; ijk=(k-1)*njc+j
                       j1=2*j-pl-1; j2=2*j-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(is,j1,k1)+fi(is,j2,k1)+fi(is,j1,k2)+fi(is,j2,k2))/6.0+ &
+                (fi(is,j1,k1)+fi(is,j2,k1)+fi(is,j1,k2)+fi(is,j2,k2))/6.0_dp+ &
                 (fi(is+1,j1,k1)+fi(is+1,j2,k1)+ &
-                fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0
+                fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
@@ -1485,28 +1486,28 @@
                 15.0d0 *fi(is,jc+1,kc-1)+150.0d0*fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )-90.0d0 *fi(is,jc+1,kc  )- &
                 15.0d0 *fi(is,jc-1,kc+1)-90.0d0 *fi(is,jc  ,kc+1)+ &
-                9.0d0  *fi(is,jc+1,kc+1))/1024.0
+                9.0d0  *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(is,jc-1,kc-1)+150.0d0*fi(is,jc  ,kc-1)+ &
                 25.0d0 *fi(is,jc+1,kc-1)-90.0d0 *fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )+150.0d0*fi(is,jc+1,kc  )+ &
                 9.0d0  *fi(is,jc-1,kc+1)-90.0d0 *fi(is,jc  ,kc+1)- &
-                15.0d0 *fi(is,jc+1,kc+1))/1024.0
+                15.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-(pl+1); ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(is,jc-1,kc-1)-90.0d0 *fi(is,jc  ,kc-1)+ &
                 9.0d0  *fi(is,jc+1,kc-1)+150.0d0*fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )-90.0d0 *fi(is,jc+1,kc  )+ &
                 25.0d0 *fi(is,jc-1,kc+1)+150.0d0*fi(is,jc  ,kc+1)- &
-                15.0d0 *fi(is,jc+1,kc+1))/1024.0
+                15.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(is,jc-1,kc-1)-90.0d0 *fi(is,jc  ,kc-1)- &
                 15.0d0 *fi(is,jc+1,kc-1)-90.0d0 *fi(is,jc-1,kc  )+ &
                 900.0d0*fi(is,jc  ,kc  )+150.0d0*fi(is,jc+1,kc  )- &
                 15.0d0 *fi(is,jc-1,kc+1)+150.0d0*fi(is,jc  ,kc+1)+ &
-                25.0d0 *fi(is,jc+1,kc+1))/1024.0
+                25.0d0 *fi(is,jc+1,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -1536,9 +1537,9 @@
               do k=ksc,kec; do i=isc,iec; ijk=(k-1)*nic+i
                       i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(i1,js,k1)+fi(i2,js,k1)+fi(i1,js,k2)+fi(i2,js,k2))/6.0+ &
+                (fi(i1,js,k1)+fi(i2,js,k1)+fi(i1,js,k2)+fi(i2,js,k2))/6.0_dp+ &
                 (fi(i1,js+1,k1)+fi(i2,js+1,k1)+ &
-                fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0
+                fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
@@ -1551,28 +1552,28 @@
                 15.0d0 *fi(ic+1,js,kc-1)+150.0d0*fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )-90.0d0 *fi(ic+1,js,kc  )- &
                 15.0d0 *fi(ic-1,js,kc+1)-90.0d0 *fi(ic  ,js,kc+1)+ &
-                9.0d0  *fi(ic+1,js,kc+1))/1024.0
+                9.0d0  *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,js,kc-1)+150.0d0*fi(ic  ,js,kc-1)+ &
                 25.0d0 *fi(ic+1,js,kc-1)-90.0d0 *fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )+150.0d0*fi(ic+1,js,kc  )+ &
                 9.0d0  *fi(ic-1,js,kc+1)-90.0d0 *fi(ic  ,js,kc+1)- &
-                15.0d0 *fi(ic+1,js,kc+1))/1024.0
+                15.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-(pl+1); ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,js,kc-1)-90.0d0 *fi(ic  ,js,kc-1)+ &
                 9.0d0  *fi(ic+1,js,kc-1)+150.0d0*fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )-90.0d0 *fi(ic+1,js,kc  )+ &
                 25.0d0 *fi(ic-1,js,kc+1)+150.0d0*fi(ic  ,js,kc+1)- &
-                15.0d0 *fi(ic+1,js,kc+1))/1024.0
+                15.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,js,kc-1)-90.0d0 *fi(ic  ,js,kc-1)- &
                 15.0d0 *fi(ic+1,js,kc-1)-90.0d0 *fi(ic-1,js,kc  )+ &
                 900.0d0*fi(ic  ,js,kc  )+150.0d0*fi(ic+1,js,kc  )- &
                 15.0d0 *fi(ic-1,js,kc+1)+150.0d0*fi(ic  ,js,kc+1)+ &
-                25.0d0 *fi(ic+1,js,kc+1))/1024.0
+                25.0d0 *fi(ic+1,js,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -1602,9 +1603,9 @@
               do i=isc,iec; do j=jsc,jec; ijk=(i-1)*njc+j
                       i1=2*i-pl-1; i2=2*i-pl; j1=2*j-pl-1; j2=2*j-pl
                       sbuf(ijk)= &
-                (fi(i1,j1,ks)+fi(i1,j2,ks)+fi(i2,j1,ks)+fi(i2,j2,ks))/6.0+ &
+                (fi(i1,j1,ks)+fi(i1,j2,ks)+fi(i2,j1,ks)+fi(i2,j2,ks))/6.0_dp+ &
                 (fi(i1,j1,ks+1)+fi(i1,j2,ks+1)+ &
-                fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0
+                fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
@@ -1617,28 +1618,28 @@
                 15.0d0 *fi(ic-1,jc+1,ks)+150.0d0*fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)-90.0d0 *fi(ic  ,jc+1,ks)- &
                 15.0d0 *fi(ic+1,jc-1,ks)-90.0d0 *fi(ic+1,jc  ,ks)+ &
-                9.0d0  *fi(ic+1,jc+1,ks))/1024.0
+                9.0d0  *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-(pl+1); j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ks)+150.0d0*fi(ic-1,jc  ,ks)+ &
                 25.0d0 *fi(ic-1,jc+1,ks)-90.0d0 *fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)+150.0d0*fi(ic  ,jc+1,ks)+ &
                 9.0d0  *fi(ic+1,jc-1,ks)-90.0d0 *fi(ic+1,jc  ,ks)- &
-                15.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-pl; j=2*jc-(pl+1); ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ks)-90.0d0 *fi(ic-1,jc  ,ks)+ &
                 9.0d0  *fi(ic-1,jc+1,ks)+150.0d0*fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)-90.0d0 *fi(ic  ,jc+1,ks)+ &
                 25.0d0 *fi(ic+1,jc-1,ks)+150.0d0*fi(ic+1,jc  ,ks)- &
-                15.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                       i=2*ic-pl; j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,jc-1,ks)-90.0d0 *fi(ic-1,jc  ,ks)- &
                 15.0d0 *fi(ic-1,jc+1,ks)-90.0d0 *fi(ic  ,jc-1,ks)+ &
                 900.0d0*fi(ic  ,jc  ,ks)+150.0d0*fi(ic  ,jc+1,ks)- &
                 15.0d0 *fi(ic+1,jc-1,ks)+150.0d0*fi(ic+1,jc  ,ks)+ &
-                25.0d0 *fi(ic+1,jc+1,ks))/1024.0
+                25.0d0 *fi(ic+1,jc+1,ks))/1024.0_dp
                   end do
               end do
               end if
@@ -1670,9 +1671,9 @@
               do k=ksc,kec; do j=jsc,jec; ijk=(k-1)*njc+j
                       j1=2*j-pl-1; j2=2*j-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(ie,j1,k1)+fi(ie,j2,k1)+fi(ie,j1,k2)+fi(ie,j2,k2))/6.0+ &
+                (fi(ie,j1,k1)+fi(ie,j2,k1)+fi(ie,j1,k2)+fi(ie,j2,k2))/6.0_dp+ &
                 (fi(ie-1,j1,k1)+fi(ie-1,j2,k1)+ &
-                fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0
+                fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
@@ -1685,28 +1686,28 @@
                 15.0d0 *fi(ie,jc+1,kc-1)+150.0d0*fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )-90.0d0 *fi(ie,jc+1,kc  )- &
                 15.0d0 *fi(ie,jc-1,kc+1)-90.0d0 *fi(ie,jc  ,kc+1)+ &
-                9.0d0  *fi(ie,jc+1,kc+1))/1024.0
+                9.0d0  *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ie,jc-1,kc-1)+150.0d0*fi(ie,jc  ,kc-1)+ &
                 25.0d0 *fi(ie,jc+1,kc-1)-90.0d0 *fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )+150.0d0*fi(ie,jc+1,kc  )+ &
                 9.0d0  *fi(ie,jc-1,kc+1)-90.0d0 *fi(ie,jc  ,kc+1)- &
-                15.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                15.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-(pl+1); ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ie,jc-1,kc-1)-90.0d0 *fi(ie,jc  ,kc-1)+ &
                 9.0d0  *fi(ie,jc+1,kc-1)+150.0d0*fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )-90.0d0 *fi(ie,jc+1,kc  )+ &
                 25.0d0 *fi(ie,jc-1,kc+1)+150.0d0*fi(ie,jc  ,kc+1)- &
-                15.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                15.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                       k=2*kc-pl; j=2*jc-pl; ijk=(k-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ie,jc-1,kc-1)-90.0d0 *fi(ie,jc  ,kc-1)- &
                 15.0d0 *fi(ie,jc+1,kc-1)-90.0d0 *fi(ie,jc-1,kc  )+ &
                 900.0d0*fi(ie,jc  ,kc  )+150.0d0*fi(ie,jc+1,kc  )- &
                 15.0d0 *fi(ie,jc-1,kc+1)+150.0d0*fi(ie,jc  ,kc+1)+ &
-                25.0d0 *fi(ie,jc+1,kc+1))/1024.0
+                25.0d0 *fi(ie,jc+1,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -1736,9 +1737,9 @@
               do k=ksc,kec; do i=isc,iec; ijk=(k-1)*nic+i
                       i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
                       sbuf(ijk)= &
-                (fi(i1,je,k1)+fi(i2,je,k1)+fi(i1,je,k2)+fi(i2,je,k2))/6.0+ &
+                (fi(i1,je,k1)+fi(i2,je,k1)+fi(i1,je,k2)+fi(i2,je,k2))/6.0_dp+ &
                 (fi(i1,je-1,k1)+fi(i2,je-1,k1)+ &
-                fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0
+                fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
@@ -1751,28 +1752,28 @@
                 15.0d0 *fi(ic+1,je,kc-1)+150.0d0*fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )-90.0d0 *fi(ic+1,je,kc  )- &
                 15.0d0 *fi(ic-1,je,kc+1)-90.0d0 *fi(ic  ,je,kc+1)+ &
-                9.0d0  *fi(ic+1,je,kc+1))/1024.0
+                9.0d0  *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-(pl+1); i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,je,kc-1)+150.0d0*fi(ic  ,je,kc-1)+ &
                 25.0d0 *fi(ic+1,je,kc-1)-90.0d0 *fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )+150.0d0*fi(ic+1,je,kc  )+ &
                 9.0d0  *fi(ic-1,je,kc+1)-90.0d0 *fi(ic  ,je,kc+1)- &
-                15.0d0 *fi(ic+1,je,kc+1))/1024.0
+                15.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-(pl+1); ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,je,kc-1)-90.0d0 *fi(ic  ,je,kc-1)+ &
                 9.0d0  *fi(ic+1,je,kc-1)+150.0d0*fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )-90.0d0 *fi(ic+1,je,kc  )+ &
                 25.0d0 *fi(ic-1,je,kc+1)+150.0d0*fi(ic  ,je,kc+1)- &
-                15.0d0 *fi(ic+1,je,kc+1))/1024.0
+                15.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                       k=2*kc-pl; i=2*ic-pl; ijk=(k-1)*nif+i
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,je,kc-1)-90.0d0 *fi(ic  ,je,kc-1)- &
                 15.0d0 *fi(ic+1,je,kc-1)-90.0d0 *fi(ic-1,je,kc  )+ &
                 900.0d0*fi(ic  ,je,kc  )+150.0d0*fi(ic+1,je,kc  )- &
                 15.0d0 *fi(ic-1,je,kc+1)+150.0d0*fi(ic  ,je,kc+1)+ &
-                25.0d0 *fi(ic+1,je,kc+1))/1024.0
+                25.0d0 *fi(ic+1,je,kc+1))/1024.0_dp
                   end do
               end do
               end if
@@ -1802,9 +1803,9 @@
               do i=isc,iec; do j=jsc,jec; ijk=(i-1)*njc+j
                       i1=2*i-pl-1; i2=2*i-pl; j1=2*j-pl-1; j2=2*j-pl
                       sbuf(ijk)= &
-                (fi(i1,j1,ke)+fi(i1,j2,ke)+fi(i2,j1,ke)+fi(i2,j2,ke))/6.0+ &
+                (fi(i1,j1,ke)+fi(i1,j2,ke)+fi(i2,j1,ke)+fi(i2,j2,ke))/6.0_dp+ &
                 (fi(i1,j1,ke-1)+fi(i1,j2,ke-1)+ &
-                fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0
+                fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0_dp
                   end do; end do
 
               else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
@@ -1817,28 +1818,28 @@
                 15.0d0 *fi(ic-1,jc+1,ke)+150.0d0*fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)-90.0d0 *fi(ic  ,jc+1,ke)- &
                 15.0d0 *fi(ic+1,jc-1,ke)-90.0d0 *fi(ic+1,jc  ,ke)+ &
-                9.0d0  *fi(ic+1,jc+1,ke))/1024.0
+                9.0d0  *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-(pl+1); j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ke)+150.0d0*fi(ic-1,jc  ,ke)+ &
                 25.0d0 *fi(ic-1,jc+1,ke)-90.0d0 *fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)+150.0d0*fi(ic  ,jc+1,ke)+ &
                 9.0d0  *fi(ic+1,jc-1,ke)-90.0d0 *fi(ic+1,jc  ,ke)- &
-                15.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-pl; j=2*jc-(pl+1); ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 -15.0d0*fi(ic-1,jc-1,ke)-90.0d0 *fi(ic-1,jc  ,ke)+ &
                 9.0d0  *fi(ic-1,jc+1,ke)+150.0d0*fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)-90.0d0 *fi(ic  ,jc+1,ke)+ &
                 25.0d0 *fi(ic+1,jc-1,ke)+150.0d0*fi(ic+1,jc  ,ke)- &
-                15.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                15.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                       i=2*ic-pl; j=2*jc-pl; ijk=(i-1)*njf+j
                       sbuf(ijk)=( &
                 9.0d0  *fi(ic-1,jc-1,ke)-90.0d0 *fi(ic-1,jc  ,ke)- &
                 15.0d0 *fi(ic-1,jc+1,ke)-90.0d0 *fi(ic  ,jc-1,ke)+ &
                 900.0d0*fi(ic  ,jc  ,ke)+150.0d0*fi(ic  ,jc+1,ke)- &
                 15.0d0 *fi(ic+1,jc-1,ke)+150.0d0*fi(ic+1,jc  ,ke)+ &
-                25.0d0 *fi(ic+1,jc+1,ke))/1024.0
+                25.0d0 *fi(ic+1,jc+1,ke))/1024.0_dp
                   end do
               end do
               end if
@@ -2859,14 +2860,14 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%iprev)) then
               do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
                       fi(is-1,j,k)=dom(ib)%recvb_m1(ijk)+ &
-                fi(is,j,k)-(fi(is,j-1,k-1)+30.0*fi(is,j,k-1)+fi(is,j+1,k-1)+ &
-                30.0*fi(is,j-1,k)+900.0*fi(is,j,k)+30.0*fi(is,j+1,k)+ &
-                fi(is,j-1,k+1)+30.0*fi(is,j,k+1)+fi(is,j+1,k+1))/960.0
+                fi(is,j,k)-(fi(is,j-1,k-1)+30.0_dp*fi(is,j,k-1)+fi(is,j+1,k-1)+ &
+                30.0_dp*fi(is,j-1,k)+900.0_dp*fi(is,j,k)+30.0_dp*fi(is,j+1,k)+ &
+                fi(is,j-1,k+1)+30.0_dp*fi(is,j,k+1)+fi(is,j+1,k+1))/960.0_dp
                   end do; end do
               else
               do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
                       fi(is-1,j,k)= &
-                (8.0*dom(ib)%recvb_m1(ijk)+10.0*fi(is,j,k)-3.0*fi(is+1,j,k))/15.0
+                (8.0_dp*dom(ib)%recvb_m1(ijk)+10.0_dp*fi(is,j,k)-3.0_dp*fi(is+1,j,k))/15.0_dp
                   end do; end do
               end if
               end if
@@ -2880,15 +2881,15 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%jprev)) then
               do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                       fi(i,js-1,k)=dom(ib)%recvb_m2(ijk)+ &
-                fi(i,js,k)-(fi(i-1,js,k-1)+30.0*fi(i,js,k-1)+ &
-                fi(i+1,js,k-1)+30.0*fi(i-1,js,k)+ &
-                900.0*fi(i,js,k)+30.0*fi(i+1,js,k)+fi(i-1,js,k+1)+ &
-                30.0*fi(i,js,k+1)+fi(i+1,js,k+1))/960.0
+                fi(i,js,k)-(fi(i-1,js,k-1)+30.0_dp*fi(i,js,k-1)+ &
+                fi(i+1,js,k-1)+30.0_dp*fi(i-1,js,k)+ &
+                900.0_dp*fi(i,js,k)+30.0_dp*fi(i+1,js,k)+fi(i-1,js,k+1)+ &
+                30.0_dp*fi(i,js,k+1)+fi(i+1,js,k+1))/960.0_dp
                   end do; end do
               else
               do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                       fi(i,js-1,k)= &
-                (8.0*dom(ib)%recvb_m2(ijk)+10.0*fi(i,js,k)-3.0*fi(i,js+1,k))/15.0
+                (8.0_dp*dom(ib)%recvb_m2(ijk)+10.0_dp*fi(i,js,k)-3.0_dp*fi(i,js+1,k))/15.0_dp
                   end do; end do
               end if
               end if
@@ -2902,14 +2903,14 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%kprev)) then
               do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                       fi(i,j,ks-1)=dom(ib)%recvb_m3(ijk)+ &
-                fi(i,j,ks)-(fi(i-1,j-1,ks)+30.0*fi(i-1,j,ks)+fi(i-1,j+1,ks)+ &
-                30.0*fi(i,j-1,ks)+900.0*fi(i,j,ks)+30.0*fi(i,j+1,ks)+ &
-                fi(i+1,j-1,ks)+30.0*fi(i+1,j,ks)+fi(i+1,j+1,ks))/960.0
+                fi(i,j,ks)-(fi(i-1,j-1,ks)+30.0_dp*fi(i-1,j,ks)+fi(i-1,j+1,ks)+ &
+                30.0_dp*fi(i,j-1,ks)+900.0_dp*fi(i,j,ks)+30.0_dp*fi(i,j+1,ks)+ &
+                fi(i+1,j-1,ks)+30.0_dp*fi(i+1,j,ks)+fi(i+1,j+1,ks))/960.0_dp
                   end do; end do
               else
               do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                       fi(i,j,ks-1)= &
-                (8.0*dom(ib)%recvb_m3(ijk)+10.0*fi(i,j,ks)-3.0*fi(i,j,ks+1))/15.0
+                (8.0_dp*dom(ib)%recvb_m3(ijk)+10.0_dp*fi(i,j,ks)-3.0_dp*fi(i,j,ks+1))/15.0_dp
                   end do; end do
               end if
               end if
@@ -2926,15 +2927,15 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%inext)) then
               do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
                       fi(ie+1,j,k)=dom(ib)%recvb_p1(ijk)+ &
-                fi(ie,j,k)-(fi(ie,j-1,k-1)+30.0*fi(ie,j,k-1)+ &
-                fi(ie,j+1,k-1)+30.0*fi(ie,j-1,k)+ &
-                900.0*fi(ie,j,k)+30.0*fi(ie,j+1,k)+fi(ie,j-1,k+1)+ &
-                30.0*fi(ie,j,k+1)+fi(ie,j+1,k+1))/960.0
+                fi(ie,j,k)-(fi(ie,j-1,k-1)+30.0_dp*fi(ie,j,k-1)+ &
+                fi(ie,j+1,k-1)+30.0_dp*fi(ie,j-1,k)+ &
+                900.0_dp*fi(ie,j,k)+30.0_dp*fi(ie,j+1,k)+fi(ie,j-1,k+1)+ &
+                30.0_dp*fi(ie,j,k+1)+fi(ie,j+1,k+1))/960.0_dp
                   end do; end do
               else
               do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
                       fi(ie+1,j,k)= &
-                (8.0*dom(ib)%recvb_p1(ijk)+10.0*fi(ie,j,k)-3.0*fi(ie-1,j,k))/15.0
+                (8.0_dp*dom(ib)%recvb_p1(ijk)+10.0_dp*fi(ie,j,k)-3.0_dp*fi(ie-1,j,k))/15.0_dp
                   end do; end do
               end if
               end if
@@ -2948,15 +2949,15 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%jnext)) then
               do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                       fi(i,je+1,k)=dom(ib)%recvb_p2(ijk)+ &
-                fi(i,je,k)-(fi(i-1,je,k-1)+30.0*fi(i,je,k-1)+ &
-                fi(i+1,je,k-1)+30.0*fi(i-1,je,k)+ &
-                900.0*fi(i,je,k)+30.0*fi(i+1,je,k)+fi(i-1,je,k+1)+ &
-                30.0*fi(i,je,k+1)+fi(i+1,je,k+1))/960.0
+                fi(i,je,k)-(fi(i-1,je,k-1)+30.0_dp*fi(i,je,k-1)+ &
+                fi(i+1,je,k-1)+30.0_dp*fi(i-1,je,k)+ &
+                900.0_dp*fi(i,je,k)+30.0_dp*fi(i+1,je,k)+fi(i-1,je,k+1)+ &
+                30.0_dp*fi(i,je,k+1)+fi(i+1,je,k+1))/960.0_dp
                   end do; end do
               else
               do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                       fi(i,je+1,k)= &
-                (8.0*dom(ib)%recvb_p2(ijk)+10.0*fi(i,je,k)-3.0*fi(i,je-1,k))/15.0
+                (8.0_dp*dom(ib)%recvb_p2(ijk)+10.0_dp*fi(i,je,k)-3.0_dp*fi(i,je-1,k))/15.0_dp
                   end do; end do
               end if
               end if
@@ -2970,14 +2971,14 @@
               if(rdiv(dom_id(ib))<rdiv(dom(ib)%knext)) then
               do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                       fi(i,j,ke+1)=dom(ib)%recvb_p3(ijk)+ &
-                fi(i,j,ke)-(fi(i-1,j-1,ke)+30.0*fi(i-1,j,ke)+fi(i-1,j+1,ke)+ &
-                30.0*fi(i,j-1,ke)+900.0*fi(i,j,ke)+30.0*fi(i,j+1,ke)+ &
-                fi(i+1,j-1,ke)+30.0*fi(i+1,j,ke)+fi(i+1,j+1,ke))/960.0
+                fi(i,j,ke)-(fi(i-1,j-1,ke)+30.0_dp*fi(i-1,j,ke)+fi(i-1,j+1,ke)+ &
+                30.0_dp*fi(i,j-1,ke)+900.0_dp*fi(i,j,ke)+30.0_dp*fi(i,j+1,ke)+ &
+                fi(i+1,j-1,ke)+30.0_dp*fi(i+1,j,ke)+fi(i+1,j+1,ke))/960.0_dp
                   end do; end do
               else
               do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
                       fi(i,j,ke+1)= &
-                (8.0*dom(ib)%recvb_p3(ijk)+10.0*fi(i,j,ke)-3.0*fi(i,j,ke-1))/15.0
+                (8.0_dp*dom(ib)%recvb_p3(ijk)+10.0_dp*fi(i,j,ke)-3.0_dp*fi(i,j,ke-1))/15.0_dp
                   end do; end do
               end if
               end if

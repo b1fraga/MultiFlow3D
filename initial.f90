@@ -4,6 +4,7 @@
           use vars
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer mgi,mgj,mgk,pow2,ib,i,j
 
@@ -377,6 +378,7 @@
           use vars
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
           integer i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
@@ -384,7 +386,7 @@
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
-          flomas=0.0
+          flomas=0.0_dp
 
           do ib=1,nbp
               ispr=pl+1; iepr=dom(ib)%ttc_i-pl
@@ -396,7 +398,7 @@
               do j=jspr,jepr
                   do k=kspr,kepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(dom(ib)%isu-1,j,k) >= 0.0) then
+                      if (dom(ib)%phi(dom(ib)%isu-1,j,k) >= 0.0_dp) then
                       flomas=flomas+dom(ib)%u(dom(ib)%isu-1,j,k)* &
                 dom(ib)%dy*dom(ib)%dz
                       end if
@@ -414,7 +416,7 @@
               do k=kspr,kepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,dom(ib)%jsv-1,k) >= 0.0) then
+                      if (dom(ib)%phi(i,dom(ib)%jsv-1,k) >= 0.0_dp) then
                       flomas=flomas+dom(ib)%v(i,dom(ib)%jsv-1,k)* &
                 dom(ib)%dx*dom(ib)%dz
                       end if
@@ -432,7 +434,7 @@
               do j=jspr,jepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,j,dom(ib)%ksw-1) >= 0.0) then
+                      if (dom(ib)%phi(i,j,dom(ib)%ksw-1) >= 0.0_dp) then
                       flomas=flomas+dom(ib)%w(i,j,dom(ib)%ksw-1)* &
                 dom(ib)%dx*dom(ib)%dy
                       end if
@@ -458,13 +460,14 @@
           use vars
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
           double precision fmout,fct,buffer_fmout
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
-          fmout=0.0
+          fmout=0.0_dp
 
           do ib=1,nbp
               ispr=pl+1; iepr=dom(ib)%ttc_i-pl
@@ -476,7 +479,7 @@
               do j=jspr,jepr
                   do k=kspr,kepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(dom(ib)%ieu+1,j,k) >= 0.0) then
+                      if (dom(ib)%phi(dom(ib)%ieu+1,j,k) >= 0.0_dp) then
                       fmout=fmout+dom(ib)%u(dom(ib)%ieu+1,j,k)* &
                 dom(ib)%dy*dom(ib)%dz
                       end if
@@ -494,7 +497,7 @@
               do k=kspr,kepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,dom(ib)%jev+1,k) >= 0.0) then
+                      if (dom(ib)%phi(i,dom(ib)%jev+1,k) >= 0.0_dp) then
                       fmout=fmout+dom(ib)%v(i,dom(ib)%jev+1,k)* &
                 dom(ib)%dx*dom(ib)%dz
                       end if
@@ -512,7 +515,7 @@
               do j=jspr,jepr
                   do i=ispr,iepr
                       if (L_LSM) then
-                      if (dom(ib)%phi(i,j,dom(ib)%kew+1) >= 0.0) then
+                      if (dom(ib)%phi(i,j,dom(ib)%kew+1) >= 0.0_dp) then
                       fmout=fmout+dom(ib)%w(i,j,dom(ib)%kew+1)* &
                 dom(ib)%dx*dom(ib)%dy
                       end if
@@ -620,6 +623,7 @@
           use mpi
           use multidata
           use module_lsm
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,tti,ttj,ttk,pll
           integer :: sn,sn2
@@ -705,16 +709,16 @@
 !===============================================================
 
               if (reinitmean) then
-              dom(ib)%um   = 0.0; dom(ib)%vm   = 0.0
-              dom(ib)%wm   = 0.0; dom(ib)%pm   = 0.0
-              dom(ib)%uum  = 0.0; dom(ib)%vvm  = 0.0
-              dom(ib)%wwm  = 0.0; dom(ib)%uvm  = 0.0
-              dom(ib)%uwm  = 0.0; dom(ib)%vwm  = 0.0
-              dom(ib)%ppm  = 0.0
-              dom(ib)%Tm   = 0.0; dom(ib)%Ttm  = 0.0
-              ctime=0.0
+              dom(ib)%um   = 0.0_dp; dom(ib)%vm   = 0.0_dp
+              dom(ib)%wm   = 0.0_dp; dom(ib)%pm   = 0.0_dp
+              dom(ib)%uum  = 0.0_dp; dom(ib)%vvm  = 0.0_dp
+              dom(ib)%wwm  = 0.0_dp; dom(ib)%uvm  = 0.0_dp
+              dom(ib)%uwm  = 0.0_dp; dom(ib)%vwm  = 0.0_dp
+              dom(ib)%ppm  = 0.0_dp
+              dom(ib)%Tm   = 0.0_dp; dom(ib)%Ttm  = 0.0_dp
+              ctime=0.0_dp
               ntime=0
-              if (L_LSM) dom(ib)%phim  = 0.0
+              if (L_LSM) dom(ib)%phim  = 0.0_dp
               end if
 
               else !no restart !cold initialisation
@@ -722,8 +726,8 @@
 
               qzero=ubulk                               !brunho2014
               qstpn=qzero
-              forcn=2.0/(Re*qzero)
-              ctime=0.0
+              forcn=2.0_dp/(Re*qzero)
+              ctime=0.0_dp
               ntime=0
               dom(ib)%u=Ubulk
               dom(ib)%uo=Ubulk
@@ -733,18 +737,18 @@
 
               if (L_LSM) call init_lsm
 
-              dom(ib)%p=0.0
+              dom(ib)%p=0.0_dp
 
 !======================STRATIFICATION CONDITIONS========================
 !     if (LAS) then
 !                do k=1,ttk
 !                  do j=1,ttj
 !                    do i=1,tti
-!       if (dom(ib)%z(k).gt.0.66) then
+!       if (dom(ib)%z(k).gt.0_dp.66) then
 !              dom(ib)%T(i,j,k)=5.;  dom(ib)%To(i,j,k)=5.
-!       elseif (dom(ib)%z(k).le.0.66.and.dom(ib)%z(k).gt.0.33) then
+!       elseif (dom(ib)%z(k).le.0_dp.66.and.dom(ib)%z(k).gt.0_dp.33) then
 !              dom(ib)%T(i,j,k)=0.;  dom(ib)%To(i,j,k)=0.
-!       elseif (dom(ib)%z(k).le.0.33) then
+!       elseif (dom(ib)%z(k).le.0_dp.33) then
 !              dom(ib)%T(i,j,k)=-5.;  dom(ib)%To(i,j,k)=-5.
 !       endif
 !             end do
@@ -753,22 +757,22 @@
 !     endif
 !=======================================================================
 
-              dom(ib)%v=0.0; dom(ib)%w=0.0
-              dom(ib)%vo=0.0; dom(ib)%voo=0.0
-              dom(ib)%wo=0.0; dom(ib)%woo=0.0
+              dom(ib)%v=0.0_dp; dom(ib)%w=0.0_dp
+              dom(ib)%vo=0.0_dp; dom(ib)%voo=0.0_dp
+              dom(ib)%wo=0.0_dp; dom(ib)%woo=0.0_dp
 
               dom(ib)%dens=dens
               dom(ib)%vis=rrey
 
               if (LENERGY) then
               dom(ib)%T=Tinit;  dom(ib)%To=Tinit
-              dom(ib)%Tm=0.0; dom(ib)%Ttm=0.0
+              dom(ib)%Tm=0.0_dp; dom(ib)%Ttm=0.0_dp
               dom(ib)%mu=rrey*dens
               call energy_init
               endif
               if (LSCALAR) then
-              dom(ib)%S=0.0;  dom(ib)%So=0.0
-              dom(ib)%Sm=0.0; dom(ib)%Stm=0.0
+              dom(ib)%S=0.0_dp;  dom(ib)%So=0.0_dp
+              dom(ib)%Sm=0.0_dp; dom(ib)%Stm=0.0_dp
               call sediment_init
               endif
               if (L_LSM)          dom(ib)%mu=rrey*dens
@@ -778,24 +782,24 @@
               endif
               if (LNonNewt) call NonNewtonian
 
-              dom(ib)%um   = 0.0; dom(ib)%vm   = 0.0
-              dom(ib)%wm   = 0.0; dom(ib)%pm   = 0.0
-              dom(ib)%uum  = 0.0; dom(ib)%vvm  = 0.0
-              dom(ib)%wwm  = 0.0; dom(ib)%uvm  = 0.0
-              dom(ib)%uwm  = 0.0; dom(ib)%vwm  = 0.0
-              dom(ib)%ppm  = 0.0
+              dom(ib)%um   = 0.0_dp; dom(ib)%vm   = 0.0_dp
+              dom(ib)%wm   = 0.0_dp; dom(ib)%pm   = 0.0_dp
+              dom(ib)%uum  = 0.0_dp; dom(ib)%vvm  = 0.0_dp
+              dom(ib)%wwm  = 0.0_dp; dom(ib)%uvm  = 0.0_dp
+              dom(ib)%uwm  = 0.0_dp; dom(ib)%vwm  = 0.0_dp
+              dom(ib)%ppm  = 0.0_dp
 
-              dom(ib)%tauww  = 0.0; dom(ib)%tauww2  = 0.0
-              dom(ib)%tauwe  = 0.0; dom(ib)%tauwe2  = 0.0
-              dom(ib)%tauws  = 0.0; dom(ib)%tauws2  = 0.0
-              dom(ib)%tauwn  = 0.0; dom(ib)%tauwn2  = 0.0
-              dom(ib)%tauwb  = 0.0; dom(ib)%tauwb2  = 0.0
-              dom(ib)%tauwt  = 0.0; dom(ib)%tauwt2  = 0.0
+              dom(ib)%tauww  = 0.0_dp; dom(ib)%tauww2  = 0.0_dp
+              dom(ib)%tauwe  = 0.0_dp; dom(ib)%tauwe2  = 0.0_dp
+              dom(ib)%tauws  = 0.0_dp; dom(ib)%tauws2  = 0.0_dp
+              dom(ib)%tauwn  = 0.0_dp; dom(ib)%tauwn2  = 0.0_dp
+              dom(ib)%tauwb  = 0.0_dp; dom(ib)%tauwb2  = 0.0_dp
+              dom(ib)%tauwt  = 0.0_dp; dom(ib)%tauwt2  = 0.0_dp
 
               if (sgs_model>2) then
-              dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1)**2.0
+              dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
               dom(ib)%eps  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
-              dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1)**2.0
+              dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
               dom(ib)%epso  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
               endif
 
@@ -803,15 +807,15 @@
               if (.not.L_LSM) dom(ib)%u=ubulk
               ubw=ubulk; ube=ubulk; ubs=ubulk               !brunho2014
               ubn=ubulk; ubt=ubulk; ubb=ubulk
-              vb=0.0; wb=0.0
+              vb=0.0_dp; wb=0.0_dp
               else if (trim(keyword)=='cavity') then
-              dom(ib)%u=0.0
-              ubw=0.0; ube=0.0; ubs=0.0; ubn=2.0; ubt=0.0; ubb=0.0
-              vb=0.0; wb=0.0
+              dom(ib)%u=0.0_dp
+              ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=2.0_dp; ubt=0.0_dp; ubb=0.0_dp
+              vb=0.0_dp; wb=0.0_dp
               else if (trim(keyword)=='column') then
-              dom(ib)%u=0.0
-              ubw=0.0; ube=0.0; ubs=0.0; ubn=0.0; ubt=0.0; ubb=0.0
-              vb=0.0; wb=0.0
+              dom(ib)%u=0.0_dp
+              ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=0.0_dp; ubt=0.0_dp; ubb=0.0_dp
+              vb=0.0_dp; wb=0.0_dp
               else
               write (6,*) ' wrong keyword '
               end if
@@ -822,7 +826,7 @@
                   do j=1,ttj
                       if (L_LSM) then                                        !I deleted 'or LSM_BASE'
                       if (dom(ib)%zc(k)>length) then
-                      dom(ib)%u(dom(ib)%isu-1,j,k) = 0.0
+                      dom(ib)%u(dom(ib)%isu-1,j,k) = 0.0_dp
                       end if
                       else
                       dom(ib)%u(dom(ib)%isu-1,j,k) = ubw
@@ -835,7 +839,7 @@
                   do j=1,ttj
                       if (L_LSM) then
                       if (dom(ib)%zc(k)>length) then
-                      dom(ib)%u(dom(ib)%ieu+1,j,k) = 0.0
+                      dom(ib)%u(dom(ib)%ieu+1,j,k) = 0.0_dp
                       end if
                       else
                       dom(ib)%u(dom(ib)%ieu+1,j,k) = ube
@@ -849,7 +853,7 @@
                   do i=1,tti
                       if (L_LSM) then
                       if (dom(ib)%zc(k)>length) then
-                      dom(ib)%u(i,dom(ib)%jsu-1,k) = 0.0
+                      dom(ib)%u(i,dom(ib)%jsu-1,k) = 0.0_dp
                       end if
                       else
                       dom(ib)%u(i,dom(ib)%jsu-1,k) = ubs
@@ -862,7 +866,7 @@
                   do i=1,tti
                       if (L_LSM) then
                       if (dom(ib)%zc(k)>length) then
-                      dom(ib)%u(i,dom(ib)%jeu+1,k) = 0.0
+                      dom(ib)%u(i,dom(ib)%jeu+1,k) = 0.0_dp
                       end if
                       else
                       dom(ib)%u(i,dom(ib)%jeu+1,k) = ubn
@@ -882,7 +886,7 @@
               do j=1,ttj
                   do i=1,tti
                       if (L_LSM) then
-                      dom(ib)%u(i,j,dom(ib)%keu+1) = 0.0
+                      dom(ib)%u(i,j,dom(ib)%keu+1) = 0.0_dp
                       else
                       dom(ib)%u(i,j,dom(ib)%keu+1) = ubt
                       end if

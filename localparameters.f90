@@ -4,6 +4,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,ib,nicell,njcell,nkcell
           integer :: buffer_nmax,nmax,buffer_nemax,nemax,ni,nj,nk
@@ -31,7 +32,7 @@
     MPI_COMM_WORLD,ierr)
 
           act_ngrid=ngrid_input
-          ngrd_gl=ngrid_input+int(log(real(maxrdiv))/log(2.0))
+          ngrd_gl=ngrid_input+int(log(real(maxrdiv))/log(2.0_dp))
           allocate (rdv(0:num_domains-1,ngrd_gl))
           allocate (b_rv1(num_domains,ngrd_gl),b_rv2(num_domains,ngrd_gl))
 
@@ -41,7 +42,7 @@
 
               if(rdiv(dom_id(ib))>1) then
               dom(ib)%ngrid=ngrid_input+ &
-        int(log(real(rdiv(dom_id(ib))))/log(2.0))
+        int(log(real(rdiv(dom_id(ib))))/log(2.0_dp))
               end if
 
               do glevel=1,ngrd_gl
@@ -263,7 +264,7 @@
           ngg=nmax
 !        if(ngg.gt.8180) then
 !           print*,'exceed communication limit (MPI_SEND), STOP!'
-!           if (myrank.eq.0)
+!           if (myrank.eq.0_dp)
 !     & write(numfile,*),'exceed communication limit (MPI_SEND), STOP!'
 !           stop
 !        end if

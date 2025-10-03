@@ -16,7 +16,7 @@
           use mpi
           use vars
           use vars_pt
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer tot_np,ib
@@ -57,11 +57,11 @@
           allocate(zpg_sv(tot_np),wpg_sv(tot_np))
           allocate(dp_sv(tot_np),dpg_sv(tot_np))
 
-          xp_sv = 0.0 ; zp_sv = 0.0 ; zp_sv = 0.0
-          up_sv = 0.0 ; vp_sv = 0.0 ; wp_sv = 0.0
-          xpg_sv = 0.0 ; zpg_sv = 0.0 ; zpg_sv = 0.0
-          upg_sv = 0.0 ; vpg_sv = 0.0 ; wpg_sv = 0.0
-          dp_sv = 0.0 ; dpg_sv = 0.0
+          xp_sv = 0.0_dp ; zp_sv = 0.0_dp ; zp_sv = 0.0_dp
+          up_sv = 0.0_dp ; vp_sv = 0.0_dp ; wp_sv = 0.0_dp
+          xpg_sv = 0.0_dp ; zpg_sv = 0.0_dp ; zpg_sv = 0.0_dp
+          upg_sv = 0.0_dp ; vpg_sv = 0.0_dp ; wpg_sv = 0.0_dp
+          dp_sv = 0.0_dp ; dpg_sv = 0.0_dp
 
           do ls=1,np_loc                ! save real particles
               xp_sv(ls) = xp_loc(ls)

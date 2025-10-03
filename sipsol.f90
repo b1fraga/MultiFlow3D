@@ -7,6 +7,7 @@
           use vars
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,ijk,l,ifi,iff,xx,maxttc_ijk
           integer is,ie,js,je,ks,ke,nj,nij,nijk
@@ -47,9 +48,9 @@
           allocate(ls(nbp,dom(xx)%ttc_ijk),lb(nbp,dom(xx)%ttc_ijk))
           allocate(lpr(nbp,dom(xx)%ttc_ijk),res(nbp,dom(xx)%ttc_ijk))
 
-          ue=0.0; un=0.0; ut=0.0
-          lb=0.0; lw=0.0; ls=0.0; lpr=0.0
-          res=0.0
+          ue=0.0_dp; un=0.0_dp; ut=0.0_dp
+          lb=0.0_dp; lw=0.0_dp; ls=0.0_dp; lpr=0.0_dp
+          res=0.0_dp
 
           do ib=1,nbp
               if(ifi==11) then
@@ -105,7 +106,7 @@
 
 
 
-          relast=0.0
+          relast=0.0_dp
 !.....INNER ITERATIONS LOOP
           do nsweep=1,nswp(iff)
               resab=0.d0

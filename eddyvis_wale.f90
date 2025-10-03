@@ -3,6 +3,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
@@ -26,7 +27,7 @@
 
           do ib=1,nbp
 
-              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0/3.0)
+              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
               is=dom(ib)%isp; ie=dom(ib)%iep
               js=dom(ib)%jsp; je=dom(ib)%jep
@@ -97,8 +98,8 @@
                           if (dom(ib)%iprev<0) then
                           if (dom(ib)%bc_west>=61 .or. dom(ib)%bc_west==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i+1,j,k)+dom(ib)%u(i,j,k) )
@@ -123,8 +124,8 @@
                           if (dom(ib)%inext<0) then
                           if (dom(ib)%bc_east>=61 .or. dom(ib)%bc_east==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k) )
@@ -149,8 +150,8 @@
                           if (dom(ib)%jprev<0) then
                           if (dom(ib)%bc_south>=61 .or. dom(ib)%bc_south==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i,j+1,k)+dom(ib)%u(i-1,j+1,k) )
@@ -175,8 +176,8 @@
                           if (dom(ib)%jnext<0) then
                           if (dom(ib)%bc_north>=61 .or. dom(ib)%bc_north==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
                           ufv_n1=0.5*( dom(ib)%u(i,j-1,k)+dom(ib)%u(i-1,j-1,k) )
@@ -201,8 +202,8 @@
                           if (dom(ib)%kprev<0) then
                           if (dom(ib)%bc_bottom>=61 .or. dom(ib)%bc_bottom==4) then
 
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
                           ufv_n1=0.5*( dom(ib)%u(i,j,k+1)+dom(ib)%u(i-1,j,k+1) )
@@ -227,8 +228,8 @@
                           if (dom(ib)%knext<0) then
                           if (dom(ib)%bc_top>=61 .or. dom(ib)%bc_top==4) then
 
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
                           ufv_n1=0.5*( dom(ib)%u(i,j,k-1)+dom(ib)%u(i-1,j,k-1) )
@@ -252,7 +253,7 @@
 !==========================================================================
 ! ..... EDDY VISCOSITY CALCULATION
 !==========================================================================
-                          l_s  = (cw * delta_grid)**2.0
+                          l_s  = (cw * delta_grid)**2.0_dp
 
                           s12 = 0.5 * (dudy + dvdx)
 
@@ -261,17 +262,17 @@
                           s23 = 0.5 * (dvdz + dwdy)
 
                           ss  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
-                        2.0*s12*s12   + 2.0*s13*s13 + 2.0*s23*s23 )
+                        2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
 
                           eqnA=dudx*dudx+dvdy*dvdy+dwdz*dwdz+ &
-                    2.0*dudy*dvdx+2.0*dudz*dwdx+2.0*dvdz*dwdy
+                    2.0_dp*dudy*dvdx+2.0_dp*dudz*dwdx+2.0_dp*dvdz*dwdy
 
-                          s11d = dudx*dudx+dudy*dvdx+dudz*dwdx-eqnA/3.0
+                          s11d = dudx*dudx+dudy*dvdx+dudz*dwdx-eqnA/3.0_dp
 
-                          s22d = dvdx*dudy+dvdy*dvdy+dvdz*dwdy-eqnA/3.0
+                          s22d = dvdx*dudy+dvdy*dvdy+dvdz*dwdy-eqnA/3.0_dp
 
-                          s33d = dwdx*dudz+dwdy*dvdz+dwdz*dwdz-eqnA/3.0
+                          s33d = dwdx*dudz+dwdy*dvdz+dwdz*dwdz-eqnA/3.0_dp
 
                           s12d =0.5*( dudx*dudy+dudy*dvdy+dudz*dwdy+ &
                                 dvdx*dudx+dvdy*dvdx+dvdz*dwdx)
@@ -283,12 +284,12 @@
                                 dwdx*dudy+dwdy*dvdy+dwdz*dwdy)
 
                           sdsd = ( s11d*s11d +     s22d*s22d +     s33d*s33d  + &
-                         2.0*s12d*s12d + 2.0*s13d*s13d + 2.0*s23d*s23d  )
+                         2.0_dp*s12d*s12d + 2.0_dp*s13d*s13d + 2.0_dp*s23d*s23d  )
 
 
-                          if(sdsd/=0.0) then
+                          if(sdsd/=0.0_dp) then
                           denom=(ss**2.5+sdsd**1.25)
-                          if (denom==0.0) then
+                          if (denom==0.0_dp) then
                           !print*,'error, denominator is zero!'
                           dom(ib)%vis(i,j,k) = rrey
                           else

@@ -16,6 +16,7 @@
           use mpi
           use vars
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use omp_lib, only : omp_get_num_threads, &
                         omp_get_thread_num, &
                         omp_set_num_threads
@@ -353,7 +354,7 @@
                   if (REp>800) Cd = 0.44d0
 
                   !Vorticity calculation
-                  dudy = 0.0
+                  dudy = 0.0_dp
                   do i=iballs_u,iballe_u
                       do j=jballs_u,jballe_u
                           do k=kballs_u,kballe_u
@@ -366,7 +367,7 @@
                           end do ; end do ; end do
 
 
-                  dudz = 0.0
+                  dudz = 0.0_dp
                   do i=iballs_u,iballe_u
                       do j=jballs_u,jballe_u
                           do k=kballs_u,kballe_u
@@ -379,7 +380,7 @@
                           end do ; end do ; end do
 
 
-                  dvdx = 0.0
+                  dvdx = 0.0_dp
                   do i=iballs_v,iballe_v
                       do j=jballs_v,jballe_v
                           do k=kballs_v,kballe_v
@@ -392,7 +393,7 @@
                           end do ; end do ; end do
 
 
-                  dvdz = 0.0
+                  dvdz = 0.0_dp
                   do i=iballs_v,iballe_v
                       do j=jballs_v,jballe_v
                           do k=kballs_v,kballe_v
@@ -405,7 +406,7 @@
                           end do ; end do ; end do
 
 
-                  dwdx = 0.0
+                  dwdx = 0.0_dp
                   do i=iballs_w,iballe_w
                       do j=jballs_w,jballe_w
                           do k=kballs_w,kballe_w
@@ -418,7 +419,7 @@
                           end do ; end do ; end do
 
 
-                  dwdy = 0.0
+                  dwdy = 0.0_dp
                   do i=iballs_w,iballe_w
                       do j=jballs_w,jballe_w
                           do k=kballs_w,kballe_w
@@ -704,7 +705,7 @@
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
           call MPI_GATHERV(rhop_loc,np_loc,MPI_DOUBLE_PRECISION,rho_pt &
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
-!     if (myrank.eq.0) then
+!     if (myrank.eq.0_dp) then
 !           do l=1,np
 !                 write(myrank+800,*)'xp',xp_pt(l),yp_pt(l),zp_pt(l)
 !           enddo

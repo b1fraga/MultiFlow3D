@@ -152,6 +152,7 @@
 !##########################################################################
           use multidata
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
@@ -185,7 +186,7 @@
                   do j=js-1,je+1
                       do i=is-1,ie+1
 
-                          tau=0.0
+                          tau=0.0_dp
                           if (i==is-1) tau=dom(ib)%tauwe(j,k)
                           if (i==ie) tau=dom(ib)%tauww(j,k)
                           if (j==js-1) tau=dom(ib)%tauws(i,k)
@@ -308,6 +309,7 @@
 !##########################################################################
           use multidata
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
@@ -344,7 +346,7 @@
                   do j=js-1,je
                       do i=is-1,ie
 
-                          tau=0.0
+                          tau=0.0_dp
                           if (i==is-1) tau=dom(ib)%tauwe(j,k)
                           if (i==ie) tau=dom(ib)%tauww(j,k)
                           if (j==js-1) tau=dom(ib)%tauws(i,k)

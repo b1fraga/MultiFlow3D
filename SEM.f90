@@ -102,7 +102,7 @@
 !DEFINITION OF EDDY LENGTH SCALE AND INITIAL VELOCITY FIELD
           DO IY=1,DIVY
               DO IZ=1,DIVZ
-                  SIGMA(IY,IZ)=SIGMA_VALUE    !!!  MIN(8.0*g_dy,0.20D0) !isotropic
+                  SIGMA(IY,IZ)=SIGMA_VALUE    !!!  MIN(8.0_dp*g_dy,0.20D0) !isotropic
 !Set the inlet velocity prof.
                   Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)
 !   if(UPROF_SEM.eq.1) Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)      !elli

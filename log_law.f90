@@ -6,6 +6,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,bound,icont,tkmax
           double precision delta,n_x,n_y,n_z,vnor,vtan
@@ -15,7 +16,7 @@
 
           small = 1.e-30
           kappa = 0.41
-          Ecte  = 9.0
+          Ecte  = 9.0_dp
 
 
           if (LAS.or.L_LSM) then                                            !variable density
@@ -28,9 +29,9 @@
 
             CASE (1)
               delta=dom(ib)%dx
-              n_x=1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%isp
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
@@ -64,7 +65,7 @@
                       if (yplus<11.067d0) then
                       dom(ib)%tauww(j,k)=rrey * vtan / delta
                       else
-                      dom(ib)%tauww(j,k)=ustar**2.0             !tau_1
+                      dom(ib)%tauww(j,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauww2(j,k)=dom(ib)%tauww(j,k)/vtan   !needs to be multiplied by a velocity component to provide tau_1j
                       endif
                   end do
@@ -72,9 +73,9 @@
 
             CASE (2)
               delta=dom(ib)%dx
-              n_x=-1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=-1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%iep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
@@ -108,7 +109,7 @@
                       if (yplus<11.067d0) then
                       dom(ib)%tauwe(j,k)=rrey * vtan / delta
                       else
-                      dom(ib)%tauwe(j,k)=ustar**2.0             !tau_1
+                      dom(ib)%tauwe(j,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwe2(j,k)=dom(ib)%tauwe(j,k)/vtan       !units m/s
                       endif
                   end do
@@ -116,9 +117,9 @@
 
             CASE(3)
               delta=dom(ib)%dy
-              n_x=0.0
-              n_y=1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jsp
 
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
@@ -153,7 +154,7 @@
                       if (yplus<11.067d0) then
                       dom(ib)%tauws(i,k)=rrey * vtan / delta
                       else
-                      dom(ib)%tauws(i,k)=ustar**2.0             !tau_1
+                      dom(ib)%tauws(i,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauws2(i,k)=dom(ib)%tauws(i,k)/vtan
                       endif
                   end do
@@ -162,9 +163,9 @@
 
             CASE (4)
               delta=dom(ib)%dy
-              n_x=0.0
-              n_y=-1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=-1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
@@ -198,7 +199,7 @@
                       if (yplus<11.067d0) then
                       dom(ib)%tauwn(i,k)=rrey * vtan / delta
                       else
-                      dom(ib)%tauwn(i,k)=ustar**2.0             !tau_1
+                      dom(ib)%tauwn(i,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwn2(i,k)=dom(ib)%tauwn(i,k)/vtan
                       endif
                   end do
@@ -207,9 +208,9 @@
             CASE (5)
 
               delta=dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=1.0_dp
               k=dom(ib)%ksp
 
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
@@ -236,7 +237,7 @@
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
-!               if (dom_id(ib).eq.0.and.j.eq.20)
+!               if (dom_id(ib).eq.0_dp.and.j.eq.20)
 !     &         write(6,*)ustar,yplus,delta,rrey,kappa
                       if (icont==tkmax) then
                       print*,'USTAR DOESNT CONVERGE'
@@ -247,7 +248,7 @@
                       if (yplus<11.067d0) then
                       dom(ib)%tauwb(i,j)=rrey * vtan / delta
                       else
-                      dom(ib)%tauwb(i,j)=ustar**2.0             !tau_1
+                      dom(ib)%tauwb(i,j)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwb2(i,j)=dom(ib)%tauwb(i,j)/vtan
                       !dom(ib)%vis(i,j,k)=dom(ib)%tauwb2(i,j)*delta
                       endif
@@ -257,9 +258,9 @@
 
             CASE (6)
               delta=dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=-1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=-1.0_dp
               k=dom(ib)%kep
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
@@ -293,7 +294,7 @@
                       if (yplus<11.63d0) then
                       dom(ib)%tauwt(i,j)=rrey * vtan / delta
                       else
-                      dom(ib)%tauwt(i,j)=ustar**2.0             !tau_1
+                      dom(ib)%tauwt(i,j)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwt2(i,j)=dom(ib)%tauwt(i,j)/vtan
                       endif
                   end do

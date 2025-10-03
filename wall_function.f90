@@ -6,6 +6,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
           integer i,j,k,ib,bound,cond
@@ -68,9 +69,9 @@ END SELECT
 
             CASE (1)
               delta=dom(ib)%dx
-              n_x=1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%isp
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
@@ -98,9 +99,9 @@ END SELECT
 
             CASE (2)
               delta=dom(ib)%dx
-              n_x=-1.0
-              n_y=0.0
-              n_z=0.0
+              n_x=-1.0_dp
+              n_y=0.0_dp
+              n_z=0.0_dp
               i=dom(ib)%iep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
@@ -127,9 +128,9 @@ END SELECT
 
             CASE(3)
               delta=dom(ib)%dy
-              n_x=0.0
-              n_y=1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jsp
 
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
@@ -158,9 +159,9 @@ END SELECT
 
             CASE (4)
               delta=dom(ib)%dy
-              n_x=0.0
-              n_y=-1.0
-              n_z=0.0
+              n_x=0.0_dp
+              n_y=-1.0_dp
+              n_z=0.0_dp
               j=dom(ib)%jep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
@@ -188,9 +189,9 @@ END SELECT
             CASE (5)
 
               delta=dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=1.0_dp
               k=dom(ib)%ksp
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
@@ -218,9 +219,9 @@ END SELECT
 
             CASE (6)
               delta=dom(ib)%dz
-              n_x=0.0
-              n_y=0.0
-              n_z=-1.0
+              n_x=0.0_dp
+              n_y=0.0_dp
+              n_z=-1.0_dp
               k=dom(ib)%kep
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1

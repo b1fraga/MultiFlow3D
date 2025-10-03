@@ -131,7 +131,7 @@
               else
               nodes(M) = nodes(M) + &
         NINT(2.d0*PI*Rtemp(c)/(dxm(numIB)))
-              nodes_percyl(c)=NINT(2.0*PI*Rtemp(c)/(dxm(numIB)))
+              nodes_percyl(c)=NINT(2.0_dp*PI*Rtemp(c)/(dxm(numIB)))
               end if
               IF (Rtemp(c)==0.d0) nodes(M)        = nodes(M) + 1
               IF (Rtemp(c)==0.d0) nodes_percyl(c) = 1
@@ -219,7 +219,7 @@
           nodezmin=Cz(M)-R(M); nodezmax=Cz(M)+R(M)
 
           nin =2.d0*R(M)/dxm(numIB)
-          if(abs(nin-2.0*R(M)/dxm(numIB))>=0.999999999) &
+          if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999) &
     then
           nin=nin+1
           print*,'absurd-x!!!!!'
@@ -227,7 +227,7 @@
           nin=nin+1
 
           njn =2.d0*R(M)/dym(numIB)
-          if(abs(njn-2.0*R(M)/dym(numIB))>=0.999999999) &
+          if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999) &
     then
           njn=njn+1
           print*,'absurd-y!!!!!'
@@ -235,7 +235,7 @@
           njn=njn+1
 
           nkn =2.d0*R(M)/dzm(numIB)
-          if(abs(nkn-2.0*R(M)/dzm(numIB))>=0.999999999) &
+          if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999) &
     then
           nkn=nkn+1
           print*,'absurd-y!!!!!'
@@ -340,9 +340,9 @@
 
               do while (Rtemp_layer(M,izr,c)>=0.)     !gt!!!
                   nodes_layer(M,izr) = nodes_layer(M,izr) + &
-            NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
+            NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                   nodes_percyl_layer(M,izr,c) = &
-            NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
+            NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                   if (Rtemp_layer(M,izr,c)==0.) then
                   nodes_layer(M,izr) = nodes_layer(M,izr) + 1
                   nodes_percyl_layer(M,izr,c) = 1
@@ -527,17 +527,17 @@
 !       ENDDO
 
           DO I=1,nin
-              if (nodex(numIB,I)<0.0) then
+              if (nodex(numIB,I)<0.0_dp) then
               write(6,*)'APAMPAO, point',I,'is out of domain',nodex(numIB,I)
               elseif (nodex(numIB,I)<=1.d-10) then
               nodex(numIB,I)=1.d-10
               endif
-              if (nodey(numIB,I)<0.0) then
+              if (nodey(numIB,I)<0.0_dp) then
               write(6,*)'ERROR, point',I,'is out of domain',nodey(numIB,I)
               elseif (nodey(numIB,I)<=1.d-10) then
               nodey(numIB,I)=1.d-10
               endif
-              if (nodez(numIB,I)<0.0) then
+              if (nodez(numIB,I)<0.0_dp) then
               write(6,*)'ERROR, point',I,'is out of domain',nodez(numIB,I)
               elseif (nodez(numIB,I)<=1.d-10) then
               nodez(numIB,I)=1.d-10

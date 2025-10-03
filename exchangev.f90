@@ -4,6 +4,7 @@
           use multidata
           use mpi
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ijk,ib,op,nly,chck_f,chck_c,no1,no2
           integer :: is,ie,js,je,ks,ke,ief,jef,kef,iec,jec,kec
@@ -268,15 +269,15 @@
                           fic(ib,i,j,k)=0.25*(fi(i1,jj,k1)+fi(i1,jj,k2)+ &
                                      fi(i2,jj,k1)+fi(i2,jj,k2))
 
-!        h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3)
-!     &+9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-!        h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3)
-!     &+9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-!        h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3)
-!     &+9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-!        h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3)
-!     &+9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-!        fic(ib,i,j,k)=(-sp2+9.0*sp1+9.0*sm1-sm2)/(16.0)
+!        h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3)
+!     &+9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+!        h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3)
+!     &+9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+!        h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3)
+!     &+9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+!        h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3)
+!     &+9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+!        fic(ib,i,j,k)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do; end do; end if
 
           end do
@@ -400,15 +401,15 @@
                   do k=no1,nkc+no2; do i=no1,nic+no2
                           j=jsc+ly; ijk=(k-1)*nic+i
                           jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          sbuf(ijk)=(-sp2+9.0*sp1+9.0*sm1-sm2)/(16.0)
+                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
                   else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
@@ -522,15 +523,15 @@
                   do k=no1,nkc+no2; do i=no1,nic+no2
                           j=jec-ly; ijk=(k-1)*nic+i
                           jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          sbuf(ijk)=(-sp2+9.0*sp1+9.0*sm1-sm2)/(16.0)
+                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
                   else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
@@ -1415,15 +1416,15 @@
                   do k=no1,nkc+no2; do i=no1,nic+no2
                           j=jsc+ly; ijk=(k-1)*nic+i
                           jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          sbuf(ijk)=(-sp2+9.0*sp1+9.0*sm1-sm2)/(16.0)
+                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
                   else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
@@ -1531,15 +1532,15 @@
                   do k=no1,nkc+no2; do i=no1,nic+no2
                           j=jec-ly; ijk=(k-1)*nic+i
                           jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0*fi(h1,h2,h3) &
-                    +9.0*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0)
-                          sbuf(ijk)=(-sp2+9.0*sp1+9.0*sm1-sm2)/(16.0)
+                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                    +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
+                          sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
                   else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
@@ -2617,7 +2618,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%iprev)) jspr=pl
-!                 if(LMR.eq.2 .and. dom(ib)%edgprev6.ge.0 .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgprev6.ge.0_dp .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev6)) jepr=nj-pl-1
 
@@ -2638,7 +2639,7 @@
             rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
                   do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                           fi(i,js-1-ly,k)=( &
-                    dom(ib) %recvb_m2(ijk)+3.0*fi(i,js-ly,k)-fi(i,js+1-ly,k))/3.0
+                    dom(ib) %recvb_m2(ijk)+3.0_dp*fi(i,js-ly,k)-fi(i,js+1-ly,k))/3.0_dp
                       end do; end do
                   else
                   do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
@@ -2659,7 +2660,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%kprev)) jspr=pl
-!                 if(LMR.eq.2 .and. dom(ib)%edgprev2.ge.0 .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgprev2.ge.0_dp .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev2)) jepr=nj-pl-1
 
@@ -2681,7 +2682,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%inext)) jspr=pl
-!                 if(LMR.eq.2 .and. dom(ib)%edgnext5.ge.0 .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext5.ge.0_dp .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext5)) jepr=nj-pl-1
 
@@ -2702,7 +2703,7 @@
             rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
                   do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
                           fi(i,je+1+ly,k)=( &
-                    dom(ib) %recvb_p2(ijk)+3.0*fi(i,je+ly,k)-fi(i,je+ly-1,k))/3.0
+                    dom(ib) %recvb_p2(ijk)+3.0_dp*fi(i,je+ly,k)-fi(i,je+ly-1,k))/3.0_dp
                       end do; end do
                   else
                   do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
@@ -2721,7 +2722,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%knext)) jspr=pl
-!                 if(LMR.eq.2 .and. dom(ib)%edgnext4.ge.0 .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext4.ge.0_dp .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext4)) jepr=nj-pl-1
 

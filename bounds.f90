@@ -37,16 +37,16 @@
                   if (dom(ib)%iprev<0) then
                   if ((dom(ib)%bc_west==4).or.(dom(ib)%bc_west>=61)) then
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          dom(ib)%u(is-1-ly,j,k)= 0.0
+                          dom(ib)%u(is-1-ly,j,k)= 0.0_dp
                       end do; end do
 
                   else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           if (L_LSM) then
-                          if (dom(ib)%phi(is,j,k) >= 0.0) then
+                          if (dom(ib)%phi(is,j,k) >= 0.0_dp) then
                           dom(ib)%u(is-1-ly,j,k)= ubulk
                           else
-                          dom(ib)%u(is-1-ly,j,k)= 0.0
+                          dom(ib)%u(is-1-ly,j,k)= 0.0_dp
                           end if
                           else                                  !correction
                           dom(ib)%u(is-1-ly,j,k)= ubulk
@@ -136,7 +136,7 @@
                   if (dom(ib)%inext<0) then
                   if ((dom(ib)%bc_east==4).or.(dom(ib)%bc_east>=61)) then
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          dom(ib)%u(ie+1+ly,j,k)= 0.0
+                          dom(ib)%u(ie+1+ly,j,k)= 0.0_dp
                       end do; end do
 
                   else if (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
@@ -145,7 +145,7 @@
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0_dp) then
                           if (dom(ib)%bc_east==2) then
                           dom(ib)%u(ie+1+ly,j,k)=dom(ib)%u(ie,j,k)
                           else
@@ -154,7 +154,7 @@
                     dom(ib)%uoo(ie,j,k))/dom(ib)%dx
                           end if
                           else
-                          dom(ib)%u(ie+1+ly,j,k)=0.0
+                          dom(ib)%u(ie+1+ly,j,k)=0.0_dp
                           end if
 
                           else      !no LSM
@@ -251,7 +251,7 @@
 
                   else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%u(i,j,ks-1-ly)= 0.0
+                          dom(ib)%u(i,j,ks-1-ly)= 0.0_dp
                       end do; end do
 
                   else if (dom(ib)%bc_bottom==3) then
@@ -293,7 +293,7 @@
                   ktop=k-1
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ktop) = dom(ib)%u(i,j,ktop-1)
-                          dom(ib)%u(i,j,ktop+1) = 0.0
+                          dom(ib)%u(i,j,ktop+1) = 0.0_dp
                       enddo; enddo
                   end if
                   end if
@@ -376,7 +376,7 @@
 
                   else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          dom(ib)%v(is-1-ly,j,k)=0.0
+                          dom(ib)%v(is-1-ly,j,k)=0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
@@ -455,7 +455,7 @@
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0_dp) then
                           if (dom(ib)%bc_east==2) then
                           dom(ib)%v(ie+1+ly,j,k)= dom(ib)%v(ie,j,k)
                           else
@@ -464,7 +464,7 @@
                     dom(ib)%voo(ie,j,k))/dom(ib)%dx
                           end if
                           else
-                          dom(ib)%v(ie+1+ly,j,k)=0.0
+                          dom(ib)%v(ie+1+ly,j,k)=0.0_dp
                           endif
 
                           else                                  !no LSM
@@ -507,12 +507,12 @@
                   if (dom(ib)%jprev<0) then
                   if (dom(ib)%bc_south==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
-                          dom(ib)%v(i,js-1-ly,k)=0.0
+                          dom(ib)%v(i,js-1-ly,k)=0.0_dp
                       end do; end do
 
                   else if ((dom(ib)%bc_south==4).or.(dom(ib)%bc_south>=61)) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
-                          dom(ib)%v(i,js-1-ly,k)=0.0
+                          dom(ib)%v(i,js-1-ly,k)=0.0_dp
                       end do; end do
                   end if
                   end if
@@ -522,12 +522,12 @@
                   if (dom(ib)%jnext<0) then
                   if (dom(ib)%bc_north==3) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
-                          dom(ib)%v(i,je+1+ly,k)=0.0
+                          dom(ib)%v(i,je+1+ly,k)=0.0_dp
                       end do; end do
 
                   else if ((dom(ib)%bc_north==4).or.(dom(ib)%bc_north>=61)) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
-                          dom(ib)%v(i,je+1+ly,k)=0.0
+                          dom(ib)%v(i,je+1+ly,k)=0.0_dp
                       end do; end do
                   end if
                   end if
@@ -542,7 +542,7 @@
 
                   else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%v(i,j,ks-1-ly)= 0.0
+                          dom(ib)%v(i,j,ks-1-ly)= 0.0_dp
                       end do; end do
 
                   else if (dom(ib)%bc_bottom==3) then
@@ -582,7 +582,7 @@
                   ktop=k-1
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ktop) = dom(ib)%v(i,j,ktop-1)
-                          dom(ib)%v(i,j,ktop+1) = 0.0
+                          dom(ib)%v(i,j,ktop+1) = 0.0_dp
                       enddo; enddo
                   end if
                   end if
@@ -665,7 +665,7 @@
 
                   else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          dom(ib)%w(is-1-ly,j,k)= 0.0
+                          dom(ib)%w(is-1-ly,j,k)= 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
@@ -750,7 +750,7 @@
 
                           if (L_LSM) then
 
-                          if (dom(ib)%phi(ie,j,k) >= 0.0) then
+                          if (dom(ib)%phi(ie,j,k) >= 0.0_dp) then
                           if (dom(ib)%bc_east==2) then
                           dom(ib)%w(ie+1+ly,j,k)= dom(ib)%w(ie,j,k)
                           else
@@ -759,7 +759,7 @@
                     dom(ib)%woo(ie,j,k))/dom(ib)%dx
                           end if
                           else
-                          dom(ib)%w(ie+1+ly,j,k)=0.0
+                          dom(ib)%w(ie+1+ly,j,k)=0.0_dp
                           endif
 
                           else  !no LSM
@@ -869,13 +869,13 @@
                   if (dom(ib)%kprev<0) then
                   if (dom(ib)%bc_bottom==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%w(i,j,ks-1-ly)=0.0
+                          dom(ib)%w(i,j,ks-1-ly)=0.0_dp
                       end do; end do
 
                   else if ((dom(ib)%bc_bottom==4).or. &
             (dom(ib)%bc_bottom>=61)) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%w(i,j,ks-1-ly)=0.0
+                          dom(ib)%w(i,j,ks-1-ly)=0.0_dp
                       end do; end do
 
                   else if (dom(ib)%bc_bottom==1) then
@@ -896,19 +896,19 @@
                   ktop=k-1
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ktop) = dom(ib)%w(i,j,ktop-1)
-                          dom(ib)%w(i,j,ktop+1) = 0.0
+                          dom(ib)%w(i,j,ktop+1) = 0.0_dp
                       enddo; enddo
                   end if
                   end if
                   if (dom(ib)%knext<0) then
                   if (dom(ib)%bc_top==3) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%w(i,j,ke+1+ly)=0.0
+                          dom(ib)%w(i,j,ke+1+ly)=0.0_dp
                       end do; end do
                   else if ((dom(ib)%bc_top==4).or. &
             (dom(ib)%bc_top>=61)) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%w(i,j,ke+1+ly)=0.0
+                          dom(ib)%w(i,j,ke+1+ly)=0.0_dp
                       end do; end do
                   end if
                   end if
@@ -922,6 +922,7 @@
 !##############################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,op
           integer :: is,ie,js,je,ks,ke
@@ -963,7 +964,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(is,j,k)=dom(ib)%su(is,j,k)+d*fi(is-1,j,k)
                       else
-                      dom(ib)%su(is,j,k)=dom(ib)%su(is,j,k)+2.0*d*fi(is-1,j,k)
+                      dom(ib)%su(is,j,k)=dom(ib)%su(is,j,k)+2.0_dp*d*fi(is-1,j,k)
                       end if
                   end do; end do
               end if
@@ -977,7 +978,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(ie,j,k)=dom(ib)%su(ie,j,k)+d*fi(ie+1,j,k)
                       else
-                      dom(ib)%su(ie,j,k)=dom(ib)%su(ie,j,k)+2.0*d*fi(ie+1,j,k)
+                      dom(ib)%su(ie,j,k)=dom(ib)%su(ie,j,k)+2.0_dp*d*fi(ie+1,j,k)
                       end if
                   end do; end do
               end if
@@ -991,7 +992,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(i,js,k)=dom(ib)%su(i,js,k)+d*fi(i,js-1,k)
                       else
-                      dom(ib)%su(i,js,k)=dom(ib)%su(i,js,k)+2.0*d*fi(i,js-1,k)
+                      dom(ib)%su(i,js,k)=dom(ib)%su(i,js,k)+2.0_dp*d*fi(i,js-1,k)
                       end if
                   end do; end do
               end if
@@ -1005,7 +1006,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(i,je,k)=dom(ib)%su(i,je,k)+d*fi(i,je+1,k)
                       else
-                      dom(ib)%su(i,je,k)=dom(ib)%su(i,je,k)+2.0*d*fi(i,je+1,k)
+                      dom(ib)%su(i,je,k)=dom(ib)%su(i,je,k)+2.0_dp*d*fi(i,je+1,k)
                       end if
                   end do; end do
               end if
@@ -1019,7 +1020,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(i,j,ks)=dom(ib)%su(i,j,ks)+d*fi(i,j,ks-1)
                       else
-                      dom(ib)%su(i,j,ks)=dom(ib)%su(i,j,ks)+2.0*d*fi(i,j,ks-1)
+                      dom(ib)%su(i,j,ks)=dom(ib)%su(i,j,ks)+2.0_dp*d*fi(i,j,ks-1)
                       end if
                   end do; end do
               end if
@@ -1033,7 +1034,7 @@
                       if(diff_sch==1) then
                       dom(ib)%su(i,j,ke)=dom(ib)%su(i,j,ke)+d*fi(i,j,ke+1)
                       else
-                      dom(ib)%su(i,j,ke)=dom(ib)%su(i,j,ke)+2.0*d*fi(i,j,ke+1)
+                      dom(ib)%su(i,j,ke)=dom(ib)%su(i,j,ke)+2.0_dp*d*fi(i,j,ke+1)
                       end if
                   end do; end do
               end if
@@ -1046,6 +1047,7 @@
 !##############################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ly,ni,nj,nk
           integer :: is,ie,js,je,ks,ke
@@ -1064,7 +1066,7 @@
                   if (dom(ib)%iprev<0) then
                   if (dom(ib)%bc_west==4.or.dom(ib)%bc_west>=61) then
                   do k=1,nk; do j=1,nj
-                          dom(ib)%ksgs(is-1-ly,j,k)= 0.0
+                          dom(ib)%ksgs(is-1-ly,j,k)= 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west/=5) then
                   do k=1,nk; do j=1,nj
@@ -1078,7 +1080,7 @@
                   if (dom(ib)%inext<0) then
                   if (dom(ib)%bc_east==4.or.dom(ib)%bc_east>=61) then
                   do k=1,nk; do j=1,nj
-                          dom(ib)%ksgs(ie+1+ly,j,k)= 0.0
+                          dom(ib)%ksgs(ie+1+ly,j,k)= 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_east/=5) then
                   do k=1,nk; do j=1,nj
@@ -1092,7 +1094,7 @@
                   if (dom(ib)%jprev<0) then
                   if (dom(ib)%bc_south==4.or.dom(ib)%bc_south>=61) then
                   do k=1,nk; do i=1,ni
-                          dom(ib)%ksgs(i,js-1-ly,k)= 0.0
+                          dom(ib)%ksgs(i,js-1-ly,k)= 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_south/=5) then
                   do k=1,nk; do i=1,ni
@@ -1106,7 +1108,7 @@
                   if (dom(ib)%jnext<0) then
                   if (dom(ib)%bc_north==4.or.dom(ib)%bc_north>=61) then
                   do k=1,nk; do i=1,ni
-                          dom(ib)%ksgs(i,je+1+ly,k) = 0.0
+                          dom(ib)%ksgs(i,je+1+ly,k) = 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_north/=5) then
                   do k=1,nk; do i=1,ni
@@ -1120,7 +1122,7 @@
                   if (dom(ib)%kprev<0) then
                   if (dom(ib)%bc_bottom==4.or.dom(ib)%bc_bottom>=61) then
                   do j=1,nj; do i=1,ni
-                          dom(ib)%ksgs(i,j,ks-1-ly)= 0.0
+                          dom(ib)%ksgs(i,j,ks-1-ly)= 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_bottom/=5) then
                   do j=1,nj; do i=1,ni
@@ -1134,7 +1136,7 @@
                   if (dom(ib)%knext<0) then
                   if (dom(ib)%bc_top==4.or.dom(ib)%bc_top>=61) then
                   do j=1,nj; do i=1,ni
-                          dom(ib)%ksgs(i,j,ke+1+ly) = 0.0
+                          dom(ib)%ksgs(i,j,ke+1+ly) = 0.0_dp
                       end do; end do
                   else if (dom(ib)%bc_top/=5) then
                   do j=1,nj; do i=1,ni

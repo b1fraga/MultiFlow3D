@@ -1,6 +1,7 @@
 !######################################################################
-      module imb
+module imb
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           SAVE
           double precision  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
           double precision  :: lambda,sigma,nxl
@@ -652,7 +653,7 @@
           double precision :: dh,dhtotal
           INTEGER :: I,J,L,ib,nl,K
 
-!   IF(nmls.eq.0) then
+!   IF(nmls.eq.0_dp) then
 
           Do ib=1,nbp  !Loop through all the blocks of one processor
 
@@ -764,7 +765,7 @@
 
 !   I_nr_Sp(L,nl)=I ;  J_nr_Sp(L,nl)=J ;  K_nr_Sp(L,nl)=K
 !     dhtotal=dhtotal+dh4_loc(L,nl)
-!     if(dhtotal.ge.0.9999) goto 879
+!     if(dhtotal.ge.0_dp.9999) goto 879
 ! 242         CONTINUE
 !             END DO
 ! 241         CONTINUE
@@ -816,7 +817,7 @@
 
 !   ELSE !MLS IS USED        !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 !   Do ib=1,nbp
-!          if (ptsinblock_loc(dom_id(ib)+1).eq.0) GOTO 601
+!          if (ptsinblock_loc(dom_id(ib)+1).eq.0_dp) GOTO 601
 !          Do L = 1,maxnodeIBS!*
 !      IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 701!*
 !      IF(rott_loc(L).ne.2) GOTO 701!*
@@ -1146,7 +1147,7 @@
 
 ! !     ENDIF
 
-!       IF (dhtotal.ge.0.9999) GOTO 703
+!       IF (dhtotal.ge.0_dp.9999) GOTO 703
 
 ! 242         CONTINUE
 !             END DO
@@ -1155,7 +1156,7 @@
 ! 240         CONTINUE
 !           END DO
 
-!           if (nl.eq.0) write(6,*)L,'nl is equal to 0!!'
+!           if (nl.eq.0_dp) write(6,*)L,'nl is equal to 0!!'
 
 !         Sp_Beta_loc(L) =Sp_Beta_loc(L)*1.d0/dhtotal
 
@@ -1376,14 +1377,14 @@
 !            I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
 ! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
 !           fbeta = FXSp_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
-!           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0)
+!           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 ! !     endif
 !        Enddo
                   Do nl=1,KmaxT(L) !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
 !       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
                       fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
-                      dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0)
+                      dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 !       endif
                   Enddo
   802             CONTINUE
