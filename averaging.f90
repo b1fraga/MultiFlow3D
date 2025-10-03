@@ -185,11 +185,11 @@
                       do i=2,dom(ib)%ttc_i
                           if (L_LSM) then
                           if (dom(ib)%phi(i,j,k)>=0.0_dp) then
-                          ucf=0.5*((dom(ib)%u(i-1,j,k)-dom(ib)%um(i-1,j,k))+ &
+                          ucf=0.5_dp*((dom(ib)%u(i-1,j,k)-dom(ib)%um(i-1,j,k))+ &
                     (dom(ib)%u(i,j,k)-dom(ib)%um(i,j,k)))
-                          vcf=0.5*((dom(ib)%v(i,j-1,k)-dom(ib)%vm(i,j-1,k))+ &
+                          vcf=0.5_dp*((dom(ib)%v(i,j-1,k)-dom(ib)%vm(i,j-1,k))+ &
                     (dom(ib)%v(i,j,k)-dom(ib)%vm(i,j,k)))
-                          wcf=0.5*((dom(ib)%w(i,j,k-1)-dom(ib)%wm(i,j,k-1))+ &
+                          wcf=0.5_dp*((dom(ib)%w(i,j,k-1)-dom(ib)%wm(i,j,k-1))+ &
                     (dom(ib)%w(i,j,k)-dom(ib)%wm(i,j,k)))
                           ufvf = ucf * vcf
                           ufwf = ucf * wcf
@@ -202,11 +202,11 @@
                     dom(ib)%vwm(i,j,k)+dom(ib)%facp2(i,j,k)*vfwf
                           end if
                           else
-                          ucf=0.5*((dom(ib)%u(i-1,j,k)-dom(ib)%um(i-1,j,k))+ &
+                          ucf=0.5_dp*((dom(ib)%u(i-1,j,k)-dom(ib)%um(i-1,j,k))+ &
                     (dom(ib)%u(i,j,k)-dom(ib)%um(i,j,k)))
-                          vcf=0.5*((dom(ib)%v(i,j-1,k)-dom(ib)%vm(i,j-1,k))+ &
+                          vcf=0.5_dp*((dom(ib)%v(i,j-1,k)-dom(ib)%vm(i,j-1,k))+ &
                     (dom(ib)%v(i,j,k)-dom(ib)%vm(i,j,k)))
-                          wcf=0.5*((dom(ib)%w(i,j,k-1)-dom(ib)%wm(i,j,k-1))+ &
+                          wcf=0.5_dp*((dom(ib)%w(i,j,k-1)-dom(ib)%wm(i,j,k-1))+ &
                     (dom(ib)%w(i,j,k)-dom(ib)%wm(i,j,k)))
                           ufvf = ucf * vcf
                           ufwf = ucf * wcf
@@ -317,7 +317,7 @@
 !
 !       Generate a random normal deviate using the polar method.
 !       Reference: Marsaglia,G. & Bray,T.A. 'A convenient method for generating
-!                  normal variables', Siam Rev., vol.6, 260-264, 1964.
+!                  normal variables', Siam Rev., vol.6_dp, 260-264, 1964.
 !       (source from internet)
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

@@ -76,7 +76,7 @@
                     dom(ib)%su(i,j,k)+forcn*dt
 
                           if (LENERGY) dom(ib)%su(i,j,k)= &
-                    dom(ib)%su(i,j,k)+dt*gx*(1.d0-0.5*beta* &
+                    dom(ib)%su(i,j,k)+dt*gx*(1.d0-0.5_dp*beta* &
                     (dom(ib)%T(i+1,j,k)+dom(ib)%T(i,j,k)) )
 
                           dom(ib)%ustar(i,j,k)=0.0_dp
@@ -141,7 +141,7 @@
                           end if
 
                           if (LENERGY) dom(ib)%su(i,j,k)= &
-                    dom(ib)%su(i,j,k)+dt*gy*(1.d0-0.5*beta* &
+                    dom(ib)%su(i,j,k)+dt*gy*(1.d0-0.5_dp*beta* &
                     (dom(ib)%T(i,j+1,k)+dom(ib)%T(i,j,k)) )
 
                           dom(ib)%vstar(i,j,k)=0.0_dp
@@ -206,7 +206,7 @@
                           end if
 
                           !               if (LENERGY) dom(ib)%su(i,j,k)=                      Not sure if this is correct (Brunho24)
-                          !   & dom(ib)%su(i,j,k)+dt*gz*(1.d0-0.5*beta*
+                          !   & dom(ib)%su(i,j,k)+dt*gz*(1.d0-0.5_dp*beta*
                           !   & (dom(ib)%T(i,j,k+1)+dom(ib)%T(i,j,k)) )
 
                           !               if (LSTRA) dom(ib)%su(i,j,k)=     ! stratification 09/2019

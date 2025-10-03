@@ -16,12 +16,12 @@
 ! ..... 3-STEP RUNGE KUTTA
           if (conv_sch==4) then
           alfark(1)=1./3.
-          alfark(2)=0.5
+          alfark(2)=0.5_dp
           alfark(3)=1.0_dp
           kuttacond=3
 ! ..... 2-STEP RUNGE KUTTA
           else if (conv_sch==3) then
-          alfark(1)=0.5
+          alfark(1)=0.5_dp
           alfark(2)=1.0_dp
           alfark(3)=1.0_dp
           kuttacond=2

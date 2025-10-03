@@ -4,6 +4,7 @@
           use multidata
           use vars
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: sn,sn1,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
@@ -74,11 +75,11 @@
                   do j=js-1,je
                       do i=is-1,ie
 
-                          ujkl=0.25*(dom(ib)%u(i,j,k) +dom(ib)%u(i,j+1,k) + &
+                          ujkl=0.25_dp*(dom(ib)%u(i,j,k) +dom(ib)%u(i,j+1,k) + &
                     dom(ib)%u(i,j,k+1) +dom(ib)%u(i,j+1,k+1))
-                          vikl=0.25*(dom(ib)%v(i,j,k) +dom(ib)%v(i+1,j,k) + &
+                          vikl=0.25_dp*(dom(ib)%v(i,j,k) +dom(ib)%v(i+1,j,k) + &
                     dom(ib)%v(i,j,k+1) +dom(ib)%v(i+1,j,k+1))
-                          wijl=0.25*(dom(ib)%w(i,j,k) +dom(ib)%w(i+1,j,k) + &
+                          wijl=0.25_dp*(dom(ib)%w(i,j,k) +dom(ib)%w(i+1,j,k) + &
                     dom(ib)%w(i,j+1,k) +dom(ib)%w(i+1,j+1,k))
 
                           if (L_LSM) then
@@ -354,34 +355,34 @@
                           if (k==ks-1) tau=dom(ib)%tauwb(i,j)
                           if (k==ke) tau=dom(ib)%tauwt(i,j)
 
-                          u_cn  =0.25*(dom(ib)%u(i,j,k)+ &
+                          u_cn  =0.25_dp*(dom(ib)%u(i,j,k)+ &
                     dom(ib)%u(i,j+1,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i,j+1,k+1))
-                          um_cn  =0.25*(dom(ib)%um(i,j,k)+ &
+                          um_cn  =0.25_dp*(dom(ib)%um(i,j,k)+ &
                     dom(ib)%um(i,j+1,k)+dom(ib)%um(i,j,k+1)+ &
                     dom(ib)%um(i,j+1,k+1))
-                          uum_cn  =0.25*(dom(ib)%uum(i,j,k)+ &
+                          uum_cn  =0.25_dp*(dom(ib)%uum(i,j,k)+ &
                     dom(ib)%uum(i,j+1,k)+dom(ib)%uum(i,j,k+1)+ &
                     dom(ib)%uum(i,j+1,k+1))
 
 
-                          v_cn  =0.25*(dom(ib)%v(i,j,k)+ &
+                          v_cn  =0.25_dp*(dom(ib)%v(i,j,k)+ &
                     dom(ib)%v(i+1,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i+1,j,k+1))
-                          vm_cn  =0.25*(dom(ib)%vm(i,j,k)+ &
+                          vm_cn  =0.25_dp*(dom(ib)%vm(i,j,k)+ &
                     dom(ib)%vm(i+1,j,k)+dom(ib)%vm(i,j,k+1)+ &
                     dom(ib)%vm(i+1,j,k+1))
-                          vvm_cn  =0.25*(dom(ib)%vvm(i,j,k)+ &
+                          vvm_cn  =0.25_dp*(dom(ib)%vvm(i,j,k)+ &
                     dom(ib)%vvm(i+1,j,k)+dom(ib)%vvm(i,j,k+1)+ &
                     dom(ib)%vvm(i+1,j,k+1))
 
-                          w_cn  =0.25*(dom(ib)%w(i,j,k)+ &
+                          w_cn  =0.25_dp*(dom(ib)%w(i,j,k)+ &
                     dom(ib)%w(i+1,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i+1,j+1,k))
-                          wm_cn  =0.25*(dom(ib)%wm(i,j,k)+ &
+                          wm_cn  =0.25_dp*(dom(ib)%wm(i,j,k)+ &
                     dom(ib)%wm(i+1,j,k)+dom(ib)%wm(i,j+1,k)+ &
                     dom(ib)%wm(i+1,j+1,k))
-                          wwm_cn  =0.25*(dom(ib)%wwm(i,j,k)+ &
+                          wwm_cn  =0.25_dp*(dom(ib)%wwm(i,j,k)+ &
                     dom(ib)%wwm(i+1,j,k)+dom(ib)%wwm(i,j+1,k)+ &
                     dom(ib)%wwm(i+1,j+1,k))
 

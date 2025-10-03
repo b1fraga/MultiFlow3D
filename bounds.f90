@@ -880,7 +880,7 @@
 
                   else if (dom(ib)%bc_bottom==1) then
                   do j=js-1,je+1; do i=is-1,ie+1
-                          dom(ib)%w(i,j,ks-1-ly)=1.1
+                          dom(ib)%w(i,j,ks-1-ly)=1.1_dp
                       end do; end do
                   end if
                   end if

@@ -74,15 +74,15 @@
               do i=dom(ib)%isp,dom(ib)%iep
                   do j=dom(ib)%jsp,dom(ib)%jep
                       do k=dom(ib)%ksp,dom(ib)%kep
-                          uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                          vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                          wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                          uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                          vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                          wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                           dtvisc1=1.0_dp/( abs(uc/dom(ib)%dx)+ &
                     abs(vc/dom(ib)%dy)+abs(wc/dom(ib)%dz)+ &
                     2.0_dp*dom(ib)%vis(i,j,k)*(1.0_dp/dxx+1.0_dp/dyy+1.0_dp/dzz)+small)
                           dtvisc=min(dtvisc,dtvisc1)
                           if(LENERGY) then
-                          dtthr=0.5*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
+                          dtthr=0.5_dp*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
                           dtvisc=min(dtvisc,dtthr)
                           end if
                       end do
@@ -97,7 +97,7 @@
               dtvisc1=1.0_dp/(1.0_dp/(dxx) + 1.0_dp/(dyy)+ 1.0_dp/(dzz))*Re/2.0_dp
               dtvisc=min(dtvisc,dtvisc1)
               if(LENERGY) then
-              dtthr=0.5*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
+              dtthr=0.5_dp*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
               dtvisc=min(dtvisc,dtthr)
               end if
           end do
@@ -112,7 +112,7 @@
 
           dtmax = min(dtvisc,dtmax)
           dtmax = safety_factor * dtmax
-          dt=min(dt*1.1,dtmax)
+          dt=min(dt*1.1_dp,dtmax)
 
           if (L_LSM)  then
           do ib=1,nbp
@@ -136,7 +136,7 @@
           dt=dt1
 
           if(itime/=itime_start) then
-          if(dt<dtavg*0.1) then
+          if(dt<dtavg*0.1_dp) then
           print*,'#*#*#*#*#*# dt becomes smaller, check result!!!!'
           if (myrank==0) &
     write(numfile,*) '#*#*#*# dt becomes smaller, check result!!!!'

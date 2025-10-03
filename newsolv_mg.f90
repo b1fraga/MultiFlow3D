@@ -95,7 +95,7 @@
     ' ntime:',ntime,' rmax:',rmax,'     iter',iter
           write(numfile,'(1x,a,i8,a,e13.6,a,i8)') &
     ' ntime:',ntime,' rmax:',rmax,'     iter',iter
-!           write(numfile2,'(i8,f15.6,3e20.6)')
+!           write(numfile2,'(i8,f15.6_dp,3e20.6_dp)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if
 

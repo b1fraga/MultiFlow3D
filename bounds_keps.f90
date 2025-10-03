@@ -32,7 +32,7 @@
                   else if (dom(ib)%bc_west>=63) then                  !Wall functions
                   if (ly==0) call wall_function(1,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
-                          dom(ib)%ksgs(is,j,k)=dom(ib)%tauww(j,k)/sqrt(cmu)     !k=ustar**2/cmu**0.5
+                          dom(ib)%ksgs(is,j,k)=dom(ib)%tauww(j,k)/sqrt(cmu)     !k=ustar**2/cmu**0.5_dp
                           dom(ib)%ksgs(is-1-ly,j,k)=0.d0
                       end do; end do
                   else if (dom(ib)%bc_west==61 &
@@ -45,7 +45,7 @@
                   else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%ksgs(is-1-ly,j,k)= &
-                    (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
+                    (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west/=5) then                   !if 5->exchange, if 2,3 -> dk/dn=0
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -234,14 +234,14 @@
                   if (dom(ib)%bc_west==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           rk1 = sqrt(dom(ib)%ksgs(is,j,k))
-                          drkdy = rk1 /(0.5*dom(ib)%dx)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dx)
                           dom(ib)%eps(is-1-ly,j,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_west>=63) then                  !Wall functions
                   if (ly==0) call wall_function(1,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(is,j,k)= &
-                    dom(ib)%tauww(j,k)**1.5/(kappa*dx)
+                    dom(ib)%tauww(j,k)**1.5_dp/(kappa*dx)
                           dom(ib)%eps(is-1-ly,j,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_west==61 &
@@ -249,13 +249,13 @@
                   if (ly==0) call log_law(1,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(is,j,k)= &
-                    dom(ib)%tauww(j,k)**1.5/(kappa*dx)
+                    dom(ib)%tauww(j,k)**1.5_dp/(kappa*dx)
                           dom(ib)%eps(is-1-ly,j,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_west==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(is-1-ly,j,k) = &
-                    0.09**0.75*dom(ib)%ksgs(is-1-ly,j,k)**1.5/(0.07*lz)
+                    0.09**0.75_dp*dom(ib)%ksgs(is-1-ly,j,k)**1.5_dp/(0.07*lz)
                       end do; end do
                   else if (dom(ib)%bc_west/=5) then
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -270,14 +270,14 @@
                   if (dom(ib)%bc_east==4) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           rk1 = sqrt(dom(ib)%ksgs(ie,j,k))
-                          drkdy = rk1 /(0.5*dom(ib)%dx)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dx)
                           dom(ib)%eps(ie+1+ly,j,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_east>=63) then                  !Wall functions
                   if (ly==0) call wall_function(2,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(ie,j,k)= &
-                    dom(ib)%tauwe(j,k)**1.5/(kappa*dx)
+                    dom(ib)%tauwe(j,k)**1.5_dp/(kappa*dx)
                           dom(ib)%eps(ie+1+ly,j,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_east==61 &
@@ -285,7 +285,7 @@
                   if (ly==0) call log_law(2,ib)
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%eps(ie,j,k)= &
-                    dom(ib)%tauwe(j,k)**1.5/(kappa*dx)
+                    dom(ib)%tauwe(j,k)**1.5_dp/(kappa*dx)
                           dom(ib)%eps(ie+1+ly,j,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_east/=5) then
@@ -301,14 +301,14 @@
                   if (dom(ib)%bc_south==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,js,k))
-                          drkdy = rk1 /(0.5*dom(ib)%dy)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dy)
                           dom(ib)%eps(i,js-1-ly,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_south>=63) then                 !Wall functions
                   if (ly==0) call wall_function(3,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%eps(i,js,k)= &
-                    dom(ib)%tauws(i,k)**1.5/(kappa*dy)
+                    dom(ib)%tauws(i,k)**1.5_dp/(kappa*dy)
                           dom(ib)%eps(i,js-1-ly,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_south==61 &
@@ -316,7 +316,7 @@
                   if (ly==0) call log_law(3,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%eps(i,js,k)= &
-                    dom(ib)%tauws(i,k)**1.5/(kappa*dy)
+                    dom(ib)%tauws(i,k)**1.5_dp/(kappa*dy)
                           dom(ib)%eps(i,js-1-ly,k)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_south/=5) then
@@ -332,14 +332,14 @@
                   if (dom(ib)%bc_north==4) then
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,je,k))
-                          drkdy = rk1 /(0.5*dom(ib)%dy)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dy)
                           dom(ib)%eps(i,je+1+ly,k)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_north>=63) then                 !Wall functions
                   if (ly==0) call wall_function(4,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%eps(i,je,k)= &
-                    dom(ib)%tauwn(i,k)**1.5/(kappa*dy)
+                    dom(ib)%tauwn(i,k)**1.5_dp/(kappa*dy)
                           dom(ib)%eps(i,je+1+ly,k) = 0.d0
                       end do; end do
                   else if (dom(ib)%bc_north==61 &
@@ -347,7 +347,7 @@
                   if (ly==0) call log_law(4,ib)
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%eps(i,je,k)= &
-                    dom(ib)%tauwn(i,k)**1.5/(kappa*dy)
+                    dom(ib)%tauwn(i,k)**1.5_dp/(kappa*dy)
                           dom(ib)%eps(i,je+1+ly,k) = 0.d0
                       end do; end do
                   else if (dom(ib)%bc_north/=5) then
@@ -363,14 +363,14 @@
                   if (dom(ib)%bc_bottom==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,j,ks))
-                          drkdy = rk1 /(0.5*dom(ib)%dz)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dz)
                           dom(ib)%eps(i,j,ks-1-ly)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_bottom>=63) then                    !Wall functions
                   if (ly==0) call wall_function(5,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%eps(i,j,ks)= &
-                    dom(ib)%tauwb(i,j)**1.5/(kappa*dz)
+                    dom(ib)%tauwb(i,j)**1.5_dp/(kappa*dz)
                           dom(ib)%eps(i,j,ks-1-ly)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_bottom==61 &
@@ -380,7 +380,7 @@
                   endif
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%eps(i,j,ks)= &
-                    dom(ib)%tauwb(i,j)**1.5/(kappa*dz)
+                    dom(ib)%tauwb(i,j)**1.5_dp/(kappa*dz)
                           dom(ib)%eps(i,j,ks-1-ly)= 0.d0
                       end do; end do
                   else if (dom(ib)%bc_bottom/=5) then
@@ -396,14 +396,14 @@
                   if (dom(ib)%bc_top==4) then
                   do j=js-1,je+1; do i=is-1,ie+1
                           rk1 = sqrt(dom(ib)%ksgs(i,j,ke))
-                          drkdy = rk1 /(0.5*dom(ib)%dz)
+                          drkdy = rk1 /(0.5_dp*dom(ib)%dz)
                           dom(ib)%eps(i,j,ke+1+ly)= 2.d0*rrey*drkdy**2.0_dp
                       end do; end do
                   else if (dom(ib)%bc_top>=63) then                   !Wall functions
                   if (ly==0) call wall_function(6,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%eps(i,j,ke)= &
-                    dom(ib)%tauwt(i,j)**1.5/(kappa*dz)
+                    dom(ib)%tauwt(i,j)**1.5_dp/(kappa*dz)
                           dom(ib)%eps(i,j,ke+1+ly) = 0.d0
                       end do; end do
                   else if (dom(ib)%bc_top==61 &
@@ -411,7 +411,7 @@
                   if (ly==0) call log_law(6,ib)
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%eps(i,j,ke)= &
-                    dom(ib)%tauwt(i,j)**1.5/(kappa*dz)
+                    dom(ib)%tauwt(i,j)**1.5_dp/(kappa*dz)
                           dom(ib)%eps(i,j,ke+1+ly) = 0.d0
                       end do; end do
                   else if (dom(ib)%bc_top/=5) then

@@ -34,14 +34,14 @@
 
                           if(differencing==1) then
 
-                          up12=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i+1,j,k))
-                          um12=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                          up12=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i+1,j,k))
+                          um12=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                           du2dx=(up12**2-um12**2)/dom(ib)%dx
-                          duvdy=0.25*( (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k))* &
+                          duvdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)) - &
                     (dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j-1,k)) )/dom(ib)%dy
-                          duwdz=0.25*( (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k))* &
+                          duwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)) - &
                     (dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k-1)) )/dom(ib)%dz
@@ -102,7 +102,7 @@
                           dudx = 0.0_dp
                           end if
 
-                          vijk=0.25*(dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)+ &
+                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))
                           if (vijk>0.0_dp) then
                           dudy = dom(ib)%dphi_dyminus(i,j,k)
@@ -112,7 +112,7 @@
                           dudy = 0.0_dp
                           end if
 
-                          wijk=0.25*(dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)+ &
+                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))
                           if (wijk>0.0_dp) then
                           dudz = dom(ib)%dphi_dzminus(i,j,k)
@@ -135,7 +135,7 @@
                           vel=dom(ib)%uo(i,j,k)
                           dom(ib)%uo(i,j,k)=(du2dx+duvdy+duwdz)
                           dom(ib)%ustar(i,j,k)=(dom(ib)%u(i,j,k)- &
-                    dt*(1.5*dom(ib)%uo(i,j,k)-0.5*vel))
+                    dt*(1.5_dp*dom(ib)%uo(i,j,k)-0.5_dp*vel))
                           end if
 
                       end do
@@ -157,14 +157,14 @@
                       do j=dom(ib)%jsv,dom(ib)%jev
 
                           if(differencing==1) then
-                          vp12=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j+1,k))
-                          vm12=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                          vp12=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j+1,k))
+                          vm12=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                           dv2dy=(vp12**2-vm12**2)/dom(ib)%dy
-                          duvdx=0.25*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k))* &
+                          duvdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)) - &
                     (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i-1,j,k)) )/dom(ib)%dx
-                          dvwdz=0.25*( (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k))* &
+                          dvwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)) - &
                     (dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k-1)) )/dom(ib)%dz
@@ -217,7 +217,7 @@
                           dvwdz=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dz)
 
                           else if(differencing==3) then
-                          uijk=0.25*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)+ &
+                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))
                           if (uijk>0.0_dp) then
                           dvdx = dom(ib)%dphi_dxminus(i,j,k)
@@ -235,7 +235,7 @@
                           dvdy = 0.0_dp
                           end if
 
-                          wijk=0.25*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)+ &
+                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))
                           if (wijk>0.0_dp) then
                           dvdz = dom(ib)%dphi_dzminus(i,j,k)
@@ -258,7 +258,7 @@
                           vel=dom(ib)%vo(i,j,k)
                           dom(ib)%vo(i,j,k)=(duvdx+dv2dy+dvwdz)
                           dom(ib)%vstar(i,j,k)=(dom(ib)%v(i,j,k)- &
-                    dt*(1.5*dom(ib)%vo(i,j,k)-0.5*vel))
+                    dt*(1.5_dp*dom(ib)%vo(i,j,k)-0.5_dp*vel))
                           end if
 
                       end do
@@ -279,14 +279,14 @@
                       do j=dom(ib)%jsw,dom(ib)%jew
 
                           if(differencing==1) then
-                          wp12=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k+1))
-                          wm12=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                          wp12=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k+1))
+                          wm12=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                           dw2dz=(wp12**2-wm12**2)/dom(ib)%dz
-                          duwdx=0.25*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1))* &
+                          duwdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)) - &
                     (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i-1,j,k)) )/dom(ib)%dx
-                          dvwdy=0.25*( (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1))* &
+                          dvwdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)) - &
                     (dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i,j-1,k)) )/dom(ib)%dy
@@ -339,7 +339,7 @@
                           dvwdy=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dy)
 
                           else if(differencing==3) then
-                          uijk=0.25*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)+ &
+                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))
                           if (uijk>0.0_dp) then
                           dwdx = dom(ib)%dphi_dxminus(i,j,k)
@@ -349,7 +349,7 @@
                           dwdx = 0.0_dp
                           end if
 
-                          vijk=0.25*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)+ &
+                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))
                           if (vijk>0.0_dp) then
                           dwdy = dom(ib)%dphi_dyminus(i,j,k)
@@ -380,7 +380,7 @@
                           vel=dom(ib)%wo(i,j,k)
                           dom(ib)%wo(i,j,k)=(duwdx+dvwdy+dw2dz)
                           dom(ib)%wstar(i,j,k)=(dom(ib)%w(i,j,k)- &
-                    dt*(1.5*dom(ib)%wo(i,j,k)-0.5*vel))
+                    dt*(1.5_dp*dom(ib)%wo(i,j,k)-0.5_dp*vel))
                           end if
 
 

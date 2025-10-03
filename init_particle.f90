@@ -13,13 +13,14 @@
           use mpi
           use vars
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
           integer :: l,ib,f,frac1,frac_end,m,sphere_optn,ll
           integer :: i,j,k,nfrac,ptnr,tsnr,np_restart
           double precision :: random_number_normal,sigma_rho
-          double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
+          double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
           double precision :: Wx,Wy,Wz,random_number_uniform
           double precision :: mindis,dist,distance
           double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
@@ -128,7 +129,7 @@
               read(30,*) tsnr                                             !if 0 then no continuous release
               read(30,*) ptnr
               frac_end=frac1+ptnr-1
-              read(30,*) Dp,sigma
+              read(30,*) Dp_var,sigma
               read(30,*) rho_p,sigma_rho
               read(30,*) Wx,Wy,Wz
               read(30,*) LSPHERICAL,LSURFACE,r !Aleks 04/24 spherical release
@@ -138,16 +139,16 @@
               do l=frac1,frac_end
                   if (tsnr==-1) then                                      !only initial release if no continuous release
                   if (random) then                                            !location
-                  mindis=1.1*Dp
+                  mindis=1.1_dp*Dp_var
                   dist=0
                   ll=0
                   do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
                       ll=ll+1
                       if (.not.LSPHERICAL) then !default cube release
-                      xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
-                      yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
-                      zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz)
+                      xp_pt(l)=random_number_uniform(xp-0.5_dp*Wx,xp+0.5_dp*Wx)
+                      yp_pt(l)=random_number_uniform(yp-0.5_dp*Wy,yp+0.5_dp*Wy)
+                      zp_pt(l)=random_number_uniform(zp-0.5_dp*Wz,zp+0.5_dp*Wz)
                       else  !Aleks 04/24. Distribute points in a spherical shape
                       call random_number_spherical(xp,yp,zp,r,sphere_optn, &
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
@@ -178,7 +179,7 @@
             uop_pt(l),vop_pt(l),wop_pt(l)
                   endif
 
-                  dp_pt(l)= random_number_normal(Dp,sigma)
+                  dp_pt(l)= random_number_normal(Dp_var,sigma)
                   rho_pt(l)= random_number_normal(rho_p,sigma_rho)
 
 
@@ -221,6 +222,7 @@
           use mpi
           use vars
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -275,15 +277,15 @@
                   do j=js-1,je
                       do i=is-1,ie
 
-                          u_cn  =0.25*(dom(ib)%u(i,j,k)+ &
+                          u_cn  =0.25_dp*(dom(ib)%u(i,j,k)+ &
                     dom(ib)%u(i,j+1,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i,j+1,k+1))
 
-                          v_cn  =0.25*(dom(ib)%v(i,j,k)+ &
+                          v_cn  =0.25_dp*(dom(ib)%v(i,j,k)+ &
                     dom(ib)%v(i+1,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i+1,j,k+1))
 
-                          w_cn  =0.25*(dom(ib)%w(i,j,k)+ &
+                          w_cn  =0.25_dp*(dom(ib)%w(i,j,k)+ &
                     dom(ib)%w(i+1,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i+1,j+1,k))
 
@@ -349,7 +351,7 @@
 
           close (idfile)
 
-!   88 FORMAT (10F15.8)
+!   88 FORMAT (10F15.8_dp)
 
       END SUBROUTINE
 
@@ -391,7 +393,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           end do
           close (95)
 
-!   88 FORMAT (10F15.8)
+!   88 FORMAT (10F15.8_dp)
 
       END SUBROUTINE
 
@@ -431,7 +433,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
 
           pi = 3.1416d0 !Set value to pi
 
-!             if (sphere_optn.gt.3) print*, 'ERROR!! Invalid spherical ',
+!             if (sphere_optn.gt.3_dp) print*, 'ERROR!! Invalid spherical ',
 !      &       'release option! Valid options are 0 to 3'
 !             STOP
 

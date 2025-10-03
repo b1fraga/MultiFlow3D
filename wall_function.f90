@@ -42,17 +42,17 @@ SELECT CASE (cond)
 
   CASE (63)
 !.....specify constants for 1/6 power law ..............................
-    aaa = 8.3
+    aaa = 8.3_dp
     bbb = 0.1666666666
 
   CASE (64)
 !.....specify constants for 1/7 power law ..............................
-    aaa = 8.3
+    aaa = 8.3_dp
     bbb = 0.1428571429
 
   CASE (65)
 !.....specify constants for 1/8 power law ..............................
-    aaa = 8.3
+    aaa = 8.3_dp
     bbb = 0.125
 
 END SELECT
@@ -60,7 +60,7 @@ END SELECT
 
 !.....constant factors .................................................
 
-          const1 = 0.5 * (1. - bbb) * aaa ** ((1. + bbb) / (1. - bbb))
+          const1 = 0.5_dp * (1. - bbb) * aaa ** ((1. + bbb) / (1. - bbb))
           const2 = (1. + bbb) / aaa
           const3 = aaa ** (2. / (1. - bbb))
           const4 = 2. / (1. + bbb)
@@ -75,15 +75,15 @@ END SELECT
               i=dom(ib)%isp
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 
@@ -105,15 +105,15 @@ END SELECT
               i=dom(ib)%iep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 
@@ -135,15 +135,15 @@ END SELECT
 
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 
@@ -165,15 +165,15 @@ END SELECT
               j=dom(ib)%jep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 
@@ -195,15 +195,15 @@ END SELECT
               k=dom(ib)%ksp
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 
@@ -225,15 +225,15 @@ END SELECT
               k=dom(ib)%kep
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
 
                       dycell = 2. * delta
                       rycell = 1. / dycell
-                      vtankr = 0.5 * rrey * rycell * const3
+                      vtankr = 0.5_dp * rrey * rycell * const3
                       dvtan  = vtankr - vtan
                       sub    = MAX (SIGN(1.,dvtan),0.)
 

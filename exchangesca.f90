@@ -142,7 +142,7 @@
 
                       end do; end do; end do; end if
 
-!        if(pl.eq.1) then
+!        if(pl.eq.1_dp) then
 !           no1=pl+1; no2=-pl
 !        else
 !           no1=pl; no2=1-pl

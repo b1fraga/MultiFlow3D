@@ -105,7 +105,7 @@
                   SIGMA(IY,IZ)=SIGMA_VALUE    !!!  MIN(8.0_dp*g_dy,0.20D0) !isotropic
 !Set the inlet velocity prof.
                   Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)
-!   if(UPROF_SEM.eq.1) Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)      !elli
+!   if(UPROF_SEM.eq.1_dp) Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)      !elli
 !       if(UPROF_SEM.eq.15) then
 !        RIZ=IZ                         !elli
 !      Usem(IY,IZ,:)=(/ U0-0.04324*exp(-11.1764*RIZ), 0.D0,0.D0/)

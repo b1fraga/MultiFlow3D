@@ -35,9 +35,9 @@
               i=dom(ib)%isp
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_west==62) then               !rough wall
@@ -79,9 +79,9 @@
               i=dom(ib)%iep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do j=dom(ib)%jsp-1,dom(ib)%jep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_east==62) then               !rough wall
@@ -124,9 +124,9 @@
 
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_south==62) then              !rough wall
@@ -169,9 +169,9 @@
               j=dom(ib)%jep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_north==62) then              !rough wall
@@ -215,9 +215,9 @@
 
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_bottom==62) then             !rough wall
@@ -264,9 +264,9 @@
               k=dom(ib)%kep
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                   do i=dom(ib)%isp-1,dom(ib)%iep+1
-                      uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                      vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                      wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                      uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                      vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                      wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                       vnor=n_x*uc+n_y*vc+n_z*wc
                       vtan=sqrt(abs(uc*uc+vc*vc+wc*wc-vnor*vnor+small))
                       if (dom(ib)%bc_top==62) then                !rough wall

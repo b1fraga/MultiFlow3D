@@ -132,9 +132,9 @@
 !     write(*,'(a)') '*'
 !     write(*,'(a)') '*            TWO-PHASE SIMULATION'
 !     if (l_lsmbase) then
-!       write(*,'(a,f8.3)') '* Base case with rigid lid at z=',length
+!       write(*,'(a,f8.3_dp)') '* Base case with rigid lid at z=',length
 !     else
-!       write(*,'(a,f8.3)') '* Initial water level: z=',length
+!       write(*,'(a,f8.3_dp)') '* Initial water level: z=',length
 !     endif
 !     write(*,'(a)') '*'
 !     write(*,'(a)') '**********************************************'
@@ -179,7 +179,7 @@
 !               end do
 !             end do
 !           end do
-!  73       format (10e25.8)
+!  73       format (10e25.8_dp)
 !           close(703)
 !           dom(ib)%phi_init = 0.0_dp
 !           dom(ib)%phi_new = 0.0_dp
@@ -217,7 +217,7 @@
 ! !     &             (dom(ib)%xc(i).le.0_dp.885)) then
 ! !            length=-0.213559322*dom(ib)%xc(i)+0.202
 ! !          else if ((dom(ib)%xc(i).gt.0_dp.885).and.
-! !     &             (dom(ib)%xc(i).le.1.475)) then
+! !     &             (dom(ib)%xc(i).le.1_dp.475)) then
 ! !            length=0.013
 ! !          end if
 ! !======================================================================
@@ -411,8 +411,8 @@
                           h2 = vijk*dom(ib)%dphi_dy(i,j,k)
                           h3 = wijk*dom(ib)%dphi_dz(i,j,k)
 
-                          dom(ib)%phi_init(i,j,k) = 0.75*dom(ib)%phi(i,j,k) + &
-                    0.25*dom(ib)%phi_new(i,j,k) - 0.25*dt*(h1+h2+h3)
+                          dom(ib)%phi_init(i,j,k) = 0.75_dp*dom(ib)%phi(i,j,k) + &
+                    0.25_dp*dom(ib)%phi_new(i,j,k) - 0.25_dp*dt*(h1+h2+h3)
 
                       end do
                   end do
@@ -678,9 +678,9 @@
                               dom(ib)%s_phi0(i,j,k) = dom(ib)%phi_reinit(i,j,k)/ &
                         sqrt(dom(ib)%phi_reinit(i,j,k)**2+(abs_dphi**2)*dom(ib)%dx**2)
 
-                              dom(ib)%phi_reinit(i,j,k) = 0.75*dom(ib)%phi(i,j,k)+ &
-                        0.25*dom(ib)%phi_reinit(i,j,k)+ &
-                        0.25*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
+                              dom(ib)%phi_reinit(i,j,k) = 0.75_dp*dom(ib)%phi(i,j,k)+ &
+                        0.25_dp*dom(ib)%phi_reinit(i,j,k)+ &
+                        0.25_dp*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
                         dom(ib)%s_phi0(i,j,k)*abs_dphi)
 
                           end do
@@ -969,13 +969,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1084,13 +1084,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1198,13 +1198,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1313,13 +1313,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1427,13 +1427,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1542,13 +1542,13 @@
 
                           e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
 
-                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25*(v1-4.0_dp*v2+3.0_dp*v3)**2
-                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25*(3.0_dp*v3-4.0_dp*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
@@ -1601,7 +1601,7 @@
 !
 ! Transition zone across free surface (2 grid cells width either side)
 !
-                          dom(ib)%h_phi(i,j,k)=0.5*(1.0_dp+dom(ib)%phi(i,j,k)/ &
+                          dom(ib)%h_phi(i,j,k)=0.5_dp*(1.0_dp+dom(ib)%phi(i,j,k)/ &
                     epsl+1.0_dp/pi*sin(pi*dom(ib)%phi(i,j,k)/epsl))
 
                           end if

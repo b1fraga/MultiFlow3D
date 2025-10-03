@@ -130,42 +130,42 @@
                               if (i==2) then
                               densim12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densim12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densim12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_j-2)))
                               end if
 
                               if (i==mgc_i-1) then
                               densip12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densip12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densip12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_j-2)))
                               end if
 
                               if (j==2) then
                               densjm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-1))
                               end if
 
                               if (j==mgc_j-1) then
                               densjp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+1))
                               end if
 
                               if (k==2) then
                               denskm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_i-2)*(mgc_j-2)))
                               end if
 
                               if (k==mgc_k-1) then
                               denskp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_i-2)*(mgc_j-2)))
                               end if
 

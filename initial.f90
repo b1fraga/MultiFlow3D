@@ -79,9 +79,9 @@
 
           if (trim(L_n)=='n') fric=fric**0.33
 
-!        if(bc_w.eq.5 .or. bc_e.eq.5 .or.
-!     & bc_s.eq.5 .or. bc_n.eq.5 .or.
-!     & bc_b.eq.5 .or. bc_t.eq.5) then
+!        if(bc_w.eq.5_dp .or. bc_e.eq.5_dp .or.
+!     & bc_s.eq.5_dp .or. bc_n.eq.5_dp .or.
+!     & bc_b.eq.5_dp .or. bc_t.eq.5_dp) then
 !           PERIODIC=.true.
 !        else
 !           PERIODIC=.false.
@@ -104,7 +104,7 @@
               if (dom(ib)%bc_west==7) read_inflow=.true.
           end do
 
-!        if(solver.eq.2 .and. LMR.eq.2) then
+!        if(solver.eq.2_dp .and. LMR.eq.2_dp) then
 !           print*,'error: wrong solver selection for LMR',
 !     &' new ghost cell approach!!, STOP'
 !           stop
@@ -143,6 +143,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,ib,tti,ttj,ttk
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k,is,ie,js,je,ks,ke
@@ -290,9 +291,9 @@
               dom(ib)%x(1)=dom(ib)%xsl +(-pl+1)*dom(ib)%dx
               dom(ib)%y(1)=dom(ib)%ysl +(-pl+1)*dom(ib)%dy
               dom(ib)%z(1)=dom(ib)%zsl +(-pl+1)*dom(ib)%dz
-              dom(ib)%xc(1)=dom(ib)%x(1)-0.5*dom(ib)%dx
-              dom(ib)%yc(1)=dom(ib)%y(1)-0.5*dom(ib)%dy
-              dom(ib)%zc(1)=dom(ib)%z(1)-0.5*dom(ib)%dz
+              dom(ib)%xc(1)=dom(ib)%x(1)-0.5_dp*dom(ib)%dx
+              dom(ib)%yc(1)=dom(ib)%y(1)-0.5_dp*dom(ib)%dy
+              dom(ib)%zc(1)=dom(ib)%z(1)-0.5_dp*dom(ib)%dz
 
               do i=2,dom(ib)%ttc_i
                   dom(ib)%x(i)=dom(ib)%x(i-1)+dom(ib)%dx
@@ -305,13 +306,13 @@
               end do
 
               do i=1,dom(ib)%ttc_i
-                  dom(ib)%xc(i)=dom(ib)%x(i)-0.5*dom(ib)%dx
+                  dom(ib)%xc(i)=dom(ib)%x(i)-0.5_dp*dom(ib)%dx
               end do
               do i=1,dom(ib)%ttc_j
-                  dom(ib)%yc(i)=dom(ib)%y(i)-0.5*dom(ib)%dy
+                  dom(ib)%yc(i)=dom(ib)%y(i)-0.5_dp*dom(ib)%dy
               end do
               do i=1,dom(ib)%ttc_k
-                  dom(ib)%zc(i)=dom(ib)%z(i)-0.5*dom(ib)%dz
+                  dom(ib)%zc(i)=dom(ib)%z(i)-0.5_dp*dom(ib)%dz
               end do
 
               if (dom(ib)%inext>=0) then
@@ -797,10 +798,10 @@
               dom(ib)%tauwt  = 0.0_dp; dom(ib)%tauwt2  = 0.0_dp
 
               if (sgs_model>2) then
-              dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
-              dom(ib)%eps  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
-              dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1)**2.0_dp
-              dom(ib)%epso  = 0.09**0.75*dom(ib)%ksgs**1.5/(0.07*lz)
+              dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
+              dom(ib)%eps  = 0.09**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07*lz)
+              dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
+              dom(ib)%epso  = 0.09**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07*lz)
               endif
 
               if (trim(keyword)=='channel') then

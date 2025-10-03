@@ -142,6 +142,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
 
@@ -153,7 +154,7 @@
                           if (L_LSM) then
                           dom(ib)%u(i,j,k)=(dom(ib)%ustar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i+1,j,k)-dom(ib)%p(i,j,k))/dom(ib)%dx/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i+1,j,k))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i+1,j,k))))
                           else
                           dom(ib)%u(i,j,k)=(dom(ib)%ustar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i+1,j,k)-dom(ib)%p(i,j,k))/dom(ib)%dx)
@@ -168,7 +169,7 @@
                           if (L_LSM) then
                           dom(ib)%v(i,j,k)=(dom(ib)%vstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j+1,k)-dom(ib)%p(i,j,k))/dom(ib)%dy/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j+1,k))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j+1,k))))
                           else
                           dom(ib)%v(i,j,k)=(dom(ib)%vstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j+1,k)-dom(ib)%p(i,j,k))/dom(ib)%dy)
@@ -183,7 +184,7 @@
                           if (L_LSM) then
                           dom(ib)%w(i,j,k)=(dom(ib)%wstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j,k+1)-dom(ib)%p(i,j,k))/dom(ib)%dz/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j,k+1))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j,k+1))))
                           else
                           dom(ib)%w(i,j,k)=(dom(ib)%wstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j,k+1)-dom(ib)%p(i,j,k))/dom(ib)%dz)
@@ -263,13 +264,13 @@
 
 ! --- Calculate and store forcing term --------------------------------
           qstpp = flwsum/A
-          fakfor = 0.3
+          fakfor = 0.3_dp
 
           forcn=forcn+fakfor*(qzero+qstpn-2.0_dp*qstpp )/dt
           qstpn = qstpp
 
 
-!        if(myrank.eq.0_dp) write (numfile1,'(4F15.6)')
+!        if(myrank.eq.0_dp) write (numfile1,'(4F15.6_dp)')
 !     &   ctime,forcn,qstpp,flwsum
 
       end subroutine pressure_forcing
@@ -416,7 +417,7 @@
           write (numfile,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
      ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
      ' sweeps:',nsweeps,' rmax:',rmax
-!           write(numfile2,'(i8,f15.6,3e20.6)')
+!           write(numfile2,'(i8,f15.6_dp,3e20.6_dp)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if
 

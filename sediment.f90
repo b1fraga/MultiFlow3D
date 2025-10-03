@@ -58,7 +58,7 @@
 
               Vcell = dom(ib)%dx*dom(ib)%dy*dom(ib)%dz
 
-!     if (dom_id(ib).eq.9) then                         !release point for bubble plume
+!     if (dom_id(ib).eq.9_dp) then                         !release point for bubble plume
 !       dom(ib)%So(dom(ib)%iep,dom(ib)%jep,30)=
 !      &    dom(ib)%So(dom(ib)%iep,dom(ib)%jep,30) + (3.41d-6/Vcell)*dt
 !       dom(ib)%So(dom(ib)%iep,dom(ib)%jep,31)=
@@ -110,17 +110,17 @@
                           kc=dom(ib)%So(i-1,j,k)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
                           else if(dom(ib)%u(i-1,j,k)<0.0_dp) then
                           ku=dom(ib)%So(i+1,j,k)
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i-1,j,k)
                           b_r=max(0.0_dp, &
-                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          km=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i-1,j,k))
+                          km=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i-1,j,k))
                           end if
 
                           if(dom(ib)%u(i,j,k)>0.0_dp) then
@@ -128,17 +128,17 @@
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i+1,j,k)
                           b_r=max(0.0_dp, &
-                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
                           else if(dom(ib)%u(i,j,k)<0.0_dp) then
                           ku=dom(ib)%So(i+2,j,k)
                           kc=dom(ib)%So(i+1,j,k)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          kp=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i+1,j,k))
+                          kp=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i+1,j,k))
                           end if
                           duSdx=(dom(ib)%u(i,j,k)*kp-dom(ib)%u(i-1,j,k)*km)/dom(ib)%dx
 !------
@@ -147,17 +147,17 @@
                           kc=dom(ib)%So(i,j-1,k)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
                           else if(dom(ib)%v(i,j-1,k)<0.0_dp) then
                           ku=dom(ib)%So(i,j+1,k)
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i,j-1,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          km=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j-1,k))
+                          km=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j-1,k))
                           end if
 
                           if(dom(ib)%v(i,j,k)>0.0_dp) then
@@ -165,18 +165,18 @@
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i,j+1,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
 
                           else if(dom(ib)%v(i,j,k)<0.0_dp) then
                           ku=dom(ib)%So(i,j+2,k)
                           kc=dom(ib)%So(i,j+1,k)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          kp=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j+1,k))
+                          kp=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j+1,k))
                           end if
                           dvSdy=(dom(ib)%v(i,j,k)*kp-dom(ib)%v(i,j-1,k)*km)/dom(ib)%dy
 !-------
@@ -185,36 +185,36 @@
                           kc=dom(ib)%So(i,j,k-1)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
 
                           else if(dom(ib)%w(i,j,k-1)<0.0_dp) then
                           ku=dom(ib)%So(i,j,k+1)
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i,j,k-1)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          km=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          km=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j,k-1))
+                          km=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j,k-1))
                           end if
                           if(dom(ib)%w(i,j,k)>0.0_dp) then
                           ku=dom(ib)%So(i,j,k-1)
                           kc=dom(ib)%So(i,j,k)
                           kd=dom(ib)%So(i,j,k+1)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
 
                           else if(dom(ib)%w(i,j,k)<0.0_dp) then
                           ku=dom(ib)%So(i,j,k+2)
                           kc=dom(ib)%So(i,j,k+1)
                           kd=dom(ib)%So(i,j,k)
                           b_r=max(0.0_dp, &
-                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0_dp))
-                          kp=(kc+0.5*b_r*(kc-ku))
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=(kc+0.5_dp*b_r*(kc-ku))
                           else
-                          kp=0.5*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j,k+1))
+                          kp=0.5_dp*(dom(ib)%So(i,j,k)+dom(ib)%So(i,j,k+1))
                           end if
                           dwSdz=(dom(ib)%w(i,j,k)*kp-dom(ib)%w(i,j,k-1)*km)/dom(ib)%dz
 
@@ -298,14 +298,14 @@
 !=== West ===>   ..  4=wall  ..    1=Inflow
 !..............................................................................
                   if (dom(ib)%iprev<0) then
-                  !      if (dom(ib)%Tbc_west.eq.4) then
+                  !      if (dom(ib)%Tbc_west.eq.4_dp) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
                   do k=1,nk; do j=1,nj
                           dom(ib)%S(is-1-ly,j,k)= dom(ib)%S(is+ly,j,k)
                           dom(ib)%dens(is-1-ly,j,k)=dom(ib)%dens(is+ly,j,k)
                       end do; end do
 
-                  !      else if (dom(ib)%Tbc_west.eq.1) then                   !CHANGE
+                  !      else if (dom(ib)%Tbc_west.eq.1_dp) then                   !CHANGE
                   !         do k=ks-1,ke+1; do j=js-1,je+1
                   !            dom(ib)%S(is-1-ly,j,k)= 1.0_dp
                   !         end do; end do
@@ -313,8 +313,8 @@
                   !       do k=ks-1,ke+1; do j=js-1,je+1
                   !       absz=abs(dom(ib)%zc(k)-5.22)
                   !       absy=abs(dom(ib)%yc(j)-4.32)
-                  !       if (absz .le. 0.5*dom(ib)%dz) then
-                  !         if (absy .le. 0.5*dom(ib)%dy) then
+                  !       if (absz .le. 0.5_dp*dom(ib)%dz) then
+                  !         if (absy .le. 0.5_dp*dom(ib)%dy) then
                   !        dom(ib)%S(is-1-ly,j,k)= 1.0_dp
                   !         else
                   !            dom(ib)%S(is-1-ly,j,k)= 0.0_dp
@@ -329,14 +329,14 @@
 !=== East ===>   ..  4=wall  ..    2=Outflow
 !...............................................................................
                   if (dom(ib)%inext<0) then
-                  !      if (dom(ib)%Tbc_east.eq.4) then
+                  !      if (dom(ib)%Tbc_east.eq.4_dp) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
                   do k=1,nk; do j=1,nj
                           dom(ib)%S(ie+1+ly,j,k)= dom(ib)%S(ie-ly,j,k)
                           dom(ib)%dens(ie+1+ly,j,k)= dom(ib)%dens(ie-ly,j,k)
                       end do; end do
 
-                  !      else if (dom(ib)%Tbc_east.eq.2) then
+                  !      else if (dom(ib)%Tbc_east.eq.2_dp) then
                   !         do k=ks-1,ke+1; do j=js-1,je+1
                   !            dom(ib)%S(ie+1+ly,j,k)= dom(ib)%S(ie-ly,j,k)
                   !         end do; end do
@@ -346,7 +346,7 @@
 !=== South ===>  ..  4=wall  ..
 !...............................................................................
                   if (dom(ib)%jprev<0) then
-                  !      if (dom(ib)%Tbc_south.eq.4) then
+                  !      if (dom(ib)%Tbc_south.eq.4_dp) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
                   do k=1,nk; do i=1,ni
                           dom(ib)%S(i,js-1-ly,k)= dom(ib)%S(i,js+ly,k)
@@ -359,7 +359,7 @@
 !=== North ===>  ..  4=wall  ..
 !.............................................................................
                   if (dom(ib)%jnext<0) then
-                  !      if (dom(ib)%Tbc_north.eq.4) then
+                  !      if (dom(ib)%Tbc_north.eq.4_dp) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
                   do k=1,nk; do i=1,ni
                           dom(ib)%S(i,je+1+ly,k) = dom(ib)%S(i,je-ly,k)
@@ -372,12 +372,12 @@
 !=== Bottom ===>  ..  6=Net deposition  ..   7=Erosion
 !...............................................................................
                   if (dom(ib)%kprev<0) then
-                  !      if (dom(ib)%Tbc_bottom.eq.6) then
+                  !      if (dom(ib)%Tbc_bottom.eq.6_dp) then
                   !         do j=js-1,je+1; do i=is-1,ie+1
                   !            dom(ib)%S(i,j,ks-1-ly)= 0.0_dp
                   !         end do; end do
 
-                  !      else if (dom(ib)%Tbc_bottom.eq.7) then
+                  !      else if (dom(ib)%Tbc_bottom.eq.7_dp) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
                   do j=1,nj; do i=1,ni
                           dom(ib)%S(i,j,ks-1-ly)= dom(ib)%S(i,j,ks+ly)
@@ -389,7 +389,7 @@
 !=== Top ===>  ..  8=free surface
 !.............................................................................
                   if (dom(ib)%knext<0) then
-                  !      if (dom(ib)%Tbc_top.eq.8) then
+                  !      if (dom(ib)%Tbc_top.eq.8_dp) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
                   do j=1,nj; do i=1,ni
                           dom(ib)%S(i,j,ke+1+ly) = dom(ib)%S(i,j,ke-ly)
@@ -442,6 +442,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer ib,i,j,k
@@ -450,7 +451,7 @@
               do i=1,dom(ib)%ttc_i;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
                           dom(ib)%dens(i,j,k)=0.0367*dom(ib)%S(i,j,k)**3.d0 &       !based on sludge on this case
                                 -2.38*dom(ib)%S(i,j,k)**2.d0 &
-                                +14.6*dom(ib)%S(i,j,k)+1000
+                                +14.6_dp*dom(ib)%S(i,j,k)+1000
 
                       enddo;enddo;enddo
           enddo
