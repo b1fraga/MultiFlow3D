@@ -31,7 +31,7 @@
           if (r<=-2.5_dp) then
           phi_r2smth = 0.0_dp
           else if ((r>=-2.5_dp).and.(r<=-1.5_dp)) then
-          phi_r2smth= -1.0_dp/8./PI*(-5.*PI-2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(-2.0_dp*r-1.0_dp)))
+          phi_r2smth= -1.0_dp/8./PI*(-5.0_dp*PI-2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(-2.0_dp*r-1.0_dp)))
           else if ((r>=-1.5_dp).and.(r<=0.0_dp)) then
           phi_r2smth = 1.0_dp/4.0_dp/PI*(PI+2.0_dp*sin(PI/4.0_dp*(-2.0_dp*r+1.0_dp)) &
                              -2.0_dp*sin(PI/4.0_dp*(-2.0_dp*r-1.0_dp)))
@@ -39,7 +39,7 @@
           phi_r2smth = 1.0_dp/4.0_dp/PI*(PI+2.0_dp*sin(PI/4.0_dp*(2.0_dp*r+1.0_dp)) &
                              -2.0_dp*sin(PI/4.0_dp*(2.0_dp*r-1.0_dp)))
           else if ((r>=1.5_dp).and.(r<=2.5_dp)) then
-          phi_r2smth= -1.0_dp/8./PI*(-5.*PI+2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(2.0_dp*r-1.0_dp)))
+          phi_r2smth= -1.0_dp/8./PI*(-5.0_dp*PI+2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(2.0_dp*r-1.0_dp)))
           else if (r>=2.5_dp) then
           phi_r2smth = 0.0_dp
           end if
