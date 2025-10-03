@@ -48,7 +48,7 @@ SELECT CASE (cond)
   CASE (64)
 !.....specify constants for 1/7 power law ..............................
     aaa = 8.3_dp
-    bbb = 0.1428571429
+    bbb = 0.1428571429_dp
 
   CASE (65)
 !.....specify constants for 1/8 power law ..............................
