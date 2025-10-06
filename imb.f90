@@ -1,5 +1,5 @@
 !######################################################################
-module imb
+      module imb
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           SAVE
@@ -191,7 +191,7 @@ module imb
           Enddo
 
 !   write(6,*)       'Largest rdivmax  :',rdivmax
-!   write(6,'(a,3e12.4_dp)')'Smallest gridsize: ',dxm,dym,dzm
+!   write(6,'(a,3e12.4)')'Smallest gridsize: ',dxm,dym,dzm
 
           Do i=1,bodynum
               IF (imb_shape(i)==1) call imb_square(IBMnum(i))
@@ -199,7 +199,7 @@ module imb
               IF (imb_shape(i)==3) call imb_cube(IBMnum(i))
               IF (imb_shape(i)==4) call imb_sphere(IBMnum(i))
               IF (imb_shape(i)==5) call imb_file(IBMnum(i))
-!          IF (imb_shape(i).eq.6_dp) call imb_pipe(IBMnum(i))
+!          IF (imb_shape(i).eq.6) call imb_pipe(IBMnum(i))
               maxnodeIBS=maxnodeIBS+nodes(i)
               IF (maxnodeIBS>maxn) write(6,*)'Too many ib points'
               IF (maxnodeIBS>maxn) STOP
@@ -267,7 +267,7 @@ module imb
               Enddo !i
 
 ! IF SELF STARTING IS INTRODUCED IN THE CODE:
-!      if (LSELFST(K) .and. L.eq.1_dp) then
+!      if (LSELFST(K) .and. L.eq.1) then
 !             open (unit=selfstarting, file=SelfStartingResults.dat')
 !             write(selfstarting,*)'Variables="Accel","Veloc","Displ"'
 !       radsin(K)=0.d0 ;  acc_selfST(K)=0.d0; rads(K)= 0.d0
@@ -281,7 +281,7 @@ module imb
           WRITE(6,*)' '
           WRITE(6,*)'=================================================='
 !   write(6,*)'        Mesh sizes at the IB domain           '
-!   write(6,'(a,f12.4_dp,a,f12.4_dp)')'    dx:',dx,'      dy:', dy
+!   write(6,'(a,f12.4,a,f12.4)')'    dx:',dx,'      dy:', dy
 !   WRITE(6,*)' '
 
 
@@ -412,7 +412,7 @@ module imb
           imbinblock_loc=0 ; imb_block_loc=0  ; lag_bod_loc = 0
           rott_loc=0 ;
 
-!        if (nbp.ge.1_dp) then  !Only one block to procs where there are IBs!!
+!        if (nbp.ge.1) then  !Only one block to procs where there are IBs!!
 !        if (myrank.lt.40) then
 
 
@@ -653,7 +653,7 @@ module imb
           double precision :: dh,dhtotal
           INTEGER :: I,J,L,ib,nl,K
 
-!   IF(nmls.eq.0_dp) then
+!   IF(nmls.eq.0) then
 
           Do ib=1,nbp  !Loop through all the blocks of one processor
 
@@ -817,10 +817,10 @@ module imb
 
 !   ELSE !MLS IS USED        !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 !   Do ib=1,nbp
-!          if (ptsinblock_loc(dom_id(ib)+1).eq.0_dp) GOTO 601
+!          if (ptsinblock_loc(dom_id(ib)+1).eq.0) GOTO 601
 !          Do L = 1,maxnodeIBS!*
 !      IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 701!*
-!      IF(rott_loc(L).ne.2_dp) GOTO 701!*
+!      IF(rott_loc(L).ne.2) GOTO 701!*
 !
 !      call ShapeFunction_MLS(1,L,ib)
 !      call ShapeFunction_MLS(2,L,ib)
@@ -974,7 +974,7 @@ module imb
                               IF (dom(ib)%zc(k)>(nodez_loc(L)+nxl*dom(ib)%dz) .or. &
                             dom(ib)%zc(k)<(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 212
 
-                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
 
                               nl=nl+1
                               dh1_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz, &
@@ -1006,7 +1006,7 @@ module imb
                   ELSE                          !body not moving
                   Do nl=1,KmaxU(L)
                       I=I_nr_U(L,nl) ;  J=J_nr_U(L,nl) ;  K=K_nr_U(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       U_Beta1_loc(L)=(U_Beta1_loc(L)+ &
                 dom(ib)%USTAR(I,J,K)*dh1_loc(L,nl))
                       !ENDIF
@@ -1030,7 +1030,7 @@ module imb
                           DO K = 1, dom(ib)%ttc_k
                               IF (dom(ib)%zc(k)>(nodez_loc(L)+nxl*dom(ib)%dz) .or. &
                             dom(ib)%zc(k)<(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 222
-                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                               nl=nl+1
                               dh2_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz, &
                         dom(ib)%XC(I),dom(ib)%Y(J),dom(ib)%ZC(K) &
@@ -1057,7 +1057,7 @@ module imb
                   ELSE
                   Do nl=1,KmaxV(L)
                       I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl) ;  K=K_nr_V(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       U_Beta2_loc(L)=U_Beta2_loc(L)+ &
                              dom(ib)%VSTAR(I,J,K)*dh2_loc(L,nl)
                       !ENDIF
@@ -1080,7 +1080,7 @@ module imb
                           DO K = 1, dom(ib)%ttc_k
                               IF (dom(ib)%z(k) >(nodez_loc(L)+nxl*dom(ib)%dz) .or. &
                             dom(ib)%z(k) <(nodez_loc(L)-nxl*dom(ib)%dz) )  GOTO 232
-                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                              !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                               nl=nl+1
                               dh3_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz, &
                         dom(ib)%XC(I),dom(ib)%YC(J),dom(ib)%Z(K) &
@@ -1105,7 +1105,7 @@ module imb
                   ELSE
                   Do nl=1,KmaxW(L)
                       I=I_nr_W(L,nl) ;  J=J_nr_W(L,nl) ;  K=K_nr_W(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       U_Beta3_loc(L)=U_Beta3_loc(L)+ &
                 dom(ib)%WSTAR(I,J,K)*dh3_loc(L,nl)
                       !ENDIF
@@ -1119,7 +1119,7 @@ module imb
 !       Do L = 1,maxnodeIBS
 !    nl=0 ; dhtotal=0.d0
 !   IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 703
-!    IF( rott_loc(L).eq.1_dp )then
+!    IF( rott_loc(L).eq.1 )then
 !           DO I = 1, dom(ib)%ttc_i
 !        IF (dom(ib)%xc(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
 !      &     dom(ib)%xc(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 240
@@ -1130,7 +1130,7 @@ module imb
 !        IF (dom(ib)%zc(k).gt.(nodez_loc(L)+nxl*dom(ib)%dz) .or.
 !      &     dom(ib)%zc(k).lt.(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 242
 
-! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016 --> Delete this (2020)
+! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016 --> Delete this (2020)
 
 !    nl=nl+1
 !         dh4_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
@@ -1147,7 +1147,7 @@ module imb
 
 ! !     ENDIF
 
-!       IF (dhtotal.ge.0_dp.9999) GOTO 703
+!       IF (dhtotal.ge.0.9999) GOTO 703
 
 ! 242         CONTINUE
 !             END DO
@@ -1156,14 +1156,14 @@ module imb
 ! 240         CONTINUE
 !           END DO
 
-!           if (nl.eq.0_dp) write(6,*)L,'nl is equal to 0!!'
+!           if (nl.eq.0) write(6,*)L,'nl is equal to 0!!'
 
 !         Sp_Beta_loc(L) =Sp_Beta_loc(L)*1.d0/dhtotal
 
 !   ELSE
 !    Do nl=1,KmaxSp(L)
 !     I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
-! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016
+! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
 !            Sp_Beta_loc(L) =Sp_Beta_loc(L) +
 !      &     dom(ib)%Sp(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
 ! !     ENDIF
@@ -1188,7 +1188,7 @@ module imb
                               IF (dom(ib)%zc(k)>(nodez_loc(L)+nxl*dom(ib)%dz) .or. &
                             dom(ib)%zc(k)<(nodez_loc(L)-nxl*dom(ib)%dz)) GOTO 252
 
-!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016 --> Delete this (2020)
+!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016 --> Delete this (2020)
 
                               nl=nl+1
 !        dh5_loc(L,nl)= dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz,
@@ -1221,7 +1221,7 @@ module imb
                   ELSE
                   Do nl=1,KmaxT(L)
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
-!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016
+!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
                       T_Beta_loc(L) =T_Beta_loc(L) + &
                 dom(ib)%T(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
 !       ENDIF
@@ -1353,7 +1353,7 @@ module imb
                   IF(imb_block_loc(L)/=dom_id(ib)) GOTO 802
                   Do nl=1,KmaxU(L)
                       I=I_nr_U(L,nl) ;  J=J_nr_U(L,nl) ;  K=K_nr_U(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX1_loc(L)*dh1_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%USTAR(I,J,K) = dom(ib)%USTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
@@ -1361,28 +1361,28 @@ module imb
                   Enddo
                   Do nl=1,KmaxV(L)
                       I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl);  K=K_nr_V(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                     !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX2_loc(L)*dh2_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%VSTAR(I,J,K) = dom(ib)%VSTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
                   Enddo
                   Do nl=1,KmaxW(L)
                       I=I_nr_W(L,nl) ;  J=J_nr_W(L,nl);  K=K_nr_W(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then         !Brunho comp channel 2016
+                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX3_loc(L)*dh3_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%WSTAR(I,J,K) = dom(ib)%WSTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
                   Enddo
 !    Do nl=1,KmaxSp(L) !Aleks 04/23 Modified for Sp from --> Brunho-Riza-ABR-2020
 !            I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
-! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016
+! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
 !           fbeta = FXSp_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
 !           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 ! !     endif
 !        Enddo
                   Do nl=1,KmaxT(L) !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
-!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1_dp.d-3) then            !Brunho comp channel 2016
+!       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
                       fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 !       endif

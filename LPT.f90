@@ -705,7 +705,7 @@
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
           call MPI_GATHERV(rhop_loc,np_loc,MPI_DOUBLE_PRECISION,rho_pt &
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
-!     if (myrank.eq.0_dp) then
+!     if (myrank.eq.0) then
 !           do l=1,np
 !                 write(myrank+800,*)'xp',xp_pt(l),yp_pt(l),zp_pt(l)
 !           enddo

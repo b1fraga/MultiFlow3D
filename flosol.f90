@@ -33,7 +33,7 @@
           if (.not.LRESTART) count = 1
 
 !        numfile1=1002; numfile2=1003; numfile3=1004
-!        if(myrank.eq.0_dp) then
+!        if(myrank.eq.0) then
 !           if (pressureforce) then
 !              open (unit=numfile1, file='forcn.dat')
 !              write (numfile1,*)
@@ -73,7 +73,7 @@
               if (read_inflow) then
               if (ireadinlet==ITMAX_PI.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.0_dp.and.iaddinlet==-1) then
+              elseif (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet
@@ -81,7 +81,7 @@
               elseif ((bc_w==8)) then
               if (ireadinlet==ITMAX_SEM.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.0_dp.and.iaddinlet==-1) then
+              elseif (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
               endif
               ireadinlet=ireadinlet+iaddinlet

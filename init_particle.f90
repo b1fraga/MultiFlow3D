@@ -351,7 +351,7 @@
 
           close (idfile)
 
-!   88 FORMAT (10F15.8_dp)
+!   88 FORMAT (10F15.8)
 
       END SUBROUTINE
 
@@ -393,7 +393,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           end do
           close (95)
 
-!   88 FORMAT (10F15.8_dp)
+!   88 FORMAT (10F15.8)
 
       END SUBROUTINE
 
@@ -433,7 +433,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
 
           pi = 3.1416d0 !Set value to pi
 
-!             if (sphere_optn.gt.3_dp) print*, 'ERROR!! Invalid spherical ',
+!             if (sphere_optn.gt.3) print*, 'ERROR!! Invalid spherical ',
 !      &       'release option! Valid options are 0 to 3'
 !             STOP
 

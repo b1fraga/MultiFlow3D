@@ -59,7 +59,7 @@
 
               Vcell = dom(ib)%dx*dom(ib)%dy*dom(ib)%dz
 
-!     if (dom_id(ib).eq.9_dp) then                         !release point for bubble plume
+!     if (dom_id(ib).eq.9) then                         !release point for bubble plume
 !       dom(ib)%So(dom(ib)%iep,dom(ib)%jep,30)=
 !      &    dom(ib)%So(dom(ib)%iep,dom(ib)%jep,30) + (3.41d-6/Vcell)*dt
 !       dom(ib)%So(dom(ib)%iep,dom(ib)%jep,31)=
@@ -299,14 +299,14 @@
 !=== West ===>   ..  4=wall  ..    1=Inflow
 !..............................................................................
                   if (dom(ib)%iprev<0) then
-                  !      if (dom(ib)%Tbc_west.eq.4_dp) then
+                  !      if (dom(ib)%Tbc_west.eq.4) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
                   do k=1,nk; do j=1,nj
                           dom(ib)%S(is-1-ly,j,k)= dom(ib)%S(is+ly,j,k)
                           dom(ib)%dens(is-1-ly,j,k)=dom(ib)%dens(is+ly,j,k)
                       end do; end do
 
-                  !      else if (dom(ib)%Tbc_west.eq.1_dp) then                   !CHANGE
+                  !      else if (dom(ib)%Tbc_west.eq.1) then                   !CHANGE
                   !         do k=ks-1,ke+1; do j=js-1,je+1
                   !            dom(ib)%S(is-1-ly,j,k)= 1.0_dp
                   !         end do; end do
@@ -330,7 +330,7 @@
 !=== East ===>   ..  4=wall  ..    2=Outflow
 !...............................................................................
                   if (dom(ib)%inext<0) then
-                  !      if (dom(ib)%Tbc_east.eq.4_dp) then
+                  !      if (dom(ib)%Tbc_east.eq.4) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
                   do k=1,nk; do j=1,nj
                           dom(ib)%S(ie+1+ly,j,k)= dom(ib)%S(ie-ly,j,k)
@@ -347,7 +347,7 @@
 !=== South ===>  ..  4=wall  ..
 !...............................................................................
                   if (dom(ib)%jprev<0) then
-                  !      if (dom(ib)%Tbc_south.eq.4_dp) then
+                  !      else if (dom(ib)%Tbc_east.eq.2) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
                   do k=1,nk; do i=1,ni
                           dom(ib)%S(i,js-1-ly,k)= dom(ib)%S(i,js+ly,k)
@@ -360,7 +360,7 @@
 !=== North ===>  ..  4=wall  ..
 !.............................................................................
                   if (dom(ib)%jnext<0) then
-                  !      if (dom(ib)%Tbc_north.eq.4_dp) then
+                  !      if (dom(ib)%Tbc_north.eq.4) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
                   do k=1,nk; do i=1,ni
                           dom(ib)%S(i,je+1+ly,k) = dom(ib)%S(i,je-ly,k)
@@ -373,12 +373,12 @@
 !=== Bottom ===>  ..  6=Net deposition  ..   7=Erosion
 !...............................................................................
                   if (dom(ib)%kprev<0) then
-                  !      if (dom(ib)%Tbc_bottom.eq.6_dp) then
+                  !      if (dom(ib)%Tbc_bottom.eq.6) then
                   !         do j=js-1,je+1; do i=is-1,ie+1
                   !            dom(ib)%S(i,j,ks-1-ly)= 0.0_dp
                   !         end do; end do
 
-                  !      else if (dom(ib)%Tbc_bottom.eq.7_dp) then
+                  !      else if (dom(ib)%Tbc_bottom.eq.7) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
                   do j=1,nj; do i=1,ni
                           dom(ib)%S(i,j,ks-1-ly)= dom(ib)%S(i,j,ks+ly)
@@ -390,7 +390,7 @@
 !=== Top ===>  ..  8=free surface
 !.............................................................................
                   if (dom(ib)%knext<0) then
-                  !      if (dom(ib)%Tbc_top.eq.8_dp) then
+                  !      if (dom(ib)%Tbc_top.eq.8) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
                   do j=1,nj; do i=1,ni
                           dom(ib)%S(i,j,ke+1+ly) = dom(ib)%S(i,j,ke-ly)

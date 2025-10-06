@@ -417,7 +417,7 @@
           write (numfile,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
      ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
      ' sweeps:',nsweeps,' rmax:',rmax
-!           write(numfile2,'(i8,f15.6_dp,3e20.6_dp)')
+!           write(numfile2,'(i8,f15.6,3e20.6)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if
 

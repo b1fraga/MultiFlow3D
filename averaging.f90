@@ -317,7 +317,7 @@
 !
 !       Generate a random normal deviate using the polar method.
 !       Reference: Marsaglia,G. & Bray,T.A. 'A convenient method for generating
-!                  normal variables', Siam Rev., vol.6_dp, 260-264, 1964.
+!                  normal variables', Siam Rev., vol.6, 260-264, 1964.
 !       (source from internet)
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

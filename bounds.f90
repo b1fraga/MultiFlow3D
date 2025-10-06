@@ -374,7 +374,7 @@
                           dom(ib)%v(is-1-ly,j,k)= -dom(ib)%v(is+ly,j,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_west==1.0_dp.or.dom(ib)%bc_west==12) then
+                  else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(is-1-ly,j,k)=0.0_dp
                       end do; end do
@@ -663,7 +663,7 @@
                           dom(ib)%w(is-1-ly,j,k)= -dom(ib)%w(is+ly,j,k)
                       end do; end do
 
-                  else if (dom(ib)%bc_west==1.0_dp.or.dom(ib)%bc_west==12) then
+                  else if (dom(ib)%bc_west==1.or.dom(ib)%bc_west==12) then
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(is-1-ly,j,k)= 0.0_dp
                       end do; end do

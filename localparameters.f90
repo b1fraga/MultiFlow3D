@@ -264,7 +264,7 @@
           ngg=nmax
 !        if(ngg.gt.8180) then
 !           print*,'exceed communication limit (MPI_SEND), STOP!'
-!           if (myrank.eq.0_dp)
+!           if (myrank.eq.0)
 !     & write(numfile,*),'exceed communication limit (MPI_SEND), STOP!'
 !           stop
 !        end if

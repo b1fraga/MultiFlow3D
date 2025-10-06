@@ -2309,7 +2309,7 @@
                   call MPI_WAIT(dom(ib)%rq_c2m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev2)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2326,7 +2326,7 @@
                   call MPI_WAIT(dom(ib)%rq_c3m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev3)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2358,7 +2358,7 @@
                   call MPI_WAIT(dom(ib)%rq_c1p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%cornext1)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2405,7 +2405,7 @@
                   call MPI_WAIT(dom(ib)%rq_c4p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%cornext4)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2437,7 +2437,7 @@
                   call MPI_WAIT(dom(ib)%rq_e2m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgprev2)) st1=0
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2499,7 +2499,7 @@
                   call MPI_WAIT(dom(ib)%rq_e6m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgprev6)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2561,7 +2561,7 @@
                   call MPI_WAIT(dom(ib)%rq_e4p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgnext4)) st1=0
                   do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2578,7 +2578,7 @@
                   call MPI_WAIT(dom(ib)%rq_e5p,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgnext5)) st2=0
                   do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
@@ -2618,7 +2618,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%iprev)) jspr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgprev6.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgprev6.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev6)) jepr=nj-pl-1
 
@@ -2660,7 +2660,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%kprev)) jspr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgprev2.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgprev2.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev2)) jepr=nj-pl-1
 
@@ -2682,7 +2682,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%inext)) jspr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgnext5.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext5.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext5)) jepr=nj-pl-1
 
@@ -2722,7 +2722,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%knext)) jspr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgnext4.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext4.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext4)) jepr=nj-pl-1
 

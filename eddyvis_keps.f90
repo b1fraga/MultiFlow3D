@@ -49,7 +49,7 @@
                           if (LAS.or.L_LSM) then                                            !variable density
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                           endif
-!   if (abs(dom(ib)%eps(i,j,k)).lt.1_dp.0d-07) then
+!   if (abs(dom(ib)%eps(i,j,k)).lt.1.0d-07) then
 !       dom(ib)%eps(i,j,k)=1.0d-07
 !   endif
 
@@ -279,7 +279,7 @@
                   end do
               end do
 
-              !if (dom_id(ib).eq.8_dp) then
+              !if (dom_id(ib).eq.8) then
               !write(6,*)'k',dom(ib)%ksgso(20,20,20)
               !write(6,*)'eps',dom(ib)%epso(20,20,20)
               !write(6,*)'vis',dom(ib)%vis(20,20,20)
@@ -452,7 +452,7 @@
                           dom(ib)%ksgs(i,j,k)=(dom(ib)%ksgso(i,j,k)+ &
                     alfark*dt*(diff-conv+prod-other))
 
-                          !if(dom(ib)%ksgs(i,j,k).lt.0_dp.0_dp) then
+                          !if(dom(ib)%ksgs(i,j,k).lt.0.0) then
                           ! print*,'ERRORRRR in eps eqn'
                           !print*,dom_id(ib),i,j,k
                           !write(6,*)'k',dom(ib)%ksgs(i,j,k)
@@ -698,7 +698,7 @@
                           dom(ib)%eps(i,j,k)=(dom(ib)%epso(i,j,k)+&              !time derivative
                     alfark*dt*(diff-conv+prod-other))
 
-                          !if(dom(ib)%eps(i,j,k).lt.0_dp.0_dp) then
+                          !if(dom(ib)%eps(i,j,k).lt.0.0) then
                           !print*,'ERRORRRR in eps eqn'
                           !print*,dom_id(ib),i,j,k
                           !write(6,*)'eps',dom(ib)%eps(i,j,k)

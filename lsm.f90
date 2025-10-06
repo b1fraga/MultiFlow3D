@@ -127,14 +127,14 @@
 !       character*31 :: gridfile
 !       character *80 dummyline
 
-!   if (myrank.eq.0_dp) then
+!   if (myrank.eq.0) then
 !     write(*,'(a)') '**********************************************'
 !     write(*,'(a)') '*'
 !     write(*,'(a)') '*            TWO-PHASE SIMULATION'
 !     if (l_lsmbase) then
-!       write(*,'(a,f8.3_dp)') '* Base case with rigid lid at z=',length
+!       write(*,'(a,f8.3)') '* Base case with rigid lid at z=',length
 !     else
-!       write(*,'(a,f8.3_dp)') '* Initial water level: z=',length
+!       write(*,'(a,f8.3)') '* Initial water level: z=',length
 !     endif
 !     write(*,'(a)') '*'
 !     write(*,'(a)') '**********************************************'
@@ -179,7 +179,7 @@
 !               end do
 !             end do
 !           end do
-!  73       format (10e25.8_dp)
+!  73       format (10e25.8)
 !           close(703)
 !           dom(ib)%phi_init = 0.0_dp
 !           dom(ib)%phi_new = 0.0_dp
@@ -201,23 +201,23 @@
 ! ! Set initial free surface profile, if not uniform (this is case dependent)
 ! ! Initialise length (i.e. distance of free surface from bed)
 ! !========== Richard cube test =========================================
-! !          if ((dom(ib)%xc(i).ge.0_dp).and.(dom(ib)%xc(i).le.0_dp.035)) then
+! !          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.035)) then
 ! !            length=0.025
-! !          else if ((dom(ib)%xc(i).gt.0_dp.035).and.
-! !     &             (dom(ib)%xc(i).le.0_dp.065)) then
+! !          else if ((dom(ib)%xc(i).gt.0.035).and.
+! !     &             (dom(ib)%xc(i).le.0.065)) then
 ! !            length=-0.266666667*dom(ib)%xc(i)+0.0343
-! !          else if ((dom(ib)%xc(i).gt.0_dp.065).and.
-! !     &             (dom(ib)%xc(i).le.0_dp.25088)) then
+! !          else if ((dom(ib)%xc(i).gt.0.065).and.
+! !     &             (dom(ib)%xc(i).le.0.25088)) then
 ! !            length=0.017
 ! !          end if
 ! !========== Sibel constriction test ===================================
-! !          if ((dom(ib)%xc(i).ge.0_dp).and.(dom(ib)%xc(i).le.0_dp.59)) then
+! !          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.59)) then
 ! !            length=0.076
-! !          else if ((dom(ib)%xc(i).gt.0_dp.59).and.
-! !     &             (dom(ib)%xc(i).le.0_dp.885)) then
+! !          else if ((dom(ib)%xc(i).gt.0.59).and.
+! !     &             (dom(ib)%xc(i).le.0.885)) then
 ! !            length=-0.213559322*dom(ib)%xc(i)+0.202
-! !          else if ((dom(ib)%xc(i).gt.0_dp.885).and.
-! !     &             (dom(ib)%xc(i).le.1_dp.475)) then
+! !          else if ((dom(ib)%xc(i).gt.0.885).and.
+! !     &             (dom(ib)%xc(i).le.1.475)) then
 ! !            length=0.013
 ! !          end if
 ! !======================================================================
@@ -225,9 +225,9 @@
 ! ! Initialise phi (free surface defined by phi=0, phi=-ve above, +ve below)
 ! !
 !                   if (dom(ib)%zc(k).lt.length)   then
-!                     dom(ib)%phi(i,j,k) = 1.0_dp*abs(dom(ib)%zc(k)-length)
+!                     dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
 !                   else if (dom(ib)%zc(k).gt.length)   then
-!                     dom(ib)%phi(i,j,k) = -1.0_dp*abs(dom(ib)%zc(k)-length)
+!                     dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
 !                   else if (dom(ib)%zc(k).eq.length)  then
 !                     dom(ib)%phi(i,j,k) = 0.0_dp
 !                   end if

@@ -2325,7 +2325,7 @@
                   call MPI_WAIT(dom(ib)%rq_c3m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev3)) st1=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2342,7 +2342,7 @@
                   call MPI_WAIT(dom(ib)%rq_c4m,MPI_STATUS_IGNORE,ierr)
                   end if
                   st1=1; st2=1; st3=1
-!              if(LMR.eq.2_dp .and.
+!              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev4)) st1=0
                   do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
@@ -2640,7 +2640,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%jprev)) ispr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgnext6.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext6.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext6)) iepr=ni-pl-1
 
@@ -2659,7 +2659,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%kprev)) ispr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgprev3.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgprev3.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev3)) iepr=ni-pl-1
 
@@ -2703,7 +2703,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%jnext)) ispr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgnext5.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext5.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%jnext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext5)) iepr=ni-pl-1
 
@@ -2722,7 +2722,7 @@
                   iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%knext)) ispr=pl
-!                 if(LMR.eq.2_dp .and. dom(ib)%edgnext1.ge.0_dp .and.
+!                 if(LMR.eq.2 .and. dom(ib)%edgnext1.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext1)) iepr=ni-pl-1
 

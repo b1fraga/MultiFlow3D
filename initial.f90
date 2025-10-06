@@ -79,9 +79,9 @@
 
           if (trim(L_n)=='n') fric=fric**0.33_dp
 
-!        if(bc_w.eq.5_dp .or. bc_e.eq.5_dp .or.
-!     & bc_s.eq.5_dp .or. bc_n.eq.5_dp .or.
-!     & bc_b.eq.5_dp .or. bc_t.eq.5_dp) then
+!        if(bc_w.eq.5 .or. bc_e.eq.5 .or.
+!     & bc_s.eq.5 .or. bc_n.eq.5 .or.
+!     & bc_b.eq.5 .or. bc_t.eq.5) then
 !           PERIODIC=.true.
 !        else
 !           PERIODIC=.false.
@@ -104,7 +104,7 @@
               if (dom(ib)%bc_west==7) read_inflow=.true.
           end do
 
-!        if(solver.eq.2_dp .and. LMR.eq.2_dp) then
+!        if(solver.eq.2 .and. LMR.eq.2) then
 !           print*,'error: wrong solver selection for LMR',
 !     &' new ghost cell approach!!, STOP'
 !           stop
@@ -745,13 +745,12 @@
 !                do k=1,ttk
 !                  do j=1,ttj
 !                    do i=1,tti
-!       if (dom(ib)%z(k).gt.0_dp.66) then
-!              dom(ib)%T(i,j,k)=5.0_dp;  dom(ib)%To(i,j,k)=5.0_dp
-!       elseif (dom(ib)%z(k).le.0_dp.66.and.dom(ib)%z(k).gt.0_dp.33) then
-!              dom(ib)%T(i,j,k)=0.0_dp;  dom(ib)%To(i,j,k)=0.0_dp
-!       elseif (dom(ib)%z(k).le.0_dp.33) then
-!              dom(ib)%T(i,j,k)=-5.0_dp;  dom(ib)%To(i,j,k)=-5.0_dp
-!       endif
+!       if (dom(ib)%z(k).gt.0.66) then
+!              dom(ib)%T(i,j,k)=5.;  dom(ib)%To(i,j,k)=5.
+!       elseif (dom(ib)%z(k).le.0.66.and.dom(ib)%z(k).gt.0.33) then
+!              dom(ib)%T(i,j,k)=0.;  dom(ib)%To(i,j,k)=0.
+!       elseif (dom(ib)%z(k).le.0.33) then
+!              dom(ib)%T(i,j,k)=-5.;  dom(ib)%To(i,j,k)=-5.
 !             end do
 !             end do
 !           end do

@@ -237,7 +237,7 @@
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
-!               if (dom_id(ib).eq.0_dp.and.j.eq.20)
+!               if (dom_id(ib).eq.0.and.j.eq.20)
 !     &         write(6,*)ustar,yplus,delta,rrey,kappa
                       if (icont==tkmax) then
                       print*,'USTAR DOESNT CONVERGE'
