@@ -37,8 +37,8 @@ jobs:
           sudo apt-get install -y openmpi-bin libopenmpi-dev
 
       - run: |
-          export FPM_FC="mpif90"
-          cd ./json-fortran
-          fpm build
-          cd ..
+          cmake -S ./json-fortran/ -B ./build_json_fortran/ -DCMAKE_Fortran_COMPILER=mpif90
+          cmake --build build_json_fortran
+          cmake -S ./test-drive/ -B ./build_test_drive/ -DCMAKE_Fortran_COMPILER=mpif90
+          cmake --build build_test_drive
           make -j $(nproc --all)

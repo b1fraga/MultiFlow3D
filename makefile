@@ -1,9 +1,11 @@
 #############################################################
 F90=mpif90
-OPTIONS    =  -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp -std=f2008
+OPTIONS    =  -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp -std=f2018
 LOPTIONS   = -O2 -fopenmp
-INCLUDE_PATH := $(shell realpath $$(dirname $$(find . -path "*json_module.mod*")))
-LIBRARY_PATH := $(shell realpath $$(dirname $$(find . -path "*json-fortran/libjson-fortran.a.log*")))
+JSON_FORTRAN_INCLUDE_PATH := build_json_fortran/include/
+JSON_FORTRAN_LIBRARY_PATH := build_json_fortran/lib/
+TEST_DRIVE_INCLUDE_PATH := build_test_drive/include/
+TEST_DRIVE_LIBRARY_PATH := build_test_drive/
 ##############################################################
 
 objects = \
@@ -60,15 +62,37 @@ exchange_phi.o\
 bounds_lsm.o\
 lsm.o\
 SEM.o\
-sediment.o
+sediment.o \
+json_io.o
+
+test_objects = \
+tests/test_json_io.o \
+json_io.o \
+tests/main.o
+
+all: test
+
+test: tests.exe
+	@cd tests && \
+	./tests.exe && \
+	cd ..
 
 .SUFFIXES: .f90
 
 .f90.o:
-	$(F90) $(OPTIONS) -I$(INCLUDE_PATH) -L$(LIBRARY_PATH) -ljson-fortran -o $@ $<
+	$(F90) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran -o $@ $<
 
 M3D_v2.exe: $(objects) 
-	$(F90) $(objects) $(LOPTIONS) -I$(INCLUDE_PATH) -L$(LIBRARY_PATH) -ljson-fortran -o M3D_v2.exe \
+	$(F90) $(objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran -o M3D_v2.exe \
+
+tests/%.o: tests/%.f90
+	$(F90) $(LOPTIONS) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran \
+					-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) -ljsonfortran -ltest-drive -c -o $@ $<
+
+tests.exe: $(test_objects) M3D_v2.exe
+	$(F90) $(test_objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
+			-Wl,-rpath=$(CURDIR)/$(JSON_FORTRAN_LIBRARY_PATH) -Wl,-rpath=$(CURDIR)/$(TEST_DRIVE_LIBRARY_PATH) \
+			-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) -ljsonfortran -ltest-drive -o tests/tests.exe
 
 clean:
 	rm -rfv *.o *.mod M3D_v2.exe
@@ -129,3 +153,6 @@ wall_function.o : wall_function.f90 module_multidata.o module_vars.o
 log_law.o : log_law.f90 module_multidata.o module_vars.o 
 weno.o : weno.f90 module_multidata.o module_vars.o 
 SEM.o : SEM.f90 module_multidata.o module_vars.o module_SEM.o module_mpi.o
+json_io.o : json_io.f90
+tests/test_json_io.o : tests/test_json_io.f90 json_io.o
+tests/main.o : tests/main.f90 tests/test_json_io.o json_io.o
