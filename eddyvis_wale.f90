@@ -3,6 +3,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
@@ -22,11 +23,11 @@
           character*25 :: gf
 
 
-          cw=0.46
+          cw=0.46_dp
 
           do ib=1,nbp
 
-              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0/3.0)
+              delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
               is=dom(ib)%isp; ie=dom(ib)%iep
               js=dom(ib)%jsp; je=dom(ib)%jep
@@ -40,49 +41,49 @@
 
                           if (LENERGY) then
                           dom(ib)%dens(i,j,k) = &
-                    999.8/(1.+0.000088*(dom(ib)%T(i,j,k)+20.))
+                    999.8_dp/(1.0_dp+0.000088_dp*(dom(ib)%T(i,j,k)+20.0_dp))
                           dom(ib)%mu(i,j,k) = &
-                    2.414d-5*10.d0**(-25.2/(dom(ib)%T(i,j,k)+20.-413.d0))
+                    2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.0_dp-413.d0))
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                           endif
 
 !====================================================
-                          vr_a = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                          vr_a = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                     dom(ib)%u(i,j+1,k) + dom(ib)%u(i-1,j+1,k) )
-                          vr_b = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                          vr_b = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                     dom(ib)%u(i,j-1,k) + dom(ib)%u(i-1,j-1,k) )
 
-                          vr_c = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                          vr_c = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                     dom(ib)%u(i,j,k+1) + dom(ib)%u(i-1,j,k+1) )
-                          vr_d = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                          vr_d = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                     dom(ib)%u(i,j,k-1) + dom(ib)%u(i-1,j,k-1) )
 
                           dudx = ( dom(ib)%u(i,j,k) - dom(ib)%u(i-1,j,k) )/dom(ib)%dx
                           dudy = ( vr_a - vr_b )/dom(ib)%dy
                           dudz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-                          vr_a = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                          vr_a = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                     dom(ib)%v(i+1,j,k) + dom(ib)%v(i+1,j-1,k) )
-                          vr_b = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                          vr_b = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                     dom(ib)%v(i-1,j,k) + dom(ib)%v(i-1,j-1,k) )
 
-                          vr_c = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                          vr_c = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                     dom(ib)%v(i,j,k+1) + dom(ib)%v(i,j-1,k+1) )
-                          vr_d = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                          vr_d = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                     dom(ib)%v(i,j,k-1) + dom(ib)%v(i,j-1,k-1) )
 
                           dvdy = ( dom(ib)%v(i,j,k) - dom(ib)%v(i,j-1,k) )/dom(ib)%dy
                           dvdx = ( vr_a - vr_b )/dom(ib)%dx
                           dvdz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-                          vr_a = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                          vr_a = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                     dom(ib)%w(i+1,j,k) + dom(ib)%w(i+1,j,k-1) )
-                          vr_b = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                          vr_b = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                     dom(ib)%w(i-1,j,k) + dom(ib)%w(i-1,j,k-1) )
 
-                          vr_c = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                          vr_c = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                     dom(ib)%w(i,j+1,k) + dom(ib)%w(i,j+1,k-1) )
-                          vr_d = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                          vr_d = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                     dom(ib)%w(i,j-1,k) + dom(ib)%w(i,j-1,k-1) )
 
                           dwdz = ( dom(ib)%w(i,j,k) - dom(ib)%w(i,j,k-1) )/dom(ib)%dz
@@ -97,20 +98,20 @@
                           if (dom(ib)%iprev<0) then
                           if (dom(ib)%bc_west>=61 .or. dom(ib)%bc_west==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
-                          ufv_n1=0.5*( dom(ib)%u(i+1,j,k)+dom(ib)%u(i,j,k) )
-                          ufv_n2=0.5*( dom(ib)%u(i+2,j,k)+dom(ib)%u(i+1,j,k) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i+1,j,k)+dom(ib)%u(i,j,k) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i+2,j,k)+dom(ib)%u(i+1,j,k) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
-                          vfv_n1=0.5*( dom(ib)%v(i+1,j,k)+dom(ib)%v(i+1,j-1,k) )
-                          vfv_n2=0.5*( dom(ib)%v(i+2,j,k)+dom(ib)%v(i+2,j-1,k) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i+1,j,k)+dom(ib)%v(i+1,j-1,k) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i+2,j,k)+dom(ib)%v(i+2,j-1,k) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i+1,j,k)+dom(ib)%w(i+1,j,k-1) )
-                          wfv_n2=0.5*( dom(ib)%w(i+2,j,k)+dom(ib)%w(i+2,j,k-1) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i+1,j,k)+dom(ib)%w(i+1,j,k-1) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i+2,j,k)+dom(ib)%w(i+2,j,k-1) )
 
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -123,20 +124,20 @@
                           if (dom(ib)%inext<0) then
                           if (dom(ib)%bc_east>=61 .or. dom(ib)%bc_east==4) then
 
-                          h1=dom(ib)%dx; h2=2.0*dom(ib)%dx; h3=dom(ib)%dx
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          rh123=-1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
-                          ufv_n1=0.5*( dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k) )
-                          ufv_n2=0.5*( dom(ib)%u(i-2,j,k)+dom(ib)%u(i-3,j,k) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i-2,j,k)+dom(ib)%u(i-3,j,k) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
-                          vfv_n1=0.5*( dom(ib)%v(i-1,j,k)+dom(ib)%v(i-1,j-1,k) )
-                          vfv_n2=0.5*( dom(ib)%v(i-2,j,k)+dom(ib)%v(i-2,j-1,k) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i-1,j,k)+dom(ib)%v(i-1,j-1,k) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i-2,j,k)+dom(ib)%v(i-2,j-1,k) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i-1,j,k)+dom(ib)%w(i-1,j,k-1) )
-                          wfv_n2=0.5*( dom(ib)%w(i-2,j,k)+dom(ib)%w(i-2,j,k-1) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i-1,j,k)+dom(ib)%w(i-1,j,k-1) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i-2,j,k)+dom(ib)%w(i-2,j,k-1) )
 
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -149,20 +150,20 @@
                           if (dom(ib)%jprev<0) then
                           if (dom(ib)%bc_south>=61 .or. dom(ib)%bc_south==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
-                          ufv_n1=0.5*( dom(ib)%u(i,j+1,k)+dom(ib)%u(i-1,j+1,k) )
-                          ufv_n2=0.5*( dom(ib)%u(i,j+2,k)+dom(ib)%u(i-1,j+2,k) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i,j+1,k)+dom(ib)%u(i-1,j+1,k) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i,j+2,k)+dom(ib)%u(i-1,j+2,k) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k  ) )
-                          vfv_n1=0.5*( dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j,k) )
-                          vfv_n2=0.5*( dom(ib)%v(i,j+2,k)+dom(ib)%v(i,j+1,k) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k  ) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j,k) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i,j+2,k)+dom(ib)%v(i,j+1,k) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i,j+1,k)+dom(ib)%w(i,j+1,k-1) )
-                          wfv_n2=0.5*( dom(ib)%w(i,j+2,k)+dom(ib)%w(i,j+2,k-1) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i,j+1,k)+dom(ib)%w(i,j+1,k-1) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i,j+2,k)+dom(ib)%w(i,j+2,k-1) )
 
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -175,20 +176,20 @@
                           if (dom(ib)%jnext<0) then
                           if (dom(ib)%bc_north>=61 .or. dom(ib)%bc_north==4) then
 
-                          h1=dom(ib)%dy; h2=2.0*dom(ib)%dy; h3=dom(ib)%dy
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          rh123=-1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
-                          ufv_n1=0.5*( dom(ib)%u(i,j-1,k)+dom(ib)%u(i-1,j-1,k) )
-                          ufv_n2=0.5*( dom(ib)%u(i,j-2,k)+dom(ib)%u(i-1,j-2,k) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i,j-1,k)+dom(ib)%u(i-1,j-1,k) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i,j-2,k)+dom(ib)%u(i-1,j-2,k) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k  ) )
-                          vfv_n1=0.5*( dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-2,k) )
-                          vfv_n2=0.5*( dom(ib)%v(i,j-2,k)+dom(ib)%v(i,j-3,k) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k  ) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-2,k) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i,j-2,k)+dom(ib)%v(i,j-3,k) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i,j-1,k)+dom(ib)%w(i,j-1,k-1) )
-                          wfv_n2=0.5*( dom(ib)%w(i,j-2,k)+dom(ib)%w(i,j-2,k-1) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i,j-1,k)+dom(ib)%w(i,j-1,k-1) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i,j-2,k)+dom(ib)%w(i,j-2,k-1) )
 
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -201,20 +202,20 @@
                           if (dom(ib)%kprev<0) then
                           if (dom(ib)%bc_bottom>=61 .or. dom(ib)%bc_bottom==4) then
 
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
-                          ufv_n1=0.5*( dom(ib)%u(i,j,k+1)+dom(ib)%u(i-1,j,k+1) )
-                          ufv_n2=0.5*( dom(ib)%u(i,j,k+2)+dom(ib)%u(i-1,j,k+2) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i,j,k+1)+dom(ib)%u(i-1,j,k+1) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i,j,k+2)+dom(ib)%u(i-1,j,k+2) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
-                          vfv_n1=0.5*( dom(ib)%v(i,j,k+1)+dom(ib)%v(i,j-1,k+1) )
-                          vfv_n2=0.5*( dom(ib)%v(i,j,k+2)+dom(ib)%v(i,j-1,k+2) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i,j,k+1)+dom(ib)%v(i,j-1,k+1) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i,j,k+2)+dom(ib)%v(i,j-1,k+2) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k) )
-                          wfv_n2=0.5*( dom(ib)%w(i,j,k+2)+dom(ib)%w(i,j,k+1) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i,j,k+2)+dom(ib)%w(i,j,k+1) )
 
                           dudz=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdz=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -227,20 +228,20 @@
                           if (dom(ib)%knext<0) then
                           if (dom(ib)%bc_top>=61 .or. dom(ib)%bc_top==4) then
 
-                          h1=dom(ib)%dz; h2=2.0*dom(ib)%dz; h3=dom(ib)%dz
-                          rh123=-1.0/(h1*h2*h3)
+                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          rh123=-1.0_dp/(h1*h2*h3)
 
-                          ufv_c =0.5*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
-                          ufv_n1=0.5*( dom(ib)%u(i,j,k-1)+dom(ib)%u(i-1,j,k-1) )
-                          ufv_n2=0.5*( dom(ib)%u(i,j,k-2)+dom(ib)%u(i-1,j,k-2) )
+                          ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
+                          ufv_n1=0.5_dp*( dom(ib)%u(i,j,k-1)+dom(ib)%u(i-1,j,k-1) )
+                          ufv_n2=0.5_dp*( dom(ib)%u(i,j,k-2)+dom(ib)%u(i-1,j,k-2) )
 
-                          vfv_c =0.5*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
-                          vfv_n1=0.5*( dom(ib)%v(i,j,k-1)+dom(ib)%v(i,j-1,k-1) )
-                          vfv_n2=0.5*( dom(ib)%v(i,j,k-2)+dom(ib)%v(i,j-1,k-2) )
+                          vfv_c =0.5_dp*( dom(ib)%v(i,j,k)  +dom(ib)%v(i,j-1,k) )
+                          vfv_n1=0.5_dp*( dom(ib)%v(i,j,k-1)+dom(ib)%v(i,j-1,k-1) )
+                          vfv_n2=0.5_dp*( dom(ib)%v(i,j,k-2)+dom(ib)%v(i,j-1,k-2) )
 
-                          wfv_c =0.5*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
-                          wfv_n1=0.5*( dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j,k-2) )
-                          wfv_n2=0.5*( dom(ib)%w(i,j,k-2)+dom(ib)%w(i,j,k-3) )
+                          wfv_c =0.5_dp*( dom(ib)%w(i,j,k)  +dom(ib)%w(i,j,k-1) )
+                          wfv_n1=0.5_dp*( dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j,k-2) )
+                          wfv_n2=0.5_dp*( dom(ib)%w(i,j,k-2)+dom(ib)%w(i,j,k-3) )
 
                           dudz=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdz=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
@@ -252,47 +253,47 @@
 !==========================================================================
 ! ..... EDDY VISCOSITY CALCULATION
 !==========================================================================
-                          l_s  = (cw * delta_grid)**2.0
+                          l_s  = (cw * delta_grid)**2.0_dp
 
-                          s12 = 0.5 * (dudy + dvdx)
+                          s12 = 0.5_dp * (dudy + dvdx)
 
-                          s13 = 0.5 * (dudz + dwdx)
+                          s13 = 0.5_dp * (dudz + dwdx)
 
-                          s23 = 0.5 * (dvdz + dwdy)
+                          s23 = 0.5_dp * (dvdz + dwdy)
 
                           ss  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
-                        2.0*s12*s12   + 2.0*s13*s13 + 2.0*s23*s23 )
+                        2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
 
                           eqnA=dudx*dudx+dvdy*dvdy+dwdz*dwdz+ &
-                    2.0*dudy*dvdx+2.0*dudz*dwdx+2.0*dvdz*dwdy
+                    2.0_dp*dudy*dvdx+2.0_dp*dudz*dwdx+2.0_dp*dvdz*dwdy
 
-                          s11d = dudx*dudx+dudy*dvdx+dudz*dwdx-eqnA/3.0
+                          s11d = dudx*dudx+dudy*dvdx+dudz*dwdx-eqnA/3.0_dp
 
-                          s22d = dvdx*dudy+dvdy*dvdy+dvdz*dwdy-eqnA/3.0
+                          s22d = dvdx*dudy+dvdy*dvdy+dvdz*dwdy-eqnA/3.0_dp
 
-                          s33d = dwdx*dudz+dwdy*dvdz+dwdz*dwdz-eqnA/3.0
+                          s33d = dwdx*dudz+dwdy*dvdz+dwdz*dwdz-eqnA/3.0_dp
 
-                          s12d =0.5*( dudx*dudy+dudy*dvdy+dudz*dwdy+ &
+                          s12d =0.5_dp*( dudx*dudy+dudy*dvdy+dudz*dwdy+ &
                                 dvdx*dudx+dvdy*dvdx+dvdz*dwdx)
 
-                          s13d =0.5*( dudx*dudz+dudy*dvdz+dudz*dwdz+ &
+                          s13d =0.5_dp*( dudx*dudz+dudy*dvdz+dudz*dwdz+ &
                                 dwdx*dudx+dwdy*dvdx+dwdz*dwdx)
 
-                          s23d =0.5*( dvdx*dudz+dvdy*dvdz+dvdz*dwdz+ &
+                          s23d =0.5_dp*( dvdx*dudz+dvdy*dvdz+dvdz*dwdz+ &
                                 dwdx*dudy+dwdy*dvdy+dwdz*dwdy)
 
                           sdsd = ( s11d*s11d +     s22d*s22d +     s33d*s33d  + &
-                         2.0*s12d*s12d + 2.0*s13d*s13d + 2.0*s23d*s23d  )
+                         2.0_dp*s12d*s12d + 2.0_dp*s13d*s13d + 2.0_dp*s23d*s23d  )
 
 
-                          if(sdsd/=0.0) then
-                          denom=(ss**2.5+sdsd**1.25)
-                          if (denom==0.0) then
+                          if(sdsd/=0.0_dp) then
+                          denom=(ss**2.5_dp+sdsd**1.25_dp)
+                          if (denom==0.0_dp) then
                           !print*,'error, denominator is zero!'
                           dom(ib)%vis(i,j,k) = rrey
                           else
-                          dom(ib)%vis(i,j,k) = rrey + l_s * sdsd**1.5 / denom
+                          dom(ib)%vis(i,j,k) = rrey + l_s * sdsd**1.5_dp / denom
                           endif
                           else
                           dom(ib)%vis(i,j,k) = rrey

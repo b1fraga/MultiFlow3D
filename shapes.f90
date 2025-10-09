@@ -131,7 +131,7 @@
               else
               nodes(M) = nodes(M) + &
         NINT(2.d0*PI*Rtemp(c)/(dxm(numIB)))
-              nodes_percyl(c)=NINT(2.0*PI*Rtemp(c)/(dxm(numIB)))
+              nodes_percyl(c)=NINT(2.0_dp*PI*Rtemp(c)/(dxm(numIB)))
               end if
               IF (Rtemp(c)==0.d0) nodes(M)        = nodes(M) + 1
               IF (Rtemp(c)==0.d0) nodes_percyl(c) = 1
@@ -219,7 +219,7 @@
           nodezmin=Cz(M)-R(M); nodezmax=Cz(M)+R(M)
 
           nin =2.d0*R(M)/dxm(numIB)
-          if(abs(nin-2.0*R(M)/dxm(numIB))>=0.999999999) &
+          if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999_dp) &
     then
           nin=nin+1
           print*,'absurd-x!!!!!'
@@ -227,7 +227,7 @@
           nin=nin+1
 
           njn =2.d0*R(M)/dym(numIB)
-          if(abs(njn-2.0*R(M)/dym(numIB))>=0.999999999) &
+          if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999_dp) &
     then
           njn=njn+1
           print*,'absurd-y!!!!!'
@@ -235,7 +235,7 @@
           njn=njn+1
 
           nkn =2.d0*R(M)/dzm(numIB)
-          if(abs(nkn-2.0*R(M)/dzm(numIB))>=0.999999999) &
+          if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999_dp) &
     then
           nkn=nkn+1
           print*,'absurd-y!!!!!'
@@ -338,12 +338,12 @@
               ztemp_layer(M,izr) = R(M)*sin(thz(M)*(izr-1)-(PI/2.d0))+Cz(M)
               end if
 
-              do while (Rtemp_layer(M,izr,c)>=0.)     !gt!!!
+              do while (Rtemp_layer(M,izr,c)>=0.0_dp)     !gt!!!
                   nodes_layer(M,izr) = nodes_layer(M,izr) + &
-            NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
+            NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
                   nodes_percyl_layer(M,izr,c) = &
-            NINT(2.0*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
-                  if (Rtemp_layer(M,izr,c)==0.) then
+            NINT(2.0_dp*PI*Rtemp_layer(M,izr,c)/dxm(numIB))
+                  if (Rtemp_layer(M,izr,c)==0.0_dp) then
                   nodes_layer(M,izr) = nodes_layer(M,izr) + 1
                   nodes_percyl_layer(M,izr,c) = 1
                   end if
@@ -527,17 +527,17 @@
 !       ENDDO
 
           DO I=1,nin
-              if (nodex(numIB,I)<0.0) then
+              if (nodex(numIB,I)<0.0_dp) then
               write(6,*)'APAMPAO, point',I,'is out of domain',nodex(numIB,I)
               elseif (nodex(numIB,I)<=1.d-10) then
               nodex(numIB,I)=1.d-10
               endif
-              if (nodey(numIB,I)<0.0) then
+              if (nodey(numIB,I)<0.0_dp) then
               write(6,*)'ERROR, point',I,'is out of domain',nodey(numIB,I)
               elseif (nodey(numIB,I)<=1.d-10) then
               nodey(numIB,I)=1.d-10
               endif
-              if (nodez(numIB,I)<0.0) then
+              if (nodez(numIB,I)<0.0_dp) then
               write(6,*)'ERROR, point',I,'is out of domain',nodez(numIB,I)
               elseif (nodez(numIB,I)<=1.d-10) then
               nodez(numIB,I)=1.d-10
@@ -546,7 +546,7 @@
 
 
           IF (imb_shape(numIB)==5 .and. turax(numIB)==1 .and. &
-       pitch(numIB)<0.000) then
+       pitch(numIB)<0.000_dp) then
           angle=pitch(numIB)*PI/180.d0     !Angle of attack in radians
           do i=1,nin*nlay          !Rotate the body.
               nodex(numIB,i)=nodex(numIB,i)*cos(angle)- &
@@ -637,25 +637,25 @@
               write (2,89) nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
           enddo
           do i=1,K
-              nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5)- &
-                        nodeylocal(numIB,i)*(SQRT(3.)/2)
-              nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.)/2)+ &
-                        nodeylocal(numIB,i)*(-0.5)
+              nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
+                        nodeylocal(numIB,i)*(SQRT(3.0_dp)/2)
+              nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.0_dp)/2)+ &
+                        nodeylocal(numIB,i)*(-0.5_dp)
               nodex(numIB,K+i)=nodex(numIB,K+i)+Cxor(numIB)- &
-        R(numIB)*SQRT(3.)/2
-              nodey(numIB,K+i)=nodey(numIB,K+i)+Cyor(numIB)-R(numIB)*0.5
+        R(numIB)*SQRT(3.0_dp)/2
+              nodey(numIB,K+i)=nodey(numIB,K+i)+Cyor(numIB)-R(numIB)*0.5_dp
               nodez(numIB,K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
           enddo
           do i=1,K
-              nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5)- &
-                            nodeylocal(numIB,i)*(-SQRT(3.)/2)
-              nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.)/2)+ &
-                            nodeylocal(numIB,i)*(-0.5)
+              nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
+                            nodeylocal(numIB,i)*(-SQRT(3.0_dp)/2)
+              nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.0_dp)/2)+ &
+                            nodeylocal(numIB,i)*(-0.5_dp)
               nodex(numIB,2*K+i)=nodex(numIB,2*K+i)+Cxor(numIB)+ &
-        R(numIB)*SQRT(3.)/2
+        R(numIB)*SQRT(3.0_dp)/2
               nodey(numIB,2*K+i)=nodey(numIB,2*K+i)+Cyor(numIB)- &
-        R(numIB)*0.5
+        R(numIB)*0.5_dp
               nodez(numIB,2*K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,2*K+i),nodey(numIB,2*K+i) &
         ,nodez(numIB,2*K+i)
@@ -809,24 +809,24 @@
               endif
           enddo
           do i=1,K
-              nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5)- &
+              nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
             nodeylocal(numIB,i)*(SQRT(3.d0)/2.d0)
               nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.d0)/2.d0)+ &
-           nodeylocal(numIB,i)*(-0.5)
-              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.)/2
-              nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)! - R(numIB)*0.5
+           nodeylocal(numIB,i)*(-0.5_dp)
+              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.0_dp)/2
+              nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
               endif
           enddo
           do i=1,K
-              nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5)- &
+              nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
                nodeylocal(numIB,i)*(-SQRT(3.d0)/2.d0)
               nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.d0)/2.d0)+ &
-                           nodeylocal(numIB,i)*(-0.5)
-              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.)/2
-              nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)! - R(numIB)*0.5
+                           nodeylocal(numIB,i)*(-0.5_dp)
+              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.0_dp)/2
+              nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
 
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &

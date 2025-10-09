@@ -9,6 +9,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,rk,ly
           integer :: ib,is,ie,js,je,ks,ke
@@ -16,13 +17,13 @@
           double precision :: dx,dy,dz
           double precision :: alfark(3),strain
 
-          alfark(1)=1./3.
-          !alfark(1)=1./4.
-          alfark(2)=0.5
-          ! alfark(2)=0.4
-          alfark(3)=1.0
-          ! alfark(3)=0.8
-          !alfark(4)=1.0
+          alfark(1)=1.0_dp/3.0_dp
+          !alfark(1)=1.0_dp/4.0_dp
+          alfark(2)=0.5_dp
+          ! alfark(2)=0.4_dp
+          alfark(3)=1.0_dp
+          ! alfark(3)=0.8_dp
+          !alfark(4)=1.0_dp
 
           !call exchange(11)
           !call exchange(22)
@@ -33,7 +34,7 @@
               call eddyv_eps(alfark(rk))
           enddo
 
-          cmu=0.09
+          cmu=0.09_dp
 
           do ib=1,nbp
 
@@ -53,10 +54,10 @@
 !   endif
 
                           dom(ib)%vis(i,j,k) = rrey + &
-                    cmu*dom(ib)%ksgs(i,j,k)**2.0/dom(ib)%eps(i,j,k)               !laminar + eddy viscosity
+                    cmu*dom(ib)%ksgs(i,j,k)**2.0_dp/dom(ib)%eps(i,j,k)               !laminar + eddy viscosity
 
                           dom(ib)%vis(i,j,k) = min(dom(ib)%vis(i,j,k), &
-                    0.33*dom(ib)%ksgs(i,j,k)*sqrt(1.5/strain(i,j,k)))
+                    0.33_dp*dom(ib)%ksgs(i,j,k)*sqrt(1.5_dp/strain(i,j,k)))
                       enddo ; enddo ; enddo
 !   enddo
 
@@ -241,6 +242,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
@@ -253,8 +255,8 @@
           double precision :: alfark
           double precision :: strain
 
-          sigmak=1.00
-          cmu = 0.09
+          sigmak=1.00_dp
+          cmu = 0.09_dp
 
           do ib=1,nbp
               do k=1,dom(ib)%ttc_k
@@ -295,120 +297,120 @@
                   do j=js,je
                       do i=is,ie
 
-                          vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k)        !eddy viscosity based on t-1
+                          vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k)        !eddy viscosity based on t-1
 
-                          prod=0.75*2.0*vsgs*strain(i,j,k)
+                          prod=0.75_dp*2.0_dp*vsgs*strain(i,j,k)
 
-                          prod=min(prod,20.*dom(ib)%epso(i,j,k))
+                          prod=min(prod,20.0_dp*dom(ib)%epso(i,j,k))
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                          if(dom(ib)%uoo(i-1,j,k)>0.0) then
+                          if(dom(ib)%uoo(i-1,j,k)>0.0_dp) then
                           ku=dom(ib)%ksgso(i-2,j,k)
                           kc=dom(ib)%ksgso(i-1,j,k)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%uoo(i-1,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%uoo(i-1,j,k)<0.0_dp) then
                           ku=dom(ib)%ksgso(i+1,j,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i-1,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i-1,j,k))
+                          km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i-1,j,k))
                           end if
-                          if(dom(ib)%uoo(i,j,k)>0.0) then
+                          if(dom(ib)%uoo(i,j,k)>0.0_dp) then
                           ku=dom(ib)%ksgso(i-1,j,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i+1,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%uoo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%uoo(i,j,k)<0.0_dp) then
                           ku=dom(ib)%ksgso(i+2,j,k)
                           kc=dom(ib)%ksgso(i+1,j,k)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i+1,j,k))
+                          kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i+1,j,k))
                           end if
                           dukdx=(dom(ib)%uoo(i,j,k)*kp-dom(ib)%uoo(i-1,j,k)*km) &
                     /dom(ib)%dx
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%voo(i,j-1,k)>0.0) then
+                          if(dom(ib)%voo(i,j-1,k)>0.0_dp) then
                           ku=dom(ib)%ksgso(i,j-2,k)
                           kc=dom(ib)%ksgso(i,j-1,k)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%voo(i,j-1,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%voo(i,j-1,k)<0.0_dp) then
                           ku=dom(ib)%ksgso(i,j+1,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j-1,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j-1,k))
+                          km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j-1,k))
                           end if
-                          if(dom(ib)%voo(i,j,k)>0.0) then
+                          if(dom(ib)%voo(i,j,k)>0.0_dp) then
                           ku=dom(ib)%ksgso(i,j-1,k)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j+1,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%voo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%voo(i,j,k)<0.0_dp) then
                           ku=dom(ib)%ksgso(i,j+2,k)
                           kc=dom(ib)%ksgso(i,j+1,k)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j+1,k))
+                          kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j+1,k))
                           end if
                           dvkdy=(dom(ib)%voo(i,j,k)*kp-dom(ib)%voo(i,j-1,k)*km) &
                     /dom(ib)%dy
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%woo(i,j,k-1)>0.0) then
+                          if(dom(ib)%woo(i,j,k-1)>0.0_dp) then
                           ku=dom(ib)%ksgso(i,j,k-2)
                           kc=dom(ib)%ksgso(i,j,k-1)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%woo(i,j,k-1)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%woo(i,j,k-1)<0.0_dp) then
                           ku=dom(ib)%ksgso(i,j,k+1)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j,k-1)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          km=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          km=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k-1))
+                          km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k-1))
                           end if
-                          if(dom(ib)%woo(i,j,k)>0.0) then
+                          if(dom(ib)%woo(i,j,k)>0.0_dp) then
                           ku=dom(ib)%ksgso(i,j,k-1)
                           kc=dom(ib)%ksgso(i,j,k)
                           kd=dom(ib)%ksgso(i,j,k+1)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
-                          else if(dom(ib)%woo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
+                          else if(dom(ib)%woo(i,j,k)<0.0_dp) then
                           ku=dom(ib)%ksgso(i,j,k+2)
                           kc=dom(ib)%ksgso(i,j,k+1)
                           kd=dom(ib)%ksgso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                          kp=kc+0.5*b_r*(kc-ku)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                          kp=kc+0.5_dp*b_r*(kc-ku)
                           else
-                          kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k+1))
+                          kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k+1))
                           end if
                           dwkdz=(dom(ib)%woo(i,j,k)*kp-dom(ib)%woo(i,j,k-1)*km) &
                     /dom(ib)%dz
@@ -417,29 +419,29 @@
                           conv=(dukdx+dvkdy+dwkdz)
 
 
-                          visc_w=0.5*cmu*&                                   !does rrey have to be here? According to Lars, yes
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i-1,j,k)**2.0/dom(ib)%epso(i-1,j,k))
-                          visc_e=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i+1,j,k)**2.0/dom(ib)%epso(i+1,j,k))
-                          visc_s=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j-1,k)**2.0/dom(ib)%epso(i,j-1,k))
-                          visc_n=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j+1,k)**2.0/dom(ib)%epso(i,j+1,k))
-                          visc_b=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j,k-1)**2.0/dom(ib)%epso(i,j,k-1))
-                          visc_t=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j,k+1)**2.0/dom(ib)%epso(i,j,k+1))
+                          visc_w=0.5_dp*cmu*&                                   !does rrey have to be here? According to Lars, yes
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i-1,j,k)**2.0_dp/dom(ib)%epso(i-1,j,k))
+                          visc_e=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i+1,j,k)**2.0_dp/dom(ib)%epso(i+1,j,k))
+                          visc_s=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j-1,k)**2.0_dp/dom(ib)%epso(i,j-1,k))
+                          visc_n=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j+1,k)**2.0_dp/dom(ib)%epso(i,j+1,k))
+                          visc_b=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j,k-1)**2.0_dp/dom(ib)%epso(i,j,k-1))
+                          visc_t=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j,k+1)**2.0_dp/dom(ib)%epso(i,j,k+1))
 
                           awT=visc_w/(dxx*sigmak); aeT=visc_e/(dxx*sigmak)
                           anT=visc_n/(dyy*sigmak); asT=visc_s/(dyy*sigmak)
                           atT=visc_t/(dzz*sigmak); abT=visc_b/(dzz*sigmak)
-                          apT = -1.0*(awT+aeT+asT+anT+abT+atT)
+                          apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                           diff=(apT*dom(ib)%ksgso(i,j,k)+ &
                     anT*dom(ib)%ksgso(i,j+1,k) + asT*dom(ib)%ksgso(i,j-1,k)+ &
                     aeT*dom(ib)%ksgso(i+1,j,k) + awT*dom(ib)%ksgso(i-1,j,k)+ &
@@ -484,6 +486,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
@@ -496,7 +499,7 @@
           double precision :: conv,diff,prod,other
           double precision :: alfark,strain
 
-          c1eps=1.44; c2eps=1.92 ; sigmaeps=1.31 ; cmu=0.09
+          c1eps=1.44_dp; c2eps=1.92_dp ; sigmaeps=1.31_dp ; cmu=0.09_dp
 
           do ib=1,nbp
 
@@ -529,131 +532,131 @@
                   do j=js,je
                       do i=is,ie
 
-                          vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k)        !eddy viscosity based on t-1
+                          vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k)        !eddy viscosity based on t-1
 
                           prod=c1eps*(dom(ib)%epso(i,j,k)/dom(ib)%ksgso(i,j,k))&     !production term based on t-1
-                    *2.0*vsgs*strain(i,j,k)
+                    *2.0_dp*vsgs*strain(i,j,k)
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Convection: Locating upstream, central and downstream nodes and interpolating k using previous time step
-                          if(dom(ib)%uoo(i-1,j,k)>0.0) then
+                          if(dom(ib)%uoo(i-1,j,k)>0.0_dp) then
                           epsu=dom(ib)%epso(i-2,j,k)
                           epsc=dom(ib)%epso(i-1,j,k)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)                     !what's b_r?
-                          else if(dom(ib)%uoo(i-1,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)                     !what's b_r?
+                          else if(dom(ib)%uoo(i-1,j,k)<0.0_dp) then
                           epsu=dom(ib)%epso(i+1,j,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i-1,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i-1,j,k))
+                          epsm=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i-1,j,k))
                           end if
-                          if(dom(ib)%uoo(i,j,k)>0.0) then
+                          if(dom(ib)%uoo(i,j,k)>0.0_dp) then
                           epsu=dom(ib)%epso(i-1,j,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i+1,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%uoo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
+                          else if(dom(ib)%uoo(i,j,k)<0.0_dp) then
                           epsu=dom(ib)%epso(i+2,j,k)
                           epsc=dom(ib)%epso(i+1,j,k)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsp=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i+1,j,k))
+                          epsp=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i+1,j,k))
                           end if
                           epsdudx=(dom(ib)%uoo(i,j,k)*epsp-dom(ib)%uoo(i-1,j,k)*epsm)&       !calculating convective term
                     /dom(ib)%dx
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%voo(i,j-1,k)>0.0) then
+                          if(dom(ib)%voo(i,j-1,k)>0.0_dp) then
                           epsu=dom(ib)%epso(i,j-2,k)
                           epsc=dom(ib)%epso(i,j-1,k)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%voo(i,j-1,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)
+                          else if(dom(ib)%voo(i,j-1,k)<0.0_dp) then
                           epsu=dom(ib)%epso(i,j+1,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j-1,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j-1,k))
+                          epsm=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j-1,k))
                           end if
-                          if(dom(ib)%voo(i,j,k)>0.0) then
+                          if(dom(ib)%voo(i,j,k)>0.0_dp) then
                           epsu=dom(ib)%epso(i,j-1,k)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j+1,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%voo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
+                          else if(dom(ib)%voo(i,j,k)<0.0_dp) then
                           epsu=dom(ib)%epso(i,j+2,k)
                           epsc=dom(ib)%epso(i,j+1,k)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsp=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j+1,k))
+                          epsp=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j+1,k))
                           end if
                           epsdvdy=(dom(ib)%voo(i,j,k)*epsp-dom(ib)%voo(i,j-1,k)*epsm) &
                     /dom(ib)%dy
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                          if(dom(ib)%woo(i,j,k-1)>0.0) then
+                          if(dom(ib)%woo(i,j,k-1)>0.0_dp) then
                           epsu=dom(ib)%epso(i,j,k-2)
                           epsc=dom(ib)%epso(i,j,k-1)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%woo(i,j,k-1)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)
+                          else if(dom(ib)%woo(i,j,k-1)<0.0_dp) then
                           epsu=dom(ib)%epso(i,j,k+1)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j,k-1)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsm=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsm=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsm=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j,k-1))
+                          epsm=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j,k-1))
                           end if
-                          if(dom(ib)%woo(i,j,k)>0.0) then
+                          if(dom(ib)%woo(i,j,k)>0.0_dp) then
                           epsu=dom(ib)%epso(i,j,k-1)
                           epsc=dom(ib)%epso(i,j,k)
                           epsd=dom(ib)%epso(i,j,k+1)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
-                          else if(dom(ib)%woo(i,j,k)<0.0) then
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
+                          else if(dom(ib)%woo(i,j,k)<0.0_dp) then
                           epsu=dom(ib)%epso(i,j,k+2)
                           epsc=dom(ib)%epso(i,j,k+1)
                           epsd=dom(ib)%epso(i,j,k)
-                          b_r=max(0.0, &
-                    min(2.0*((epsd-epsc)/(epsc-epsu)), &
-                    0.75*((epsd-epsc)/(epsc-epsu))+0.25,4.0))
-                          epsp=epsc+0.5*b_r*(epsc-epsu)
+                          b_r=max(0.0_dp, &
+                    min(2.0_dp*((epsd-epsc)/(epsc-epsu)), &
+                    0.75_dp*((epsd-epsc)/(epsc-epsu))+0.25_dp,4.0_dp))
+                          epsp=epsc+0.5_dp*b_r*(epsc-epsu)
                           else
-                          epsp=0.5*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j,k+1))
+                          epsp=0.5_dp*(dom(ib)%epso(i,j,k)+dom(ib)%epso(i,j,k+1))
                           end if
                           epsdwdz=(dom(ib)%woo(i,j,k)*epsp-dom(ib)%woo(i,j,k-1)*epsm) &
                     /dom(ib)%dz
@@ -662,35 +665,35 @@
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Difusion
 
-                          visc_w=0.5*cmu*&                                   !does rrey have to be here? According to Lars, yes
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i-1,j,k)**2.0/dom(ib)%epso(i-1,j,k))
-                          visc_e=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i+1,j,k)**2.0/dom(ib)%epso(i+1,j,k))
-                          visc_s=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j-1,k)**2.0/dom(ib)%epso(i,j-1,k))
-                          visc_n=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j+1,k)**2.0/dom(ib)%epso(i,j+1,k))
-                          visc_b=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j,k-1)**2.0/dom(ib)%epso(i,j,k-1))
-                          visc_t=0.5*cmu* &
-                    (dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k) &
-                    +dom(ib)%ksgso(i,j,k+1)**2.0/dom(ib)%epso(i,j,k+1))
+                          visc_w=0.5_dp*cmu*&                                   !does rrey have to be here? According to Lars, yes
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i-1,j,k)**2.0_dp/dom(ib)%epso(i-1,j,k))
+                          visc_e=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i+1,j,k)**2.0_dp/dom(ib)%epso(i+1,j,k))
+                          visc_s=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j-1,k)**2.0_dp/dom(ib)%epso(i,j-1,k))
+                          visc_n=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j+1,k)**2.0_dp/dom(ib)%epso(i,j+1,k))
+                          visc_b=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j,k-1)**2.0_dp/dom(ib)%epso(i,j,k-1))
+                          visc_t=0.5_dp*cmu* &
+                    (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
+                    +dom(ib)%ksgso(i,j,k+1)**2.0_dp/dom(ib)%epso(i,j,k+1))
 
                           awT=visc_w/(dxx*sigmaeps); aeT=visc_e/(dxx*sigmaeps)
                           anT=visc_n/(dyy*sigmaeps); asT=visc_s/(dyy*sigmaeps)
                           atT=visc_t/(dzz*sigmaeps); abT=visc_b/(dzz*sigmaeps)
-                          apT = -1.0*(awT+aeT+asT+anT+abT+atT)
+                          apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                           diff=(apT*dom(ib)%epso(i,j,k)+&                        !diffusive term
                     anT*dom(ib)%epso(i,j+1,k) + asT*dom(ib)%epso(i,j-1,k)+ &
                     aeT*dom(ib)%epso(i+1,j,k) + awT*dom(ib)%epso(i-1,j,k)+ &
                     atT*dom(ib)%epso(i,j,k+1) + abT*dom(ib)%epso(i,j,k-1))
 
-                          other=c2eps*dom(ib)%epso(i,j,k)**2.0/dom(ib)%ksgso(i,j,k)         !destruction
+                          other=c2eps*dom(ib)%epso(i,j,k)**2.0_dp/dom(ib)%ksgso(i,j,k)         !destruction
 
                           dom(ib)%eps(i,j,k)=(dom(ib)%epso(i,j,k)+&              !time derivative
                     alfark*dt*(diff-conv+prod-other))
@@ -732,6 +735,7 @@
 
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
@@ -741,42 +745,42 @@
 
           do ib=1,nbp
 !====================================================
-              vr_a = 0.25*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
+              vr_a = 0.25_dp*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
         dom(ib)%uoo(i,j+1,k) + dom(ib)%uoo(i-1,j+1,k) )
-              vr_b = 0.25*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
+              vr_b = 0.25_dp*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
         dom(ib)%uoo(i,j-1,k) + dom(ib)%uoo(i-1,j-1,k) )
 
-              vr_c = 0.25*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
+              vr_c = 0.25_dp*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
         dom(ib)%uoo(i,j,k+1) + dom(ib)%uoo(i-1,j,k+1) )
-              vr_d = 0.25*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
+              vr_d = 0.25_dp*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) + &
         dom(ib)%uoo(i,j,k-1) + dom(ib)%uoo(i-1,j,k-1) )
 
               dudx = (dom(ib)%uoo(i,j,k)-dom(ib)%uoo(i-1,j,k) )/dom(ib)%dx
               dudy = ( vr_a - vr_b )/dom(ib)%dy
               dudz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-              vr_a = 0.25*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
+              vr_a = 0.25_dp*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
         dom(ib)%voo(i+1,j,k) + dom(ib)%voo(i+1,j-1,k) )
-              vr_b = 0.25*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
+              vr_b = 0.25_dp*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
         dom(ib)%voo(i-1,j,k) + dom(ib)%voo(i-1,j-1,k) )
 
-              vr_c = 0.25*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
+              vr_c = 0.25_dp*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
         dom(ib)%voo(i,j,k+1) + dom(ib)%voo(i,j-1,k+1) )
-              vr_d = 0.25*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
+              vr_d = 0.25_dp*( dom(ib)%voo(i,j,k)   + dom(ib)%voo(i,j-1,k) + &
         dom(ib)%voo(i,j,k-1) + dom(ib)%voo(i,j-1,k-1) )
 
               dvdy = (dom(ib)%voo(i,j,k)-dom(ib)%voo(i,j-1,k) )/dom(ib)%dy
               dvdx = ( vr_a - vr_b )/dom(ib)%dx
               dvdz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-              vr_a = 0.25*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
+              vr_a = 0.25_dp*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
         dom(ib)%woo(i+1,j,k) + dom(ib)%woo(i+1,j,k-1) )
-              vr_b = 0.25*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
+              vr_b = 0.25_dp*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
         dom(ib)%woo(i-1,j,k) + dom(ib)%woo(i-1,j,k-1) )
 
-              vr_c = 0.25*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
+              vr_c = 0.25_dp*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
         dom(ib)%woo(i,j+1,k) + dom(ib)%woo(i,j+1,k-1) )
-              vr_d = 0.25*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
+              vr_d = 0.25_dp*( dom(ib)%woo(i,j,k)   + dom(ib)%woo(i,j,k-1) + &
         dom(ib)%woo(i,j-1,k) + dom(ib)%woo(i,j-1,k-1) )
 
               dwdz = (dom(ib)%woo(i,j,k)-dom(ib)%woo(i,j,k-1) )/dom(ib)%dz
@@ -784,11 +788,11 @@
               dwdy = ( vr_c - vr_d )/dom(ib)%dy
 
 
-              s12 = 0.5 * (dudy + dvdx)
-              s13 = 0.5 * (dudz + dwdx)
-              s23 = 0.5 * (dvdz + dwdy)
+              s12 = 0.5_dp * (dudy + dvdx)
+              s13 = 0.5_dp * (dudz + dwdx)
+              s23 = 0.5_dp * (dvdz + dwdy)
               strain  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
-            2.0*s12*s12   + 2.0*s13*s13 + 2.0*s23*s23 )
+            2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
           enddo
 

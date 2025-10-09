@@ -4,6 +4,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
           double precision :: ppref,buffer_ppref
@@ -17,14 +18,14 @@
           call calmas
 
           do ib=1,nbp
-              dom(ib)%pp=0.0
+              dom(ib)%pp=0.0_dp
           end do
 
           do iter=1,maxcy
 
               call mgkcyc
 
-              buffer_ppref=0.0
+              buffer_ppref=0.0_dp
 !           do ib=1,nbp
 !              if(dom_id(ib).eq.prefdom) then
 !                 buffer_ppref=dom(ib)%p(ipref,jpref,kpref)+
@@ -41,7 +42,7 @@
                           do j=dom(ib)%jsp-1,dom(ib)%jep+1
                               dom(ib)%p(i,j,k)=(dom(ib)%p(i,j,k)+ &
                         (dom(ib)%pp(i,j,k)-ppref))
-                              dom(ib)%pp(i,j,k)=0.0
+                              dom(ib)%pp(i,j,k)=0.0_dp
                           end do
                       end do
                   end do
@@ -61,7 +62,7 @@
           if (myrank==0) write(numfile,*)'not converged!! ',maxcy,rmax
  3000     continue
 
-          if(rmax>100.0) then
+          if(rmax>100.0_dp) then
           if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
           write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
 
@@ -106,6 +107,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,sn
           double precision resid
@@ -141,7 +143,7 @@
 
                           write (88,88) dom(ib)%xc(i),dom(ib)%yc(j), &
                     dom(ib)%zc(k),abs(resid)
-                          if(abs(resid)>1e-6) write (78,88) dom(ib)%xc(i), &
+                          if(abs(resid)>1e-6_dp) write (78,88) dom(ib)%xc(i), &
                     dom(ib)%yc(j),dom(ib)%zc(k),abs(resid)
                       end do
                   end do

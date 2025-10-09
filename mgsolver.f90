@@ -4,6 +4,7 @@
           use vars
           use multidata
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ijk,ib
           integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
@@ -16,7 +17,7 @@
           do ib=1,nbp
 
               ijk_lsm=0
-              if (L_LSM) dom(ib)%dens_mg=0.0
+              if (L_LSM) dom(ib)%dens_mg=0.0_dp
 
               dom(ib)%faz(1)=(dom(ib)%iep-dom(ib)%isp+3)* &
         (dom(ib)%jep-dom(ib)%jsp+3)* &
@@ -62,7 +63,7 @@
                       do  i=1,mgc_i
                           do j=1,mgc_j
                               ijk=cnt+(k-1)*mgc_i*mgc_j+(i-1)*mgc_j+j
-                              dom(ib)%cof(ijk)=0.0
+                              dom(ib)%cof(ijk)=0.0_dp
                           end do
                       end do
                   end do
@@ -97,7 +98,7 @@
                               ij7 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2)
                               ij8 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2) +1
 
-                              dom(ib)%dens_mg(ijk_lsm)=0.125*(dom(ib)%dens_mg(ij1)+ &
+                              dom(ib)%dens_mg(ijk_lsm)=0.125_dp*(dom(ib)%dens_mg(ij1)+ &
                         dom(ib)%dens_mg(ij2)+dom(ib)%dens_mg(ij3)+dom(ib)%dens_mg(ij4) + &
                         dom(ib)%dens_mg(ij5)+dom(ib)%dens_mg(ij6)+dom(ib)%dens_mg(ij7) + &
                         dom(ib)%dens_mg(ij8))
@@ -129,42 +130,42 @@
                               if (i==2) then
                               densim12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densim12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densim12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_j-2)))
                               end if
 
                               if (i==mgc_i-1) then
                               densip12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densip12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densip12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_j-2)))
                               end if
 
                               if (j==2) then
                               densjm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-1))
                               end if
 
                               if (j==mgc_j-1) then
                               densjp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+1))
                               end if
 
                               if (k==2) then
                               denskm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskm12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_i-2)*(mgc_j-2)))
                               end if
 
                               if (k==mgc_k-1) then
                               denskp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskp12=0.5*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_i-2)*(mgc_j-2)))
                               end if
 
@@ -182,33 +183,33 @@
                         denskp12 !at
 
                               else
-                              dom(ib)%cof(ijk)       =1.0/dxx !aw
-                              dom(ib)%cof(ijk+1*incr)=1.0/dxx !ae
-                              dom(ib)%cof(ijk+2*incr)=1.0/dyy !as
-                              dom(ib)%cof(ijk+3*incr)=1.0/dyy !an
-                              dom(ib)%cof(ijk+4*incr)=1.0/dzz !ab
-                              dom(ib)%cof(ijk+5*incr)=1.0/dzz !at
+                              dom(ib)%cof(ijk)       =1.0_dp/dxx !aw
+                              dom(ib)%cof(ijk+1*incr)=1.0_dp/dxx !ae
+                              dom(ib)%cof(ijk+2*incr)=1.0_dp/dyy !as
+                              dom(ib)%cof(ijk+3*incr)=1.0_dp/dyy !an
+                              dom(ib)%cof(ijk+4*incr)=1.0_dp/dzz !ab
+                              dom(ib)%cof(ijk+5*incr)=1.0_dp/dzz !at
                               end if
 
                               if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5 &
-                        .and. i==2)         dom(ib)%cof(ijk)       =0.0
+                        .and. i==2)         dom(ib)%cof(ijk)       =0.0_dp
                               if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5 &
-                        .and. i==mgc_i-1)  dom(ib)%cof(ijk+1*incr)=0.0
+                        .and. i==mgc_i-1)  dom(ib)%cof(ijk+1*incr)=0.0_dp
                               if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5 &
-                        .and. j==2)         dom(ib)%cof(ijk+2*incr)=0.0
+                        .and. j==2)         dom(ib)%cof(ijk+2*incr)=0.0_dp
                               if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5 &
-                        .and. j==mgc_j-1)  dom(ib)%cof(ijk+3*incr)=0.0
+                        .and. j==mgc_j-1)  dom(ib)%cof(ijk+3*incr)=0.0_dp
                               if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5 &
-                        .and. k==2)         dom(ib)%cof(ijk+4*incr)=0.0
+                        .and. k==2)         dom(ib)%cof(ijk+4*incr)=0.0_dp
                               if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5 &
-                        .and. k==mgc_k-1)  dom(ib)%cof(ijk+5*incr)=0.0
+                        .and. k==mgc_k-1)  dom(ib)%cof(ijk+5*incr)=0.0_dp
 
-                              dom(ib)%cof(ijk+6*incr)=-1.0*(dom(ib)%cof(ijk)+ &
+                              dom(ib)%cof(ijk+6*incr)=-1.0_dp*(dom(ib)%cof(ijk)+ &
                         dom(ib)%cof(ijk+1*incr)+dom(ib)%cof(ijk+2*incr)+ &
                         dom(ib)%cof(ijk+3*incr)+dom(ib)%cof(ijk+4*incr)+ &
                         dom(ib)%cof(ijk+5*incr)) !ap
 
-                              dom(ib)%cof(ijk+7*incr)=0.0 !res
+                              dom(ib)%cof(ijk+7*incr)=0.0_dp !res
 
                           end do
                       end do
@@ -373,6 +374,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
           integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
@@ -430,8 +432,8 @@
 
                   else if(mg_itrsch==2) then
 
-                  a=0.0
-                  c=0.0
+                  a=0.0_dp
+                  c=0.0_dp
 
 !.....SOLVE WITH "TDMA" ALONG  J-LINES
                   do k=2,nk-1
@@ -453,7 +455,7 @@
                               ijksu=ijkw+7*incr
 
 
-                              apr=1.0/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijks)*a(j-1))
+                              apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijks)*a(j-1))
                               a(j)=dom(ib)%cof(ijkn)*apr
                               c(j)=(dom(ib)%cof(ijksu)- &
                         dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)- &
@@ -490,7 +492,7 @@
                               ijkp=ijkw+6*incr
                               ijksu=ijkw+7*incr
 
-                              apr=1.0/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkw)*a(i-1))
+                              apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkw)*a(i-1))
                               a(i)=dom(ib)%cof(ijke)*apr
                               c(i)=(dom(ib)%cof(ijksu)- &
                         dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
@@ -527,7 +529,7 @@
                               ijkp=ijkw+6*incr
                               ijksu=ijkw+7*incr
 
-                              apr=1.0/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkb)*a(k-1))
+                              apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkb)*a(k-1))
                               a(k)=dom(ib)%cof(ijkt)*apr
                               c(k)=(dom(ib)%cof(ijksu)- &
                         dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
@@ -621,6 +623,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
           integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
@@ -652,7 +655,7 @@
                   do  i=1,nic
                       do j=1,njc
                           ijkphi=(k-1)*nijc+(i-1)*njc+j+dom(ib)%faz(glevel)-nijkc
-                          dom(ib)%cof(ijkphi)=0.0
+                          dom(ib)%cof(ijkphi)=0.0_dp
                       end do
                   end do
               end do
@@ -662,7 +665,7 @@
                       do j=2,njc-1
                           ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
-                          dom(ib)%cof(ijksu)=0.0
+                          dom(ib)%cof(ijksu)=0.0_dp
                       end do
                   end do
               end do
@@ -741,7 +744,7 @@
                           ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
 
-                          dom(ib)%cof(ijksu)=0.125*(resf(2*i-2,2*j-2,2*k-2)+ &
+                          dom(ib)%cof(ijksu)=0.125_dp*(resf(2*i-2,2*j-2,2*k-2)+ &
                     resf(2*i-1,2*j-2,2*k-2)+resf(2*i-2,2*j-1,2*k-2)+ &
                     resf(2*i-1,2*j-1,2*k-2)+resf(2*i-2,2*j-2,2*k-1)+ &
                     resf(2*i-1,2*j-2,2*k-1)+resf(2*i-2,2*j-1,2*k-1)+ &

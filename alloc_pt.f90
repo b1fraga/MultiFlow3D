@@ -169,12 +169,13 @@
           use mpi
           use multidata
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
           integer :: sphere_optn !Aleks 04/24 spherical vol of release
           double precision random_number_normal,random_number_uniform
-          double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
+          double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
           double precision :: Wx,Wy,Wz,sigma_rho
           double precision :: mindis,dist,distance
           double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
@@ -281,7 +282,7 @@
               read(35,*) tsnr                     !if 0 then no continuous release, only released on init
               read(35,*) ptnr
               frac_end=frac1+ptnr-1
-              read(35,*) Dp,sigma
+              read(35,*) Dp_var,sigma
               read(35,*) rho_p,sigma_rho
               read(35,*) Wx,Wy,Wz
               read(35,*) LSPHERICAL,LSURFACE,r
@@ -294,15 +295,15 @@
 
                   if (random) then                                      !location
 
-                  mindis=1.1*Dp
+                  mindis=1.1_dp*Dp_var
                   dist=0
 
                   do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
                       if (.not.LSPHERICAL) then !default cube release
-                      xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
-                      yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
-                      zp_pt(l)=random_number_uniform(zp-0.5*Wz,zp+0.5*Wz)
+                      xp_pt(l)=random_number_uniform(xp-0.5_dp*Wx,xp+0.5_dp*Wx)
+                      yp_pt(l)=random_number_uniform(yp-0.5_dp*Wy,yp+0.5_dp*Wy)
+                      zp_pt(l)=random_number_uniform(zp-0.5_dp*Wz,zp+0.5_dp*Wz)
                       else  !Aleks 04/24. Distribute points in a spherical shape
                       call random_number_spherical(xp,yp,zp,r,sphere_optn, &
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
@@ -324,7 +325,7 @@
                   read(35,*)xp_pt(l),yp_pt(l),zp_pt(l), &
             uop_pt(l),vop_pt(l),wop_pt(l)
                   endif                                                 !random location
-                  dp_pt(l)= random_number_normal(Dp,sigma)
+                  dp_pt(l)= random_number_normal(Dp_var,sigma)
                   rho_pt(l)= random_number_normal(rho_p,sigma_rho)
 
                   xpold(l)=xp_pt(l)

@@ -3,6 +3,7 @@
 !##########################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,rk
           integer :: ib,is,ie,js,je,ks,ke
@@ -22,11 +23,11 @@
           character*8 :: chb1
           character*25 :: gf
 
-          alfark(1)=1./3.
-          alfark(2)=0.5
-          alfark(3)=1.0
+          alfark(1)=1.0_dp/3.0_dp
+          alfark(2)=0.5_dp
+          alfark(3)=1.0_dp
 
-          cons_k=0.05; cons_eps=1.00
+          cons_k=0.05_dp; cons_eps=1.00_dp
 
           do rk=1,3
 
@@ -44,7 +45,7 @@
                   dyy=dom(ib)%dy*dom(ib)%dy
                   dzz=dom(ib)%dz*dom(ib)%dz
 
-                  delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0/3.0)
+                  delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
                   is=dom(ib)%isp; ie=dom(ib)%iep
                   js=dom(ib)%jsp; je=dom(ib)%jep
@@ -57,42 +58,42 @@
                               if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 
 !====================================================
-                              vr_a = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                              vr_a = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                         dom(ib)%u(i,j+1,k) + dom(ib)%u(i-1,j+1,k) )
-                              vr_b = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                              vr_b = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                         dom(ib)%u(i,j-1,k) + dom(ib)%u(i-1,j-1,k) )
 
-                              vr_c = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                              vr_c = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                         dom(ib)%u(i,j,k+1) + dom(ib)%u(i-1,j,k+1) )
-                              vr_d = 0.25*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
+                              vr_d = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
                         dom(ib)%u(i,j,k-1) + dom(ib)%u(i-1,j,k-1) )
 
                               dudx = ( dom(ib)%u(i,j,k) - dom(ib)%u(i-1,j,k) )/dom(ib)%dx
                               dudy = ( vr_a - vr_b )/dom(ib)%dy
                               dudz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-                              vr_a = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                              vr_a = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                         dom(ib)%v(i+1,j,k) + dom(ib)%v(i+1,j-1,k) )
-                              vr_b = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                              vr_b = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                         dom(ib)%v(i-1,j,k) + dom(ib)%v(i-1,j-1,k) )
 
-                              vr_c = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                              vr_c = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                         dom(ib)%v(i,j,k+1) + dom(ib)%v(i,j-1,k+1) )
-                              vr_d = 0.25*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
+                              vr_d = 0.25_dp*( dom(ib)%v(i,j,k)   + dom(ib)%v(i,j-1,k) + &
                         dom(ib)%v(i,j,k-1) + dom(ib)%v(i,j-1,k-1) )
 
                               dvdy = ( dom(ib)%v(i,j,k) - dom(ib)%v(i,j-1,k) )/dom(ib)%dy
                               dvdx = ( vr_a - vr_b )/dom(ib)%dx
                               dvdz = ( vr_c - vr_d )/dom(ib)%dz
 !====================================================
-                              vr_a = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                              vr_a = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                         dom(ib)%w(i+1,j,k) + dom(ib)%w(i+1,j,k-1) )
-                              vr_b = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                              vr_b = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                         dom(ib)%w(i-1,j,k) + dom(ib)%w(i-1,j,k-1) )
 
-                              vr_c = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                              vr_c = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                         dom(ib)%w(i,j+1,k) + dom(ib)%w(i,j+1,k-1) )
-                              vr_d = 0.25*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
+                              vr_d = 0.25_dp*( dom(ib)%w(i,j,k)   + dom(ib)%w(i,j,k-1) + &
                         dom(ib)%w(i,j-1,k) + dom(ib)%w(i,j-1,k-1) )
 
                               dwdz = ( dom(ib)%w(i,j,k) - dom(ib)%w(i,j,k-1) )/dom(ib)%dz
@@ -100,122 +101,122 @@
                               dwdy = ( vr_c - vr_d )/dom(ib)%dy
 
 
-                              s12 = 0.5 * (dudy + dvdx)
-                              s13 = 0.5 * (dudz + dwdx)
-                              s23 = 0.5 * (dvdz + dwdy)
+                              s12 = 0.5_dp * (dudy + dvdx)
+                              s13 = 0.5_dp * (dudz + dwdx)
+                              s23 = 0.5_dp * (dvdz + dwdy)
                               ss  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
-                            2.0*s12*s12   + 2.0*s13*s13 + 2.0*s23*s23 )
+                            2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
                               vsgs=cons_k*delta_grid*sqrt(dom(ib)%ksgso(i,j,k))
 
-                              prod=2.0*vsgs*ss
+                              prod=2.0_dp*vsgs*ss
 
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-                              if(dom(ib)%u(i-1,j,k)>0.0) then
+                              if(dom(ib)%u(i-1,j,k)>0.0_dp) then
                               ku=dom(ib)%ksgso(i-2,j,k)
                               kc=dom(ib)%ksgso(i-1,j,k)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%u(i-1,j,k)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%u(i-1,j,k)<0.0_dp) then
                               ku=dom(ib)%ksgso(i+1,j,k)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i-1,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i-1,j,k))
+                              km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i-1,j,k))
                               end if
-                              if(dom(ib)%u(i,j,k)>0.0) then
+                              if(dom(ib)%u(i,j,k)>0.0_dp) then
                               ku=dom(ib)%ksgso(i-1,j,k)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i+1,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%u(i,j,k)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%u(i,j,k)<0.0_dp) then
                               ku=dom(ib)%ksgso(i+2,j,k)
                               kc=dom(ib)%ksgso(i+1,j,k)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i+1,j,k))
+                              kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i+1,j,k))
                               end if
                               dukdx=(dom(ib)%u(i,j,k)*kp-dom(ib)%u(i-1,j,k)*km)/dom(ib)%dx
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                              if(dom(ib)%v(i,j-1,k)>0.0) then
+                              if(dom(ib)%v(i,j-1,k)>0.0_dp) then
                               ku=dom(ib)%ksgso(i,j-2,k)
                               kc=dom(ib)%ksgso(i,j-1,k)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%v(i,j-1,k)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%v(i,j-1,k)<0.0_dp) then
                               ku=dom(ib)%ksgso(i,j+1,k)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i,j-1,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j-1,k))
+                              km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j-1,k))
                               end if
-                              if(dom(ib)%v(i,j,k)>0.0) then
+                              if(dom(ib)%v(i,j,k)>0.0_dp) then
                               ku=dom(ib)%ksgso(i,j-1,k)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i,j+1,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%v(i,j,k)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%v(i,j,k)<0.0_dp) then
                               ku=dom(ib)%ksgso(i,j+2,k)
                               kc=dom(ib)%ksgso(i,j+1,k)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j+1,k))
+                              kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j+1,k))
                               end if
                               dvkdy=(dom(ib)%v(i,j,k)*kp-dom(ib)%v(i,j-1,k)*km)/dom(ib)%dy
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                              if(dom(ib)%w(i,j,k-1)>0.0) then
+                              if(dom(ib)%w(i,j,k-1)>0.0_dp) then
                               ku=dom(ib)%ksgso(i,j,k-2)
                               kc=dom(ib)%ksgso(i,j,k-1)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%w(i,j,k-1)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%w(i,j,k-1)<0.0_dp) then
                               ku=dom(ib)%ksgso(i,j,k+1)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i,j,k-1)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              km=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              km=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              km=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k-1))
+                              km=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k-1))
                               end if
-                              if(dom(ib)%w(i,j,k)>0.0) then
+                              if(dom(ib)%w(i,j,k)>0.0_dp) then
                               ku=dom(ib)%ksgso(i,j,k-1)
                               kc=dom(ib)%ksgso(i,j,k)
                               kd=dom(ib)%ksgso(i,j,k+1)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
-                              else if(dom(ib)%w(i,j,k)<0.0) then
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
+                              else if(dom(ib)%w(i,j,k)<0.0_dp) then
                               ku=dom(ib)%ksgso(i,j,k+2)
                               kc=dom(ib)%ksgso(i,j,k+1)
                               kd=dom(ib)%ksgso(i,j,k)
-                              b_r=max(0.0, &
-                        min(2.0*((kd-kc)/(kc-ku)),0.75*((kd-kc)/(kc-ku))+0.25,4.0))
-                              kp=kc+0.5*b_r*(kc-ku)
+                              b_r=max(0.0_dp, &
+                        min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
+                              kp=kc+0.5_dp*b_r*(kc-ku)
                               else
-                              kp=0.5*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k+1))
+                              kp=0.5_dp*(dom(ib)%ksgso(i,j,k)+dom(ib)%ksgso(i,j,k+1))
                               end if
                               dwkdz=(dom(ib)%w(i,j,k)*kp-dom(ib)%w(i,j,k-1)*km)/dom(ib)%dz
 !@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -223,23 +224,23 @@
                               conv=(dukdx+dvkdy+dwkdz)
 
 
-                              visc_w=rrey+0.5*cons_k*delta_grid* &
+                              visc_w=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i-1,j,k)))
-                              visc_e=rrey+0.5*cons_k*delta_grid* &
+                              visc_e=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i+1,j,k)))
-                              visc_s=rrey+0.5*cons_k*delta_grid* &
+                              visc_s=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i,j-1,k)))
-                              visc_n=rrey+0.5*cons_k*delta_grid* &
+                              visc_n=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i,j+1,k)))
-                              visc_b=rrey+0.5*cons_k*delta_grid* &
+                              visc_b=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i,j,k-1)))
-                              visc_t=rrey+0.5*cons_k*delta_grid* &
+                              visc_t=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i,j,k+1)))
 
                               awT=visc_w/dxx; aeT=visc_e/dxx
                               anT=visc_n/dyy; asT=visc_s/dyy
                               atT=visc_t/dzz; abT=visc_b/dzz
-                              apT = -1.0*(awT+aeT+asT+anT+abT+atT)
+                              apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                               diff=(apT*dom(ib)%ksgso(i,j,k)+ &
                         anT*dom(ib)%ksgso(i,j+1,k) + asT*dom(ib)%ksgso(i,j-1,k)+ &
                         aeT*dom(ib)%ksgso(i+1,j,k) + awT*dom(ib)%ksgso(i-1,j,k)+ &
@@ -250,7 +251,7 @@
                               dom(ib)%ksgs(i,j,k)=(dom(ib)%ksgso(i,j,k)+ &
                         alfark(rk)*dt*(diff-conv+prod-other))
 
-                              if(dom(ib)%ksgs(i,j,k)<0.0) then
+                              if(dom(ib)%ksgs(i,j,k)<0.0_dp) then
                               print*,'ERRORRRR in the 1-EQN model & STOP'
                               write (6,*) 'ERRORRRR in the 1-EQN model & STOP'
                               stop

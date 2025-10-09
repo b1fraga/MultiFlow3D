@@ -5,6 +5,7 @@
           use module_LSM
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,tti,ttj,ttk
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k
@@ -82,9 +83,9 @@
                       dom(ib)%uo(i,j,k)=Ubulk
                       dom(ib)%uoo(i,j,k)=Ubulk
                       else
-                      dom(ib)%u(i,j,k)=0.0
-                      dom(ib)%uo(i,j,k)=0.0
-                      dom(ib)%uoo(i,j,k)=0.0
+                      dom(ib)%u(i,j,k)=0.0_dp
+                      dom(ib)%uo(i,j,k)=0.0_dp
+                      dom(ib)%uoo(i,j,k)=0.0_dp
                       end if
                   end do
               end do
@@ -93,14 +94,14 @@
           do k=2,ttk
               do j=1,ttj
                   do i=1,tti
-                      if (dom(ib)%phi(i,j,k)>=0.0) then
+                      if (dom(ib)%phi(i,j,k)>=0.0_dp) then
                       dom(ib)%u(i,j,k)=Ubulk
                       dom(ib)%uo(i,j,k)=Ubulk
                       dom(ib)%uoo(i,j,k)=Ubulk
                       else
-                      dom(ib)%u(i,j,k)=0.0
-                      dom(ib)%uo(i,j,k)=0.0
-                      dom(ib)%uoo(i,j,k)=0.0
+                      dom(ib)%u(i,j,k)=0.0_dp
+                      dom(ib)%uo(i,j,k)=0.0_dp
+                      dom(ib)%uoo(i,j,k)=0.0_dp
                       end if
                   enddo;enddo;enddo
           endif
@@ -180,17 +181,17 @@
 !           end do
 !  73       format (10e25.8)
 !           close(703)
-!           dom(ib)%phi_init = 0.0
-!           dom(ib)%phi_new = 0.0
-!           dom(ib)%phi_reinit = 0.0
+!           dom(ib)%phi_init = 0.0_dp
+!           dom(ib)%phi_new = 0.0_dp
+!           dom(ib)%phi_reinit = 0.0_dp
 !         else
 ! !
 ! ! Initialise uniform phi field, if not restarting
 ! !
-!           dom(ib)%phi=1.0
-!           dom(ib)%phi_init = 0.0
-!           dom(ib)%phi_new = 0.0
-!           dom(ib)%phi_reinit = 0.0
+!           dom(ib)%phi=1.0_dp
+!           dom(ib)%phi_init = 0.0_dp
+!           dom(ib)%phi_new = 0.0_dp
+!           dom(ib)%phi_reinit = 0.0_dp
 
 !           if (trim(keyword).eq.'channel') then      ! Channel flow case
 !             do k=1,ttk
@@ -228,7 +229,7 @@
 !                   else if (dom(ib)%zc(k).gt.length)   then
 !                     dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
 !                   else if (dom(ib)%zc(k).eq.length)  then
-!                     dom(ib)%phi(i,j,k) = 0.0
+!                     dom(ib)%phi(i,j,k) = 0.0_dp
 !                   end if
 !                   dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
 !                   dom(ib)%phi_reinit(i,j,k)=dom(ib)%phi(i,j,k)
@@ -241,13 +242,13 @@
 !             do k=1,ttk
 !               do j=1,ttj
 !                 do i=1,tti
-!                   b=length/(cosh(sqrt(3.*length)/2.*(dom(ib)%xc(i))))**2
+!                   b=length/(cosh(sqrt(3.0_dp*length)/2.0_dp*(dom(ib)%xc(i))))**2
 !                   if (dom(ib)%zc(k).lt.(b+1))   then
-!                     dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-(b+1))
+!                     dom(ib)%phi(i,j,k) = 1.0_dp*abs(dom(ib)%zc(k)-(b+1))
 !                   else if (dom(ib)%zc(k).gt.(b+1))   then
-!                     dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-(b+1))
+!                     dom(ib)%phi(i,j,k) = -1.0_dp*abs(dom(ib)%zc(k)-(b+1))
 !                   else if (dom(ib)%zc(k).eq.(b+1))  then
-!                     dom(ib)%phi(i,j,k) = 0.0
+!                     dom(ib)%phi(i,j,k) = 0.0_dp
 !                   end if
 !                   dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
 !                 end do
@@ -296,6 +297,7 @@
           use module_LSM
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
           integer :: i,j,k,ib
@@ -312,36 +314,36 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
 
                           if (i==dom(ib)%isp) then
-                          uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
-                                  5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
+                          uijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%u(i-1,j,k)+15.0_dp*dom(ib)%u(i,j,k)- &
+                                  5.0_dp*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
                           else if (i==dom(ib)%iep) then
-                          uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
-                             15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
+                          uijk=1.0_dp/16.0_dp*(dom(ib)%u(i-3,j,k)-5.0_dp*dom(ib)%u(i-2,j,k)+ &
+                             15.0_dp*dom(ib)%u(i-1,j,k)+5.0_dp*dom(ib)%u(i,j,k))
                           else
-                          uijk=1.0/16.0*(-dom(ib)%u(i-2,j,k)+9.0*dom(ib)%u(i-1,j,k)+ &
-                               9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
+                          uijk=1.0_dp/16.0_dp*(-dom(ib)%u(i-2,j,k)+9.0_dp*dom(ib)%u(i-1,j,k)+ &
+                               9.0_dp*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
                           if (j==dom(ib)%jsp) then
-                          vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
-                                  5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
+                          vijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%v(i,j-1,k)+15.0_dp*dom(ib)%v(i,j,k)- &
+                                  5.0_dp*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
                           else if (j==dom(ib)%jep) then
-                          vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
-                             15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
+                          vijk=1.0_dp/16.0_dp*(dom(ib)%v(i,j-3,k)-5.0_dp*dom(ib)%v(i,j-2,k)+ &
+                             15.0_dp*dom(ib)%v(i,j-1,k)+5.0_dp*dom(ib)%v(i,j,k))
                           else
-                          vijk=1.0/16.0*(-dom(ib)%v(i,j-2,k)+9.0*dom(ib)%v(i,j-1,k)+ &
-                               9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
+                          vijk=1.0_dp/16.0_dp*(-dom(ib)%v(i,j-2,k)+9.0_dp*dom(ib)%v(i,j-1,k)+ &
+                               9.0_dp*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
                           if (k==dom(ib)%ksp) then
-                          wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
-                                  5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
+                          wijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%w(i,j,k-1)+15.0_dp*dom(ib)%w(i,j,k)- &
+                                  5.0_dp*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
                           else if (k==dom(ib)%kep) then
-                          wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
-                             15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
+                          wijk=1.0_dp/16.0_dp*(dom(ib)%w(i,j,k-3)-5.0_dp*dom(ib)%w(i,j,k-2)+ &
+                             15.0_dp*dom(ib)%w(i,j,k-1)+5.0_dp*dom(ib)%w(i,j,k))
                           else
-                          wijk=1.0/16.0*(-dom(ib)%w(i,j,k-2)+9.0*dom(ib)%w(i,j,k-1)+ &
-                               9.0*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
+                          wijk=1.0_dp/16.0_dp*(-dom(ib)%w(i,j,k-2)+9.0_dp*dom(ib)%w(i,j,k-1)+ &
+                               9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 !
 ! Convection
@@ -371,36 +373,36 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
 
                           if (i==dom(ib)%isp) then
-                          uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
-                                  5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
+                          uijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%u(i-1,j,k)+15.0_dp*dom(ib)%u(i,j,k)- &
+                                  5.0_dp*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
                           else if (i==dom(ib)%iep) then
-                          uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
-                             15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
+                          uijk=1.0_dp/16.0_dp*(dom(ib)%u(i-3,j,k)-5.0_dp*dom(ib)%u(i-2,j,k)+ &
+                             15.0_dp*dom(ib)%u(i-1,j,k)+5.0_dp*dom(ib)%u(i,j,k))
                           else
-                          uijk=1.0/16.0*(-dom(ib)%u(i-2,j,k)+9.0*dom(ib)%u(i-1,j,k)+ &
-                               9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
+                          uijk=1.0_dp/16.0_dp*(-dom(ib)%u(i-2,j,k)+9.0_dp*dom(ib)%u(i-1,j,k)+ &
+                               9.0_dp*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
                           if (j==dom(ib)%jsp) then
-                          vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
-                                  5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
+                          vijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%v(i,j-1,k)+15.0_dp*dom(ib)%v(i,j,k)- &
+                                  5.0_dp*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
                           else if (j==dom(ib)%jep) then
-                          vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
-                             15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
+                          vijk=1.0_dp/16.0_dp*(dom(ib)%v(i,j-3,k)-5.0_dp*dom(ib)%v(i,j-2,k)+ &
+                             15.0_dp*dom(ib)%v(i,j-1,k)+5.0_dp*dom(ib)%v(i,j,k))
                           else
-                          vijk=1.0/16.0*(-dom(ib)%v(i,j-2,k)+9.0*dom(ib)%v(i,j-1,k)+ &
-                               9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
+                          vijk=1.0_dp/16.0_dp*(-dom(ib)%v(i,j-2,k)+9.0_dp*dom(ib)%v(i,j-1,k)+ &
+                               9.0_dp*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
                           if (k==dom(ib)%ksp) then
-                          wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
-                                  5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
+                          wijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%w(i,j,k-1)+15.0_dp*dom(ib)%w(i,j,k)- &
+                                  5.0_dp*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
                           else if (k==dom(ib)%kep) then
-                          wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
-                             15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
+                          wijk=1.0_dp/16.0_dp*(dom(ib)%w(i,j,k-3)-5.0_dp*dom(ib)%w(i,j,k-2)+ &
+                             15.0_dp*dom(ib)%w(i,j,k-1)+5.0_dp*dom(ib)%w(i,j,k))
                           else
-                          wijk=1.0/16.0*(-dom(ib)%w(i,j,k-2)+9.0*dom(ib)%w(i,j,k-1)+ &
-                               9.0*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
+                          wijk=1.0_dp/16.0_dp*(-dom(ib)%w(i,j,k-2)+9.0_dp*dom(ib)%w(i,j,k-1)+ &
+                               9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 !
 ! Convection
@@ -409,8 +411,8 @@
                           h2 = vijk*dom(ib)%dphi_dy(i,j,k)
                           h3 = wijk*dom(ib)%dphi_dz(i,j,k)
 
-                          dom(ib)%phi_init(i,j,k) = 0.75*dom(ib)%phi(i,j,k) + &
-                    0.25*dom(ib)%phi_new(i,j,k) - 0.25*dt*(h1+h2+h3)
+                          dom(ib)%phi_init(i,j,k) = 0.75_dp*dom(ib)%phi(i,j,k) + &
+                    0.25_dp*dom(ib)%phi_new(i,j,k) - 0.25_dp*dt*(h1+h2+h3)
 
                       end do
                   end do
@@ -431,36 +433,36 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
 
                           if (i==dom(ib)%isp) then
-                          uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
-                                  5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
+                          uijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%u(i-1,j,k)+15.0_dp*dom(ib)%u(i,j,k)- &
+                                  5.0_dp*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
                           else if (i==dom(ib)%iep) then
-                          uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
-                             15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
+                          uijk=1.0_dp/16.0_dp*(dom(ib)%u(i-3,j,k)-5.0_dp*dom(ib)%u(i-2,j,k)+ &
+                             15.0_dp*dom(ib)%u(i-1,j,k)+5.0_dp*dom(ib)%u(i,j,k))
                           else
-                          uijk=1.0/16.0*(-dom(ib)%u(i-2,j,k)+9.0*dom(ib)%u(i-1,j,k)+ &
-                               9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
+                          uijk=1.0_dp/16.0_dp*(-dom(ib)%u(i-2,j,k)+9.0_dp*dom(ib)%u(i-1,j,k)+ &
+                               9.0_dp*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
                           if (j==dom(ib)%jsp) then
-                          vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
-                                  5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
+                          vijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%v(i,j-1,k)+15.0_dp*dom(ib)%v(i,j,k)- &
+                                  5.0_dp*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
                           else if (j==dom(ib)%jep) then
-                          vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
-                             15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
+                          vijk=1.0_dp/16.0_dp*(dom(ib)%v(i,j-3,k)-5.0_dp*dom(ib)%v(i,j-2,k)+ &
+                             15.0_dp*dom(ib)%v(i,j-1,k)+5.0_dp*dom(ib)%v(i,j,k))
                           else
-                          vijk=1.0/16.0*(-dom(ib)%v(i,j-2,k)+9.0*dom(ib)%v(i,j-1,k)+ &
-                               9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
+                          vijk=1.0_dp/16.0_dp*(-dom(ib)%v(i,j-2,k)+9.0_dp*dom(ib)%v(i,j-1,k)+ &
+                               9.0_dp*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
                           if (k==dom(ib)%ksp) then
-                          wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
-                                  5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
+                          wijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%w(i,j,k-1)+15.0_dp*dom(ib)%w(i,j,k)- &
+                                  5.0_dp*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
                           else if (k==dom(ib)%kep) then
-                          wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
-                             15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
+                          wijk=1.0_dp/16.0_dp*(dom(ib)%w(i,j,k-3)-5.0_dp*dom(ib)%w(i,j,k-2)+ &
+                             15.0_dp*dom(ib)%w(i,j,k-1)+5.0_dp*dom(ib)%w(i,j,k))
                           else
-                          wijk=1.0/16.0*(-dom(ib)%w(i,j,k-2)+9.0*dom(ib)%w(i,j,k-1)+ &
-                               9.0*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
+                          wijk=1.0_dp/16.0_dp*(-dom(ib)%w(i,j,k-2)+9.0_dp*dom(ib)%w(i,j,k-1)+ &
+                               9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 !
 ! Convection
@@ -469,8 +471,8 @@
                           h2 = vijk*dom(ib)%dphi_dy(i,j,k)
                           h3 = wijk*dom(ib)%dphi_dz(i,j,k)
 
-                          dom(ib)%phi(i,j,k) = 1.0/3.0*dom(ib)%phi(i,j,k) + &
-                    2.0/3.0*dom(ib)%phi_init(i,j,k) - 2.0/3.0*dt*(h1+h2+h3)   ! We now have updated phi field
+                          dom(ib)%phi(i,j,k) = 1.0_dp/3.0_dp*dom(ib)%phi(i,j,k) + &
+                    2.0_dp/3.0_dp*dom(ib)%phi_init(i,j,k) - 2.0_dp/3.0_dp*dt*(h1+h2+h3)   ! We now have updated phi field
 
 !
 ! Hold level to be held constant at inflow and outflow (if required - may help with stability in inflow-outflow sims)
@@ -479,11 +481,11 @@
                           if (dom(ib)%iprev<0) then
                           if ((i>=dom(ib)%isu).and.(i<=dom(ib)%isu+5)) then
                           if (dom(ib)%zc(k)<length)   then
-                          dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
+                          dom(ib)%phi(i,j,k) = 1.0_dp*abs(dom(ib)%zc(k)-length)
                           else if (dom(ib)%zc(k)>length)   then
-                          dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
+                          dom(ib)%phi(i,j,k) = -1.0_dp*abs(dom(ib)%zc(k)-length)
                           else if (dom(ib)%zc(k)==length)  then
-                          dom(ib)%phi(i,j,k) = 0.0
+                          dom(ib)%phi(i,j,k) = 0.0_dp
                           end if
                           end if
                           end if
@@ -491,11 +493,11 @@
                           if  (dom(ib)%inext<0) then
                           if ((i<=dom(ib)%ieu).and.(i>=dom(ib)%ieu-5)) then
                           if (dom(ib)%zc(k)<length)   then
-                          dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
+                          dom(ib)%phi(i,j,k) = 1.0_dp*abs(dom(ib)%zc(k)-length)
                           else if (dom(ib)%zc(k)>length)   then
-                          dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
+                          dom(ib)%phi(i,j,k) = -1.0_dp*abs(dom(ib)%zc(k)-length)
                           else if (dom(ib)%zc(k)==length)  then
-                          dom(ib)%phi(i,j,k) = 0.0
+                          dom(ib)%phi(i,j,k) = 0.0_dp
                           end if
                           end if
                           end if
@@ -524,6 +526,7 @@
           use module_LSM
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer :: i,j,k,ifi,op,ib
@@ -545,58 +548,58 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
 
                           if (i==dom(ib)%isp) then
-                          uijk=1.0/16.0*(5.0*dom(ib)%u(i-1,j,k)+15.0*dom(ib)%u(i,j,k)- &
-                                   5.0*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
+                          uijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%u(i-1,j,k)+15.0_dp*dom(ib)%u(i,j,k)- &
+                                   5.0_dp*dom(ib)%u(i+1,j,k)+dom(ib)%u(i+2,j,k))
                           else if (i==dom(ib)%iep) then
-                          uijk=1.0/16.0*(dom(ib)%u(i-3,j,k)-5.0*dom(ib)%u(i-2,j,k)+ &
-                              15.0*dom(ib)%u(i-1,j,k)+5.0*dom(ib)%u(i,j,k))
+                          uijk=1.0_dp/16.0_dp*(dom(ib)%u(i-3,j,k)-5.0_dp*dom(ib)%u(i-2,j,k)+ &
+                              15.0_dp*dom(ib)%u(i-1,j,k)+5.0_dp*dom(ib)%u(i,j,k))
                           else
-                          uijk=1.0/16.0*(-dom(ib)%u(i-2,j,k)+9.0*dom(ib)%u(i-1,j,k)+ &
-                                9.0*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
+                          uijk=1.0_dp/16.0_dp*(-dom(ib)%u(i-2,j,k)+9.0_dp*dom(ib)%u(i-1,j,k)+ &
+                                9.0_dp*dom(ib)%u(i,j,k)-dom(ib)%u(i+1,j,k))
                           end if
 
                           if (j==dom(ib)%jsp) then
-                          vijk=1.0/16.0*(5.0*dom(ib)%v(i,j-1,k)+15.0*dom(ib)%v(i,j,k)- &
-                                   5.0*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
+                          vijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%v(i,j-1,k)+15.0_dp*dom(ib)%v(i,j,k)- &
+                                   5.0_dp*dom(ib)%v(i,j+1,k)+dom(ib)%v(i,j+2,k))
                           else if (j==dom(ib)%jep) then
-                          vijk=1.0/16.0*(dom(ib)%v(i,j-3,k)-5.0*dom(ib)%v(i,j-2,k)+ &
-                              15.0*dom(ib)%v(i,j-1,k)+5.0*dom(ib)%v(i,j,k))
+                          vijk=1.0_dp/16.0_dp*(dom(ib)%v(i,j-3,k)-5.0_dp*dom(ib)%v(i,j-2,k)+ &
+                              15.0_dp*dom(ib)%v(i,j-1,k)+5.0_dp*dom(ib)%v(i,j,k))
                           else
-                          vijk=1.0/16.0*(-dom(ib)%v(i,j-2,k)+9.0*dom(ib)%v(i,j-1,k)+ &
-                                9.0*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
+                          vijk=1.0_dp/16.0_dp*(-dom(ib)%v(i,j-2,k)+9.0_dp*dom(ib)%v(i,j-1,k)+ &
+                                9.0_dp*dom(ib)%v(i,j,k)-dom(ib)%v(i,j+1,k))
                           end if
 
                           if (k==dom(ib)%ksp) then
-                          wijk=1.0/16.0*(5.0*dom(ib)%w(i,j,k-1)+15.0*dom(ib)%w(i,j,k)- &
-                                   5.0*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
+                          wijk=1.0_dp/16.0_dp*(5.0_dp*dom(ib)%w(i,j,k-1)+15.0_dp*dom(ib)%w(i,j,k)- &
+                                   5.0_dp*dom(ib)%w(i,j,k+1)+dom(ib)%w(i,j,k+2))
                           else if (k==dom(ib)%kep) then
-                          wijk=1.0/16.0*(dom(ib)%w(i,j,k-3)-5.0*dom(ib)%w(i,j,k-2)+ &
-                              15.0*dom(ib)%w(i,j,k-1)+5.0*dom(ib)%w(i,j,k))
+                          wijk=1.0_dp/16.0_dp*(dom(ib)%w(i,j,k-3)-5.0_dp*dom(ib)%w(i,j,k-2)+ &
+                              15.0_dp*dom(ib)%w(i,j,k-1)+5.0_dp*dom(ib)%w(i,j,k))
                           else
-                          wijk=1.0/16.0*(-dom(ib)%w(i,j,k-2)+9.0*dom(ib)%w(i,j,k-1)+ &
-                                9.0*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
+                          wijk=1.0_dp/16.0_dp*(-dom(ib)%w(i,j,k-2)+9.0_dp*dom(ib)%w(i,j,k-1)+ &
+                                9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 
-                          if (uijk>0.0) &
+                          if (uijk>0.0_dp) &
                        dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
-                          if (uijk<0.0) &
+                          if (uijk<0.0_dp) &
                        dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
-                          if (uijk==0.0) &
-                       dom(ib)%dphi_dx(i,j,k) = 0.0
+                          if (uijk==0.0_dp) &
+                       dom(ib)%dphi_dx(i,j,k) = 0.0_dp
 
-                          if (vijk>0.0) &
+                          if (vijk>0.0_dp) &
                        dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
-                          if (vijk<0.0) &
+                          if (vijk<0.0_dp) &
                        dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
-                          if (vijk==0.0) &
-                       dom(ib)%dphi_dy(i,j,k) = 0.0
+                          if (vijk==0.0_dp) &
+                       dom(ib)%dphi_dy(i,j,k) = 0.0_dp
 
-                          if (wijk>0.0) &
+                          if (wijk>0.0_dp) &
                        dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
-                          if (wijk<0.0) &
+                          if (wijk<0.0_dp) &
                        dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
-                          if (wijk==0.0) &
-                       dom(ib)%dphi_dz(i,j,k) = 0.0
+                          if (wijk==0.0_dp) &
+                       dom(ib)%dphi_dz(i,j,k) = 0.0_dp
 
                       end do
                   end do
@@ -616,6 +619,7 @@
           use module_LSM
           use multidata
           use mpi
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
           integer :: i,j,k,it,ib
@@ -674,9 +678,9 @@
                               dom(ib)%s_phi0(i,j,k) = dom(ib)%phi_reinit(i,j,k)/ &
                         sqrt(dom(ib)%phi_reinit(i,j,k)**2+(abs_dphi**2)*dom(ib)%dx**2)
 
-                              dom(ib)%phi_reinit(i,j,k) = 0.75*dom(ib)%phi(i,j,k)+ &
-                        0.25*dom(ib)%phi_reinit(i,j,k)+ &
-                        0.25*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
+                              dom(ib)%phi_reinit(i,j,k) = 0.75_dp*dom(ib)%phi(i,j,k)+ &
+                        0.25_dp*dom(ib)%phi_reinit(i,j,k)+ &
+                        0.25_dp*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
                         dom(ib)%s_phi0(i,j,k)*abs_dphi)
 
                           end do
@@ -703,9 +707,9 @@
                               dom(ib)%s_phi0(i,j,k) = dom(ib)%phi_reinit(i,j,k)/ &
                         sqrt(dom(ib)%phi_reinit(i,j,k)**2+(abs_dphi**2)*dom(ib)%dx**2)
 
-                              dom(ib)%phi_reinit(i,j,k) =1.0/3.0*dom(ib)%phi(i,j,k)+ &
-                        2.0/3.0*dom(ib)%phi_reinit(i,j,k)+ &
-                        2.0/3.0*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
+                              dom(ib)%phi_reinit(i,j,k) =1.0_dp/3.0_dp*dom(ib)%phi(i,j,k)+ &
+                        2.0_dp/3.0_dp*dom(ib)%phi_reinit(i,j,k)+ &
+                        2.0_dp/3.0_dp*dt_reinit*(dom(ib)%s_phi0(i,j,k)- &
                         dom(ib)%s_phi0(i,j,k)*abs_dphi)
 
                           end do
@@ -721,8 +725,8 @@
 !
               call dphi_for_reinit(15) ! (phi_reinit)
 
-              max_abs = 0.0
-              max_phidiff = 0.0
+              max_abs = 0.0_dp
+              max_phidiff = 0.0_dp
 
               do ib=1,nbp
 
@@ -791,6 +795,7 @@
           use vars
           use module_LSM
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -829,40 +834,40 @@
                           zm=dom(ib)%dphi_dzminus(i,j,k)
                           zp=dom(ib)%dphi_dzplus(i,j,k)
 
-                          if ((xm*lssig>0.0).and.(xp*lssig>-xm*lssig)) then
+                          if ((xm*lssig>0.0_dp).and.(xp*lssig>-xm*lssig)) then
                           dom(ib)%dphi_dx(i,j,k)=dom(ib)%dphi_dxminus(i,j,k)
                           end if
 
-                          if((xp*lssig<0.0).and.(xm*lssig<-xp*lssig)) then
+                          if((xp*lssig<0.0_dp).and.(xm*lssig<-xp*lssig)) then
                           dom(ib)%dphi_dx(i,j,k)=dom(ib)%dphi_dxplus(i,j,k)
                           end if
 
-                          if ((xp*lssig>0.0).and.(xm*lssig<0.0)) then
-                          dom(ib)%dphi_dx(i,j,k)=0.0
+                          if ((xp*lssig>0.0_dp).and.(xm*lssig<0.0_dp)) then
+                          dom(ib)%dphi_dx(i,j,k)=0.0_dp
                           end if
 
-                          if ((ym*lssig>0.0).and.(yp*lssig>-ym*lssig)) then
+                          if ((ym*lssig>0.0_dp).and.(yp*lssig>-ym*lssig)) then
                           dom(ib)%dphi_dy(i,j,k)=dom(ib)%dphi_dyminus(i,j,k)
                           end if
 
-                          if ((yp*lssig<0.0).and.(ym*lssig<-yp*lssig)) then
+                          if ((yp*lssig<0.0_dp).and.(ym*lssig<-yp*lssig)) then
                           dom(ib)%dphi_dy(i,j,k)=dom(ib)%dphi_dyplus(i,j,k)
                           end if
 
-                          if ((yp*lssig>0.0).and.(ym*lssig<0.0)) then
-                          dom(ib)%dphi_dy(i,j,k) = 0.0
+                          if ((yp*lssig>0.0_dp).and.(ym*lssig<0.0_dp)) then
+                          dom(ib)%dphi_dy(i,j,k) = 0.0_dp
                           end if
 
-                          if ((zm*lssig>0.0).and.(zp*lssig>-zm*lssig)) then
+                          if ((zm*lssig>0.0_dp).and.(zp*lssig>-zm*lssig)) then
                           dom(ib)%dphi_dz(i,j,k)=dom(ib)%dphi_dzminus(i,j,k)
                           end if
 
-                          if((zp*lssig<0.0).and.(zm*lssig<-zp*lssig)) then
+                          if((zp*lssig<0.0_dp).and.(zm*lssig<-zp*lssig)) then
                           dom(ib)%dphi_dz(i,j,k)=dom(ib)%dphi_dzplus(i,j,k)
                           end if
 
-                          if ((zp*lssig>0.0).and.(zm*lssig<0.0)) then
-                          dom(ib)%dphi_dz(i,j,k)=0.0
+                          if ((zp*lssig>0.0_dp).and.(zm*lssig<0.0_dp)) then
+                          dom(ib)%dphi_dz(i,j,k)=0.0_dp
                           end if
 
                       end do
@@ -878,6 +883,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -941,7 +947,7 @@
 !
 ! Compute 5th order derivative (+ve direction)
 !
-              dom(ib)%dphi_dxplus = 0.0
+              dom(ib)%dphi_dxplus = 0.0_dp
 
               do k=1,nr
                   do i=1,npp-6
@@ -961,23 +967,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dxplus(i+3,j,k) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dxplus(i+3,j,k) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -992,6 +998,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -1055,7 +1062,7 @@
 !
 ! Compute 5th order derivative (-ve direction)
 !
-              dom(ib)%dphi_dxminus = 0.0
+              dom(ib)%dphi_dxminus = 0.0_dp
 
               do k=1,nr
                   do i=1,npp-6
@@ -1075,23 +1082,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dxminus(i+3,j,k) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dxminus(i+3,j,k) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -1106,6 +1113,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -1169,7 +1177,7 @@
 !
 ! Compute 5th order derivative (+ve direction)
 !
-              dom(ib)%dphi_dyplus = 0.0
+              dom(ib)%dphi_dyplus = 0.0_dp
 
               do k=1,nr
                   do i=1,npp
@@ -1188,23 +1196,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dyplus(i,j+3,k) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dyplus(i,j+3,k) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -1219,6 +1227,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -1282,7 +1291,7 @@
 !
 ! Compute 5th order derivative (-ve direction)
 !
-              dom(ib)%dphi_dyminus = 0.0
+              dom(ib)%dphi_dyminus = 0.0_dp
 
               do k=1,nr
                   do i=1,npp
@@ -1302,23 +1311,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dyminus(i,j+3,k) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dyminus(i,j+3,k) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -1333,6 +1342,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -1395,7 +1405,7 @@
 !
 ! Compute 5th order derivative (-ve direction)
 !
-              dom(ib)%dphi_dzplus = 0.0
+              dom(ib)%dphi_dzplus = 0.0_dp
 
               do k=1,nr-6
                   do i=1,npp
@@ -1415,23 +1425,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dzplus(i,j,k+3) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dzplus(i,j,k+3) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -1446,6 +1456,7 @@
 !######################################################################
           use vars
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -1509,7 +1520,7 @@
 !
 ! Compute 5th order derivative (-ve direction)
 !
-              dom(ib)%dphi_dzminus = 0.0
+              dom(ib)%dphi_dzminus = 0.0_dp
 
               do k=1,nr-6
                   do i=1,npp
@@ -1529,23 +1540,23 @@
                           v44 = v4**2
                           v55 = v5**2
 
-                          e = (1.0e-6) * max(v11,v22,v33,v44,v55) + 1.0d-99
+                          e = (1.0e-6_dp) * max(v11,v22,v33,v44,v55) + 1E-99_dp
 
-                          s1 = (13.0/12.0)*(v1-2.0*v2+v3)**2 + 0.25*(v1-4.0*v2+3.0*v3)**2
-                          s2 = (13.0/12.0)*(v2-2.0*v3+v4)**2 + 0.25*(v2-v4)**2
-                          s3 = (13.0/12.0)*(v3-2.0*v4+v5)**2 + 0.25*(3.0*v3-4.0*v4+v5)**2
+                          s1 = (13.0_dp/12.0_dp)*(v1-2.0_dp*v2+v3)**2 + 0.25_dp*(v1-4.0_dp*v2+3.0_dp*v3)**2
+                          s2 = (13.0_dp/12.0_dp)*(v2-2.0_dp*v3+v4)**2 + 0.25_dp*(v2-v4)**2
+                          s3 = (13.0_dp/12.0_dp)*(v3-2.0_dp*v4+v5)**2 + 0.25_dp*(3.0_dp*v3-4.0_dp*v4+v5)**2
 
-                          a1 = 0.1/(e+s1)**2
-                          a2 = 0.6/(e+s2)**2
-                          a3 = 0.3/(e+s3)**2
+                          a1 = 0.1_dp/(e+s1)**2
+                          a2 = 0.6_dp/(e+s2)**2
+                          a3 = 0.3_dp/(e+s3)**2
 
                           w1 = a1/(a1+a2+a3)
                           w2 = a2/(a1+a2+a3)
                           w3 = a3/(a1+a2+a3)
 
-                          dom(ib)%dphi_dzminus(i,j,k+3) = w1*(v1*(1.0/3.0)-v2*(7.0/6.0)+ &
-                    v3*(11.0/6.0)) + w2*(-v2*(1.0/6.0)+v3*(5.0/6.0)+v4*(1.0/3.0))+ &
-                    w3*(v3*(1.0/3.0)+v4*(5.0/6.0)-v5*(1.0/6.0))
+                          dom(ib)%dphi_dzminus(i,j,k+3) = w1*(v1*(1.0_dp/3.0_dp)-v2*(7.0_dp/6.0_dp)+ &
+                    v3*(11.0_dp/6.0_dp)) + w2*(-v2*(1.0_dp/6.0_dp)+v3*(5.0_dp/6.0_dp)+v4*(1.0_dp/3.0_dp))+ &
+                    w3*(v3*(1.0_dp/3.0_dp)+v4*(5.0_dp/6.0_dp)-v5*(1.0_dp/6.0_dp))
 
                       end do
                   end do
@@ -1562,11 +1573,12 @@
           use module_LSM
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
           integer :: i,j,k,n_epsl,ib,tti,ttj,ttk
           real :: epsl
-          real, parameter :: pi = 3.14159265359
+          real, parameter :: pi = 3.14159265359_dp
 !
 ! Define an infinitely differentiable smoothed heaviside function h_phi
 !
@@ -1580,17 +1592,17 @@
                   do i=dom(ib)%isp-pl,dom(ib)%iep+pl
                       do j=dom(ib)%jsp-pl,dom(ib)%jep+pl
 
-                          if (dom(ib)%phi(i,j,k)<(-1.0*epsl)) &
-                    dom(ib)%h_phi(i,j,k) = 0.0  ! h_phi=0 above free surface
+                          if (dom(ib)%phi(i,j,k)<(-1.0_dp*epsl)) &
+                    dom(ib)%h_phi(i,j,k) = 0.0_dp  ! h_phi=0 above free surface
 
-                          if (dom(ib)%phi(i,j,k)>(epsl)) dom(ib)%h_phi(i,j,k) = 1.0  ! h_phi=1.0 below free surface
+                          if (dom(ib)%phi(i,j,k)>(epsl)) dom(ib)%h_phi(i,j,k) = 1.0_dp  ! h_phi=1.0_dp below free surface
 
                           if (abs(dom(ib)%phi(i,j,k))<=epsl) then
 !
 ! Transition zone across free surface (2 grid cells width either side)
 !
-                          dom(ib)%h_phi(i,j,k)=0.5*(1.0+dom(ib)%phi(i,j,k)/ &
-                    epsl+1.0/pi*sin(pi*dom(ib)%phi(i,j,k)/epsl))
+                          dom(ib)%h_phi(i,j,k)=0.5_dp*(1.0_dp+dom(ib)%phi(i,j,k)/ &
+                    epsl+1.0_dp/pi*sin(pi*dom(ib)%phi(i,j,k)/epsl))
 
                           end if
 

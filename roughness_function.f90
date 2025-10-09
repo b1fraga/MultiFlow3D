@@ -72,6 +72,7 @@
           use mpi
           use var_rough
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
 
@@ -88,7 +89,7 @@
 
           ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
 
-          rough_dom(ib)%d50=rough_dom(ib)%d50/1000.0/hd
+          rough_dom(ib)%d50=rough_dom(ib)%d50/1000.0_dp/hd
 
           xistep= (rough_dom(ib)%d50/dom(ib)%dx)
           yjstep= (rough_dom(ib)%d50/dom(ib)%dy)
@@ -110,7 +111,7 @@
 
           do i = 1,ni, istep
               do j = 1, nj, jstep
-                  rough_dom(ib)%z_rough(i,j)= random_number_normal2(0.0,sigma) &
+                  rough_dom(ib)%z_rough(i,j)= random_number_normal2(0.0_dp,sigma) &
                                             *rough_dom(ib)%d50
                   maxelev=MAX(maxelev,rough_dom(ib)%z_rough(i,j))
                   minelev=MIN(minelev,rough_dom(ib)%z_rough(i,j))
@@ -126,7 +127,7 @@
           do i = 1,pl
               do j = 1, nj
                   do k = pl,1,-1
-                      if (rough_dom(ib)%z_rough(i,j)>5.0) Then
+                      if (rough_dom(ib)%z_rough(i,j)>5.0_dp) Then
                       rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(k+1,j)
                       end if
                   end do
@@ -144,7 +145,7 @@
           if (dom(ib)%jprev<0) then
           do i = 1,ni
               do j = pl, 1, -1
-                  if (rough_dom(ib)%z_rough(i,j)>5.0) &
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
               enddo
           end do
@@ -153,13 +154,13 @@
           if (dom(ib)%jnext<0) then
           do i = 1,ni
               do j =  nj-pl+1,nj
-                  if (rough_dom(ib)%z_rough(i,j)>5.0) &
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
               enddo
           end do
           end if
 
-          zbav=0.0
+          zbav=0.0_dp
 
           write(char_block,'(I4)') dom_id(ib)
           tecfile='maxk'//TRIM(ADJUSTL(char_block))//'.dat'
@@ -187,7 +188,7 @@
           WRITE (688,*) 'roughness diameter:  ',rough_dom(ib)%d50
 
 ! determine roughness geometry function
-          rms=0.0
+          rms=0.0_dp
           do i = 1,ni
               do j = 1, nj
                   rough_dom(ib)%zbp(i,j)=(rough_dom(ib)%z_rough(i,j)-zbav)
@@ -204,9 +205,9 @@
               enddo
           end do
 
-          aa(1)=-3.0
+          aa(1)=-3.0_dp
           do ii=2,301
-              aa(ii)=aa(ii-1)+0.02
+              aa(ii)=aa(ii-1)+0.02_dp
               xicount=0
               do i =1, ni
                   do j=1,nj
@@ -220,7 +221,7 @@
    69     FORMAT(a,i4,i4,i4,1F15.6)
 
 ! determine porosity
-          rough_dom(ib)%rough=0.0
+          rough_dom(ib)%rough=0.0_dp
           rough_dom(ib)%irough=0
           maxk=0
 
@@ -232,7 +233,7 @@
 
 !         if (zdelta.lt.rough_dom(ib)%z_rough(i,j)) then
                       if (dom(ib)%zc(k)<rough_dom(ib)%z_rough(i,j)) then
-                      rough_dom(ib)%rough(i,j,k)=1.0
+                      rough_dom(ib)%rough(i,j,k)=1.0_dp
                       rough_dom(ib)%irough(i,j,k)=1
                       maxk=MAX(maxk,k)
                       end if
@@ -275,6 +276,7 @@
           use mpi
           use var_rough
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           IMPLICIT NONE
           INTEGER :: I,J,K,L,ib,nip,njp,N
@@ -291,13 +293,13 @@
                   do k=dom(ib)%ksp,maxk+pl-1    !2,maxk
                       do j=dom(ib)%jsp,dom(ib)%jep   !2,njp-1
                           do i=dom(ib)%isp,dom(ib)%iep    !2,nip-1
-                              if (rough_dom(ib)%rough(i,j,k)==1.0) then
-                              dom(ib)%ustar(i-1,j,k)=0.0
-                              dom(ib)%vstar(i,j-1,k)=0.0
-                              dom(ib)%wstar(i,j,k-1)=0.0
-                              dom(ib)%ustar(i,j,k)=0.
-                              dom(ib)%vstar(i,j,k)=0.
-                              dom(ib)%wstar(i,j,k)=0.
+                              if (rough_dom(ib)%rough(i,j,k)==1.0_dp) then
+                              dom(ib)%ustar(i-1,j,k)=0.0_dp
+                              dom(ib)%vstar(i,j-1,k)=0.0_dp
+                              dom(ib)%wstar(i,j,k-1)=0.0_dp
+                              dom(ib)%ustar(i,j,k)=0.0_dp
+                              dom(ib)%vstar(i,j,k)=0.0_dp
+                              dom(ib)%wstar(i,j,k)=0.0_dp
                               end if
                           end do
                       end do
@@ -373,6 +375,7 @@
 !         Reference: Marsaglia,G. & Bray,T.A. 'A convenient method for generating
 !                    normal variables', Siam Rev., vol.6, 260-264, 1964.
 !------------------------------------------------------------------------
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           IMPLICIT NONE
           REAL  :: fn_val
           REAL  :: mean,sigma
@@ -382,7 +385,7 @@
           REAL            :: u, sum
           REAL, SAVE      :: v, sln
           LOGICAL, SAVE   :: second = .FALSE.
-          REAL, PARAMETER :: one = 1.0, vsmall = TINY( one )
+          REAL, PARAMETER :: one = 1.0_dp, vsmall = TINY( one )
 
           IF (second) THEN
 !

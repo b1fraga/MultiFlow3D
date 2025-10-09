@@ -3,6 +3,7 @@
 !##########################################################################
           use mpi
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           call init_parallelisation
@@ -39,7 +40,7 @@
           if(.not.LRESTART) then
           if (time_averaging) then
           call update_mean
-          if (noise>0.0) call add_noise(noise)
+          if (noise>0.0_dp) call add_noise(noise)
           end if
           end if
 

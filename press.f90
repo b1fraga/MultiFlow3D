@@ -4,27 +4,28 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
           double precision fact,fact1,buffer_rmax
 
-          rmax=0.0
+          rmax=0.0_dp
 
           if(differencing==2) then
           do ib=1,nbp
-              fact=0.0
-              fact1=0.0
+              fact=0.0_dp
+              fact1=0.0_dp
 
               do  k=dom(ib)%ksp,dom(ib)%kep
                   do  i=dom(ib)%isp,dom(ib)%iep
                       do j=dom(ib)%jsp,dom(ib)%jep
                           fact=( &
-                    (-dom(ib)%u(i+1,j,k)+27.0*dom(ib)%u(i,j,k)- &
-                    27.0*dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k))/(24.0*dom(ib)%dx)+ &
-                    (-dom(ib)%v(i,j+1,k)+27.0*dom(ib)%v(i,j,k)- &
-                    27.0*dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-2,k))/(24.0*dom(ib)%dy)+ &
-                    (-dom(ib)%w(i,j,k+1)+27.0*dom(ib)%w(i,j,k)- &
-                    27.0*dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j,k-2))/(24.0*dom(ib)%dz))
+                    (-dom(ib)%u(i+1,j,k)+27.0_dp*dom(ib)%u(i,j,k)- &
+                    27.0_dp*dom(ib)%u(i-1,j,k)+dom(ib)%u(i-2,j,k))/(24.0_dp*dom(ib)%dx)+ &
+                    (-dom(ib)%v(i,j+1,k)+27.0_dp*dom(ib)%v(i,j,k)- &
+                    27.0_dp*dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-2,k))/(24.0_dp*dom(ib)%dy)+ &
+                    (-dom(ib)%w(i,j,k+1)+27.0_dp*dom(ib)%w(i,j,k)- &
+                    27.0_dp*dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j,k-2))/(24.0_dp*dom(ib)%dz))
                           dom(ib)%su(i,j,k)=fact/dt
 
                           fact1=fact*dom(ib)%dx*dom(ib)%dy*dom(ib)%dz
@@ -36,8 +37,8 @@
           end do
           else
           do ib=1,nbp
-              fact=0.0
-              fact1=0.0
+              fact=0.0_dp
+              fact1=0.0_dp
 
               do  k=dom(ib)%ksp,dom(ib)%kep
                   do  i=dom(ib)%isp,dom(ib)%iep
@@ -141,6 +142,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib
 
@@ -152,7 +154,7 @@
                           if (L_LSM) then
                           dom(ib)%u(i,j,k)=(dom(ib)%ustar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i+1,j,k)-dom(ib)%p(i,j,k))/dom(ib)%dx/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i+1,j,k))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i+1,j,k))))
                           else
                           dom(ib)%u(i,j,k)=(dom(ib)%ustar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i+1,j,k)-dom(ib)%p(i,j,k))/dom(ib)%dx)
@@ -167,7 +169,7 @@
                           if (L_LSM) then
                           dom(ib)%v(i,j,k)=(dom(ib)%vstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j+1,k)-dom(ib)%p(i,j,k))/dom(ib)%dy/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j+1,k))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j+1,k))))
                           else
                           dom(ib)%v(i,j,k)=(dom(ib)%vstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j+1,k)-dom(ib)%p(i,j,k))/dom(ib)%dy)
@@ -182,7 +184,7 @@
                           if (L_LSM) then
                           dom(ib)%w(i,j,k)=(dom(ib)%wstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j,k+1)-dom(ib)%p(i,j,k))/dom(ib)%dz/ &
-                    (0.5*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j,k+1))))
+                    (0.5_dp*(dom(ib)%dens(i,j,k)+dom(ib)%dens(i,j,k+1))))
                           else
                           dom(ib)%w(i,j,k)=(dom(ib)%wstar(i,j,k)-dt*alfapr* &
                     (dom(ib)%p(i,j,k+1)-dom(ib)%p(i,j,k))/dom(ib)%dz)
@@ -205,6 +207,7 @@
           use mpi
           use multidata
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer i,j,k,ib,isp,jspr,jepr,kspr,kepr,ispr,iepr
           double precision qstpp,fakfor,flwsum_loc,flwsum,A_loc,A
@@ -212,8 +215,8 @@
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
-          flwsum_loc = 0.0
-          A_loc      = 0.0
+          flwsum_loc = 0.0_dp
+          A_loc      = 0.0_dp
 
 
           do ib=1,nbp
@@ -226,7 +229,7 @@
                   do k=kspr,kepr
                       isp=dom(ib)%isu-1
                       if (L_LSM) then
-                      if (dom(ib)%phi(isp,j,k) >= 0.0) then
+                      if (dom(ib)%phi(isp,j,k) >= 0.0_dp) then
                       flwsum_loc=flwsum_loc+ &
                 dom(ib)%u(isp,j,k)*dom(ib)%dy*dom(ib)%dz* &
                 (dom(ib)%dens(isp,j,k)/densl)
@@ -261,13 +264,13 @@
 
 ! --- Calculate and store forcing term --------------------------------
           qstpp = flwsum/A
-          fakfor = 0.3
+          fakfor = 0.3_dp
 
-          forcn=forcn+fakfor*(qzero+qstpn-2.0*qstpp )/dt
+          forcn=forcn+fakfor*(qzero+qstpn-2.0_dp*qstpp )/dt
           qstpn = qstpp
 
 
-!        if(myrank.eq.0) write (numfile1,'(4F15.6)')
+!        if(myrank.eq.0_dp) write (numfile1,'(4F15.6_dp)')
 !     &   ctime,forcn,qstpp,flwsum
 
       end subroutine pressure_forcing
@@ -277,6 +280,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,l,m
           integer :: ib,isp,iep,jsp,jep,ksp,kep
@@ -290,9 +294,9 @@
           nsweeps=0
 
           do ib=1,nbp
-              dom(ib)%ap=0.0
-              dom(ib)%pp=0.0
-              dom(ib)%su=0.0
+              dom(ib)%ap=0.0_dp
+              dom(ib)%pp=0.0_dp
+              dom(ib)%su=0.0_dp
 
               isp=dom(ib)%isp; iep=dom(ib)%iep
               jsp=dom(ib)%jsp; jep=dom(ib)%jep
@@ -302,28 +306,28 @@
                   do  i=isp,iep
                       do j=jsp,jep
 
-                          dom(ib)%aw(i,j,k)=1.0/(dom(ib)%dx*dom(ib)%dx)
-                          dom(ib)%ae(i,j,k)=1.0/(dom(ib)%dx*dom(ib)%dx)
-                          dom(ib)%an(i,j,k)=1.0/(dom(ib)%dy*dom(ib)%dy)
-                          dom(ib)%as(i,j,k)=1.0/(dom(ib)%dy*dom(ib)%dy)
-                          dom(ib)%at(i,j,k)=1.0/(dom(ib)%dz*dom(ib)%dz)
-                          dom(ib)%ab(i,j,k)=1.0/(dom(ib)%dz*dom(ib)%dz)
+                          dom(ib)%aw(i,j,k)=1.0_dp/(dom(ib)%dx*dom(ib)%dx)
+                          dom(ib)%ae(i,j,k)=1.0_dp/(dom(ib)%dx*dom(ib)%dx)
+                          dom(ib)%an(i,j,k)=1.0_dp/(dom(ib)%dy*dom(ib)%dy)
+                          dom(ib)%as(i,j,k)=1.0_dp/(dom(ib)%dy*dom(ib)%dy)
+                          dom(ib)%at(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
+                          dom(ib)%ab(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
 
                           if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) &
-                    dom(ib)%aw(isp,j,k)=0.0
+                    dom(ib)%aw(isp,j,k)=0.0_dp
                           if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) &
-                    dom(ib)%ae(iep,j,k)=0.0
+                    dom(ib)%ae(iep,j,k)=0.0_dp
                           if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) &
-                    dom(ib)%as(i,jsp,k)=0.0
+                    dom(ib)%as(i,jsp,k)=0.0_dp
                           if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) &
-                    dom(ib)%an(i,jep,k)=0.0
+                    dom(ib)%an(i,jep,k)=0.0_dp
                           if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) &
-                    dom(ib)%ab(i,j,ksp)=0.0
+                    dom(ib)%ab(i,j,ksp)=0.0_dp
                           if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) &
-                    dom(ib)%at(i,j,kep)=0.0
+                    dom(ib)%at(i,j,kep)=0.0_dp
 
 
-                          dom(ib)%ap(i,j,k) = -1.0*(dom(ib)%aw(i,j,k)+ &
+                          dom(ib)%ap(i,j,k) = -1.0_dp*(dom(ib)%aw(i,j,k)+ &
                     dom(ib)%ae(i,j,k)+dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))
 
@@ -346,7 +350,7 @@
 
           nsweeps = nsweeps + nsweep
 
-          buffer_ppref=0.0
+          buffer_ppref=0.0_dp
 !        do ib=1,nbp
 !           if(dom_id(ib).eq.prefdom) then
 !              buffer_ppref=dom(ib)%p(ipref,jpref,kpref)+
@@ -363,7 +367,7 @@
                       do j=dom(ib)%jsp-1,dom(ib)%jep+1
                           dom(ib)%p(i,j,k)=(dom(ib)%p(i,j,k)+ &
                     (dom(ib)%pp(i,j,k)-ppref))
-                          dom(ib)%pp(i,j,k)=0.0
+                          dom(ib)%pp(i,j,k)=0.0_dp
                       end do
                   end do
               end do
@@ -378,7 +382,7 @@
 
  3000     continue
 
-          if(rmax>100.0) then
+          if(rmax>100.0_dp) then
           if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
           write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
 

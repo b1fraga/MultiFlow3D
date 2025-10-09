@@ -4,6 +4,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,ib,nicell,njcell,nkcell
           integer :: buffer_nmax,nmax,buffer_nemax,nemax,ni,nj,nk
@@ -31,7 +32,7 @@
     MPI_COMM_WORLD,ierr)
 
           act_ngrid=ngrid_input
-          ngrd_gl=ngrid_input+int(log(real(maxrdiv))/log(2.0))
+          ngrd_gl=ngrid_input+int(log(real(maxrdiv))/log(2.0_dp))
           allocate (rdv(0:num_domains-1,ngrd_gl))
           allocate (b_rv1(num_domains,ngrd_gl),b_rv2(num_domains,ngrd_gl))
 
@@ -41,7 +42,7 @@
 
               if(rdiv(dom_id(ib))>1) then
               dom(ib)%ngrid=ngrid_input+ &
-        int(log(real(rdiv(dom_id(ib))))/log(2.0))
+        int(log(real(rdiv(dom_id(ib))))/log(2.0_dp))
               end if
 
               do glevel=1,ngrd_gl
@@ -81,17 +82,17 @@
               n2=(dom(ib)%yel-dom(ib)%ysl)/g_dy
               n3=(dom(ib)%zel-dom(ib)%zsl)/g_dz
 
-              if (abs(n1-nint(n1))>1e-8) then
+              if (abs(n1-nint(n1))>1E-8_dp) then
               print*,'error1 in localparameters', &
         dom_id(ib),(dom(ib)%xel-dom(ib)%xsl),g_dx,n1
               stop
               end if
-              if (abs(n2-nint(n2))>1e-8) then
+              if (abs(n2-nint(n2))>1E-8_dp) then
               print*,'error2 in localparameters', &
         dom_id(ib),(dom(ib)%yel-dom(ib)%ysl),g_dy,n2
               stop
               end if
-              if (abs(n3-nint(n3))>1e-8) then
+              if (abs(n3-nint(n3))>1E-8_dp) then
               print*,'error3 in localparameters', &
         dom_id(ib),(dom(ib)%zel-dom(ib)%zsl),g_dz,n3
               stop

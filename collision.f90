@@ -16,7 +16,7 @@
           use mpi
           use vars
           use vars_pt
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           integer tot_np,ib
@@ -42,11 +42,11 @@
 
           double precision theta_col,e_col,mp
 
-          !2. Damping
+         !2. Damping
           e_col=1.d0
-          mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
-          theta_col=-2*alog(e_col)*(mp*k_n)**0.5/ &
-         (3.1416**2+(alog(e_col))**2)
+          mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
+          theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
+         (3.1416_dp**2+(alog(e_col))**2)
 
           tot_np = np_loc+npg_loc
 
@@ -57,11 +57,11 @@
           allocate(zpg_sv(tot_np),wpg_sv(tot_np))
           allocate(dp_sv(tot_np),dpg_sv(tot_np))
 
-          xp_sv = 0.0 ; zp_sv = 0.0 ; zp_sv = 0.0
-          up_sv = 0.0 ; vp_sv = 0.0 ; wp_sv = 0.0
-          xpg_sv = 0.0 ; zpg_sv = 0.0 ; zpg_sv = 0.0
-          upg_sv = 0.0 ; vpg_sv = 0.0 ; wpg_sv = 0.0
-          dp_sv = 0.0 ; dpg_sv = 0.0
+          xp_sv = 0.0_dp ; zp_sv = 0.0_dp ; zp_sv = 0.0_dp
+          up_sv = 0.0_dp ; vp_sv = 0.0_dp ; wp_sv = 0.0_dp
+          xpg_sv = 0.0_dp ; zpg_sv = 0.0_dp ; zpg_sv = 0.0_dp
+          upg_sv = 0.0_dp ; vpg_sv = 0.0_dp ; wpg_sv = 0.0_dp
+          dp_sv = 0.0_dp ; dpg_sv = 0.0_dp
 
           do ls=1,np_loc                ! save real particles
               xp_sv(ls) = xp_loc(ls)
@@ -98,9 +98,9 @@
                   dis_x = xpg_sv(l2)-xp_sv(l)                           ! difference on coordinate in x
                   dis_y = ypg_sv(l2)-yp_sv(l)                           ! difference on coordinate in y
                   dis_z = zpg_sv(l2)-zp_sv(l)                           ! difference on coordinate in z
-                  dis_dd = (dp_loc(l)+dpg_sv(l2))*0.5                   ! sum up Radius
+                  dis_dd = (dp_loc(l)+dpg_sv(l2))*0.5_dp                   ! sum up Radius
                   dis_xyz = sqrt(dis_x**2+dis_y**2+dis_z**2)
-                  lambda_p = 0.375*0.2*(dp_sv(l)*0.5+dpg_sv(l2)*0.5)          ! CFL for particle-particle
+                  lambda_p = 0.375_dp*0.2_dp*(dp_sv(l)*0.5_dp+dpg_sv(l2)*0.5_dp)          ! CFL for particle-particle
                   if ((dis_xyz/=0.d0).and.(dis_xyz<(dis_dd+lambda_p))) then          !
 
                   !           write(myrank+700,*) l1,zp_sv(l1),wp_sv(l1)
@@ -124,7 +124,7 @@
 !     &  *dis_z/dis_xyz+wp_sv(l1)*sqrt(dis_x**2+dis_y**2)/dis_xyz
 !           dif2_uvw_t = (up_sv(l2)*dis_x/dis_xyz+vp_sv(l2)*dis_y/dis_xyz)
 !     &  *dis_z/dis_xyz+wp_sv(l2)*sqrt(dis_x**2+dis_y**2)/dis_xyz
-                  collision_t = -0.1*sqrt(collision_x**2+ &
+                  collision_t = -0.1_dp*sqrt(collision_x**2+ &
             collision_y**2+collision_z**2)   !  uf*abs(Fcoln)
 
                   vector_x = (up_sv(l)-upg_sv(l2))*(1-dis_x**2/dis_xyz**2)
@@ -166,6 +166,7 @@
           use mpi
           use vars
           use vars_pt
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
 
@@ -178,22 +179,22 @@
           mu_f=9.2d-2
 
           !1.Define force range
-          lambda_u=0.75*up_pt(l)*dt
-          lambda_v=0.75*vp_pt(l)*dt
-          lambda_w=0.75*wp_pt(l)*dt
+          lambda_u=0.75_dp*up_pt(l)*dt
+          lambda_v=0.75_dp*vp_pt(l)*dt
+          lambda_w=0.75_dp*wp_pt(l)*dt
 
-          !2. Spring stiffness
+          !2.0_dp Spring stiffness
 !       k_n=1.72d7
 !       k_t=1.48d7
 
-          !3. Damping
+         !3. Damping
           e_col=1.d0
-          mp=rhop_loc(l)*(4/3)*3.1416*(0.5*dp_loc(l))**3
-          theta_col=-2*alog(e_col)*(mp*k_n)**0.5/ &
-         (3.1416**2+(alog(e_col))**2)
+          mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
+          theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
+         (3.1416_dp**2+(alog(e_col))**2)
 
 ! ----------------------- collisions with bottom wall ----------------------------------
-          if (zp_loc(l)<lambda_w+0.5*dp_loc(l)) then
+          if (zp_loc(l)<lambda_w+0.5_dp*dp_loc(l)) then
 
           !a. overlap
           deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
@@ -209,10 +210,10 @@
           !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
           endif
 ! ----------------------- collisions with top wall ----------------------------------
-          if (zp_loc(l)>zen-(lambda_w+0.5*dp_loc(l))) then
+          if (zp_loc(l)>zen-(lambda_w+0.5_dp*dp_loc(l))) then
 
           !a. overlap
-          deltap=max(zp_loc(l)-(zen+0.5*dp_loc(l)),0.d0)
+          deltap=max(zp_loc(l)-(zen+0.5_dp*dp_loc(l)),0.d0)
           !b. normal force
           fcol_n=-k_n*deltap-theta_col*wp_pt(l)
           wp_pt(l) = wp_pt(l) + dt*fcol_n/mp
@@ -226,7 +227,7 @@
 
           endif
 ! ----------------------- collisions with south wall ----------------------------------
-          if (yp_loc(l)<lambda_v+0.5*dp_loc(l)) then
+          if (yp_loc(l)<lambda_v+0.5_dp*dp_loc(l)) then
 
           !a. overlap
           deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
@@ -241,10 +242,10 @@
           endif
           endif
 ! ----------------------- collisions with north wall ----------------------------------
-          if (yp_loc(l)>yen-(lambda_v+0.5*dp_loc(l))) then
+          if (yp_loc(l)>yen-(lambda_v+0.5_dp*dp_loc(l))) then
 
 !a. overlap
-          deltap=max(yp_loc(l)-(yen+0.5*dp_loc(l)),0.d0)
+          deltap=max(yp_loc(l)-(yen+0.5_dp*dp_loc(l)),0.d0)
 !b. normal force
           fcol_n=-k_n*deltap-theta_col*vp_pt(l)
           vp_pt(l) = vp_pt(l) + dt*fcol_n/mp

@@ -4,6 +4,7 @@
           use vars
           use mpi
           use multidata
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
           integer :: is,ie,js,je,ks,ke
@@ -14,13 +15,13 @@
           if(diff_sch==1) then
           fac=dt
           else if(diff_sch==2) then
-          fac=dt/2.0
+          fac=dt/2.0_dp
           end if
 
 
           do ib=1,nbp
-              dom(ib)%ap = 0.0
-              dom(ib)%su = 0.0
+              dom(ib)%ap = 0.0_dp
+              dom(ib)%su = 0.0_dp
           end do
 
           call boundu
@@ -45,22 +46,22 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0_dp
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0_dp
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0_dp
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0_dp
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0_dp
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0_dp
 
-                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
+                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0_dp*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
-                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
+                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0_dp
 
                           if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%ustar(i,j,k)+dom(ib)%su(i,j,k)
                           else if(diff_sch==2) then
-                          dom(ib)%su(i,j,k)=((1.0- &
+                          dom(ib)%su(i,j,k)=((1.0_dp- &
                     dom(ib)%ap(i,j,k))*dom(ib)%u(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%u(i-1,j,k)- &
                     dom(ib)%ae(i,j,k)*dom(ib)%u(i+1,j,k)- &
@@ -75,10 +76,10 @@
                     dom(ib)%su(i,j,k)+forcn*dt
 
                           if (LENERGY) dom(ib)%su(i,j,k)= &
-                    dom(ib)%su(i,j,k)+dt*gx*(1.d0-0.5*beta* &
+                    dom(ib)%su(i,j,k)+dt*gx*(1.d0-0.5_dp*beta* &
                     (dom(ib)%T(i+1,j,k)+dom(ib)%T(i,j,k)) )
 
-                          dom(ib)%ustar(i,j,k)=0.0
+                          dom(ib)%ustar(i,j,k)=0.0_dp
                       end do
                   end do
               end do
@@ -87,8 +88,8 @@
           call sipsol(11)
 
           do ib=1,nbp
-              dom(ib)%ap = 0.0
-              dom(ib)%su = 0.0
+              dom(ib)%ap = 0.0_dp
+              dom(ib)%su = 0.0_dp
           end do
 
           call boundv
@@ -113,22 +114,22 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0_dp
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0_dp
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0_dp
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0_dp
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0_dp
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0_dp
 
-                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
+                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0_dp*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
-                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
+                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0_dp
 
                           if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%vstar(i,j,k)+dom(ib)%su(i,j,k)
                           else if(diff_sch==2) then
-                          dom(ib)%su(i,j,k)=((1.0- &
+                          dom(ib)%su(i,j,k)=((1.0_dp- &
                     dom(ib)%ap(i,j,k))*dom(ib)%v(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%v(i-1,j,k)- &
                     dom(ib)%ae(i,j,k)*dom(ib)%v(i+1,j,k)- &
@@ -140,10 +141,10 @@
                           end if
 
                           if (LENERGY) dom(ib)%su(i,j,k)= &
-                    dom(ib)%su(i,j,k)+dt*gy*(1.d0-0.5*beta* &
+                    dom(ib)%su(i,j,k)+dt*gy*(1.d0-0.5_dp*beta* &
                     (dom(ib)%T(i,j+1,k)+dom(ib)%T(i,j,k)) )
 
-                          dom(ib)%vstar(i,j,k)=0.0
+                          dom(ib)%vstar(i,j,k)=0.0_dp
                       end do
                   end do
               end do
@@ -152,8 +153,8 @@
           call sipsol(22)
 
           do ib=1,nbp
-              dom(ib)%ap = 0.0
-              dom(ib)%su = 0.0
+              dom(ib)%ap = 0.0_dp
+              dom(ib)%su = 0.0_dp
           end do
 
           call boundw
@@ -178,22 +179,22 @@
                           dom(ib)%at(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
                           dom(ib)%ab(i,j,k)=-fac*dom(ib)%vis(i,j,k)/dzz
 
-                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0
-                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0
-                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0
-                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0
-                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0
-                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0
+                          if (dom(ib)%iprev<0)  dom(ib)%aw(is,j,k)=0.0_dp
+                          if (dom(ib)%inext<0)  dom(ib)%ae(ie,j,k)=0.0_dp
+                          if (dom(ib)%jprev<0)  dom(ib)%as(i,js,k)=0.0_dp
+                          if (dom(ib)%jnext<0)  dom(ib)%an(i,je,k)=0.0_dp
+                          if (dom(ib)%kprev<0)  dom(ib)%ab(i,j,ks)=0.0_dp
+                          if (dom(ib)%knext<0)  dom(ib)%at(i,j,ke)=0.0_dp
 
-                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0*( &
+                          dom(ib)%ap(i,j,k) = dom(ib)%ap(i,j,k)-1.0_dp*( &
                     dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
                     dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
-                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0
+                    dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))+1.0_dp
 
                           if(diff_sch==1) then
                           dom(ib)%su(i,j,k)=dom(ib)%wstar(i,j,k)+dom(ib)%su(i,j,k)
                           else if(diff_sch==2) then
-                          dom(ib)%su(i,j,k)=((1.0- &
+                          dom(ib)%su(i,j,k)=((1.0_dp- &
                     dom(ib)%ap(i,j,k))*dom(ib)%w(i,j,k)- &
                     dom(ib)%aw(i,j,k)*dom(ib)%w(i-1,j,k)- &
                     dom(ib)%ae(i,j,k)*dom(ib)%w(i+1,j,k)- &
@@ -205,14 +206,14 @@
                           end if
 
                           !               if (LENERGY) dom(ib)%su(i,j,k)=                      Not sure if this is correct (Brunho24)
-                          !   & dom(ib)%su(i,j,k)+dt*gz*(1.d0-0.5*beta*
+                          !   & dom(ib)%su(i,j,k)+dt*gz*(1.d0-0.5_dp*beta*
                           !   & (dom(ib)%T(i,j,k+1)+dom(ib)%T(i,j,k)) )
 
                           !               if (LSTRA) dom(ib)%su(i,j,k)=     ! stratification 09/2019
                           !   & dom(ib)%su(i,j,k)+dt*gz*(dom(ib)%dens(i,j,k+1)
-                          !   & -dom(ib)%dens(i,j,k))/1000.0
+                          !   & -dom(ib)%dens(i,j,k))/1000.0_dp
 
-                          dom(ib)%wstar(i,j,k)=0.0
+                          dom(ib)%wstar(i,j,k)=0.0_dp
                       end do
                   end do
               end do

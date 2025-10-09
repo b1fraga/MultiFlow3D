@@ -5,41 +5,43 @@
 !######################################################################
       real function phi_r1smth(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
           real :: PI,abr
           PI = 4.D0*DATAN(1.D0)
           abr=SQRT(r*r)
-          if (abr>=1.5) then
-          phi_r1smth = 0.0
-          else if ((abr<1.5).and.(abr>=0.5)) then
-          phi_r1smth = 9./8.-3.*abr/2+abr**2/2
-          else if ((abr<0.5).and.(abr>=0.0)) then
-          phi_r1smth = 3./4.-abr**2
+          if (abr>=1.5_dp) then
+          phi_r1smth = 0.0_dp
+          else if ((abr<1.5_dp).and.(abr>=0.5_dp)) then
+          phi_r1smth = 9.0_dp/8.0_dp-3.0_dp*abr/2+abr**2/2
+          else if ((abr<0.5_dp).and.(abr>=0.0_dp)) then
+          phi_r1smth = 3.0_dp/4.0_dp-abr**2
           end if
           return
       end function
 !######################################################################
       real function phi_r2smth(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
           real :: PI
           PI = 4.D0*DATAN(1.D0)
-          if (r<=-2.5) then
-          phi_r2smth = 0.0
-          else if ((r>=-2.5).and.(r<=-1.5)) then
-          phi_r2smth= -1./8./PI*(-5.*PI-2.*PI*r+4.*sin(PI/4.*(-2.*r-1.)))
-          else if ((r>=-1.5).and.(r<=0.0)) then
-          phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(-2.*r+1.)) &
-                             -2.*sin(PI/4.*(-2.*r-1.)))
-          else if ((r>=0.0).and.(r<=1.5)) then
-          phi_r2smth = 1./4./PI*(PI+2.*sin(PI/4.*(2.*r+1.)) &
-                             -2.*sin(PI/4.*(2.*r-1.)))
-          else if ((r>=1.5).and.(r<=2.5)) then
-          phi_r2smth= -1./8./PI*(-5.*PI+2.*PI*r+4.*sin(PI/4.*(2.*r-1.)))
-          else if (r>=2.5) then
-          phi_r2smth = 0.0
+          if (r<=-2.5_dp) then
+          phi_r2smth = 0.0_dp
+          else if ((r>=-2.5_dp).and.(r<=-1.5_dp)) then
+          phi_r2smth= -1.0_dp/8.0_dp/PI*(-5.0_dp*PI-2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(-2.0_dp*r-1.0_dp)))
+          else if ((r>=-1.5_dp).and.(r<=0.0_dp)) then
+          phi_r2smth = 1.0_dp/4.0_dp/PI*(PI+2.0_dp*sin(PI/4.0_dp*(-2.0_dp*r+1.0_dp)) &
+                             -2.0_dp*sin(PI/4.0_dp*(-2.0_dp*r-1.0_dp)))
+          else if ((r>=0.0_dp).and.(r<=1.5_dp)) then
+          phi_r2smth = 1.0_dp/4.0_dp/PI*(PI+2.0_dp*sin(PI/4.0_dp*(2.0_dp*r+1.0_dp)) &
+                             -2.0_dp*sin(PI/4.0_dp*(2.0_dp*r-1.0_dp)))
+          else if ((r>=1.5_dp).and.(r<=2.5_dp)) then
+          phi_r2smth= -1.0_dp/8.0_dp/PI*(-5.0_dp*PI+2.0_dp*PI*r+4.0_dp*sin(PI/4.0_dp*(2.0_dp*r-1.0_dp)))
+          else if (r>=2.5_dp) then
+          phi_r2smth = 0.0_dp
           end if
 
           return
@@ -47,20 +49,21 @@
 !######################################################################
       real function phi_r3(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-1.5) then
-          phi_r3 = 0.0
-          else if ((r>=-1.5).and.(r<=-0.5)) then
-          phi_r3 = 1.0/6.0*(5.0+3.0*r-sqrt(-3.0*(1.0+r)**2+1.0))
-          else if ((r>=-0.5).and.(r<=0.0)) then
-          phi_r3 = 1.0/3.0*(1.0+sqrt(-3.0*r**2+1.0))
-          else if ((r>=0.0).and.(r<=0.5)) then
-          phi_r3 = 1.0/3.0*(1.0+sqrt(-3.0*r**2+1.0))
-          else if ((r>=0.5).and.(r<=1.5)) then
-          phi_r3 = 1.0/6.0*(5.0-3.0*r-sqrt(-3.0*(1.0-r)**2+1.0))
-          else if (r>=1.5) then
-          phi_r3 = 0.0
+          if (r<=-1.5_dp) then
+          phi_r3 = 0.0_dp
+          else if ((r>=-1.5_dp).and.(r<=-0.5_dp)) then
+          phi_r3 = 1.0_dp/6.0_dp*(5.0_dp+3.0_dp*r-sqrt(-3.0_dp*(1.0_dp+r)**2+1.0_dp))
+          else if ((r>=-0.5_dp).and.(r<=0.0_dp)) then
+          phi_r3 = 1.0_dp/3.0_dp*(1.0_dp+sqrt(-3.0_dp*r**2+1.0_dp))
+          else if ((r>=0.0_dp).and.(r<=0.5_dp)) then
+          phi_r3 = 1.0_dp/3.0_dp*(1.0_dp+sqrt(-3.0_dp*r**2+1.0_dp))
+          else if ((r>=0.5_dp).and.(r<=1.5_dp)) then
+          phi_r3 = 1.0_dp/6.0_dp*(5.0_dp-3.0_dp*r-sqrt(-3.0_dp*(1.0_dp-r)**2+1.0_dp))
+          else if (r>=1.5_dp) then
+          phi_r3 = 0.0_dp
           end if
 
           return
@@ -68,30 +71,31 @@
 !######################################################################
       real function phi_r3smth2(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
           real :: PI
           PI = 4.D0*DATAN(1.D0)
-          if (r<=-2.0) then
-          phi_r3smth2 = 0.0
-          else if ((r>=-2.0).and.(r<=-1.0)) then
-          phi_r3smth2 = 55.0/48.0 - sqrt(3.0)*pi/108.0 + 13.0*r/12.0 &
-    + r**2/4.0 + (-2.0*r-3.0)/48.0*sqrt(-12.0*r**2-36.0*r-23.0) &
-    + sqrt(3.0)/36.0*ASIN(sqrt(3.0)/2.0*(-2.0*r-3.0))
-          else if ((r>=-1.0).and.(r<=0.0)) then
-          phi_r3smth2 = 17.0/48.0 + sqrt(3.0)*pi/108.0 - r/4.0 &
-    - r**2/4.0 + (2.0*r+1.0)/16.0*sqrt(-12.0*r**2-12.0*r+1.0) &
-    - sqrt(3.0)/12.0*ASIN(sqrt(3.0)/2.0*(-2.0*r-1.0))
-          else if ((r>=0.0).and.(r<=1.0)) then
-          phi_r3smth2 = 17.0/48.0 + sqrt(3.0)*pi/108.0 + r/4.0 &
-    - r**2/4.0 + (-2.0*r+1.0)/16.0*sqrt(-12.0*r**2+12.0*r+1.0) &
-    - sqrt(3.0)/12.0*ASIN(sqrt(3.0)/2.0*(2.0*r-1.0))
-          else if ((r>=1.0).and.(r<=2.0)) then
-          phi_r3smth2 = 55.0/48.0 - sqrt(3.0)*pi/108.0 - 13.0*r/12.0 &
-    + r**2/4.0 + (2.0*r-3.0)/48.0*sqrt(-12.0*r**2+36.0*r-23.0) &
-    + sqrt(3.0)/36.0*ASIN(sqrt(3.0)/2.0*(2.0*r-3.0))
-          else if (r>=2.0) then
-          phi_r3smth2 = 0.0
+          if (r<=-2.0_dp) then
+          phi_r3smth2 = 0.0_dp
+          else if ((r>=-2.0_dp).and.(r<=-1.0_dp)) then
+          phi_r3smth2 = 55.0_dp/48.0_dp - sqrt(3.0_dp)*pi/108.0_dp + 13.0_dp*r/12.0_dp &
+    + r**2/4.0_dp + (-2.0_dp*r-3.0_dp)/48.0_dp*sqrt(-12.0_dp*r**2-36.0_dp*r-23.0_dp) &
+    + sqrt(3.0_dp)/36.0_dp*ASIN(sqrt(3.0_dp)/2.0_dp*(-2.0_dp*r-3.0_dp))
+          else if ((r>=-1.0_dp).and.(r<=0.0_dp)) then
+          phi_r3smth2 = 17.0_dp/48.0_dp + sqrt(3.0_dp)*pi/108.0_dp - r/4.0_dp &
+    - r**2/4.0_dp + (2.0_dp*r+1.0_dp)/16.0_dp*sqrt(-12.0_dp*r**2-12.0_dp*r+1.0_dp) &
+    - sqrt(3.0_dp)/12.0_dp*ASIN(sqrt(3.0_dp)/2.0_dp*(-2.0_dp*r-1.0_dp))
+          else if ((r>=0.0_dp).and.(r<=1.0_dp)) then
+          phi_r3smth2 = 17.0_dp/48.0_dp + sqrt(3.0_dp)*pi/108.0_dp + r/4.0_dp &
+    - r**2/4.0_dp + (-2.0_dp*r+1.0_dp)/16.0_dp*sqrt(-12.0_dp*r**2+12.0_dp*r+1.0_dp) &
+    - sqrt(3.0_dp)/12.0_dp*ASIN(sqrt(3.0_dp)/2.0_dp*(2.0_dp*r-1.0_dp))
+          else if ((r>=1.0_dp).and.(r<=2.0_dp)) then
+          phi_r3smth2 = 55.0_dp/48.0_dp - sqrt(3.0_dp)*pi/108.0_dp - 13.0_dp*r/12.0_dp &
+    + r**2/4.0_dp + (2.0_dp*r-3.0_dp)/48.0_dp*sqrt(-12.0_dp*r**2+36.0_dp*r-23.0_dp) &
+    + sqrt(3.0_dp)/36.0_dp*ASIN(sqrt(3.0_dp)/2.0_dp*(2.0_dp*r-3.0_dp))
+          else if (r>=2.0_dp) then
+          phi_r3smth2 = 0.0_dp
           end if
 
           return
@@ -99,37 +103,38 @@
 !######################################################################
       real function phi_r3smth(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           double precision, intent(in) :: r
 !      real :: PI
           real :: scal1,scal2,scal3,scal4,scal5,scal6
 
-          scal1 = 1.095450017660160615261  ! 55.0/48.0 - sqrt(3.0)*pi/108.0
-          scal2 = 1.083333333333333333333  ! 13.0/12.0
-          scal3 = 0.4045499823398393847387 ! 17.0/48.0 + sqrt(3.0)*pi/108.0
-          scal4 = 0.0481125224324688137091 ! sqrt(3.0)/36.0
-          scal5 = 0.1443375672974064411273 ! sqrt(3.0)/12.0
-          scal6 = 0.8660254037844386467637 ! sqrt(3.0)/2.0
+          scal1 = 1.095450017660160615261_dp  ! 55.0_dp/48.0_dp - sqrt(3.0_dp)*pi/108.0_dp
+          scal2 = 1.083333333333333333333_dp  ! 13.0_dp/12.0_dp
+          scal3 = 0.4045499823398393847387_dp ! 17.0_dp/48.0_dp + sqrt(3.0_dp)*pi/108.0_dp
+          scal4 = 0.0481125224324688137091_dp ! sqrt(3.0_dp)/36.0_dp
+          scal5 = 0.1443375672974064411273_dp ! sqrt(3.0_dp)/12.0_dp
+          scal6 = 0.8660254037844386467637_dp ! sqrt(3.0_dp)/2.0_dp
 
 !       PI = 4.D0*DATAN(1.D0)
 
-          if (r<=-2.0) then
-          phi_r3smth = 0.0
-          else if ((r>=-2.0).and.(r<=-1.0)) then
-          phi_r3smth = scal1 + scal2*r + scal4*ASIN(scal6*(-2.0*r-3.0)) &
-    + 0.25*r**2 + (-2.0*r-3.0)/48.0*sqrt(-12.0*r**2-36.0*r-23.0)
-          else if ((r>=-1.0).and.(r<=0.0)) then
-          phi_r3smth = scal3 - r/4.0 - scal5*ASIN(scal6*(-2.0*r-1.0)) &
-    - 0.25*r**2 + (2.0*r+1.0)/16.0*sqrt(-12.0*r**2-12.0*r+1.0)
-          else if ((r>=0.0).and.(r<=1.0)) then
+          if (r<=-2.0_dp) then
+          phi_r3smth = 0.0_dp
+          else if ((r>=-2.0_dp).and.(r<=-1.0_dp)) then
+          phi_r3smth = scal1 + scal2*r + scal4*ASIN(scal6*(-2.0_dp*r-3.0_dp)) &
+    + 0.25_dp*r**2 + (-2.0_dp*r-3.0_dp)/48.0_dp*sqrt(-12.0_dp*r**2-36.0_dp*r-23.0_dp)
+          else if ((r>=-1.0_dp).and.(r<=0.0_dp)) then
+          phi_r3smth = scal3 - r/4.0_dp - scal5*ASIN(scal6*(-2.0_dp*r-1.0_dp)) &
+    - 0.25_dp*r**2 + (2.0_dp*r+1.0_dp)/16.0_dp*sqrt(-12.0_dp*r**2-12.0_dp*r+1.0_dp)
+          else if ((r>=0.0_dp).and.(r<=1.0_dp)) then
 
-          phi_r3smth = scal3 + r/4.0 - scal5*ASIN(scal6*(2.0*r-1.0)) &
-    - 0.25*r**2 + (-2.0*r+1.0)/16.0*sqrt(-12.0*r**2+12.0*r+1.0)
-          else if ((r>=1.0).and.(r<=2.0)) then
-          phi_r3smth = scal1 - scal2*r + scal4*ASIN(scal6*(2.0*r-3.0)) &
-    + 0.25*r**2 + (2.0*r-3.0)/48.0*sqrt(-12.0*r**2+36.0*r-23.0)
-          else if (r>=2.0) then
-          phi_r3smth = 0.0
+          phi_r3smth = scal3 + r/4.0_dp - scal5*ASIN(scal6*(2.0_dp*r-1.0_dp)) &
+    - 0.25_dp*r**2 + (-2.0_dp*r+1.0_dp)/16.0_dp*sqrt(-12.0_dp*r**2+12.0_dp*r+1.0_dp)
+          else if ((r>=1.0_dp).and.(r<=2.0_dp)) then
+          phi_r3smth = scal1 - scal2*r + scal4*ASIN(scal6*(2.0_dp*r-3.0_dp)) &
+    + 0.25_dp*r**2 + (2.0_dp*r-3.0_dp)/48.0_dp*sqrt(-12.0_dp*r**2+36.0_dp*r-23.0_dp)
+          else if (r>=2.0_dp) then
+          phi_r3smth = 0.0_dp
           end if
 
           return
@@ -137,20 +142,21 @@
 !######################################################################
       real function phi_r4(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-2.0) then
-          phi_r4 = 0.0
-          else if ((r>=-2.0).and.(r<=-1.0)) then
-          phi_r4 = 1.0/8.0*(5.0+2.0*r-sqrt(-7.0-12.0*r-4.0*r**2))
-          else if ((r>=-1.0).and.(r<=0.0)) then
-          phi_r4 = 1.0/8.0*(3.0+2.0*r+sqrt(1.0-4.0*r-4.0*r**2))
-          else if ((r>=0.0).and.(r<=1.0)) then
-          phi_r4 = 1.0/8.0*(3.0-2.0*r+sqrt(1.0+4.0*r-4.0*r**2))
-          else if ((r>=1.0).and.(r<=2.0)) then
-          phi_r4 = 1.0/8.0*(5.0-2.0*r-sqrt(-7.0+12.0*r-4.0*r**2))
-          else if (r>=2.0) then
-          phi_r4 = 0.0
+          if (r<=-2.0_dp) then
+          phi_r4 = 0.0_dp
+          else if ((r>=-2.0_dp).and.(r<=-1.0_dp)) then
+          phi_r4 = 1.0_dp/8.0_dp*(5.0_dp+2.0_dp*r-sqrt(-7.0_dp-12.0_dp*r-4.0_dp*r**2))
+          else if ((r>=-1.0_dp).and.(r<=0.0_dp)) then
+          phi_r4 = 1.0_dp/8.0_dp*(3.0_dp+2.0_dp*r+sqrt(1.0_dp-4.0_dp*r-4.0_dp*r**2))
+          else if ((r>=0.0_dp).and.(r<=1.0_dp)) then
+          phi_r4 = 1.0_dp/8.0_dp*(3.0_dp-2.0_dp*r+sqrt(1.0_dp+4.0_dp*r-4.0_dp*r**2))
+          else if ((r>=1.0_dp).and.(r<=2.0_dp)) then
+          phi_r4 = 1.0_dp/8.0_dp*(5.0_dp-2.0_dp*r-sqrt(-7.0_dp+12.0_dp*r-4.0_dp*r**2))
+          else if (r>=2.0_dp) then
+          phi_r4 = 0.0_dp
           end if
 
           return
@@ -158,22 +164,23 @@
 !######################################################################
       real function phi_r4smth(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
           real :: PI,ar
           PI = 4.D0*DATAN(1.D0)
           ar=abs(r)
-          if ((ar>=0.0).and.(ar<=0.5)) then
-          phi_r4smth = 3.0/8.0+ PI/32.0 - r*r/4.0
-          else if ((ar>=0.5).and.(ar<=1.5)) then
-          phi_r4smth = 1.0/4.0 + (1.0-ar)/8.0*SQRT(-2.0+8.0*ar -4.0*r*r) &
-     -1.0/8.0*ASIN(sqrt(2.0)*(ar-1.0))
-          else if ((ar>=1.5).and.(ar<=2.5)) then
-          phi_r4smth = 17.0/16.0 - PI/64.0 - 3.0*ar/4.0+ r*r/8.0 &
-     + (ar-2.0)/16.0 * SQRT(-14.0+ 16.0*ar - 4.0*r*r) &
-     + 1.0/16.0*ASIN(sqrt(2.0)*(ar-2.0))
-          else if (ar>=2.5) then
-          phi_r4smth = 0.0
+          if ((ar>=0.0_dp).and.(ar<=0.5_dp)) then
+          phi_r4smth = 3.0_dp/8.0_dp+ PI/32.0_dp - r*r/4.0_dp
+          else if ((ar>=0.5_dp).and.(ar<=1.5_dp)) then
+          phi_r4smth = 1.0_dp/4.0_dp + (1.0_dp-ar)/8.0_dp*SQRT(-2.0_dp+8.0_dp*ar -4.0_dp*r*r) &
+     -1.0_dp/8.0_dp*ASIN(sqrt(2.0_dp)*(ar-1.0_dp))
+          else if ((ar>=1.5_dp).and.(ar<=2.5_dp)) then
+          phi_r4smth = 17.0_dp/16.0_dp - PI/64.0_dp - 3.0_dp*ar/4.0_dp+ r*r/8.0_dp &
+     + (ar-2.0_dp)/16.0_dp * SQRT(-14.0_dp+ 16.0_dp*ar - 4.0_dp*r*r) &
+     + 1.0_dp/16.0_dp*ASIN(sqrt(2.0_dp)*(ar-2.0_dp))
+          else if (ar>=2.5_dp) then
+          phi_r4smth = 0.0_dp
           end if
           return
       end function
@@ -182,18 +189,19 @@
 !######################################################################
       real function cd2_0(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-1.5) then
-          cd2_0 = 0.0
-          else if ((r>=-1.5).and.(r<=-0.5)) then
-          cd2_0 = 0.5*r+0.75
-          else if ((r>=-0.5).and.(r<=0.5)) then
-          cd2_0 = 0.5
-          else if ((r>=0.5).and.(r<=1.5)) then
-          cd2_0 = -0.5*r+0.75
-          else if (r>=1.5) then
-          cd2_0 = 0.0
+          if (r<=-1.5_dp) then
+          cd2_0 = 0.0_dp
+          else if ((r>=-1.5_dp).and.(r<=-0.5_dp)) then
+          cd2_0 = 0.5_dp*r+0.75_dp
+          else if ((r>=-0.5_dp).and.(r<=0.5_dp)) then
+          cd2_0 = 0.5_dp
+          else if ((r>=0.5_dp).and.(r<=1.5_dp)) then
+          cd2_0 = -0.5_dp*r+0.75_dp
+          else if (r>=1.5_dp) then
+          cd2_0 = 0.0_dp
           end if
 
           return
@@ -202,18 +210,19 @@
 !######################################################################
       real function dcd2_0(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-1.5) then
-          dcd2_0 = 0.0
-          else if ((r>=-1.5).and.(r<=-0.5)) then
-          dcd2_0 = 0.5
-          else if ((r>=-0.5).and.(r<=0.5)) then
-          dcd2_0 = 0.0
-          else if ((r>=0.5).and.(r<=1.5)) then
-          dcd2_0 = -0.5
-          else if (r>=1.5) then
-          dcd2_0 = 0.0
+          if (r<=-1.5_dp) then
+          dcd2_0 = 0.0_dp
+          else if ((r>=-1.5_dp).and.(r<=-0.5_dp)) then
+          dcd2_0 = 0.5_dp
+          else if ((r>=-0.5_dp).and.(r<=0.5_dp)) then
+          dcd2_0 = 0.0_dp
+          else if ((r>=0.5_dp).and.(r<=1.5_dp)) then
+          dcd2_0 = -0.5_dp
+          else if (r>=1.5_dp) then
+          dcd2_0 = 0.0_dp
           end if
 
           return
@@ -222,18 +231,19 @@
 !######################################################################
       real function cd2_1(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-2.0) then
-          cd2_1 = 0.0
-          else if ((r>=-2.0).and.(r<=-1.0)) then
-          cd2_1 = 0.25*r**2+r+1.0
-          else if ((r>=-1.0).and.(r<=1.0)) then
-          cd2_1 = -0.25*r**2+0.5
-          else if ((r>=1.0).and.(r<=2.0)) then
-          cd2_1 = 0.25*r**2-r+1.0
-          else if (r>=2.0) then
-          cd2_1 = 0.0
+          if (r<=-2.0_dp) then
+          cd2_1 = 0.0_dp
+          else if ((r>=-2.0_dp).and.(r<=-1.0_dp)) then
+          cd2_1 = 0.25_dp*r**2+r+1.0_dp
+          else if ((r>=-1.0_dp).and.(r<=1.0_dp)) then
+          cd2_1 = -0.25_dp*r**2+0.5_dp
+          else if ((r>=1.0_dp).and.(r<=2.0_dp)) then
+          cd2_1 = 0.25_dp*r**2-r+1.0_dp
+          else if (r>=2.0_dp) then
+          cd2_1 = 0.0_dp
           end if
 
           return
@@ -243,18 +253,19 @@
 !######################################################################
       real function dcd2_1(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-2.0) then
-          dcd2_1 = 0.0
-          else if ((r>=-2.0).and.(r<=-1.0)) then
-          dcd2_1 = 0.5*r+1.0
-          else if ((r>=-1.0).and.(r<=1.0)) then
-          dcd2_1 = -0.5*r
-          else if ((r>=1.0).and.(r<=2.0)) then
-          dcd2_1 = 0.5*r-1.0
-          else if (r>=2.0) then
-          dcd2_1 = 0.0
+          if (r<=-2.0_dp) then
+          dcd2_1 = 0.0_dp
+          else if ((r>=-2.0_dp).and.(r<=-1.0_dp)) then
+          dcd2_1 = 0.5_dp*r+1.0_dp
+          else if ((r>=-1.0_dp).and.(r<=1.0_dp)) then
+          dcd2_1 = -0.5_dp*r
+          else if ((r>=1.0_dp).and.(r<=2.0_dp)) then
+          dcd2_1 = 0.5_dp*r-1.0_dp
+          else if (r>=2.0_dp) then
+          dcd2_1 = 0.0_dp
           end if
 
           return
@@ -266,7 +277,7 @@
 ! * dh is a continuously diﬀerentiable function and therefore yields
 !   a smoother transfer than e.g. linear interpolation.
 ! * Interpolation using the kernels dh is second-order accurate
-!   for smooth ﬁelds (Uhlmann(2005) cf. Section 5.1.1).
+!   for smooth ﬁelds (Uhlmann(2005) cf. Section 5.1_dp.1_dp).
 ! * The support of the regularized delta function is small, which makes
 !   the evaluation of the sums in Eq. (9) relatively cheap. In particular,
 !   we use the expression for dh deﬁned by Roma et al., involving only
@@ -325,20 +336,21 @@
 !######################################################################
       real function dphi_r3(r)
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real, intent(in) :: r
-          if (r<=-1.5) then
-          dphi_r3 = 0.0
-          else if ((r>=-1.5).and.(r<=-0.5)) then
-          dphi_r3 = 1.0/6.0*(3.0-0.5*(-3.0*(1.0+r)**2+1.0)**(-0.5) &
-    *(-6.0*(1.0+r)))
-          else if ((r>=-0.5).and.(r<=0.5)) then
-          dphi_r3 = 1.0/6.0*(-3.0*r**2+1.0)**(-0.5)*(-6.0*r)
-          else if ((r>=0.5).and.(r<=1.5)) then
-          dphi_r3 = 1.0/6.0*(-3.0-0.5*(-3.0*(1.0-r)**2+1.0)**(-0.5) &
-    *(6.0*(1.0-r)))
-          else if (r>=1.5) then
-          dphi_r3 = 0.0
+          if (r<=-1.5_dp) then
+          dphi_r3 = 0.0_dp
+          else if ((r>=-1.5_dp).and.(r<=-0.5_dp)) then
+          dphi_r3 = 1.0_dp/6.0_dp*(3.0_dp-0.5_dp*(-3.0_dp*(1.0_dp+r)**2+1.0_dp)**(-0.5_dp) &
+    *(-6.0_dp*(1.0_dp+r)))
+          else if ((r>=-0.5_dp).and.(r<=0.5_dp)) then
+          dphi_r3 = 1.0_dp/6.0_dp*(-3.0_dp*r**2+1.0_dp)**(-0.5_dp)*(-6.0_dp*r)
+          else if ((r>=0.5_dp).and.(r<=1.5_dp)) then
+          dphi_r3 = 1.0_dp/6.0_dp*(-3.0_dp-0.5_dp*(-3.0_dp*(1.0_dp-r)**2+1.0_dp)**(-0.5_dp) &
+    *(6.0_dp*(1.0_dp-r)))
+          else if (r>=1.5_dp) then
+          dphi_r3 = 0.0_dp
           end if
 
           return
@@ -351,7 +363,7 @@
       double precision &
 function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
 !######################################################################
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
           real,    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
@@ -366,17 +378,17 @@ function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
                 case (1)
                   ddh = dphi_r3((xij-Xl)/dx) &
               * phi_r3((yij-Yl)/dy) * phi_r3((zij-Zl)/dz) &
-              * (-1.0/dx)
+              * (-1.0_dp/dx)
 
                 case (2)
                   ddh = phi_r3((xij-Xl)/dx) &
               * dphi_r3((yij-Yl)/dy) * phi_r3((zij-Zl)/dz) &
-              * (-1.0/dy)
+              * (-1.0_dp/dy)
 
                 case (3)
                   ddh = phi_r3((xij-Xl)/dx) &
               * phi_r3((yij-Yl)/dy) * dphi_r3((zij-Zl)/dz) &
-              * (-1.0/dz)
+              * (-1.0_dp/dz)
 
               end select
 
@@ -389,17 +401,17 @@ function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
                 case (1)
                   ddh = dcd2_0((xij-Xl)/dx) &
               * cd2_0((yij-Yl)/dy) * cd2_0((zij-Zl)/dz) &
-              * (-1.0/dx)
+              * (-1.0_dp/dx)
 
                 case (2)
                   ddh = cd2_0((xij-Xl)/dx) &
               * dcd2_0((yij-Yl)/dy) * cd2_0((zij-Zl)/dz) &
-              * (-1.0/dy)
+              * (-1.0_dp/dy)
 
                 case (3)
                   ddh = cd2_0((xij-Xl)/dx) &
               * cd2_0((yij-Yl)/dy) * dcd2_0((zij-Zl)/dz) &
-              * (-1.0/dz)
+              * (-1.0_dp/dz)
 
               end select
 

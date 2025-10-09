@@ -4,6 +4,7 @@
           use multidata
           use mpi
           use vars
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ijk,sync_dir,ib
           integer :: g,tag,ta,gl
@@ -58,14 +59,14 @@
                   nijk=dom(ib)%faz(g)-ni*nj*nk
                   nij=ni*nj
 
-                  nif=2.0*(ni-2)+2; njf=2.0*(nj-2)+2; nkf=2.0*(nk-2)+2
+                  nif=2.0_dp*(ni-2)+2; njf=2.0_dp*(nj-2)+2; nkf=2.0_dp*(nk-2)+2
                   chc1=real(ni-2); chc2=real(nj-2); chc3=real(nk-2)
                   if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-i'
+                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-j'
+                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-k'
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
@@ -77,8 +78,8 @@
                   ns1=nj
                   ns2=nk
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -100,8 +101,8 @@
                   ns1=ni
                   ns2=nk
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -123,8 +124,8 @@
                   ns1=nj
                   ns2=ni
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -166,7 +167,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -205,7 +206,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -244,7 +245,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -298,7 +299,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -345,7 +346,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -392,7 +393,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -447,7 +448,7 @@
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
@@ -467,7 +468,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -496,7 +497,7 @@
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
@@ -516,7 +517,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -545,7 +546,7 @@
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
@@ -565,7 +566,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -594,7 +595,7 @@
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
@@ -614,7 +615,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -651,7 +652,7 @@
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -686,7 +687,7 @@
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe1m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -726,7 +727,7 @@
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -761,7 +762,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe2m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -801,7 +802,7 @@
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -836,7 +837,7 @@
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe3m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -876,7 +877,7 @@
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -911,7 +912,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe4m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -951,7 +952,7 @@
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -986,7 +987,7 @@
                   do nn=2,nkc-1
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe5m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -1026,7 +1027,7 @@
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -1061,7 +1062,7 @@
                   do nn=2,nkc-1
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe6m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -1114,7 +1115,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1153,7 +1154,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1192,7 +1193,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1246,7 +1247,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1293,7 +1294,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1340,7 +1341,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -1395,7 +1396,7 @@
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
@@ -1415,7 +1416,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -1444,7 +1445,7 @@
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
@@ -1464,7 +1465,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -1493,7 +1494,7 @@
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
@@ -1513,7 +1514,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -1542,7 +1543,7 @@
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
@@ -1562,7 +1563,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -1598,7 +1599,7 @@
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -1633,7 +1634,7 @@
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe1p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -1673,7 +1674,7 @@
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -1708,7 +1709,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe2p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -1748,7 +1749,7 @@
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -1783,7 +1784,7 @@
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe3p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -1823,7 +1824,7 @@
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -1858,7 +1859,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe4p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -1898,7 +1899,7 @@
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -1933,7 +1934,7 @@
                   do nn=2,nkc-1
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe5p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -1973,7 +1974,7 @@
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -2008,7 +2009,7 @@
                   do nn=2,nkc-1
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe6p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -2053,14 +2054,14 @@
                   nijk=dom(ib)%faz(g)-ni*nj*nk
                   nij=ni*nj
 
-                  nif=2.0*(ni-2)+2; njf=2.0*(nj-2)+2; nkf=2.0*(nk-2)+2
+                  nif=2.0_dp*(ni-2)+2; njf=2.0_dp*(nj-2)+2; nkf=2.0_dp*(nk-2)+2
                   chc1=real(ni-2); chc2=real(nj-2); chc3=real(nk-2)
                   if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0)/=0.0).and.g<dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-i'
+                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-j'
+                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-k'
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
@@ -2072,8 +2073,8 @@
                   ns1=nj
                   ns2=nk
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -2095,8 +2096,8 @@
                   ns1=ni
                   ns2=nk
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -2118,8 +2119,8 @@
                   ns1=nj
                   ns2=ni
 
-                  nsr1=2.0*(ns1-2)+2
-                  nsr2=2.0*(ns2-2)+2
+                  nsr1=2.0_dp*(ns1-2)+2
+                  nsr2=2.0_dp*(ns2-2)+2
 
                   chc=real(ns1-2)
                   if(rdiv(dom_id(ib))==1) then
@@ -2161,7 +2162,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2200,7 +2201,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2239,7 +2240,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125* &
+                          dom(dom_indid(cpu_prev))%recvb_p1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2293,7 +2294,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2340,7 +2341,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2387,7 +2388,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_m(ijk)=0.125* &
+                          sbuf_m(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -2441,7 +2442,7 @@
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev1))%rc1p(1)= &
@@ -2461,7 +2462,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev1,g)) then
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -2488,7 +2489,7 @@
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev2))%rc2p(1)= &
@@ -2508,7 +2509,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev2,g)) then
                   i=2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -2535,7 +2536,7 @@
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev3))%rc3p(1)= &
@@ -2555,7 +2556,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev3,g)) then
                   i=ni-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -2582,7 +2583,7 @@
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%corprev4))%rc4p(1)= &
@@ -2602,7 +2603,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%corprev4,g)) then
                   i=ni-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4m(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -2637,7 +2638,7 @@
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev1))%re1p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -2672,7 +2673,7 @@
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe1m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -2710,7 +2711,7 @@
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev2))%re2p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -2745,7 +2746,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe2m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -2783,7 +2784,7 @@
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev3))%re3p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -2818,7 +2819,7 @@
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe3m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -2856,7 +2857,7 @@
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev4))%re4p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -2891,7 +2892,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe4m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -2929,7 +2930,7 @@
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev5))%re5p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -2964,7 +2965,7 @@
                   do nn=2,nkc-1
                       i=2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe5m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -3002,7 +3003,7 @@
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgprev6))%re6p(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -3037,7 +3038,7 @@
                   do nn=2,nkc-1
                       i=2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe6m(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -3088,7 +3089,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3127,7 +3128,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3166,7 +3167,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125* &
+                          dom(dom_indid(cpu_next))%recvb_m1(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3220,7 +3221,7 @@
                           ijk=(k-1)*nsc1+j
                           ii=ni-2; jj=2*j-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nij)+fi(ll+1+nij)+ &
                     fi(ll+nj)+fi(ll+1+nj)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3267,7 +3268,7 @@
                           ijk=(k-1)*nsc1+i
                           ii=2*i-2; jj=nj-2; kk=2*k-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+nj)+fi(ll+nij)+fi(ll+nj+nij)+ &
                     fi(ll+1)+fi(ll+1+nj)+fi(ll+1+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3314,7 +3315,7 @@
                           ijk=(i-1)*nsc1+j
                           ii=2*i-2; jj=2*j-2; kk=nk-2
                           ll=(kk-1)*nij+(ii-1)*nj+jj+nijk
-                          sbuf_p(ijk)=0.125* &
+                          sbuf_p(ijk)=0.125_dp* &
                     (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
                     fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))
                       end do
@@ -3368,7 +3369,7 @@
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext1))%rc1m(1)= &
@@ -3388,7 +3389,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext1,g)) then
                   i=ni-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc1p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -3415,7 +3416,7 @@
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext2))%rc2m(1)= &
@@ -3435,7 +3436,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext2,g)) then
                   i=ni-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=ni-1; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc2p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -3462,7 +3463,7 @@
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext3))%rc3m(1)= &
@@ -3482,7 +3483,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext3,g)) then
                   i=2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=2; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc3p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll-1)+ &
@@ -3509,7 +3510,7 @@
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
             (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   dom(dom_indid(dom(ib)%cornext4))%rc4m(1)= &
@@ -3529,7 +3530,7 @@
                   if(rdv(dom_id(ib),g)>rdv(dom(ib)%cornext4,g)) then
                   i=2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+            fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   else
                   i=2; j=nj-1; k=nk-1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                   sbufc4p(1)=(27.0d0*fi(ll)+9.0d0*fi(ll+1)+ &
@@ -3563,7 +3564,7 @@
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext1))%re1m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -3598,7 +3599,7 @@
                   do nn=2,njc-1
                       i=ni-2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe1p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -3636,7 +3637,7 @@
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext2))%re2m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -3671,7 +3672,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe2p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -3709,7 +3710,7 @@
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext3))%re3m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nj-1
@@ -3744,7 +3745,7 @@
                   do nn=2,njc-1
                       i=2; j=2*nn-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe3p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=njf
@@ -3782,7 +3783,7 @@
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext4))%re4m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,ni-1
@@ -3817,7 +3818,7 @@
                   do nn=2,nic-1
                       i=2*nn-2; j=nj-2; k=nk-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe4p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nif
@@ -3855,7 +3856,7 @@
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext5))%re5m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -3890,7 +3891,7 @@
                   do nn=2,nkc-1
                       i=ni-2; j=nj-2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe5p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -3928,7 +3929,7 @@
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       dom(dom_indid(dom(ib)%edgnext6))%re6m(nn)= &
                 (fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   do nn=2,nk-1
@@ -3963,7 +3964,7 @@
                   do nn=2,nkc-1
                       i=ni-2; j=2; k=2*nn-2; ll=(k-1)*nij+(i-1)*nj+j+nijk
                       sbufe6p(nn)=(fi(ll)+fi(ll+1)+fi(ll+nj)+fi(ll+1+nj)+ &
-                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0
+                fi(ll+nij)+fi(ll+1+nij)+fi(ll+nj+nij)+fi(ll+1+nj+nij))/8.0_dp
                   end do
                   else
                   tsend=nkf
@@ -4049,7 +4050,7 @@
                           ijk=(k-1)*ns1+j
                           i=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_m1(ijk)+3.0*fi(ll+nj)-fi(ll+2*nj))/4.0
+                    (dom(ib)%recvb_m1(ijk)+3.0_dp*fi(ll+nj)-fi(ll+2*nj))/4.0_dp
                       end do
                   end do
                   else
@@ -4079,7 +4080,7 @@
                           ijk=(k-1)*ns1+i
                           j=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_m1(ijk)+3.0*fi(ll+1)-fi(ll+2))/4.0
+                    (dom(ib)%recvb_m1(ijk)+3.0_dp*fi(ll+1)-fi(ll+2))/4.0_dp
                       end do
                   end do
                   else
@@ -4109,7 +4110,7 @@
                           ijk=(i-1)*ns1+j
                           k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_m1(ijk)+3.0*fi(ll+nij)-fi(ll+2*nij))/4.0
+                    (dom(ib)%recvb_m1(ijk)+3.0_dp*fi(ll+nij)-fi(ll+2*nij))/4.0_dp
                       end do
                   end do
 
@@ -4150,7 +4151,7 @@
                           ijk=(k-1)*ns1+j
                           i=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_m(ijk)+3.0*fi(ll+nj)-fi(ll+2*nj))/4.0
+                    (rbuf_m(ijk)+3.0_dp*fi(ll+nj)-fi(ll+2*nj))/4.0_dp
                       end do
                   end do
                   else
@@ -4183,7 +4184,7 @@
                           ijk=(k-1)*ns1+i
                           j=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_m(ijk)+3.0*fi(ll+1)-fi(ll+2))/4.0
+                    (rbuf_m(ijk)+3.0_dp*fi(ll+1)-fi(ll+2))/4.0_dp
                       end do
                   end do
                   else
@@ -4215,7 +4216,7 @@
                           ijk=(i-1)*ns1+j
                           k=1; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_m(ijk)+3.0*fi(ll+nij)-fi(ll+2*nij))/4.0
+                    (rbuf_m(ijk)+3.0_dp*fi(ll+nij)-fi(ll+2*nij))/4.0_dp
                       end do
                   end do
                   else
@@ -4257,7 +4258,7 @@
                           ijk=(k-1)*ns1+j
                           i=ni; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_p1(ijk)+3.0*fi(ll-nj)-fi(ll-2*nj))/4.0
+                    (dom(ib)%recvb_p1(ijk)+3.0_dp*fi(ll-nj)-fi(ll-2*nj))/4.0_dp
                       end do
                   end do
                   else
@@ -4287,7 +4288,7 @@
                           ijk=(k-1)*ns1+i
                           j=nj; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_p1(ijk)+3.0*fi(ll-1)-fi(ll-2))/4.0
+                    (dom(ib)%recvb_p1(ijk)+3.0_dp*fi(ll-1)-fi(ll-2))/4.0_dp
                       end do
                   end do
                   else
@@ -4317,7 +4318,7 @@
                           ijk=(i-1)*ns1+j
                           k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (dom(ib)%recvb_p1(ijk)+3.0*fi(ll-nij)-fi(ll-2*nij))/4.0
+                    (dom(ib)%recvb_p1(ijk)+3.0_dp*fi(ll-nij)-fi(ll-2*nij))/4.0_dp
                       end do
                   end do
                   else
@@ -4355,7 +4356,7 @@
                           ijk=(k-1)*ns1+j
                           i=ni; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_p(ijk)+3.0*fi(ll-nj)-fi(ll-2*nj))/4.0
+                    (rbuf_p(ijk)+3.0_dp*fi(ll-nj)-fi(ll-2*nj))/4.0_dp
                       end do
                   end do
                   else
@@ -4387,7 +4388,7 @@
                           ijk=(k-1)*ns1+i
                           j=nj; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_p(ijk)+3.0*fi(ll-1)-fi(ll-2))/4.0
+                    (rbuf_p(ijk)+3.0_dp*fi(ll-1)-fi(ll-2))/4.0_dp
                       end do
                   end do
                   else
@@ -4418,7 +4419,7 @@
                           ijk=(i-1)*ns1+j
                           k=nk; ll=(k-1)*nij+(i-1)*nj+j+nijk
                           fi(ll)= &
-                    (rbuf_p(ijk)+3.0*fi(ll-nij)-fi(ll-2*nij))/4.0
+                    (rbuf_p(ijk)+3.0_dp*fi(ll-nij)-fi(ll-2*nij))/4.0_dp
                       end do
                   end do
                   else

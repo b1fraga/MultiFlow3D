@@ -5,6 +5,7 @@
           use mpi
           use multidata
           use module_LSM
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
           double precision :: dxx,dyy,dzz,umax,vmax,wmax,dtmax
@@ -14,10 +15,10 @@
           double precision :: buffer_dtmax,dt1,small
           double precision :: Cu,Cv,Cw
 
-          umax=0.0
-          vmax=0.0
-          wmax=0.0
-          small=1e-30
+          umax=0.0_dp
+          vmax=0.0_dp
+          wmax=0.0_dp
+          small=1e-30_dp
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -73,15 +74,15 @@
               do i=dom(ib)%isp,dom(ib)%iep
                   do j=dom(ib)%jsp,dom(ib)%jep
                       do k=dom(ib)%ksp,dom(ib)%kep
-                          uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
-                          vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
-                          wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
-                          dtvisc1=1.0/( abs(uc/dom(ib)%dx)+ &
+                          uc=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
+                          vc=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
+                          wc=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
+                          dtvisc1=1.0_dp/( abs(uc/dom(ib)%dx)+ &
                     abs(vc/dom(ib)%dy)+abs(wc/dom(ib)%dz)+ &
-                    2.0*dom(ib)%vis(i,j,k)*(1.0/dxx+1.0/dyy+1.0/dzz)+small)
+                    2.0_dp*dom(ib)%vis(i,j,k)*(1.0_dp/dxx+1.0_dp/dyy+1.0_dp/dzz)+small)
                           dtvisc=min(dtvisc,dtvisc1)
                           if(LENERGY) then
-                          dtthr=0.5*Re*Pr/(1.0/dxx + 1.0/dyy + 1.0/dzz)
+                          dtthr=0.5_dp*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
                           dtvisc=min(dtvisc,dtthr)
                           end if
                       end do
@@ -93,10 +94,10 @@
               dxx=dom(ib)%dx*dom(ib)%dx
               dyy=dom(ib)%dy*dom(ib)%dy
               dzz=dom(ib)%dz*dom(ib)%dz
-              dtvisc1=1.0/(1.0/(dxx) + 1.0/(dyy)+ 1.0/(dzz))*Re/2.0
+              dtvisc1=1.0_dp/(1.0_dp/(dxx) + 1.0_dp/(dyy)+ 1.0_dp/(dzz))*Re/2.0_dp
               dtvisc=min(dtvisc,dtvisc1)
               if(LENERGY) then
-              dtthr=0.5*Re*Pr/(1.0/dxx + 1.0/dyy + 1.0/dzz)
+              dtthr=0.5_dp*Re*Pr/(1.0_dp/dxx + 1.0_dp/dyy + 1.0_dp/dzz)
               dtvisc=min(dtvisc,dtthr)
               end if
           end do
@@ -111,19 +112,19 @@
 
           dtmax = min(dtvisc,dtmax)
           dtmax = safety_factor * dtmax
-          dt=min(dt*1.1,dtmax)
+          dt=min(dt*1.1_dp,dtmax)
 
           if (L_LSM)  then
           do ib=1,nbp
               dtvisc=max(mul/densl,mug/densg)* &
-        (2.0/(dxx)+2.0/(dyy)+2.0/(dzz))
-              Cu=1./((umax/dom(ib)%dx+dtvisc)+sqrt((umax/dom(ib)%dx+ &
-        dtvisc)**2+4.*abs(gx)/dom(ib)%dx))
-              Cv=1./((vmax/dom(ib)%dy+dtvisc)+sqrt((vmax/dom(ib)%dy+ &
-        dtvisc)**2+4.*abs(gy)/dom(ib)%dy))
-              Cw=1./((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+ &
-        dtvisc)**2+4.*abs(gz)/dom(ib)%dz))
-              dt = 2.*safety_factor*min(Cu,Cv,Cw)
+        (2.0_dp/(dxx)+2.0_dp/(dyy)+2.0_dp/(dzz))
+              Cu=1.0_dp/((umax/dom(ib)%dx+dtvisc)+sqrt((umax/dom(ib)%dx+ &
+        dtvisc)**2+4.0_dp*abs(gx)/dom(ib)%dx))
+              Cv=1.0_dp/((vmax/dom(ib)%dy+dtvisc)+sqrt((vmax/dom(ib)%dy+ &
+        dtvisc)**2+4.0_dp*abs(gy)/dom(ib)%dy))
+              Cw=1.0_dp/((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+ &
+        dtvisc)**2+4.0_dp*abs(gz)/dom(ib)%dz))
+              dt = 2.0_dp*safety_factor*min(Cu,Cv,Cw)
           end do
           end if
 
@@ -135,7 +136,7 @@
           dt=dt1
 
           if(itime/=itime_start) then
-          if(dt<dtavg*0.1) then
+          if(dt<dtavg*0.1_dp) then
           print*,'#*#*#*#*#*# dt becomes smaller, check result!!!!'
           if (myrank==0) &
     write(numfile,*) '#*#*#*# dt becomes smaller, check result!!!!'

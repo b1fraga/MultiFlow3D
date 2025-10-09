@@ -1,6 +1,7 @@
 !######################################################################
       module imb
 !######################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           SAVE
           double precision  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
           double precision  :: lambda,sigma,nxl
@@ -232,8 +233,8 @@
             action="write")
                   write (forcefilej,*)'Variables="TIME","Deg","Fx","Fy","Fz"'
                   IF(imb_shape(K)==5 .and. i==1)then
-                  lambda=radsin(K)*R(K)/1.
-                  sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416)
+                  lambda=radsin(K)*R(K)/1.0_dp
+                  sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416_dp)
                   revoltime=2.d0*PI/radsin(K)
                   write(6,'(a,i1)')   '        Turbine  ',K,''
                   write(6,'(a,f12.3)')'        TSR     :',lambda
@@ -680,7 +681,7 @@
 !The index of the neighbours number nl to the Lagrangian L are:
                               I_nr_U(L,nl)=I ;  J_nr_U(L,nl)=J ;  K_nr_U(L,nl)=K
                               dhtotal=dhtotal+dh1_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 876
+                              if(dhtotal>=0.9999_dp) goto 876
   212                         CONTINUE
                           END DO
   211                     CONTINUE
@@ -708,7 +709,7 @@
 
                               I_nr_V(L,nl)=I ;  J_nr_V(L,nl)=J ;  K_nr_V(L,nl)=K
                               dhtotal=dhtotal+dh2_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 877
+                              if(dhtotal>=0.9999_dp) goto 877
   222                         CONTINUE
                           END DO
   221                     CONTINUE
@@ -736,7 +737,7 @@
 
                               I_nr_W(L,nl)=I ;  J_nr_W(L,nl)=J ;  K_nr_W(L,nl)=K
                               dhtotal=dhtotal+dh3_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 878
+                              if(dhtotal>=0.9999_dp) goto 878
   232                         CONTINUE
                           END DO
   231                     CONTINUE
@@ -764,7 +765,7 @@
 
 !   I_nr_Sp(L,nl)=I ;  J_nr_Sp(L,nl)=J ;  K_nr_Sp(L,nl)=K
 !     dhtotal=dhtotal+dh4_loc(L,nl)
-!     if(dhtotal.ge.0.9999) goto 879
+!     if(dhtotal.ge.0_dp.9999) goto 879
 ! 242         CONTINUE
 !             END DO
 ! 241         CONTINUE
@@ -795,7 +796,7 @@
 
                               I_nr_T(L,nl)=I ;  J_nr_T(L,nl)=J ;  K_nr_T(L,nl)=K
                               dhtotal=dhtotal+dh4_loc(L,nl)
-                              if(dhtotal>=0.9999) goto 880
+                              if(dhtotal>=0.9999_dp) goto 880
   252                         CONTINUE
                           END DO
   251                     CONTINUE
@@ -989,7 +990,7 @@
 
                               !ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 700
+                              IF (dhtotal>=0.9999_dp) GOTO 700
 
   212                         CONTINUE
                           END DO
@@ -1044,7 +1045,7 @@
 
                               !ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 701
+                              IF (dhtotal>=0.9999_dp) GOTO 701
   222                         CONTINUE
                           END DO
   221                     CONTINUE
@@ -1091,7 +1092,7 @@
                               KmaxW(L)=nl
                               I_nr_W(L,nl)=I ; J_nr_W(L,nl)=J ; K_nr_W(L,nl)=K
                               !ENDIF
-                              IF (dhtotal>=0.9999) GOTO 702
+                              IF (dhtotal>=0.9999_dp) GOTO 702
   232                         CONTINUE
                           END DO
   231                     CONTINUE
@@ -1204,7 +1205,7 @@
 
 !       ENDIF
 
-                              IF (dhtotal>=0.9999) GOTO 704
+                              IF (dhtotal>=0.9999_dp) GOTO 704
 
   252                         CONTINUE
                           END DO
@@ -1262,12 +1263,12 @@
 
                   !===================Drag Force====================================(Bruño 24)
                   if (LDrag) then
-                  UIB_loc=U_Beta1_loc(L)-sign(U_Beta1_loc(L),0.5*U_Beta1_loc(L)**2 &
-            *0.44*(PI*0.5**2.d0*dx**2.d0))
-                  VIB_loc=U_Beta2_loc(L)-sign(U_Beta2_loc(L),0.5*U_Beta2_loc(L)**2 &
-            *0.44*(PI*0.5**2.d0*dx**2.d0))
-                  WIB_loc=U_Beta3_loc(L)-sign(U_Beta2_loc(L),0.5*U_Beta3_loc(L)**2 &
-            *0.44*(PI*0.5**2.d0*dx**2.d0))
+                  UIB_loc=U_Beta1_loc(L)-sign(U_Beta1_loc(L),0.5_dp*U_Beta1_loc(L)**2 &
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
+                  VIB_loc=U_Beta2_loc(L)-sign(U_Beta2_loc(L),0.5_dp*U_Beta2_loc(L)**2 &
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
+                  WIB_loc=U_Beta3_loc(L)-sign(U_Beta2_loc(L),0.5_dp*U_Beta3_loc(L)**2 &
+            *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
                   endif
                   !====================Rotating body================================
                   M=lag_bod_loc(L)
@@ -1360,7 +1361,7 @@
                   Enddo
                   Do nl=1,KmaxV(L)
                       I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl);  K=K_nr_V(L,nl)
-                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
+                     !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX2_loc(L)*dh2_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%VSTAR(I,J,K) = dom(ib)%VSTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
@@ -1376,14 +1377,14 @@
 !            I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
 ! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
 !           fbeta = FXSp_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
-!           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0)
+!           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 ! !     endif
 !        Enddo
                   Do nl=1,KmaxT(L) !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
 !       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
                       fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
-                      dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0)
+                      dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 !       endif
                   Enddo
   802             CONTINUE
@@ -1428,8 +1429,8 @@
                 *reddelta(lag_bod_loc(L))
                   end do
 
-                  alph          = rads(M)+(iii-1)*2.*PI/imbnumber(M)
-                  alpharads=alph*180./PI
+                  alph          = rads(M)+(iii-1)*2.0_dp*PI/imbnumber(M)
+                  alpharads=alph*180.0_dp/PI
 
                   write(forcefilej,88) CTIME,alpharads,fx_loc,fy_loc,fz_loc
 
