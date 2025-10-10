@@ -6,7 +6,7 @@
           use mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer mgi,mgj,mgk,pow2,ib,i,j
+          integer :: mgi,mgj,mgk,pow2,ib,i,j
 
           open (unit=12, file='input/control.cin')
 !------DOMAIN SIZE AND DISCRETIZATION -------------------------------------
@@ -382,8 +382,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
-          integer i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
-          double precision buffer_flomas
+          integer :: i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
+          double precision :: buffer_flomas
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -463,8 +463,8 @@
           use mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
-          double precision fmout,fct,buffer_fmout
+          integer :: i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
+          double precision :: fmout,fct,buffer_fmout
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -629,7 +629,7 @@
           integer :: i,j,k,ib,tti,ttj,ttk,pll
           integer :: sn,sn2
           integer :: inind,jnind,knind
-          double precision dum,ubw,ube,ubs,ubn,ubt,ubb,vb,wb,lz,dummy
+          double precision :: dum,ubw,ube,ubs,ubn,ubt,ubb,vb,wb,lz,dummy
           double precision, dimension(21) :: dm
           character*8   :: chb1
           character*25  :: gf

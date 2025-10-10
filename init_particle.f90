@@ -226,12 +226,12 @@
 
           implicit none
 
-          integer strlen,i,j,k,ib,ni,nj,nk,ii,idfile,num_output
-          integer is,ie,js,je,ks,ke
-          character(LEN=20) filename
-          character(LEN=4) b_str,c_str
-          double precision u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
-          double precision S_cn,rho_cn
+          integer :: strlen,i,j,k,ib,ni,nj,nk,ii,idfile,num_output
+          integer :: is,ie,js,je,ks,ke
+          character(LEN=20) :: filename
+          character(LEN=4) :: b_str,c_str
+          double precision :: u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
+          double precision :: S_cn,rho_cn
 
 
           do ib=1,nbp
@@ -368,9 +368,9 @@
 
           implicit none
 
-          integer l,strlen,ib,num_output
-          character(LEN=80) filename,filename2
-          character(LEN=4) b_str
+          integer :: l,strlen,ib,num_output
+          character(LEN=80) :: filename,filename2
+          character(LEN=4) :: b_str
 
           write(b_str,'(I4)') num_output
           strlen=LEN(TRIM(ADJUSTL(b_str)))

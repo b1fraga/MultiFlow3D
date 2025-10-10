@@ -14,7 +14,7 @@
           use vars_pt
           implicit none
 
-          integer l,out_cnt
+          integer :: l,out_cnt
           logical,allocatable,dimension(:):: out_pt
 
 !     wtime_refresh = MPI_WTIME ( )
@@ -172,9 +172,9 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
-          integer l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
+          integer :: l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
           integer :: sphere_optn !Aleks 04/24 spherical vol of release
-          double precision random_number_normal,random_number_uniform
+          double precision :: random_number_normal,random_number_uniform
           double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
           double precision :: Wx,Wy,Wz,sigma_rho
           double precision :: mindis,dist,distance
@@ -358,7 +358,7 @@
           use multidata
           implicit none
 
-          integer l
+          integer :: l
 
           do l=1,np
 

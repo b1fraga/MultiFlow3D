@@ -926,7 +926,7 @@
           implicit none
           integer :: i,j,k,ib,op
           integer :: is,ie,js,je,ks,ke
-          double precision d,dxx,dyy,dzz
+          double precision :: d,dxx,dyy,dzz
           double precision, pointer, dimension(:,:,:) :: fi
 
 
