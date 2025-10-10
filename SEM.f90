@@ -11,6 +11,7 @@
           DOUBLE PRECISION :: VOL,Ly,Lz,ENNE,XMIN,XMAX,YMIN
           DOUBLE PRECISION :: YMAX,ZMIN,ZMAX,PI,U0,HU,RIZ,RDIVz,UAVE(3)
           DOUBLE PRECISION :: SIGMA_VALUE,MAXVSEM,MINVSEM
+          REAL :: rand_num
           INTEGER :: DIVY,DIVZ,IY,IZ,II,N,I,J,M,IT,IGLOBAL
           INTEGER,allocatable,dimension(:)::lsy,lsz,ley,lez
 !THE BOX DIMENSIONS ARE DIFINED AS [XLENGHT] * [Ly] * [Lz]
@@ -125,15 +126,21 @@
           VOL  = (XMAX - XMIN) * (YMAX - YMIN) * (ZMAX - ZMIN)
 !GENERATION OF THE EDDY LOCATION INSIDE THE BOX AND INITIALIZATION OF THE [Ksem] VECTOR
           DO II=1,N
-              X_EDDY(1,II) = (XMAX - XMIN) * RAND() + XMIN
-              X_EDDY(2,II) = (YMAX - YMIN) * RAND() + YMIN
-              X_EDDY(3,II) = (ZMAX - ZMIN) * RAND() + ZMIN
+              CALL RANDOM_NUMBER(rand_num)
+              X_EDDY(1,II) = (XMAX - XMIN) * rand_num + XMIN
+              CALL RANDOM_NUMBER(rand_num)
+              X_EDDY(2,II) = (YMAX - YMIN) * rand_num + YMIN
+              CALL RANDOM_NUMBER(rand_num)
+              X_EDDY(3,II) = (ZMAX - ZMIN) * rand_num + ZMIN
               Ksem(II) = 0
 !INITIALIZATION OF THE INTENSITIES. FOR EVERY DIRECTION THE AVERAGE INTENSITY VALUE IS CALCULATED AND
 !IT IS FORCED TO BE LOWER THAN THE [VLIM] VALUE
-              EPSILO(1,II) = (RAND()*2.0D0 - 1.0D0)
-              EPSILO(2,II) = (RAND()*2.0D0 - 1.0D0)
-              EPSILO(3,II) = (RAND()*2.0D0 - 1.0D0)
+              CALL RANDOM_NUMBER(rand_num)
+              EPSILO(1,II) = (rand_num*2.0D0 - 1.0D0)
+              CALL RANDOM_NUMBER(rand_num)
+              EPSILO(2,II) = (rand_num*2.0D0 - 1.0D0)
+              CALL RANDOM_NUMBER(rand_num)
+              EPSILO(3,II) = (rand_num*2.0D0 - 1.0D0)
           END DO
 !INITIALIZATION OF THE [R(3,3)] MATRIX WITH THE CHOLENSKY DECOMPOSITION
 !OF THE REYNOLDS STRESS TENSOR
@@ -213,40 +220,55 @@
 !GENERATE A NEW INTENSITY FOR THE NEW EDDY
                   IF (X_EDDY(1,II) > XMAX) THEN
                   X_EDDY(1,II) = XMIN
-                  X_EDDY(2,II) = (YMAX - YMIN) * RAND() + YMIN
-                  X_EDDY(3,II) = (ZMAX - ZMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(2,II) = (YMAX - YMIN) * rand_num + YMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(3,II) = (ZMAX - ZMIN) * rand_num + ZMIN
                   Ksem(II) = 1
                   ELSE IF (X_EDDY(1,II) < XMIN) THEN
                   X_EDDY(1,II) = XMAX
-                  X_EDDY(2,II) = (YMAX - YMIN) * RAND() + ZMIN
-                  X_EDDY(3,II) = (ZMAX - ZMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(2,II) = (YMAX - YMIN) * rand_num + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(3,II) = (ZMAX - ZMIN) * rand_num + ZMIN
                   Ksem(II) = 1
                   ELSE IF (X_EDDY(2,II) > YMAX) THEN
-                  X_EDDY(1,II) = (XMAX - XMIN) * RAND() + XMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(1,II) = (XMAX - XMIN) * rand_num + XMIN
                   X_EDDY(2,II) = YMIN
-                  X_EDDY(3,II) = (ZMAX - ZMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(3,II) = (ZMAX - ZMIN) * rand_num + ZMIN
                   Ksem(II) = 1
                   ELSE IF (X_EDDY(2,II) < YMIN) THEN
-                  X_EDDY(1,II) = (XMAX - XMIN) * RAND() + XMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(1,II) = (XMAX - XMIN) * rand_num + XMIN
                   X_EDDY(2,II) = YMAX
-                  X_EDDY(3,II) = (ZMAX - ZMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(3,II) = (ZMAX - ZMIN) * rand_num + ZMIN
                   Ksem(II) = 1
                   ELSE IF  (X_EDDY(3,II) > ZMAX) THEN
-                  X_EDDY(1,II) = (XMAX - XMIN) * RAND() + XMIN
-                  X_EDDY(2,II) = (YMAX - YMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(1,II) = (XMAX - XMIN) * rand_num + XMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(2,II) = (YMAX - YMIN) * rand_num + ZMIN
                   X_EDDY(3,II) = ZMIN
                   Ksem(II) = 1
                   ELSE IF (X_EDDY(3,II) < ZMIN) THEN
-                  X_EDDY(1,II) = (XMAX - XMIN) * RAND() + XMIN
-                  X_EDDY(2,II) = (YMAX - YMIN) * RAND() + ZMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(1,II) = (XMAX - XMIN) * rand_num + XMIN
+                  CALL RANDOM_NUMBER(rand_num)
+                  X_EDDY(2,II) = (YMAX - YMIN) * rand_num + ZMIN
                   X_EDDY(3,II) = ZMAX
                   Ksem(II) = 1
                   END IF
 !INTENSITY GENERATION FOR THE RE-CREATED EDDIES. WE ARE USING THE Ksem FACTOR AS EXPLAINED FATOR.
                   IF (Ksem(II)== 1) THEN
-                  EPSILO(3,II) = (RAND()*2.0D0 - 1.0D0)
-                  EPSILO(2,II) = (RAND()*2.0D0 - 1.0D0)
-                  EPSILO(1,II) = (RAND()*2.0D0 - 1.0D0)
+                  CALL RANDOM_NUMBER(rand_num)
+                  EPSILO(3,II) = (rand_num*2.0D0 - 1.0D0)
+                  CALL RANDOM_NUMBER(rand_num)
+                  EPSILO(2,II) = (rand_num*2.0D0 - 1.0D0)
+                  CALL RANDOM_NUMBER(rand_num)
+                  EPSILO(1,II) = (rand_num*2.0D0 - 1.0D0)
                   END IF
                   Ksem(II) = 0
               END DO
