@@ -2,12 +2,12 @@
       MODULE var_rough
 !##########################################################################
 
-          real hd,sigma
+          real :: hd,sigma
           integer :: maxk,iblock,rough_blockno,rough_proc
           integer, allocatable,dimension (:) :: rough_block
 
           type multi_rough
-              real d50
+              real :: d50
               real, pointer, dimension(:,:,:) :: rough,irough
               real, pointer, dimension(:,:)   :: zbp,z_rough
           end type multi_rough
@@ -79,13 +79,13 @@
           integer, intent(in) :: ib
           integer :: ni, nj,nk
 
-          real aa(301), A(301),b
+          real :: aa(301), A(301),b
           real    :: xistep,yjstep,zdelta,zbav, rms
           real    :: random_number_normal2,maxelev,minelev,maxelev2,minelev2
           integer :: i,j,k,istep,jstep,ii1,ii2,ii,icount!,ib
           character (LEN=80)   :: tecfile, cdummy
           character (LEN=4)    :: char_block
-          real random, xicount
+          real :: random, xicount
 
           ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
 
@@ -324,9 +324,9 @@
           use multidata
 
           IMPLICIT NONE
-          integer i,j,k,ib
+          integer :: i,j,k,ib
           integer :: ni, nj,nk,L
-          real dummy
+          real :: dummy
           character (LEN=80)   :: tecfile,charac
           character (LEN=4)    :: char_block
 

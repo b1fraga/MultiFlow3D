@@ -9,7 +9,7 @@
           integer :: sn,sn1,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          double precision ujkl,vikl,wijl
+          double precision :: ujkl,vikl,wijl
           character*8 :: chb,chb1
           character*25 :: gf
 
@@ -315,8 +315,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          double precision u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn,tau
-          double precision uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml
+          double precision :: u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn,tau
+          double precision :: uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml
           character*8 :: chb
           character*25 :: gf
 

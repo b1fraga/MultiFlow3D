@@ -6,7 +6,7 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib
+          integer :: i,j,k,ib
           double precision :: ppref,buffer_ppref
           real ( kind =8 )  :: wtimedum
 
@@ -109,8 +109,8 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib,sn
-          double precision resid
+          integer :: i,j,k,ib,sn
+          double precision :: resid
           character*8 :: chb
           character*25 :: gf,gf2
 

@@ -67,8 +67,8 @@
           use multidata
           implicit none
 
-          integer i,j,k,kutta
-          integer ib,l,strlen
+          integer :: i,j,k,kutta
+          integer :: ib,l,strlen
           character (LEN=19) :: filename
           character (LEN=5) :: name_end
           character (LEN=3) :: dominio

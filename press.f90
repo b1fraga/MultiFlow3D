@@ -6,8 +6,8 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib
-          double precision fact,fact1,buffer_rmax
+          integer :: i,j,k,ib
+          double precision :: fact,fact1,buffer_rmax
 
           rmax=0.0_dp
 
@@ -80,7 +80,7 @@
           use vars
           use multidata
           implicit none
-          integer i,j,k,ib,isp,iep,jsp,jep,ksp,kep
+          integer :: i,j,k,ib,isp,iep,jsp,jep,ksp,kep
 
           do ib=1,nbp
 
@@ -144,7 +144,7 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib
+          integer :: i,j,k,ib
 
           do ib=1,nbp
 
@@ -209,8 +209,8 @@
           use module_LSM
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib,isp,jspr,jepr,kspr,kepr,ispr,iepr
-          double precision qstpp,fakfor,flwsum_loc,flwsum,A_loc,A
+          integer :: i,j,k,ib,isp,jspr,jepr,kspr,kepr,ispr,iepr
+          double precision :: qstpp,fakfor,flwsum_loc,flwsum,A_loc,A
           double precision,dimension(2) :: sndbuffer,recbuffer
 
           MPI_FLT = MPI_DOUBLE_PRECISION

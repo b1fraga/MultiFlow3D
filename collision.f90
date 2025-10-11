@@ -19,28 +19,28 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
-          integer tot_np,ib
-          integer l,l1,l2,ls,ls1,ls2
-          double precision dis_x,dis_y,dis_z,dis_dd,max_dis
-          double precision cita_xy,cita_xyz,dis_xy,dif_uvw,dis_xyz
-          double precision dif1_uv,dis1_xy,dif1_uvw,dis1_xyz
-          double precision dif2_uv,dis2_xy,dif2_uvw,dis2_xyz
-          double precision ip1,jp1,kp1,ip2,jp2,kp2
-          double precision damp,stiffness,collision,overlap
-          double precision lambda_p,lambda_wb,lambda_ww,lambda_wt
-          double precision lambda_we,lambda_ws,lambda_wn
+          integer :: tot_np,ib
+          integer :: l,l1,l2,ls,ls1,ls2
+          double precision :: dis_x,dis_y,dis_z,dis_dd,max_dis
+          double precision :: cita_xy,cita_xyz,dis_xy,dif_uvw,dis_xyz
+          double precision :: dif1_uv,dis1_xy,dif1_uvw,dis1_xyz
+          double precision :: dif2_uv,dis2_xy,dif2_uvw,dis2_xyz
+          double precision :: ip1,jp1,kp1,ip2,jp2,kp2
+          double precision :: damp,stiffness,collision,overlap
+          double precision :: lambda_p,lambda_wb,lambda_ww,lambda_wt
+          double precision :: lambda_we,lambda_ws,lambda_wn
           double precision,allocatable,dimension(:):: up_sv,vp_sv,wp_sv
           double precision,allocatable,dimension(:):: xp_sv,yp_sv,zp_sv
           double precision,allocatable,dimension(:):: upg_sv,vpg_sv,wpg_sv
           double precision,allocatable,dimension(:):: xpg_sv,ypg_sv,zpg_sv
           double precision,allocatable,dimension(:):: dp_sv,dpg_sv
-          double precision dif1_uvw_t,dif2_uvw_t,collision_t
-          double precision collision_x,collision_y,collision_z
-          double precision vector_x,vector_y,vector_z
-          double precision collision_tx,collision_ty,collision_tz
+          double precision :: dif1_uvw_t,dif2_uvw_t,collision_t
+          double precision :: collision_x,collision_y,collision_z
+          double precision :: vector_x,vector_y,vector_z
+          double precision :: collision_tx,collision_ty,collision_tz
           logical,allocatable,dimension(:):: collide_pt
 
-          double precision theta_col,e_col,mp
+          double precision :: theta_col,e_col,mp
 
          !2. Damping
           e_col=1.d0
@@ -170,11 +170,11 @@
 
           implicit none
 
-          integer l
-          double precision fcol_n,fcol_t,mu_f
-          double precision lambda_w,lambda_u,lambda_v
-          double precision theta_col,e_col,mp!,k_t
-          double precision deltap
+          integer :: l
+          double precision :: fcol_n,fcol_t,mu_f
+          double precision :: lambda_w,lambda_u,lambda_v
+          double precision :: theta_col,e_col,mp!,k_t
+          double precision :: deltap
 
           mu_f=9.2d-2
 

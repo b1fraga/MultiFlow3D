@@ -5,9 +5,9 @@
           use vars
           use mpi
           implicit none
-          integer i,j,k,ib,dir
-          integer sync_dir,cpu_next,cpu_prev,rdivmy,rdivng,my_cor
-          integer ng_p,ng_n
+          integer :: i,j,k,ib,dir
+          integer :: sync_dir,cpu_next,cpu_prev,rdivmy,rdivng,my_cor
+          integer :: ng_p,ng_n
 
           if(rdivmax>1) then
 
@@ -286,8 +286,8 @@
           use vars
           use mpi
           implicit none
-          integer i,j,k,ib
-          integer nptemp,myranktemp,nbtemp,cpu_no
+          integer :: i,j,k,ib
+          integer :: nptemp,myranktemp,nbtemp,cpu_no
           integer,allocatable,dimension(:) :: domtemp,buf_domindid
           character*80 :: dummyline
 

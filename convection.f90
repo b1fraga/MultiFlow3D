@@ -5,7 +5,7 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib,ii,jj,kk
+          integer :: i,j,k,ib,ii,jj,kk
           double precision :: du2dx,dv2dy,dw2dz,vel
           double precision :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
           double precision :: up12,um12,vp12,vm12,wp12,wm12

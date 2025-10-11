@@ -6,12 +6,12 @@
           use module_LSM
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ijk,ib
-          integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
-          integer ij1,ij2,ij3,ij4,ij5,ij6,ij7,ij8,pre_nipl
-          integer pre_njpl,pre_nkpl
-          integer glevel,gl,mgc_i,mgc_j,mgc_k,cnt,incr,ijk_lsm
-          integer prmgci,prmgcj,prmgck
+          integer :: i,j,k,ijk,ib
+          integer :: ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
+          integer :: ij1,ij2,ij3,ij4,ij5,ij6,ij7,ij8,pre_nipl
+          integer :: pre_njpl,pre_nkpl
+          integer :: glevel,gl,mgc_i,mgc_j,mgc_k,cnt,incr,ijk_lsm
+          integer :: prmgci,prmgcj,prmgck
           real :: dxx,dyy,dzz,ndx,ndy,ndz
 
           do ib=1,nbp
@@ -228,9 +228,9 @@
           use vars
           use multidata
           implicit none
-          integer i,j,k,ib,ijk,l
-          integer glevel,mgc_i,mgc_j,mgc_k,kcycle,nrel
-          integer incr,incrp
+          integer :: i,j,k,ib,ijk,l
+          integer :: glevel,mgc_i,mgc_j,mgc_k,kcycle,nrel
+          integer :: incr,incrp
           integer, allocatable,dimension(:) :: kount
 
           allocate (kount(ngrd_gl))
@@ -376,11 +376,11 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib
-          integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
-          integer glevel,it,gl
-          integer incr,itr,ni,nj,nk,nij,nij2,nijk
-          real apr
+          integer :: i,j,k,ib
+          integer :: ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
+          integer :: glevel,it,gl
+          integer :: incr,itr,ni,nj,nk,nij,nij2,nijk
+          real :: apr
           real, dimension(ngg) :: a,c
 
 
@@ -625,12 +625,12 @@
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib
-          integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
-          integer glevel,gl
-          integer nif,njf,nkf,nic,njc,nkc
-          integer nijc,nijf,nijc2,nijf2,nijkc,nijkf
-          integer incr_c,incr_f
+          integer :: i,j,k,ib
+          integer :: ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
+          integer :: glevel,gl
+          integer :: nif,njf,nkf,nic,njc,nkc
+          integer :: nijc,nijf,nijc2,nijf2,nijkc,nijkf
+          integer :: incr_c,incr_f
           real, allocatable,dimension(:,:,:) :: resf
 
 
@@ -769,10 +769,10 @@
           use vars
           use multidata
           implicit none
-          integer i,j,k,ib,ijkc,ijkf
-          integer glevel,gl
-          integer ic,jc,kc,nic,njc,nkc,nif,njf,nkf
-          integer nijf,nijkf,nijc,nijkc
+          integer :: i,j,k,ib,ijkc,ijkf
+          integer :: glevel,gl
+          integer :: ic,jc,kc,nic,njc,nkc,nif,njf,nkf
+          integer :: nijf,nijkf,nijc,nijkc
 
 
           do ib=1,nbp
@@ -913,8 +913,8 @@
           use vars
           use multidata
           implicit none
-          integer i,j,k,ib,ni,nj,nk,nij,nijk,ijk
-          integer glevel,gl
+          integer :: i,j,k,ib,ni,nj,nk,nij,nijk,ijk
+          integer :: glevel,gl
 
 
           do ib=1,nbp

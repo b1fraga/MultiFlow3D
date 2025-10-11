@@ -113,9 +113,9 @@
               double precision, pointer, dimension(:,:,:) :: resfact
               double precision, pointer, dimension(:,:,:) :: resfact1
 !==========================================================================
-              integer bc_west,bc_east,bc_south,bc_north,bc_bottom,bc_top
-              integer Tbc_west,Tbc_east,Tbc_south,Tbc_north
-              integer Tbc_bottom,Tbc_top
+              integer :: bc_west,bc_east,bc_south,bc_north,bc_bottom,bc_top
+              integer :: Tbc_west,Tbc_east,Tbc_south,Tbc_north
+              integer :: Tbc_bottom,Tbc_top
               logical :: coarse_ng,fine_ng
           end type multidom
 

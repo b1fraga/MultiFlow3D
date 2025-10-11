@@ -9,7 +9,7 @@
           implicit none
           real ( kind =8 )  :: wtimedum,wtime_total,wtime_solver,wtime_ib
           real (kind =8) :: wtime_cd,wtime_lpt
-          integer ib,i,j,k,kutta,kuttacond,jjtime,ii
+          integer :: ib,i,j,k,kutta,kuttacond,jjtime,ii
           double precision :: alfark(3)
 
 ! Set some constants ---------------------

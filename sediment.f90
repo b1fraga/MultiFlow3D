@@ -417,8 +417,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
-          integer ib,i,j,k
-          double precision strain,n
+          integer :: ib,i,j,k
+          double precision :: strain,n
           !constitutive relationship is for sludge
           do ib=1,nbp
               do i=dom(ib)%isp,dom(ib)%iep
@@ -447,7 +447,7 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
-          integer ib,i,j,k
+          integer :: ib,i,j,k
           !constitutive relationship is for density
           do ib=1,nbp
               do i=1,dom(ib)%ttc_i;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
