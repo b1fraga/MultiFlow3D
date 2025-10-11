@@ -291,8 +291,8 @@
 
           real,    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
           integer, intent(in) :: order
-          real*8 ::phi_r2smth,phi_r3smth,phi_r4,phi_r3,phi_r1smth,phi_r4smth
-          real*8 :: cd2_0,cd2_1
+          real(kind=8) ::phi_r2smth,phi_r3smth,phi_r4,phi_r3,phi_r1smth,phi_r4smth
+          real(kind=8) :: cd2_0,cd2_1
           select case (order)
 
             case (1)
@@ -368,7 +368,7 @@ function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
 
           real,    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
           integer, intent(in) :: order,dir
-          real*8 :: phi_r3,dphi_r3,cd2_0,dcd2_0,cd2_1,dcd2_1
+          real(kind=8) :: phi_r3,dphi_r3,cd2_0,dcd2_0,cd2_1,dcd2_1
 
           select case (order)
 

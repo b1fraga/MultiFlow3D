@@ -1,6 +1,6 @@
 #############################################################
 F90=mpif90
-OPTIONS    =  -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp
+OPTIONS    =  -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp -std=f2008
 LOPTIONS   = -O2 -fopenmp
 INCLUDE_PATH := $(shell realpath $$(dirname $$(find . -path "*json_module.mod*")))
 LIBRARY_PATH := $(shell realpath $$(dirname $$(find . -path "*json-fortran/libjson-fortran.a.log*")))
