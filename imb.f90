@@ -504,7 +504,7 @@
           use multidata
           implicit none
           INTEGER :: M,L,ii,nxdom,nydom,nzdom,tnm,N,nx,ny,nz
-          integer ib,is,ie,js,je,ks,ke, tti,ttj,ttk
+          integer :: ib,is,ie,js,je,ks,ke, tti,ttj,ttk
           DOUBLE PRECISION :: lxdom(idom+1),lydom(jdom+1),lzdom(kdom+1)
 
           IF(myrank==master)THEN

@@ -9,8 +9,8 @@
           use mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          integer i,j,k,ib,ijk,l,ifi,iff,xx,maxttc_ijk
-          integer is,ie,js,je,ks,ke,nj,nij,nijk
+          integer :: i,j,k,ib,ijk,l,ifi,iff,xx,maxttc_ijk
+          integer :: is,ie,js,je,ks,ke,nj,nij,nijk
           double precision, pointer, dimension(:,:,:) :: fi
           double precision, allocatable,dimension(:,:) :: ue,un,ut,lw
           double precision, allocatable,dimension(:,:) :: ls,lb,lpr,res
