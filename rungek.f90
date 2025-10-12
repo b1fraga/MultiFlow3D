@@ -647,9 +647,9 @@
                           dom(ib)%ustar(i,j,k)=(dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*diff)
 
-                          if (L_LSM) then! .or. L_LSMbase) then
+                          if (L_LSM) then  ! .or. L_LSMbase) then
                           dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*gx*1.0_dp- &
-                    dt*alfapr*gz*sin(atan(slope))!*
+                    dt*alfapr*gz*sin(atan(slope))  !*
 !     &                                dom(ib)%blku(i,j,k))
                           end if
 
@@ -712,8 +712,8 @@
                           dom(ib)%vstar(i,j,k)=(dom(ib)%vstar(i,j,k)+ &
                     dt*alfapr*diff)
 
-                          if (L_LSM) then! .or. L_LSMbase) then
-                          dom(ib)%vstar(i,j,k)=dom(ib)%vstar(i,j,k)+dt*alfapr*gy!*
+                          if (L_LSM) then  ! .or. L_LSMbase) then
+                          dom(ib)%vstar(i,j,k)=dom(ib)%vstar(i,j,k)+dt*alfapr*gy  !*
 !     &                                dom(ib)%blkv(i,j,k))
                           end if
 
@@ -779,12 +779,12 @@
           call exchange(11)
           call exchange(22)
           call exchange(33)
-          call mom_buo !water
+          call mom_buo  !water
           elseif (LENERGY.and.(dens<100)) then
           call exchange(11)
           call exchange(22)
           call exchange(33)
-          call mom_buo_air !Aleks Covid code subroutine
+          call mom_buo_air  !Aleks Covid code subroutine
           endif
 
           if (LROUGH) call rough_velocity

@@ -10,7 +10,7 @@
           double precision :: ppref,buffer_ppref
           real ( kind =8 )  :: wtimedum
 
-          if (L_LSM) then! .or. L_LSMbase)  then
+          if (L_LSM) then  ! .or. L_LSMbase)  then
           call coeff
           end if
 

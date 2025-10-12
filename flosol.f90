@@ -144,7 +144,7 @@
 
                   select case (differencing)
                     case (1)
-                      call rungek_conv2nd !
+                      call rungek_conv2nd  !
                     case (2)
                       call rungek_conv4th
                     case (3)
@@ -153,7 +153,7 @@
                   if (diff_sch==3) then
                   select case (differencing)
                     case (1)
-                      call rungek_diff2nd !
+                      call rungek_diff2nd  !
                     case (2)
                       call rungek_diff4th
                     case (3)
@@ -343,7 +343,7 @@
               write(30,*) dp_pt(k),rho_pt(k)
           end do
           close(30)
-          endif !LPT
+          endif  !LPT
           end if   !myrank
           endif
 

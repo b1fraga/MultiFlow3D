@@ -82,7 +82,7 @@
           real :: aa(301), A(301),b
           real    :: xistep,yjstep,zdelta,zbav, rms
           real    :: random_number_normal2,maxelev,minelev,maxelev2,minelev2
-          integer :: i,j,k,istep,jstep,ii1,ii2,ii,icount!,ib
+          integer :: i,j,k,istep,jstep,ii1,ii2,ii,icount  !,ib
           character (LEN=80)   :: tecfile, cdummy
           character (LEN=4)    :: char_block
           real :: random, xicount

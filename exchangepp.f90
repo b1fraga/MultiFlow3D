@@ -271,7 +271,7 @@
                   end if
 
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
 
                   sbuf_m => dom(ib) % sendb_m1
                   rbuf_m => dom(ib) % recvb_m1
@@ -1219,7 +1219,7 @@
 !======================================================================
                   end if
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
 
                   sbuf_p => dom(ib) % sendb_p1
                   rbuf_p => dom(ib) % recvb_p1
@@ -2266,7 +2266,7 @@
                   end if
 
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
 
                   sbuf_m => dom(ib) % sendb_m1
                   rbuf_m => dom(ib) % recvb_m1
@@ -3193,7 +3193,7 @@
 !======================================================================
                   end if
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
 
                   sbuf_p => dom(ib) % sendb_p1
                   rbuf_p => dom(ib) % recvb_p1
@@ -4128,7 +4128,7 @@
                   end if
 
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_prev)) then
 
                   call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
                   rbuf_m => dom(ib) % recvb_m1
@@ -4333,7 +4333,7 @@
                   end if
                   end if
 
-                  else !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
+                  else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(cpu_next)) then
 
                   call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
                   rbuf_p => dom(ib) % recvb_p1
@@ -4930,7 +4930,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_m1
 
@@ -4959,7 +4959,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_p1
 
@@ -5130,7 +5130,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_m1
 
@@ -5159,7 +5159,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_p1
 
@@ -5331,7 +5331,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_m1
 
@@ -5359,7 +5359,7 @@
                   end do
               end do
 
-              else !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
+              else  !if (dom_ad(dom_id(ib)) .ne. dom_ad(my_cor)) then
               call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
               rbuf => dom(ib) % recvb_p1
 

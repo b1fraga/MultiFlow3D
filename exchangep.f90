@@ -317,7 +317,7 @@
                 fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
               tsend=njf*nkf; trecv=nj*nk
               do kc=pl,nk-pl+1
                   do jc=pl,nj-pl+1
@@ -385,7 +385,7 @@
                 fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
               tsend=nif*nkf; trecv=ni*nk
               do kc=pl,nk-pl+1
                   do ic=pl,ni-pl+1
@@ -453,7 +453,7 @@
                 fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
               tsend=nif*njf; trecv=ni*nj
               do ic=pl,ni-pl+1
                   do jc=pl,nj-pl+1
@@ -523,7 +523,7 @@
                 fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
               tsend=njf*nkf; trecv=nj*nk
               do kc=pl,nk-pl+1
                   do jc=pl,nj-pl+1
@@ -591,7 +591,7 @@
                 fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
               tsend=nif*nkf; trecv=ni*nk
               do kc=pl,nk-pl+1
                   do ic=pl,ni-pl+1
@@ -659,7 +659,7 @@
                 fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
               tsend=nif*njf; trecv=ni*nj
               do ic=pl,ni-pl+1
                   do jc=pl,nj-pl+1
@@ -1476,7 +1476,7 @@
                 fi(is+1,j1,k2)+fi(is+1,j2,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
               tsend=njf*nkf; trecv=nj*nk
               do kc=pl,nk-pl+1
                   do jc=pl,nj-pl+1
@@ -1542,7 +1542,7 @@
                 fi(i1,js+1,k2)+fi(i2,js+1,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
               tsend=nif*nkf; trecv=ni*nk
               do kc=pl,nk-pl+1
                   do ic=pl,ni-pl+1
@@ -1608,7 +1608,7 @@
                 fi(i2,j1,ks+1)+fi(i2,j2,ks+1))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
               tsend=nif*njf; trecv=ni*nj
               do ic=pl,ni-pl+1
                   do jc=pl,nj-pl+1
@@ -1676,7 +1676,7 @@
                 fi(ie-1,j1,k2)+fi(ie-1,j2,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
               tsend=njf*nkf; trecv=nj*nk
               do kc=pl,nk-pl+1
                   do jc=pl,nj-pl+1
@@ -1742,7 +1742,7 @@
                 fi(i1,je-1,k2)+fi(i2,je-1,k2))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
               tsend=nif*nkf; trecv=ni*nk
               do kc=pl,nk-pl+1
                   do ic=pl,ni-pl+1
@@ -1808,7 +1808,7 @@
                 fi(i2,j1,ke-1)+fi(i2,j2,ke-1))/10.0_dp
                   end do; end do
 
-              else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
+              else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
               tsend=nif*njf; trecv=ni*nj
               do ic=pl,ni-pl+1
                   do jc=pl,nj-pl+1
