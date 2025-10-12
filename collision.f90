@@ -156,7 +156,7 @@
           endif
 
           return
-      end subroutine
+      end subroutine collision_particle
 
 !######################################################################!
       Subroutine collision_walls(l)                                    !
@@ -259,4 +259,4 @@
           endif
           endif
           return
-      end
+      end subroutine collision_walls

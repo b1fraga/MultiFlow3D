@@ -27,5 +27,5 @@
           integer :: np
           double precision :: ntav1_count,ntav2_count,ntav_restart !Aleks 04/24
 !=========================================================================
-      end module
+      end module vars
 !##########################################################################

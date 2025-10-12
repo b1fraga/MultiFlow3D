@@ -31,5 +31,5 @@
           double precision, allocatable, dimension(:):: wopg_loc,dpg_loc
           double precision, allocatable, dimension(:):: rhopg_loc
 
-      end module
+      end module vars_pt
 

@@ -92,7 +92,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_square
 !######################################################################
       SUBROUTINE imb_cylinder(numIB)
 !######################################################################
@@ -187,7 +187,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_cylinder
 !#############################################################
       SUBROUTINE imb_cube(numIB)
 !#############################################################
@@ -283,7 +283,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_cube
 !######################################################################
       SUBROUTINE imb_sphere(numIB)
 !######################################################################
@@ -391,7 +391,7 @@
    89     FORMAT (3e20.6)
 
           RETURN
-      end
+      end subroutine imb_sphere
 !#############################################################
       SUBROUTINE imb_file(numIB)
 !#############################################################
@@ -581,7 +581,7 @@
    88     FORMAT (i5)
    89     FORMAT (3e25.5)
           RETURN
-      end
+      end subroutine imb_file
 !#############################################################
       SUBROUTINE imb_number(numIB)
 !#############################################################
@@ -700,7 +700,7 @@
    89     FORMAT (3e25.5)
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE imb_number
 !#############################################################
       SUBROUTINE imb_moved(numIB)
 !#############################################################
@@ -928,4 +928,4 @@
    89     FORMAT (3f25.5)
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE imb_moved

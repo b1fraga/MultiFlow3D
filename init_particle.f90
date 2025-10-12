@@ -212,7 +212,7 @@
           ! write(6,*)'init_part unit 30 closed'
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE INIT_PARTICLE
 
 ! **********************************************************************
       SUBROUTINE TECPLOT(num_output)
@@ -353,7 +353,7 @@
 
 !   88 FORMAT (10F15.8)
 
-      END SUBROUTINE
+      END SUBROUTINE TECPLOT
 
 
 ! **********************************************************************
@@ -395,7 +395,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
 
 !   88 FORMAT (10F15.8)
 
-      END SUBROUTINE
+      END SUBROUTINE TECPARTICLE
 
 !=======================================================================
       double precision FUNCTION random_number_uniform(a,b)
@@ -412,7 +412,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           random_number_uniform=(b-a)*r+a
 
           return
-      end function
+      end function random_number_uniform
 !=======================================================================!Aleks 04/24
       subroutine random_number_spherical(xp, yp, zp, r, sphere_optn, &
                    LSURFACE, xxp, yyp, zzp)
@@ -475,7 +475,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
               zzp = ra * cos(theta) + zp
           end select
 
-      end subroutine
+      end subroutine random_number_spherical
 
 
 
