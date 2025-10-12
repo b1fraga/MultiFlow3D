@@ -20,8 +20,8 @@
           double precision :: alfark(3)
           double precision ::dx,dy,dz
           integer :: sn
-          character*8 :: chb1
-          character*25 :: gf
+          character(len=8) :: chb1
+          character(len=25) :: gf
 
           alfark(1)=1.0_dp/3.0_dp
           alfark(2)=0.5_dp

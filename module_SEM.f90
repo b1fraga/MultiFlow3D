@@ -8,7 +8,7 @@
           DOUBLE PRECISION,DIMENSION(:) :: X_POINT(3),REYNOLDS(6)
           DOUBLE PRECISION,DIMENSION(:) :: TEMP(3),TEMP2(3)
           DOUBLE PRECISION, DIMENSION(:,:) ::  R(3,3)
-          CHARACTER*44 :: FILEGLOBAL
+          CHARACTER(len=44) :: FILEGLOBAL
           INTEGER,ALLOCATABLE:: elemyst(:),elemyen(:),elemzst(:),elemzen(:)
           INTEGER,ALLOCATABLE:: iddom(:),ljdom(:),lkdom(:)
       end

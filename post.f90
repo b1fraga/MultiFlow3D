@@ -10,8 +10,8 @@
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
           double precision :: ujkl,vikl,wijl
-          character*8 :: chb,chb1
-          character*25 :: gf
+          character(len=8) :: chb,chb1
+          character(len=25) :: gf
 
           do ib=1,nbp
 
@@ -107,8 +107,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
 
           do ib=1,nbp
 
@@ -158,8 +158,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
           double precision :: tau
 
           do ib=1,nbp
@@ -217,8 +217,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
 
           do ib=1,nbp
 
@@ -265,8 +265,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
 
           do ib=1,nbp
 
@@ -317,8 +317,8 @@
           integer :: ki,ib
           double precision :: u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn,tau
           double precision :: uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
 
           do ib=1,nbp
 
@@ -429,8 +429,8 @@
           integer :: sn,sn1,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          character*8 :: chb,chb1
-          character*27 :: gf
+          character(len=8) :: chb,chb1
+          character(len=27) :: gf
 
           do ib=1,nbp
 
@@ -507,8 +507,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: ki,ib,inind,jnind,knind
           double precision, dimension(21) :: dm
-          character*8 :: chb
-          character*25 :: gf
+          character(len=8) :: chb
+          character(len=25) :: gf
 
           dm=0.d0
 

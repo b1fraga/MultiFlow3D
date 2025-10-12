@@ -111,8 +111,8 @@
           implicit none
           integer :: i,j,k,ib,sn
           double precision :: resid
-          character*8 :: chb
-          character*25 :: gf,gf2
+          character(len=8) :: chb
+          character(len=25) :: gf,gf2
 
           if ((mod(itime,n_out)==0).and.(itime>itime_start)) then
 

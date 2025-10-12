@@ -19,7 +19,7 @@
           integer :: ipref,jpref,kpref,prefdom,ITMAX_SEM,NE_SEM
           integer :: pl,pl_ex,differencing,LMR,normal_inter,order
           integer :: tsteps_pt,count,jtime !Aleks 02/2023
-          character*80 :: keyword,L_n
+          character(len=80) :: keyword,L_n
           logical :: LRESTART,LIMB,SGS,PERIODIC,LENERGY,LROUGH
           logical :: pressureforce,time_averaging,reinitmean
           logical :: LPT,save_inflow,read_inflow,L_dt,LSCALAR,LAS,L_LSM

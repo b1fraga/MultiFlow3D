@@ -63,7 +63,7 @@
           INTEGER,allocatable,dimension(:) :: imbinblock_loc,rott_loc
           double precision,allocatable,dimension(:) :: rdiv_imb
           integer,allocatable,dimension(:) :: IBip,IBjp,IBkp !Aleks 04/23 - arrays for storing ijk values of IB points
-          CHARACTER*32, allocatable, dimension (:) :: filepoints
+          CHARACTER(len=32), allocatable, dimension (:) :: filepoints
 
       end module imb
 !#############################################################
@@ -76,8 +76,8 @@
           implicit none
           double precision         :: PI,revoltime
           INTEGER      :: L,I,strlen,maxn,K
-          CHARACTER*8  :: char_block
-          CHARACTER*31 :: gridfile
+          CHARACTER(len=8)  :: char_block
+          CHARACTER(len=31) :: gridfile
 
           PI = 4.D0*DATAN(1.D0)
           xt = 0.d0 ; xdt = 0.d0    ; xddt = 0.d0
