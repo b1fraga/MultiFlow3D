@@ -26,4 +26,4 @@ jobs:
           python-version: '3.13' 
       - run: |
           python -m pip install fortitude-lint
-          fortitude check --select MOD021 --select S071 --output-format github
+          fortitude check --select MOD021 --select S071 --select C021  --output-format github
