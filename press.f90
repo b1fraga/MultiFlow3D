@@ -2,7 +2,7 @@
       subroutine calmas
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -140,7 +140,7 @@
       subroutine calvel
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -204,7 +204,7 @@
       subroutine pressure_forcing
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use module_LSM
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -278,7 +278,7 @@
       subroutine pressure_1sweep
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

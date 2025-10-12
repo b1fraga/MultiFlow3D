@@ -6,7 +6,7 @@
 !##############################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use imb
           use module_LSM
           implicit none
@@ -338,7 +338,7 @@
 !#############################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use imb
           use module_LSM
 
@@ -628,7 +628,7 @@
 !#############################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use imb
           use module_LSM
           implicit none

@@ -6,7 +6,7 @@
           USE module_SEM
           USE vars
           USE multidata
-          use mpi
+          use multiflow3d_mpi
           IMPLICIT NONE
           DOUBLE PRECISION :: VOL,Ly,Lz,ENNE,XMIN,XMAX,YMIN
           DOUBLE PRECISION :: YMAX,ZMIN,ZMAX,PI,U0,HU,RIZ,RDIVz,UAVE(3)

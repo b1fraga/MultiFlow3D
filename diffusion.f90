@@ -2,7 +2,7 @@
       subroutine diffusion
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

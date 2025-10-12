@@ -15,7 +15,7 @@
       subroutine energy
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -184,7 +184,7 @@
 !##########################################################################
 ! calculates buoyancy due to thermal difference in water
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -251,7 +251,7 @@
 !##########################################################################
 ! calculates buoyancy due to concentration differences
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -314,7 +314,7 @@
 ! calculates buoyancy due to thermal difference in air
 
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

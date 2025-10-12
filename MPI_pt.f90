@@ -13,7 +13,7 @@
 !     Creates ghost particles for collision calculations
 !######################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use vars_pt
 

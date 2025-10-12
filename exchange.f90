@@ -343,7 +343,7 @@
       subroutine  exchange_smlvl(op,nly)
 !##########################################################################
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           implicit none
           integer :: i,j,k,ijk,ib,op,nly

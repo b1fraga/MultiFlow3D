@@ -2,7 +2,7 @@
       subroutine  exchange_bc(op,nly)
 !##########################################################################
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           implicit none
           integer :: i,j,k,ijk,op,ib,tsend,ly,nly

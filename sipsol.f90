@@ -6,7 +6,7 @@
 !-----------------------------------------------------------------------
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ijk,l,ifi,iff,xx,maxttc_ijk

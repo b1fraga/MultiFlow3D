@@ -13,7 +13,7 @@
 !
 !######################################################################!
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -660,7 +660,7 @@
 !##########################################################################
 
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars_pt
 
           implicit none

@@ -72,7 +72,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           double precision         :: PI,revoltime
           INTEGER      :: L,I,strlen,maxn,K
@@ -293,7 +293,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           INTEGER  :: M,L,iii,K
           double precision :: PI
@@ -353,7 +353,7 @@
 !######################################################################
           use vars
           use imb
-          use mpi
+          use multiflow3d_mpi
           use multidata
           implicit none
 
@@ -475,7 +475,7 @@
       SUBROUTINE IB_previous
 !######################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use imb
           implicit none
@@ -500,7 +500,7 @@
 !######################################################################
           use vars
           use imb
-          use mpi
+          use multiflow3d_mpi
           use multidata
           implicit none
           INTEGER :: M,L,ii,nxdom,nydom,nzdom,tnm,N,nx,ny,nz
@@ -646,7 +646,7 @@
       SUBROUTINE Deltah
 !######################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use imb
           implicit none
@@ -840,7 +840,7 @@
       SUBROUTINE IBM
 !######################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use imb
           implicit none
@@ -939,7 +939,7 @@
       SUBROUTINE interpolate_UV
 !######################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use imb
           implicit none
@@ -1243,7 +1243,7 @@
 !######################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use imb
           implicit none
           INTEGER :: M,L,KK,ib,iii
@@ -1339,7 +1339,7 @@
 !######################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use imb
           implicit none
           INTEGER :: I,J,K,L,ib,nl
@@ -1402,7 +1402,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           INTEGER :: M,L,j,iii,inipts,finpts,totalpoints
           double precision :: PI,fx_loc,fy_loc,fz_loc,alph,alpharads

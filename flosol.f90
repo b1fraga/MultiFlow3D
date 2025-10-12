@@ -2,7 +2,7 @@
       subroutine flosol
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64

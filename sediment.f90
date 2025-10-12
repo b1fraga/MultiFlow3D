@@ -9,7 +9,7 @@
 !##########################################################################
 
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -41,7 +41,7 @@
       subroutine sediment_4thtest
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -276,7 +276,7 @@
 !##########################################################################
       subroutine boundS
 !##########################################################################
-          use mpi
+          use multiflow3d_mpi
           use vars
           use multidata
           implicit none
@@ -412,7 +412,7 @@
 !##########################################################################
 
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -442,7 +442,7 @@
       subroutine Active_scalar
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
