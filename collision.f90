@@ -173,7 +173,7 @@
           integer :: l
           double precision :: fcol_n,fcol_t,mu_f
           double precision :: lambda_w,lambda_u,lambda_v
-          double precision :: theta_col,e_col,mp!,k_t
+          double precision :: theta_col,e_col,mp  !,k_t
           double precision :: deltap
 
           mu_f=9.2d-2

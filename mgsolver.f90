@@ -68,7 +68,7 @@
                       end do
                   end do
 
-                  if (L_LSM) then! .or. L_LSMbase) THEN
+                  if (L_LSM) then  ! .or. L_LSMbase) THEN
 
                   do  k=2,mgc_k-1
                       do  i=2,mgc_i-1
@@ -119,7 +119,7 @@
                               ijk=dom(ib)%faz(glevel)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
-                              if (L_LSM) then! .or. L_LSMbase) then
+                              if (L_LSM) then  ! .or. L_LSMbase) then
 
                               if (glevel==1) ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+ &
                         (i-2)*(mgc_j-2)+(j-1)
@@ -170,25 +170,25 @@
                               end if
 
                               dom(ib)%cof(ijk)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
-                        densim12 !aw
+                        densim12  !aw
                               dom(ib)%cof(ijk+1*incr)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
-                        densip12 !ae
+                        densip12  !ae
                               dom(ib)%cof(ijk+2*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
-                        densjm12 !as
+                        densjm12  !as
                               dom(ib)%cof(ijk+3*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
-                        densjp12 !an
+                        densjp12  !an
                               dom(ib)%cof(ijk+4*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
-                        denskm12 !ab
+                        denskm12  !ab
                               dom(ib)%cof(ijk+5*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
-                        denskp12 !at
+                        denskp12  !at
 
                               else
-                              dom(ib)%cof(ijk)       =1.0_dp/dxx !aw
-                              dom(ib)%cof(ijk+1*incr)=1.0_dp/dxx !ae
-                              dom(ib)%cof(ijk+2*incr)=1.0_dp/dyy !as
-                              dom(ib)%cof(ijk+3*incr)=1.0_dp/dyy !an
-                              dom(ib)%cof(ijk+4*incr)=1.0_dp/dzz !ab
-                              dom(ib)%cof(ijk+5*incr)=1.0_dp/dzz !at
+                              dom(ib)%cof(ijk)       =1.0_dp/dxx  !aw
+                              dom(ib)%cof(ijk+1*incr)=1.0_dp/dxx  !ae
+                              dom(ib)%cof(ijk+2*incr)=1.0_dp/dyy  !as
+                              dom(ib)%cof(ijk+3*incr)=1.0_dp/dyy  !an
+                              dom(ib)%cof(ijk+4*incr)=1.0_dp/dzz  !ab
+                              dom(ib)%cof(ijk+5*incr)=1.0_dp/dzz  !at
                               end if
 
                               if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5 &
@@ -207,9 +207,9 @@
                               dom(ib)%cof(ijk+6*incr)=-1.0_dp*(dom(ib)%cof(ijk)+ &
                         dom(ib)%cof(ijk+1*incr)+dom(ib)%cof(ijk+2*incr)+ &
                         dom(ib)%cof(ijk+3*incr)+dom(ib)%cof(ijk+4*incr)+ &
-                        dom(ib)%cof(ijk+5*incr)) !ap
+                        dom(ib)%cof(ijk+5*incr))  !ap
 
-                              dom(ib)%cof(ijk+7*incr)=0.0_dp !res
+                              dom(ib)%cof(ijk+7*incr)=0.0_dp  !res
 
                           end do
                       end do
@@ -280,7 +280,7 @@
 ! calculate residual and restrict it to ngrid-1
 ! (note: the residuals are stored in the memory space used by the
 ! the rhs array rhsf, which is therefore erased)
-          call mgrestr(glevel+1) !send coarser grid level
+          call mgrestr(glevel+1)  !send coarser grid level
 
 ! set counter for grid levels to zero
           do l=1,ngrd_gl
@@ -308,7 +308,7 @@
 
 ! K-cycle(iprer,ipost) complete at glevel
 ! inject correction to finer grid
-          call mgcorr(glevel-1) !send finer grid level
+          call mgcorr(glevel-1)  !send finer grid level
 
 ! reset counter to zero at glevel
           kount(glevel)=0
@@ -322,7 +322,7 @@
 
 ! K-cycle not complete so descend unless at coarsest
           if (glevel<ngrd_gl) then
-          call mgrestr(glevel+1) !send coarser grid level
+          call mgrestr(glevel+1)  !send coarser grid level
 
 ! pre-relax at next coarser level
           glevel=glevel+1
@@ -334,7 +334,7 @@
           call mgrelax(glevel,iproln)
 
 ! inject correction to grid level 2
-          call mgcorr(glevel-1) !send finer grid level
+          call mgcorr(glevel-1)  !send finer grid level
 
 ! set to post-relax at level ngrid-1
           nrel=iproln

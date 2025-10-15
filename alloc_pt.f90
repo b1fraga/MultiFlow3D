@@ -173,13 +173,13 @@
           implicit none
 
           integer :: l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
-          integer :: sphere_optn !Aleks 04/24 spherical vol of release
+          integer :: sphere_optn  !Aleks 04/24 spherical vol of release
           double precision :: random_number_normal,random_number_uniform
           double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
           double precision :: Wx,Wy,Wz,sigma_rho
           double precision :: mindis,dist,distance
-          double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
-          logical :: random, LSPHERICAL, LSURFACE !Aleks 04/24 spherical vol of release
+          double precision :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
+          logical :: random, LSPHERICAL, LSURFACE  !Aleks 04/24 spherical vol of release
 
 !       wtime_release = MPI_WTIME ( )
 !------------------------------------
@@ -300,7 +300,7 @@
 
                   do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
-                      if (.not.LSPHERICAL) then !default cube release
+                      if (.not.LSPHERICAL) then  !default cube release
                       xp_pt(l)=random_number_uniform(xp-0.5_dp*Wx,xp+0.5_dp*Wx)
                       yp_pt(l)=random_number_uniform(yp-0.5_dp*Wy,yp+0.5_dp*Wy)
                       zp_pt(l)=random_number_uniform(zp-0.5_dp*Wz,zp+0.5_dp*Wz)

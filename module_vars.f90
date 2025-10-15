@@ -18,14 +18,14 @@
           integer :: itime,itime_start,itime_end,n_out,ITMAX_PI
           integer :: ipref,jpref,kpref,prefdom,ITMAX_SEM,NE_SEM
           integer :: pl,pl_ex,differencing,LMR,normal_inter,order
-          integer :: tsteps_pt,count,jtime !Aleks 02/2023
+          integer :: tsteps_pt,count,jtime  !Aleks 02/2023
           character*80 :: keyword,L_n
           logical :: LRESTART,LIMB,SGS,PERIODIC,LENERGY,LROUGH
           logical :: pressureforce,time_averaging,reinitmean
           logical :: LPT,save_inflow,read_inflow,L_dt,LSCALAR,LAS,L_LSM
           logical :: LTRANSIENT,LNonNewt,L_LSMbase
           integer :: np
-          double precision :: ntav1_count,ntav2_count,ntav_restart !Aleks 04/24
+          double precision :: ntav1_count,ntav2_count,ntav_restart  !Aleks 04/24
 !=========================================================================
       end module vars
 !##########################################################################

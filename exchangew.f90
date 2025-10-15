@@ -98,19 +98,19 @@
 !     & -15.0d0*tr7 +150.0d0*tr8+25.0d0*tr9)/1024.0d0
 
 !!!!mass conserved option
-                          kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl-1; !(i,j)
+                          kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl-1;  !(i,j)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl; ii=2*i-pl; jj=2*j-pl-1; !(i+1,j)
+                          kk=2*k-pl; ii=2*i-pl; jj=2*j-pl-1;  !(i+1,j)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl; !(i,j+1)
+                          kk=2*k-pl; ii=2*i-pl-1; jj=2*j-pl;  !(i,j+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl; ii=2*i-pl; jj=2*j-pl; !(i+1,j+1)
+                          kk=2*k-pl; ii=2*i-pl; jj=2*j-pl;  !(i+1,j+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
@@ -163,19 +163,19 @@
 !     & -15.0d0*tr7 +150.0d0*tr8+25.0d0*tr9)/1024.0d0
 
 !!!!mass conserved option
-                          kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl-1; !(i,j)
+                          kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl-1;  !(i,j)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl-1; !(i+1,j)
+                          kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl-1;  !(i+1,j)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl; !(i,j+1)
+                          kk=2*k-pl+1; ii=2*i-pl-1; jj=2*j-pl;  !(i,j+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl; !(i+1,j+1)
+                          kk=2*k-pl+1; ii=2*i-pl; jj=2*j-pl;  !(i+1,j+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
@@ -361,7 +361,7 @@
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
                   tsend=njf*nkf; trecv=nj*nk
                   do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,isf+ly,j,k)
@@ -396,7 +396,7 @@
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
                   tsend=nif*nkf; trecv=ni*nk
                   do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jsf+ly,k)
@@ -446,7 +446,7 @@
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
                   tsend=nif*njf; trecv=ni*nj
                   do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,ksf+ly)
@@ -483,7 +483,7 @@
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
                   tsend=njf*nkf; trecv=nj*nk
                   do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,ief-ly,j,k)
@@ -518,7 +518,7 @@
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
                   tsend=nif*nkf; trecv=ni*nk
                   do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jef-ly,k)
@@ -568,7 +568,7 @@
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
                   tsend=nif*njf; trecv=ni*nj
                   do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j;
                           sbuf(ijk)=fif(ib,i,j,kef-ly)
@@ -1378,7 +1378,7 @@
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
                   tsend=njf*nkf; trecv=nj*nk
                   do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,isf+ly,j,k)
@@ -1411,7 +1411,7 @@
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
                   tsend=nif*nkf; trecv=ni*nk
                   do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jsf+ly,k)
@@ -1459,7 +1459,7 @@
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
                   tsend=nif*njf; trecv=ni*nj
                   do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,ksf+ly)
@@ -1494,7 +1494,7 @@
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
                   tsend=njf*nkf; trecv=nj*nk
                   do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,ief-ly,j,k)
@@ -1527,7 +1527,7 @@
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
                       end do; end do
 
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
                   tsend=nif*nkf; trecv=ni*nk
                   do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jef-ly,k)
@@ -1575,7 +1575,7 @@
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
                       end do; end do
                   end if
-                  else !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
+                  else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
                   tsend=nif*njf; trecv=ni*nj
                   do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j;
                           sbuf(ijk)=fif(ib,i,j,kef-ly)

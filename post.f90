@@ -404,7 +404,7 @@
 
                           write (88,88) dom(ib)%x(i),dom(ib)%y(j), &
                     dom(ib)%z(k),u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn, &
-                    uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml!,tau
+                    uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml  !,tau
 
                       end do
                   end do

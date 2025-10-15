@@ -36,7 +36,7 @@
           double precision,allocatable,dimension(:) :: U_Beta3_loc,zini
           double precision,allocatable,dimension(:,:) :: dh1_loc,dh2_loc
           double precision,allocatable,dimension(:,:) :: dh3_loc,delvol
-          double precision,allocatable,dimension(:,:) :: dh4_loc!,dh5_loc
+          double precision,allocatable,dimension(:,:) :: dh4_loc  !,dh5_loc
           double precision,allocatable,dimension(:,:) :: nodexlocal
           double precision,allocatable,dimension(:,:) :: nodeylocal
           double precision,allocatable,dimension(:,:) :: nodezlocal
@@ -62,7 +62,7 @@
           INTEGER,allocatable,dimension(:) :: domtemp,imb_block_loc,axis
           INTEGER,allocatable,dimension(:) :: imbinblock_loc,rott_loc
           double precision,allocatable,dimension(:) :: rdiv_imb
-          integer,allocatable,dimension(:) :: IBip,IBjp,IBkp !Aleks 04/23 - arrays for storing ijk values of IB points
+          integer,allocatable,dimension(:) :: IBip,IBjp,IBkp  !Aleks 04/23 - arrays for storing ijk values of IB points
           CHARACTER*32, allocatable, dimension (:) :: filepoints
 
       end module imb
@@ -85,7 +85,7 @@
 
 !        imb_proc = -1  ; imb_block = -1; imb_mastercpu = -1
 
-          master=0 ! 0 is going to be always the master processor
+          master=0  ! 0 is going to be always the master processor
 
           open (unit=1, file='input/geom.cin')
           read (1,*)
@@ -218,7 +218,7 @@
               if(imb_shape(K)/=5) imbnumber(K)=1
               Do i=1,imbnumber(K)
                   L=L+1 ; forcefilej=399+L
-                  IF (rotating(K) .AND. imb_shape(K)==5) then !Rotating VATT
+                  IF (rotating(K) .AND. imb_shape(K)==5) then  !Rotating VATT
 
                   if(K==1 .and. i==1) then
                   WRITE(6,*)' '
@@ -264,7 +264,7 @@
                   open (unit=forcefilej, file=gridfile)
                   write (forcefilej,*)'Variables="TIME","Fx","Fy","Fz"'
                   ENDIF
-              Enddo !i
+              Enddo  !i
 
 ! IF SELF STARTING IS INTRODUCED IN THE CODE:
 !      if (LSELFST(K) .and. L.eq.1) then
@@ -272,7 +272,7 @@
 !             write(selfstarting,*)'Variables="Accel","Veloc","Displ"'
 !       radsin(K)=0.d0 ;  acc_selfST(K)=0.d0; rads(K)= 0.d0
 !      endif
-          ENDDO !M
+          ENDDO  !M
 
           open (unit=757, file= 'l2norm.dat')
           write(757,*)'Variables="Time","l2-norm","l1norm"'
@@ -288,7 +288,7 @@
           RETURN
       end subroutine IMB_INITIAL
 !#############################################################
-      SUBROUTINE imb_alpha0 !STILL NEED TO CHECK IT
+      SUBROUTINE imb_alpha0  !STILL NEED TO CHECK IT
 !#############################################################
           use vars
           use multidata
@@ -311,12 +311,12 @@
 
               IF (turax(M)==1) then       ! Vertical Axis Turbine
               K=nodes(M)/imbnumber(M)
-              do L=1,K!nodes(numIB)
+              do L=1,K  !nodes(numIB)
                   alpha0(M,L)=atan(nodexlocal(M,L)/(nodeylocal(M,L)+R(M)))
                   R0(M,L)=sqrt((nodexlocal(M,L))**2+(nodeylocal(M,L)+R(M))**2)
               enddo
               Do iii=1,imbnumber(M)-1
-                  do L=1,K!nodes(numIB)
+                  do L=1,K  !nodes(numIB)
                       alpha0(M,L+K*iii)=alpha0(M,L)
                       R0(M,L+K*iii)= R0(M,L)
                   enddo
@@ -362,7 +362,7 @@
           call MPI_BCAST(nodes,bodynum,MPI_INTEGER, &
      master,MPI_COMM_WORLD,ierr)  !# IB points of each body
           call MPI_BCAST(reddelta,bodynum,MPI_DOUBLE_PRECISION, &
-     master,MPI_COMM_WORLD,ierr) !Reduction factor
+     master,MPI_COMM_WORLD,ierr)  !Reduction factor
           call MPI_BCAST(imb_shape,bodynum,MPI_INTEGER, &
      master,MPI_COMM_WORLD,ierr)  !IB shape of each body
           call MPI_BCAST(imbnumber,bodynum,MPI_INTEGER, &
@@ -408,7 +408,7 @@
           allocate (imbinblock_loc(num_domains))
           allocate (rott_loc(maxnodeIBS))
           allocate (imb_block_loc(maxnodeIBS),lag_bod_loc(maxnodeIBS))
-          allocate (IBip(maxnodeIBS),IBjp(maxnodeIBS),IBkp(maxnodeIBS)) ! Aleks 04/23
+          allocate (IBip(maxnodeIBS),IBjp(maxnodeIBS),IBkp(maxnodeIBS))  ! Aleks 04/23
           imbinblock_loc=0 ; imb_block_loc=0  ; lag_bod_loc = 0
           rott_loc=0 ;
 
@@ -523,8 +523,8 @@
           imb_block=0   !Block id to which every particle belongs
           ii=0  ; tnm=0
           do M=1,bodynum   !Perform this operation to all IB bodies
-              DO L=1,nodes(M) !Analyze all IB poins of the body.
-                  ii=ii+1 !; nxdom=0 ; nydom=0 ; nzdom=0
+              DO L=1,nodes(M)  !Analyze all IB poins of the body.
+                  ii=ii+1  !; nxdom=0 ; nydom=0 ; nzdom=0
 
                   Do nx=1,idom
                       if( (nodex(M,L)-1.d-11)>lxdom(nx) .and. &
@@ -555,11 +555,11 @@
               ENDDO
           enddo
 
-          do L=1,num_domains !Check in all the domains
+          do L=1,num_domains  !Check in all the domains
               tnm=tnm+imbinblk(L)
               IF (itime==itime_start .AND. imbinblk(L)/=0) &
            write(6,*)'Dom,#markrs',L-1,imbinblk(L),tnm
-              imbinblock_loc(L)=imbinblk(L) !New variable for all the other MPI
+              imbinblock_loc(L)=imbinblk(L)  !New variable for all the other MPI
           enddo
           !Warning if some point is not assigned to some domain
           if(tnm<maxnodeIBS) &
@@ -606,7 +606,7 @@
 !                        endif
 !                enddo
 !------------------------------------------------------------------
-                  IF (itime==itime_start) then !THIS IS DONE ONCE
+                  IF (itime==itime_start) then  !THIS IS DONE ONCE
                   R0_loc(ii)=R0(M,L)
                   alpha0_loc(ii)=alpha0(M,L)
                   lag_bod_loc(ii)=M
@@ -616,11 +616,11 @@
               ENDDO
           Enddo
 
-          ENDIF !master
+          ENDIF  !master
 
           IF(itime==itime_start) then
           call MPI_BCAST(lag_bod_loc,maxnodeIBS,MPI_INTEGER, &
-     master,MPI_COMM_WORLD,ierr) !# of the body to which the Lag is.
+     master,MPI_COMM_WORLD,ierr)  !# of the body to which the Lag is.
           call MPI_BCAST(alpha0_loc,maxnodeIBS,MPI_DOUBLE_PRECISION, &
      master,MPI_COMM_WORLD,ierr)
           call MPI_BCAST(R0_loc,maxnodeIBS,MPI_DOUBLE_PRECISION, &
@@ -657,12 +657,12 @@
 
           Do ib=1,nbp  !Loop through all the blocks of one processor
 
-              if (imbinblock_loc(dom_id(ib)+1)==0) GOTO 600 !IF THERE ARE NO POINTS IN THE BLOCK
+              if (imbinblock_loc(dom_id(ib)+1)==0) GOTO 600  !IF THERE ARE NO POINTS IN THE BLOCK
 
-              Do L = 1,maxnodeIBS !investigate all the IB points
+              Do L = 1,maxnodeIBS  !investigate all the IB points
                   nl=0 ;dhtotal=0.d0
-                  IF(imb_block_loc(L)/=dom_id(ib)) GOTO 700 !If the IB point is not in the present block
-                  IF(rott_loc(L)/=2) GOTO 700 !If the Lagrangian is dynamic:exit
+                  IF(imb_block_loc(L)/=dom_id(ib)) GOTO 700  !If the IB point is not in the present block
+                  IF(rott_loc(L)/=2) GOTO 700  !If the Lagrangian is dynamic:exit
 !NEIGHBOURS FOR THE U-GRID
                   DO I = 1, dom(ib)%ttc_i
                       IF (dom(ib)%x(i) >(nodex_loc(L)+nxl*dom(ib)%dx) .or. &
@@ -690,7 +690,7 @@
                   END DO
 !        dh1_loc(L,nl)=dh1_loc(L,nl)/dhtotal
   876             continue
-                  kmaxU(L)=nl !# of neighbours of the Lagrangian L
+                  kmaxU(L)=nl  !# of neighbours of the Lagrangian L
 !NEIGHBOURS FOR THE V-GRID
                   nl=0 ;dhtotal=0.d0
                   DO I = 1, dom(ib)%ttc_i
@@ -854,7 +854,7 @@
           call exchange(11)
           call exchange(22)
           call exchange(33)
-          call exchange(5)!T
+          call exchange(5)  !T
           !   call exchange(20)!Sp (in covid code but not this one)
 
           IF (Myrank==master) THEN
@@ -865,7 +865,7 @@
           ENDIF
 
           DO NF =1,mdfsteps+1   !MDF loops. +1 as the default loop for IB
-              IF (Myrank==master) THEN !Calculate the accumulated force
+              IF (Myrank==master) THEN  !Calculate the accumulated force
               DO M=1,bodynum
                   Do L=1,nodes(M)
                       FX1NF(M,L) = FX1NF(M,L) + FX1(M,L)
@@ -895,7 +895,7 @@
 
           ENDDO
 
-          IF (Myrank==master) THEN !l2-norm is calculated in reference to the final velocitiy field
+          IF (Myrank==master) THEN  !l2-norm is calculated in reference to the final velocitiy field
           sumvel=0.d0 ; l1norm=0.d0
           DO M=1,bodynum
               Do L=1,nodes(M)
@@ -1233,7 +1233,7 @@
 !$OMP END PARALLEL
 
   600         CONTINUE
-          Enddo !ib-loop
+          Enddo  !ib-loop
 
 
           RETURN
@@ -1380,7 +1380,7 @@
 !           dom(ib)%Sp(I,J,K)=max((dom(ib)%Sp(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 ! !     endif
 !        Enddo
-                  Do nl=1,KmaxT(L) !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
+                  Do nl=1,KmaxT(L)  !Aleks 04/23 Modified for T from --> Brunho-Riza-ABR-2020
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
 !       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
                       fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
@@ -1392,7 +1392,7 @@
 
   600         CONTINUE
 
-          Enddo !ib-loop
+          Enddo  !ib-loop
 
           RETURN
       END SUBROUTINE distfbeta
@@ -1434,7 +1434,7 @@
 
                   write(forcefilej,88) CTIME,alpharads,fx_loc,fy_loc,fz_loc
 
-              Enddo !iii-loop
+              Enddo  !iii-loop
 
               ELSE
               fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0
@@ -1450,7 +1450,7 @@
               write(forcefilej,88) CTIME,fx_loc,fy_loc,fz_loc
               ENDIF
 
-          End do !M loop
+          End do  !M loop
 
    88     FORMAT (10F13.5)
           RETURN

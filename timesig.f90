@@ -7,7 +7,7 @@
           use vars
           use mpi
           implicit none
-          integer :: i,j,idfile,ib!,jtime
+          integer :: i,j,idfile,ib  !,jtime
           integer :: jj
           character*25 :: unst
           character*8 :: numpt,x,y,z
@@ -39,7 +39,7 @@
                       if (.not.LRESTART) jj=j+ &
                 (t_start_averaging2/dt)-1        !Aleks 04/24
                       if (LRESTART) jj=j+ntav_restart &
-                +(t_start_averaging2/dt)-1 !Aleks 04/24 - assumes dt doesn't change on restart!!
+                +(t_start_averaging2/dt)-1  !Aleks 04/24 - assumes dt doesn't change on restart!!
                       write(idfile,*)jj,dom(ib)%u_unst(i,j), &
                 dom(ib)%v_unst(i,j),dom(ib)%w_unst(i,j), &
                 dom(ib)%um_unst(i,j),dom(ib)%vm_unst(i,j), &
@@ -79,12 +79,12 @@
           write(name_end,'(I5)') ireadinlet
           strlen=LEN(TRIM(ADJUSTL(name_end)))
           name_end=REPEAT('0',(5-strlen))// &
-    TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+    TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
           write(dominio,'(I3)') dom_id(i)
           strlen=LEN(TRIM(ADJUSTL(dominio)))
           dominio=REPEAT('0',(3-strlen))// &
-    TRIM(ADJUSTL(dominio)) ! e.g. "001"
+    TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
           filename='Inlet_'//dominio//'_'//name_end//'.dat'
 
