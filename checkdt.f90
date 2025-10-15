@@ -2,7 +2,7 @@
       subroutine checkdt
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use module_LSM
           use, intrinsic :: iso_fortran_env, only: dp => real64

@@ -3,7 +3,7 @@
 !##########################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: mgi,mgj,mgk,pow2,ib,i,j
@@ -141,7 +141,7 @@
       subroutine initial
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -378,7 +378,7 @@
 !##########################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
@@ -460,7 +460,7 @@
 !##########################################################################
           use vars
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
@@ -621,7 +621,7 @@
       subroutine initflowfield
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use module_lsm
           use, intrinsic :: iso_fortran_env, only: dp => real64

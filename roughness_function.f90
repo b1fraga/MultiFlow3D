@@ -19,7 +19,7 @@
       SUBROUTINE INIT_ROUGH
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use var_rough
           use multidata
 
@@ -69,7 +69,7 @@
       Subroutine Roughness_Function(ib)
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use var_rough
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -273,7 +273,7 @@
       Subroutine Rough_velocity
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use var_rough
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -319,7 +319,7 @@
 !##########################################################################
 
           use vars
-          use mpi
+          use multiflow3d_mpi
           use var_rough
           use multidata
 

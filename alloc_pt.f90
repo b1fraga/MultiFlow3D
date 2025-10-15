@@ -9,7 +9,7 @@
       subroutine alloc_pt
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use vars_pt
           implicit none
@@ -166,7 +166,7 @@
       subroutine release_pt
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -354,7 +354,7 @@
 !##########################################################################
           use vars
           use vars_pt
-          use mpi
+          use multiflow3d_mpi
           use multidata
           implicit none
 

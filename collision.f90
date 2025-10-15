@@ -13,7 +13,7 @@
           !NOTE: make Lcol and Lcolwalls arrays for every fraction
 
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -163,7 +163,7 @@
 !     Calculates collisions with walls and boundaries                  !
 !######################################################################!
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64

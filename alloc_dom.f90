@@ -3,7 +3,7 @@
 !##########################################################################
           use multidata
           use vars
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer :: i,j,k,ib,dir
           integer :: sync_dir,cpu_next,cpu_prev,rdivmy,rdivng,my_cor
@@ -284,7 +284,7 @@
 !##########################################################################
           use multidata
           use vars
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer :: i,j,k,ib
           integer :: nptemp,myranktemp,nbtemp,cpu_no
@@ -377,7 +377,7 @@
 !##########################################################################
           use multidata
           use vars
-          use mpi
+          use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
@@ -1393,7 +1393,7 @@
       subroutine datainfo
 !##########################################################################
           use multidata
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer :: ib,aa
 

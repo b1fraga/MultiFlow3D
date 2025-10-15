@@ -1,7 +1,7 @@
 !##########################################################################
       program fdstag
 !##########################################################################
-          use mpi
+          use multiflow3d_mpi
           use vars
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none

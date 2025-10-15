@@ -2,7 +2,7 @@
       subroutine  exchangepp(g)
 !#######################################################################
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -4769,7 +4769,7 @@
       subroutine  exchbc_mgpp(g)
 !##########################################################################
           use multidata
-          use mpi
+          use multiflow3d_mpi
           use vars
           implicit none
           integer :: i,j,k,ijk,ib,totdom,ijkc,ijkn,g,gl

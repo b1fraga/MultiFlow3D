@@ -1,8 +1,8 @@
 !##########################################################################
-      module mpi
+      module multiflow3d_mpi
 !##########################################################################
+          use mpi
           implicit none
-          include 'mpif.h'
 
           !  SAVE
           integer           :: nprocs     ! nr. of processors
@@ -80,5 +80,5 @@
           end subroutine end_parallelisation
 !##########################################################################
 
-      end module mpi
+      end module multiflow3d_mpi
 !##########################################################################

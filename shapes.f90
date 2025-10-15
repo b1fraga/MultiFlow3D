@@ -4,7 +4,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           double precision         :: nodexmin,nodexmax,nodeymin,nodeymax
@@ -99,7 +99,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           double precision         :: thc,PI,Rtemp(1000),zccos,zcsin
@@ -194,7 +194,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           double precision :: nodexmin,nodexmax,nodeymin
@@ -290,7 +290,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           double precision         :: thc,PI,thz(80),zccos,zcsin
@@ -398,7 +398,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           double precision       :: PI,angle
@@ -588,7 +588,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
           INTEGER      :: I,K
@@ -707,7 +707,7 @@
           use vars
           use multidata
           use imb
-          use mpi
+          use multiflow3d_mpi
           implicit none
           INTEGER, intent(in) :: numIB
           double precision       :: PI

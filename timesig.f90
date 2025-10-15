@@ -5,7 +5,7 @@
 !##########################################################################
           use multidata
           use vars
-          use mpi
+          use multiflow3d_mpi
           implicit none
           integer :: i,j,idfile,ib  !,jtime
           integer :: jj
@@ -63,7 +63,7 @@
 !##########################################################################
 
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           implicit none
 

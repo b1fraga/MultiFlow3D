@@ -2,7 +2,7 @@
       subroutine newsolv_mg
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -105,7 +105,7 @@
       subroutine plotres
 !##########################################################################
           use vars
-          use mpi
+          use multiflow3d_mpi
           use multidata
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
