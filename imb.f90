@@ -1223,8 +1223,7 @@
                   Do nl=1,KmaxT(L)
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
 !       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
-                      T_Beta_loc(L) =T_Beta_loc(L) +
- &
+                      T_Beta_loc(L) =T_Beta_loc(L) + &
                 dom(ib)%T(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
 !       ENDIF
                   Enddo
