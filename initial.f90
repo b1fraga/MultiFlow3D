@@ -631,8 +631,8 @@
           integer :: inind,jnind,knind
           double precision :: dum,ubw,ube,ubs,ubn,ubt,ubb,vb,wb,lz,dummy
           double precision, dimension(21) :: dm
-          character*8   :: chb1
-          character*25  :: gf
+          character(len=8)   :: chb1
+          character(len=25)  :: gf
 
           dm=0.d0
 

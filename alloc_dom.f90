@@ -289,7 +289,7 @@
           integer :: i,j,k,ib
           integer :: nptemp,myranktemp,nbtemp,cpu_no
           integer,allocatable,dimension(:) :: domtemp,buf_domindid
-          character*80 :: dummyline
+          character(len=80) :: dummyline
 
           if (myrank==0) then
           numfile=1001
@@ -384,7 +384,7 @@
           integer :: i,j,k,ib,ndoms,say,ndo
           integer :: sync_dir,cpu_next,cpu_prev
           !       double precision::xs2,xe2,ys2,ye2,zs2,ze2
-          character*80 :: dummyline
+          character(len=80) :: dummyline
 
           open (unit=12, file='input/infodom.cin')
 

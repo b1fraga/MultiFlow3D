@@ -63,7 +63,7 @@
           INTEGER,allocatable,dimension(:) :: imbinblock_loc,rott_loc
           double precision,allocatable,dimension(:) :: rdiv_imb
           integer,allocatable,dimension(:) :: IBip,IBjp,IBkp  !Aleks 04/23 - arrays for storing ijk values of IB points
-          CHARACTER*32, allocatable, dimension (:) :: filepoints
+          CHARACTER(len=32), allocatable, dimension (:) :: filepoints
 
       end module imb
 !#############################################################
@@ -76,8 +76,8 @@
           implicit none
           double precision         :: PI,revoltime
           INTEGER      :: L,I,strlen,maxn,K
-          CHARACTER*8  :: char_block
-          CHARACTER*31 :: gridfile
+          CHARACTER(len=8)  :: char_block
+          CHARACTER(len=31) :: gridfile
 
           PI = 4.D0*DATAN(1.D0)
           xt = 0.d0 ; xdt = 0.d0    ; xddt = 0.d0
@@ -676,7 +676,7 @@
 !nl indicates the number of the neighbour and dh1 the delta functions value.
                               nl=nl+1
                               dh1_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz, &
-                        dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K) &
+                        dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K)&
                         ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
 !The index of the neighbours number nl to the Lagrangian L are:
                               I_nr_U(L,nl)=I ;  J_nr_U(L,nl)=J ;  K_nr_U(L,nl)=K
@@ -1222,7 +1222,7 @@
                   Do nl=1,KmaxT(L)
                       I=I_nr_T(L,nl) ;  J=J_nr_T(L,nl) ;  K=K_nr_T(L,nl)
 !       IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
-                      T_Beta_loc(L) =T_Beta_loc(L) + &
+                      T_Beta_loc(L) =T_Beta_loc(L) + &
                 dom(ib)%T(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
 !       ENDIF
                   Enddo

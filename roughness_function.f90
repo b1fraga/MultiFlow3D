@@ -27,7 +27,7 @@
 
           integer :: ib,proc_no,L,N,ni,nj,nk
           real :: d50_dummy
-          CHARACTER*31 :: gridfile
+          CHARACTER(len=31) :: gridfile
 
 
           gridfile='input/rough_info.cin'
@@ -280,7 +280,7 @@
 
           IMPLICIT NONE
           INTEGER :: I,J,K,L,ib,nip,njp,N
-          CHARACTER*31 :: gridfile
+          CHARACTER(len=31) :: gridfile
 
           DO ib = 1, nbp
 

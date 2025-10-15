@@ -9,8 +9,8 @@
           implicit none
           integer :: i,j,idfile,ib  !,jtime
           integer :: jj
-          character*25 :: unst
-          character*8 :: numpt,x,y,z
+          character(len=25) :: unst
+          character(len=8) :: numpt,x,y,z
 
 !       jtime = ntime-itime_start
 

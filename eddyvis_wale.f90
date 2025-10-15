@@ -19,8 +19,8 @@
           double precision :: cw,delta_grid,l_s
           double precision :: dx,dy,dz
           integer :: sn
-          character*8 :: chb1
-          character*25 :: gf
+          character(len=8) :: chb1
+          character(len=25) :: gf
 
 
           cw=0.46_dp
