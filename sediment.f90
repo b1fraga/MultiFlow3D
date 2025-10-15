@@ -35,7 +35,7 @@
                       enddo; enddo; enddo
           enddo
 
-      end
+      end subroutine sediment_init
 
 !##########################################################################
       subroutine sediment_4thtest

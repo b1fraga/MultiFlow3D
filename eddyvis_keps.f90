@@ -796,4 +796,4 @@
 
           enddo
 
-      end function
+      end function strain

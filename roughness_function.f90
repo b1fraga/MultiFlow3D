@@ -14,7 +14,7 @@
 
           type (multi_rough), pointer, dimension(:) :: rough_dom
 
-      END MODULE
+      END MODULE var_rough
 !##########################################################################
       SUBROUTINE INIT_ROUGH
 !##########################################################################
@@ -64,7 +64,7 @@
           END DO
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE INIT_ROUGH
 !##########################################################################
       Subroutine Roughness_Function(ib)
 !##########################################################################
@@ -267,7 +267,7 @@
           end do
 
           RETURN
-      END Subroutine
+      END SUBROUTINE Roughness_Function
 
 !##########################################################################
       Subroutine Rough_velocity
@@ -313,7 +313,7 @@
 
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE Rough_velocity
 !##########################################################################
       Subroutine Rough_restart
 !##########################################################################
@@ -361,7 +361,7 @@
           END DO
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE Rough_restart
 
 !******************ADD NOISE****************************************************
 !*******************************************************************************

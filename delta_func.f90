@@ -19,7 +19,7 @@
           phi_r1smth = 3.0_dp/4.0_dp-abr**2
           end if
           return
-      end function
+      end function phi_r1smth
 !######################################################################
       real function phi_r2smth(r)
 !######################################################################
@@ -45,7 +45,7 @@
           end if
 
           return
-      end function
+      end function phi_r2smth
 !######################################################################
       real function phi_r3(r)
 !######################################################################
@@ -67,7 +67,7 @@
           end if
 
           return
-      end function
+      end function phi_r3
 !######################################################################
       real function phi_r3smth2(r)
 !######################################################################
@@ -99,7 +99,7 @@
           end if
 
           return
-      end function
+      end function phi_r3smth2
 !######################################################################
       real function phi_r3smth(r)
 !######################################################################
@@ -138,7 +138,7 @@
           end if
 
           return
-      end function
+      end function phi_r3smth
 !######################################################################
       real function phi_r4(r)
 !######################################################################
@@ -160,7 +160,7 @@
           end if
 
           return
-      end function
+      end function phi_r4
 !######################################################################
       real function phi_r4smth(r)
 !######################################################################
@@ -183,7 +183,7 @@
           phi_r4smth = 0.0_dp
           end if
           return
-      end function
+      end function phi_r4smth
 
 
 !######################################################################
@@ -205,7 +205,7 @@
           end if
 
           return
-      end function
+      end function cd2_0
 
 !######################################################################
       real function dcd2_0(r)
@@ -226,7 +226,7 @@
           end if
 
           return
-      end function
+      end function dcd2_0
 
 !######################################################################
       real function cd2_1(r)
@@ -247,7 +247,7 @@
           end if
 
           return
-      end function
+      end function cd2_1
 
 
 !######################################################################
@@ -269,7 +269,7 @@
           end if
 
           return
-      end function
+      end function dcd2_1
 !######################################################################
       double precision function dh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order)
 !######################################################################
@@ -329,7 +329,7 @@
           end Select
 
           return
-      end function
+      end function dh
 
 
 
@@ -354,7 +354,7 @@
           end if
 
           return
-      end function
+      end function dphi_r3
 
 
 
@@ -419,4 +419,4 @@ function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
           end select
 
           return
-      end function
+      end function ddh

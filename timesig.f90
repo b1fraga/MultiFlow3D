@@ -55,7 +55,7 @@
 
 !  500  format(A,F6.3,A)
 
-      end subroutine
+      end subroutine timesig
 !##########################################################################
       subroutine write_inflow(i)
 !           Bruño Fraga Bugallo
@@ -105,4 +105,4 @@
               enddo
           enddo
           close(ireadinlet+500)
-      end subroutine
+      end subroutine write_inflow

@@ -163,5 +163,5 @@
           dtavg=dtsum/(itime-itime_start+1)
 
           return
-      end subroutine
+      end subroutine checkdt
 !##########################################################################

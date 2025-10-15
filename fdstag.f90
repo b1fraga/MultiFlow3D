@@ -61,5 +61,5 @@
 
           call end_parallelisation
 
-      end program
+      end program fdstag
 !##########################################################################

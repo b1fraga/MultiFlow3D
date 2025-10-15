@@ -537,4 +537,4 @@
           endif  !Lcol
 
           RETURN
-      END
+      END SUBROUTINE MPI_pt

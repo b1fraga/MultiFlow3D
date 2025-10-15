@@ -159,7 +159,7 @@
 !       write(203,*)'reallocate parts: ',wtime_refresh
 
           return
-      end subroutine
+      end subroutine alloc_pt
 
 
 !##########################################################################
@@ -348,7 +348,7 @@
           close(35)
 
           return
-      end subroutine
+      end subroutine release_pt
 !##########################################################################
       subroutine periodic_pt
 !##########################################################################
@@ -383,4 +383,4 @@
 
 
           return
-      end subroutine
+      end subroutine periodic_pt
