@@ -101,7 +101,7 @@
                       print*, '====ERRORcor-p===>  wrong rdiv',dom_id(ib),dir
                       stop
                       end if
-                      else !if (rdivmy.lt.rdivng) then
+                      else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
                       print*, '====ERRORcor-p===>  wrong rdiv',dom_id(ib),dir
                       stop
@@ -119,7 +119,7 @@
                       print*, '====ERRORcor-n===>  wrong rdiv',dom_id(ib),dir
                       stop
                       end if
-                      else !if (rdivmy.lt.rdivng) then
+                      else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
                       print*, '====ERRORcor-n===>  wrong rdiv',dom_id(ib),dir
                       stop
@@ -165,7 +165,7 @@
                       print*, '====ERRORedg-p===>  wrong rdiv',dom_id(ib),dir
                       stop
                       end if
-                      else !if (rdivmy.lt.rdivng) then
+                      else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
                       print*, '====ERRORedg-p===>  wrong rdiv',dom_id(ib),dir
                       stop
@@ -183,7 +183,7 @@
                       print*, '====ERRORedg-n===>  wrong rdiv',dom_id(ib),dir
                       stop
                       end if
-                      else !if (rdivmy.lt.rdivng) then
+                      else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
                       print*, '====ERRORedg-n===>  wrong rdiv',dom_id(ib),dir
                       stop
@@ -195,7 +195,7 @@
                   end do
 !======================================================================
 !======================================================================
-                  end if !if (sync_dir.eq.1)  then
+                  end if  !if (sync_dir.eq.1)  then
               end do
           end do
 !===============================================================
@@ -298,8 +298,8 @@
 
           open (unit=12, file='input/mdmap.cin')
 
-          read (12,*) num_domains !number of domains
-          read (12,*) nptemp !number of processors
+          read (12,*) num_domains  !number of domains
+          read (12,*) nptemp  !number of processors
 
           if (nprocs /= nptemp) then
           print*, '=====ERROR====='
@@ -332,7 +332,7 @@
               end do
 
               if(myranktemp==myrank) then
-              nbp=nbtemp !number of domains for this processor
+              nbp=nbtemp  !number of domains for this processor
               dom_id(1:nbp)=domtemp(1:nbp)
 
               do ib=0,num_domains-1
@@ -388,7 +388,7 @@
 
           open (unit=12, file='input/infodom.cin')
 
-          read (12,*) ndoms !number of domains
+          read (12,*) ndoms  !number of domains
           read (12,*) dummyline
 
           if (ndoms /= num_domains) then

@@ -30,7 +30,7 @@
                           if (dom(ib)%z(k)<0.05_dp) then  !sludge
                           dom(ib)%S(i,j,k) = 1
                           else
-                          dom(ib)%S(i,j,k) = 0 !fresh water
+                          dom(ib)%S(i,j,k) = 0  !fresh water
                           endif
                       enddo; enddo; enddo
           enddo
@@ -266,8 +266,8 @@
               end do
           end do
 
-          call exchange(8) !S
-          call exchange(10) !dens
+          call exchange(8)  !S
+          call exchange(10)  !dens
 
           call boundS
 
@@ -403,7 +403,7 @@
 !==============================================================================
               end do
 
-          end do ! ly
+          end do  ! ly
 
       end subroutine boundS
 

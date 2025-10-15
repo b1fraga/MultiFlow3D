@@ -11,7 +11,7 @@
 
 ! stfcinf: 1=iprev, 3=jprev, 5=kprev, 2=inext, 4=jnext, 6=knext
 
-          if (op==4 .or. op==44 .or. op==7) then! .or. op.eq.14 .or.
+          if (op==4 .or. op==44 .or. op==7) then  ! .or. op.eq.14 .or.
 !     & op.eq.15 .or. op.eq.16 .or. op.eq.17 .or. op.eq.18 .or.
 !     & op.eq.19) then
           nly=0
@@ -54,17 +54,17 @@
             case (10)               !dens
               call exchangesca(op,nly)
             case (14)
-              call exchange_phi(op,nly) !phi
+              call exchange_phi(op,nly)  !phi
             case (15)
-              call exchange_phi(op,nly) !phi_reinit
+              call exchange_phi(op,nly)  !phi_reinit
             case (16)
-              call exchange_phi(op,nly) !phi_new
+              call exchange_phi(op,nly)  !phi_new
             case (17)
-              call exchange_phi(op,nly) !phi_init
+              call exchange_phi(op,nly)  !phi_init
             case (18)
-              call exchange_phi(op,nly) !dens
+              call exchange_phi(op,nly)  !dens
             case (19)
-              call exchange_phi(op,nly) !mu
+              call exchange_phi(op,nly)  !mu
               !   case (20)
               !   call exchangesca(op,nly)      ! Sp
               !   case (51)                 ! Coivd simualtion 03/2021
