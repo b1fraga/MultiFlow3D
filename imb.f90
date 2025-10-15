@@ -676,8 +676,7 @@
 !nl indicates the number of the neighbour and dh1 the delta functions value.
                               nl=nl+1
                               dh1_loc(L,nl)=dh(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz, &
-                        dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K)
- &
+                        dom(ib)%X(I),dom(ib)%YC(J),dom(ib)%ZC(K)&
                         ,nodex_loc(L),nodey_loc(L),nodez_loc(L),yangcase)
 !The index of the neighbours number nl to the Lagrangian L are:
                               I_nr_U(L,nl)=I ;  J_nr_U(L,nl)=J ;  K_nr_U(L,nl)=K
