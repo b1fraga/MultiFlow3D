@@ -136,7 +136,7 @@
           stop
           endif
 
-      end
+      end subroutine read_control
 !##########################################################################
       subroutine initial
 !##########################################################################
@@ -199,8 +199,8 @@
               dom(ib)%facp2=0
               dom(ib)%facm1=1
               dom(ib)%facm2=1
-              ntav1_count = 0 !Aleks 04/24
-              ntav2_count = 0 !Aleks 04/24
+              ntav1_count = 0  !Aleks 04/24
+              ntav2_count = 0  !Aleks 04/24
 
               allocate(dom(ib)%dens(tti,ttj,ttk))
               allocate (dom(ib)%vis(tti,ttj,ttk))
@@ -454,7 +454,7 @@
     MPI_COMM_WORLD,ierr)
 
           return
-      end
+      end subroutine iniflux
 !##########################################################################
       subroutine correctoutflux
 !##########################################################################
@@ -616,7 +616,7 @@
           end do
 
           return
-      end
+      end subroutine correctoutflux
 !##########################################################################
       subroutine initflowfield
 !##########################################################################
@@ -644,12 +644,12 @@
 
               if (LRESTART) then
 
-              qzero=ubulk !brunho2014
+              qzero=ubulk  !brunho2014
               open (unit=700, file='final_ctime.dat')
               read (700,'(i8,3F15.6)') ntime,ctime,forcn,qstpn,count &
         ,ntav1_count,ntav2_count
               close (700)
-              if (.not.reinitmean) then !Aleks 04/24
+              if (.not.reinitmean) then  !Aleks 04/24
               dom(ib)%ntav1=ntav1_count
               dom(ib)%ntav2=ntav2_count
               ntav_restart=ntav2_count
@@ -722,7 +722,7 @@
               if (L_LSM) dom(ib)%phim  = 0.0_dp
               end if
 
-              else !no restart !cold initialisation
+              else  !no restart !cold initialisation
 
 
               qzero=ubulk                               !brunho2014
@@ -1037,8 +1037,8 @@
               allocate(dom(ib)%pm_unst(n_unstpt,jtime))
               allocate(dom(ib)%ksgs_unst(n_unstpt,jtime))
               allocate(dom(ib)%eps_unst(n_unstpt,jtime))
-              allocate(dom(ib)%T_unst(n_unstpt,jtime)) !Aleks 04/24
-              allocate(dom(ib)%Tm_unst(n_unstpt,jtime)) !Aleks 04/24
+              allocate(dom(ib)%T_unst(n_unstpt,jtime))  !Aleks 04/24
+              allocate(dom(ib)%Tm_unst(n_unstpt,jtime))  !Aleks 04/24
 
           end do
 
@@ -1053,5 +1053,5 @@
    70     format (10e25.8)
    71     format (3F15.6)
 
-      end subroutine
+      end subroutine initflowfield
 !##########################################################################

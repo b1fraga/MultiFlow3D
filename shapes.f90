@@ -92,7 +92,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_square
 !######################################################################
       SUBROUTINE imb_cylinder(numIB)
 !######################################################################
@@ -145,7 +145,7 @@
           zini(M)=zst ;   nlay=((zen-zst)/dzm(numIB))
           endif
           if (linfin(M)==0) then
-          nlay=((zend(M)-zini(M))/dzm(numIB))!-1
+          nlay=((zend(M)-zini(M))/dzm(numIB))  !-1
           endif
 
           L=1
@@ -187,7 +187,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_cylinder
 !#############################################################
       SUBROUTINE imb_cube(numIB)
 !#############################################################
@@ -283,7 +283,7 @@
    89     FORMAT (3e20.5)
 
           RETURN
-      end
+      end subroutine imb_cube
 !######################################################################
       SUBROUTINE imb_sphere(numIB)
 !######################################################################
@@ -315,7 +315,7 @@
           maxnzr=0 ;   maxnode = 0
           M=numIB
 
-          nzr(M) = nint((2.d0*PI*R(M)/2.d0)/dxm(numIB)) !Number of planes
+          nzr(M) = nint((2.d0*PI*R(M)/2.d0)/dxm(numIB))  !Number of planes
           thz(M) = PI/(nzr(M))
           maxnzr=max(maxnzr,nzr(M))
           write (2,*) 'variables="x","y","z"'
@@ -391,7 +391,7 @@
    89     FORMAT (3e20.6)
 
           RETURN
-      end
+      end subroutine imb_sphere
 !#############################################################
       SUBROUTINE imb_file(numIB)
 !#############################################################
@@ -430,9 +430,9 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((xen-xst)/(dxm(numIB)))!-1
+              zini(numIB)=0.d0 ;   nlay=((xen-xst)/(dxm(numIB)))  !-1
               else if (linfin(numIB)==0) then
-              nlay=((zend(numIB)-zini(numIB))/(dxm(numIB)))!-1
+              nlay=((zend(numIB)-zini(numIB))/(dxm(numIB)))  !-1
               endif
 !           nlay=((xen-xst)/dxm)-1   !# of x-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
@@ -458,9 +458,9 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((yen-yst)/dym(numIB))!-1
+              zini(numIB)=0.d0 ;   nlay=((yen-yst)/dym(numIB))  !-1
               else if (linfin(numIB)==0) then
-              nlay=((zend(numIB)-zini(numIB))/dym(numIB))!-1
+              nlay=((zend(numIB)-zini(numIB))/dym(numIB))  !-1
               endif
 !           nlay=((yen-yst)/dym(numIB))-1   !# of y-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
@@ -486,9 +486,9 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))!-1  !it was-1
+              zini(numIB)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))  !-1  !it was-1
               else if (linfin(numIB)==0) then
-              nlay=((zend(numIB)-zini(numIB))/dzm(numIB))!-1
+              nlay=((zend(numIB)-zini(numIB))/dzm(numIB))  !-1
               endif
 !           nlay=((zen-zst)/dzm)-1   !# of z-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
@@ -517,9 +517,9 @@
               nodes(numIB)=nin*imbnumber(numIB)
               maxnode = max(maxnode,nodes(numIB))
               DO I=1,nin
-                  nodex(numIB,I)=xfile(I)! - xaero(numIB)
-                  nodey(numIB,I)=yfile(I)! - yaero(numIB)
-                  nodez(numIB,I)=zfile(I)! - zaero(numIB)
+                  nodex(numIB,I)=xfile(I)  ! - xaero(numIB)
+                  nodey(numIB,I)=yfile(I)  ! - yaero(numIB)
+                  nodez(numIB,I)=zfile(I)  ! - zaero(numIB)
               ENDDO
           end select
 !       DO K=1,nodes(numIB)
@@ -581,7 +581,7 @@
    88     FORMAT (i5)
    89     FORMAT (3e25.5)
           RETURN
-      end
+      end subroutine imb_file
 !#############################################################
       SUBROUTINE imb_number(numIB)
 !#############################################################
@@ -593,7 +593,7 @@
           integer, intent (in) :: numIB
           INTEGER      :: I,K
 
-          K=nodes(numIB)/imbnumber(numIB) !# of Lagrangians per unit
+          K=nodes(numIB)/imbnumber(numIB)  !# of Lagrangians per unit
 
           write (6,*) ' '
           write (6,*) '**********   THE BODY ',numIB,' HAS : *******'
@@ -700,7 +700,7 @@
    89     FORMAT (3e25.5)
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE imb_number
 !#############################################################
       SUBROUTINE imb_moved(numIB)
 !#############################################################
@@ -722,7 +722,7 @@
           IF (myrank/=master) RETURN
 
           Geom_Time1=301 ;
-          K=nodes(numIB)/imbnumber(numIB) !Nodes per body
+          K=nodes(numIB)/imbnumber(numIB)  !Nodes per body
 
 
           IF (turax(numIB)==1) then   ! Vertical Axis Turbine
@@ -802,7 +802,7 @@
 
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
-              nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)! + R(numIB)
+              nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)  ! + R(numIB)
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
@@ -813,8 +813,8 @@
             nodeylocal(numIB,i)*(SQRT(3.d0)/2.d0)
               nodey(numIB,K+i)=nodexlocal(numIB,i)*(SQRT(3.d0)/2.d0)+ &
            nodeylocal(numIB,i)*(-0.5_dp)
-              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)! - R(numIB)*SQRT(3.0_dp)/2
-              nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
+              nodex(numIB,K+i)=nodex(numIB,K+i) + Cxor(numIB)  ! - R(numIB)*SQRT(3.0_dp)/2
+              nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)  ! - R(numIB)*0.5_dp
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
@@ -825,8 +825,8 @@
                nodeylocal(numIB,i)*(-SQRT(3.d0)/2.d0)
               nodey(numIB,2*K+i)=nodexlocal(numIB,i)*(-SQRT(3.d0)/2.d0)+ &
                            nodeylocal(numIB,i)*(-0.5_dp)
-              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)! + R(numIB)*SQRT(3.0_dp)/2
-              nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)! - R(numIB)*0.5_dp
+              nodex(numIB,2*K+i)=nodex(numIB,2*K+i) + Cxor(numIB)  ! + R(numIB)*SQRT(3.0_dp)/2
+              nodey(numIB,2*K+i)=nodey(numIB,2*K+i) + Cyor(numIB)  ! - R(numIB)*0.5_dp
 
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
@@ -921,11 +921,11 @@
           ENDIF
 
 
-          ENDIF !AXIS
+          ENDIF  !AXIS
 
 
    88     FORMAT (i5)
    89     FORMAT (3f25.5)
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE imb_moved

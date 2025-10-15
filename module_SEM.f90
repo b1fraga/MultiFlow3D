@@ -11,4 +11,4 @@
           CHARACTER(len=44) :: FILEGLOBAL
           INTEGER,ALLOCATABLE:: elemyst(:),elemyen(:),elemzst(:),elemzen(:)
           INTEGER,ALLOCATABLE:: iddom(:),ljdom(:),lkdom(:)
-      end
+      end module module_SEM

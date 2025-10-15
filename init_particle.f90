@@ -23,7 +23,7 @@
           double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
           double precision :: Wx,Wy,Wz,random_number_uniform
           double precision :: mindis,dist,distance
-          double precision :: xxp, yyp, zzp, r !Aleks 04/24 spherical vol of release
+          double precision :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
           logical :: random, LSPHERICAL, LSURFACE
 
           if (myrank==0) then
@@ -132,8 +132,8 @@
               read(30,*) Dp_var,sigma
               read(30,*) rho_p,sigma_rho
               read(30,*) Wx,Wy,Wz
-              read(30,*) LSPHERICAL,LSURFACE,r !Aleks 04/24 spherical release
-              read(30,*) sphere_optn !Aleks 04/24 spherical release
+              read(30,*) LSPHERICAL,LSURFACE,r  !Aleks 04/24 spherical release
+              read(30,*) sphere_optn  !Aleks 04/24 spherical release
               read(30,*) random
               if (random) read(30,*)xp,yp,zp,uop,vop,wop
               do l=frac1,frac_end
@@ -145,7 +145,7 @@
                   do while (dist<mindis)                             !avoiding overlap
                       dist=mindis
                       ll=ll+1
-                      if (.not.LSPHERICAL) then !default cube release
+                      if (.not.LSPHERICAL) then  !default cube release
                       xp_pt(l)=random_number_uniform(xp-0.5_dp*Wx,xp+0.5_dp*Wx)
                       yp_pt(l)=random_number_uniform(yp-0.5_dp*Wy,yp+0.5_dp*Wy)
                       zp_pt(l)=random_number_uniform(zp-0.5_dp*Wz,zp+0.5_dp*Wz)
@@ -194,7 +194,7 @@
 
                   else  !tsnr
                   if (.not.random) read(30,*)
-                  endif !tsnr
+                  endif  !tsnr
 
 !            print*,tsnr,f,np,frac1,frac_end,xp_pt(l),yp_pt(l),zp_pt(l)
 !     &,wop_pt(l),dp_pt(l),rho_pt(l)
@@ -212,7 +212,7 @@
           ! write(6,*)'init_part unit 30 closed'
 
           RETURN
-      END SUBROUTINE
+      END SUBROUTINE INIT_PARTICLE
 
 ! **********************************************************************
       SUBROUTINE TECPLOT(num_output)
@@ -230,7 +230,7 @@
           integer :: is,ie,js,je,ks,ke
           character(LEN=20) :: filename
           character(LEN=4) :: b_str,c_str
-          double precision :: u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
+          double precision :: u_cn,v_cn,w_cn,p_cn,T_cn  !,S_cn,k_cn,eps_cn,vis_cn
           double precision :: S_cn,rho_cn
 
 
@@ -243,10 +243,10 @@
 
               write(b_str,'(I4)') num_output
               strlen=LEN(TRIM(ADJUSTL(b_str)))
-              b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str)) ! e.g. "001"
+              b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
               write(c_str,'(I4)') dom_id(ib)
               strlen=LEN(TRIM(ADJUSTL(c_str)))
-              c_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(c_str)) ! e.g. "001"
+              c_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
 
               filename='tecout_'//b_str//'_'//c_str//'.dat'
 
@@ -331,7 +331,7 @@
 
                           if (LSCALAR) then
                           write (idfile,'(9e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
-                    ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn!T_cn,S_cn,k_cn,eps_cn,vis_cn
+                    ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn  !T_cn,S_cn,k_cn,eps_cn,vis_cn
                           else
                           write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                      ,u_cn,v_cn,w_cn,p_cn
@@ -353,7 +353,7 @@
 
 !   88 FORMAT (10F15.8)
 
-      END SUBROUTINE
+      END SUBROUTINE TECPLOT
 
 
 ! **********************************************************************
@@ -374,7 +374,7 @@
 
           write(b_str,'(I4)') num_output
           strlen=LEN(TRIM(ADJUSTL(b_str)))
-          b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str)) ! e.g. "001"
+          b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
 
           filename='tecout_'//b_str//'_pt.dat'
 
@@ -383,19 +383,19 @@
           WRITE (95,*) 'TITLE = ', '"Lagrangian field"'
           WRITE (95,"(A)")'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>","V<sub> &
 Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
-'!,"F<sub>u","F<sub>v","F<sub>w"'
+'  !,"F<sub>u","F<sub>v","F<sub>w"'
           WRITE(95,*)'zone ','STRANDID=', 2, 'SOLUTIONTIME=', ctime
 
           do l=1,np
               WRITE (95,*) xp_pt(l),yp_pt(l),zp_pt(l) &
                     ,uop_pt(l),vop_pt(l),wop_pt(l) &
-                    ,dp_pt(l),rho_pt(l)!,Fu(l),Fv(l),Fw(l)
+                    ,dp_pt(l),rho_pt(l)  !,Fu(l),Fv(l),Fw(l)
           end do
           close (95)
 
 !   88 FORMAT (10F15.8)
 
-      END SUBROUTINE
+      END SUBROUTINE TECPARTICLE
 
 !=======================================================================
       double precision FUNCTION random_number_uniform(a,b)
@@ -412,7 +412,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           random_number_uniform=(b-a)*r+a
 
           return
-      end function
+      end function random_number_uniform
 !=======================================================================!Aleks 04/24
       subroutine random_number_spherical(xp, yp, zp, r, sphere_optn, &
                    LSURFACE, xxp, yyp, zzp)
@@ -431,7 +431,7 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
           double precision :: theta, phi, pi
           double precision :: u,v,w, ra
 
-          pi = 3.1416d0 !Set value to pi
+          pi = 3.1416d0  !Set value to pi
 
 !             if (sphere_optn.gt.3) print*, 'ERROR!! Invalid spherical ',
 !      &       'release option! Valid options are 0 to 3'
@@ -439,43 +439,43 @@ Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>" &
 
           ! Generate random theta from 0 to 2*pi
           call random_number(u)
-          theta = pi * u !for circle: 2.0d0 * pi * u
+          theta = pi * u  !for circle: 2.0d0 * pi * u
 
-          if (.not.LSURFACE) then !if releasing inside volume/area, generate random r
+          if (.not.LSURFACE) then  !if releasing inside volume/area, generate random r
           if (sphere_optn==0) then
           call random_number(w)
-          ra = r * (w ** (1.0d0/3.0d0)) !generate within a 3D volume
+          ra = r * (w ** (1.0d0/3.0d0))  !generate within a 3D volume
           else
           call random_number(w)
-          ra = r * (w ** (1.0d0/2.0d0)) !generate within circular area
+          ra = r * (w ** (1.0d0/2.0d0))  !generate within circular area
           endif
-          else !releasing on surface/circumference --> r is constant
+          else  !releasing on surface/circumference --> r is constant
           ra = r
           endif
 
 !generate random coordinates converted to the cartesian coordinate system
           select case (sphere_optn)
-            case (0) !3D sphere
+            case (0)  !3D sphere
               call random_number(v)
-              phi = acos(2.0d0 * v - 1.0d0) ! Generate random phi from 0 to pi
+              phi = acos(2.0d0 * v - 1.0d0)  ! Generate random phi from 0 to pi
               xxp = ra * sin(phi) * cos(theta) + xp
               yyp = ra * sin(phi) * sin(theta) + yp
               zzp = ra * cos(phi) + zp
-            case (1) !2D --> XY plane
+            case (1)  !2D --> XY plane
               xxp = ra * cos(theta) + xp
               yyp = ra * sin(theta) + yp
               zzp = zp
-            case (2) !2D --> ZY plane
+            case (2)  !2D --> ZY plane
               xxp = xp
               yyp = ra * cos(theta) + yp
               zzp = ra * sin(theta) + zp
-            case (3) !2D --> ZX plane
+            case (3)  !2D --> ZX plane
               xxp = ra * sin(theta) + xp
               yyp = yp
               zzp = ra * cos(theta) + zp
           end select
 
-      end subroutine
+      end subroutine random_number_spherical
 
 
 

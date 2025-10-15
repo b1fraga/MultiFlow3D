@@ -116,7 +116,7 @@
           allocate(lpt_block_jnext(np),lpt_proc_jnext(np))
           allocate(lpt_block_knext(np),lpt_proc_knext(np))
 
-          endif !Lcol
+          endif  !Lcol
 
           IF (Myrank==0) THEN
 
@@ -248,7 +248,7 @@
               endif
               endif
           enddo
-          endif !Lcol
+          endif  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -342,9 +342,9 @@
               ENDDO
           enddo
 
-          endif !Lcol
+          endif  !Lcol
 
-          ENDIF !master proc
+          ENDIF  !master proc
 
           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
 
@@ -368,7 +368,7 @@
 
           !write(6,*)'ghost parts',myrank,npg_loc
 
-          endif !Lcol
+          endif  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -391,7 +391,7 @@
           call MPI_SCATTER(dp_MPI,np,MPI_DOUBLE_PRECISION,dp_MPI_loc,&     !diameter
               np,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
-          call MPI_SCATTER(rhop_MPI,np,MPI_DOUBLE_PRECISION,rhop_MPI_loc,& !density
+          call MPI_SCATTER(rhop_MPI,np,MPI_DOUBLE_PRECISION,rhop_MPI_loc,&  !density
               np,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
           call MPI_SCATTER(id_MPI,np,MPI_INTEGER,id_MPI_loc,&              !block to which they belong
@@ -426,7 +426,7 @@
           call MPI_SCATTER(idg_MPI,np,MPI_INTEGER,idg_MPI_loc,&              !block to which they belong
               np,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
 
-          endif !Lcol
+          endif  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -506,9 +506,9 @@
           stop
           endif
 
-          endif !npg_loc
+          endif  !npg_loc
 
-          endif !Lcol
+          endif  !Lcol
 
           deallocate(lpt_proc,lpt_block)
           deallocate(X_MPI,Y_MPI,Z_MPI)
@@ -534,7 +534,7 @@
           deallocate(lpt_proc_inext,lpt_block_inext)
           deallocate(lpt_proc_jnext,lpt_block_jnext)
           deallocate(lpt_proc_knext,lpt_block_knext)
-          endif !Lcol
+          endif  !Lcol
 
           RETURN
-      END
+      END SUBROUTINE MPI_pt

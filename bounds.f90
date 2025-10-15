@@ -58,12 +58,12 @@
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
                   write(dominio,'(I3)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
                   dominio=REPEAT('0',(3-strlen))// &
-            TRIM(ADJUSTL(dominio)) ! e.g. "001"
+            TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
                   filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
 
@@ -77,11 +77,11 @@
                   write(name_end,'(I6)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(6-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "000001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "000001"
                   write(domain,'(I4)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
                   domain=REPEAT('0',(4-strlen))// &
-            TRIM(ADJUSTL(domain)) ! e.g. "0001"
+            TRIM(ADJUSTL(domain))  ! e.g. "0001"
                   fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
                   open (unit=405, file=fileSEM)
                   read(405,*)
@@ -332,7 +332,7 @@
               end do
               if(diff_sch/=3) call boundcoef(1)
           end do
-      end subroutine
+      end subroutine boundu
 !#############################################################################
       subroutine boundv
 !#############################################################################
@@ -402,12 +402,12 @@
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
                   write(dominio,'(I3)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
                   dominio=REPEAT('0',(3-strlen))// &
-            TRIM(ADJUSTL(dominio)) ! e.g. "001"
+            TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
                   filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
                   open (unit=405, file=filename)
@@ -424,11 +424,11 @@
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "00001"
                   write(domain,'(I4)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
                   domain=REPEAT('0',(4-strlen))// &
-            TRIM(ADJUSTL(domain)) ! e.g. "0001"
+            TRIM(ADJUSTL(domain))  ! e.g. "0001"
                   fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
                   open (unit=405, file=fileSEM)
                   read(405,*)
@@ -622,7 +622,7 @@
               end do
               if(diff_sch/=3) call boundcoef(2)
           end do
-      end subroutine
+      end subroutine boundv
 !#############################################################################
       subroutine boundw
 !#############################################################################
@@ -692,12 +692,12 @@
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
                   write(dominio,'(I3)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
                   dominio=REPEAT('0',(3-strlen))// &
-            TRIM(ADJUSTL(dominio)) ! e.g. "001"
+            TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
                   filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
                   open (unit=405, file=filename)
@@ -718,11 +718,11 @@
                   write(name_end,'(I5)') ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
                   name_end=REPEAT('0',(5-strlen))// &
-            TRIM(ADJUSTL(name_end)) ! e.g. "00001"
+            TRIM(ADJUSTL(name_end))  ! e.g. "00001"
                   write(domain,'(I4)') dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
                   domain=REPEAT('0',(4-strlen))// &
-            TRIM(ADJUSTL(domain)) ! e.g. "0001"
+            TRIM(ADJUSTL(domain))  ! e.g. "0001"
                   fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
                   open (unit=405, file=fileSEM)
                   read(405,*)
@@ -916,7 +916,7 @@
               end do
               if(diff_sch/=3) call boundcoef(3)
           end do
-      end subroutine
+      end subroutine boundw
 !##############################################################################
       subroutine boundcoef(op)
 !##############################################################################
@@ -1041,7 +1041,7 @@
 
           end do
 
-      end subroutine
+      end subroutine boundcoef
 !#############################################################################
       subroutine boundksgs_1eqn
 !##############################################################################
@@ -1052,7 +1052,7 @@
           integer :: i,j,k,ib,ly,ni,nj,nk
           integer :: is,ie,js,je,ks,ke
 
-          do ly=0,2 ! due to SMART scheme
+          do ly=0,2  ! due to SMART scheme
               do ib=1,nbp
                   ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
                   is=dom(ib)%isp; ie=dom(ib)%iep

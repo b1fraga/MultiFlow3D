@@ -19,7 +19,7 @@
           phi_r1smth = 3.0_dp/4.0_dp-abr**2
           end if
           return
-      end function
+      end function phi_r1smth
 !######################################################################
       real function phi_r2smth(r)
 !######################################################################
@@ -45,7 +45,7 @@
           end if
 
           return
-      end function
+      end function phi_r2smth
 !######################################################################
       real function phi_r3(r)
 !######################################################################
@@ -67,7 +67,7 @@
           end if
 
           return
-      end function
+      end function phi_r3
 !######################################################################
       real function phi_r3smth2(r)
 !######################################################################
@@ -99,7 +99,7 @@
           end if
 
           return
-      end function
+      end function phi_r3smth2
 !######################################################################
       real function phi_r3smth(r)
 !######################################################################
@@ -111,10 +111,10 @@
 
           scal1 = 1.095450017660160615261_dp  ! 55.0_dp/48.0_dp - sqrt(3.0_dp)*pi/108.0_dp
           scal2 = 1.083333333333333333333_dp  ! 13.0_dp/12.0_dp
-          scal3 = 0.4045499823398393847387_dp ! 17.0_dp/48.0_dp + sqrt(3.0_dp)*pi/108.0_dp
-          scal4 = 0.0481125224324688137091_dp ! sqrt(3.0_dp)/36.0_dp
-          scal5 = 0.1443375672974064411273_dp ! sqrt(3.0_dp)/12.0_dp
-          scal6 = 0.8660254037844386467637_dp ! sqrt(3.0_dp)/2.0_dp
+          scal3 = 0.4045499823398393847387_dp  ! 17.0_dp/48.0_dp + sqrt(3.0_dp)*pi/108.0_dp
+          scal4 = 0.0481125224324688137091_dp  ! sqrt(3.0_dp)/36.0_dp
+          scal5 = 0.1443375672974064411273_dp  ! sqrt(3.0_dp)/12.0_dp
+          scal6 = 0.8660254037844386467637_dp  ! sqrt(3.0_dp)/2.0_dp
 
 !       PI = 4.D0*DATAN(1.D0)
 
@@ -138,7 +138,7 @@
           end if
 
           return
-      end function
+      end function phi_r3smth
 !######################################################################
       real function phi_r4(r)
 !######################################################################
@@ -160,7 +160,7 @@
           end if
 
           return
-      end function
+      end function phi_r4
 !######################################################################
       real function phi_r4smth(r)
 !######################################################################
@@ -183,7 +183,7 @@
           phi_r4smth = 0.0_dp
           end if
           return
-      end function
+      end function phi_r4smth
 
 
 !######################################################################
@@ -205,7 +205,7 @@
           end if
 
           return
-      end function
+      end function cd2_0
 
 !######################################################################
       real function dcd2_0(r)
@@ -226,7 +226,7 @@
           end if
 
           return
-      end function
+      end function dcd2_0
 
 !######################################################################
       real function cd2_1(r)
@@ -247,7 +247,7 @@
           end if
 
           return
-      end function
+      end function cd2_1
 
 
 !######################################################################
@@ -269,7 +269,7 @@
           end if
 
           return
-      end function
+      end function dcd2_1
 !######################################################################
       double precision function dh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order)
 !######################################################################
@@ -329,7 +329,7 @@
           end Select
 
           return
-      end function
+      end function dh
 
 
 
@@ -354,7 +354,7 @@
           end if
 
           return
-      end function
+      end function dphi_r3
 
 
 
@@ -419,4 +419,4 @@ function ddh(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir)
           end select
 
           return
-      end function
+      end function ddh

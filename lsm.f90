@@ -518,7 +518,7 @@
           end if
 
           return
-      end
+      end subroutine tvd_rk_3step
 !#######################################################################
       subroutine dphi_a_v_3d(op)     !(fi)
 !#######################################################################
@@ -660,11 +660,11 @@
 
               end do
 
-              call bound_lsm(15) ! (phi_reinit)
+              call bound_lsm(15)  ! (phi_reinit)
 !
 ! 2nd step
 !
-              call dphi_for_reinit(15) ! (phi_reinit)
+              call dphi_for_reinit(15)  ! (phi_reinit)
 
               do ib=1,nbp
 
@@ -689,11 +689,11 @@
 
               end do
 
-              call bound_lsm(15) ! (phi_reinit)
+              call bound_lsm(15)  ! (phi_reinit)
 !
 ! 3rd step
 !
-              call dphi_for_reinit(15) ! (phi_reinit)
+              call dphi_for_reinit(15)  ! (phi_reinit)
 
               do ib=1,nbp
 
@@ -718,12 +718,12 @@
 
               end do
 
-              call bound_lsm(15) ! (phi_reinit)
+              call bound_lsm(15)  ! (phi_reinit)
 
 !
 ! Check convergence
 !
-              call dphi_for_reinit(15) ! (phi_reinit)
+              call dphi_for_reinit(15)  ! (phi_reinit)
 
               max_abs = 0.0_dp
               max_phidiff = 0.0_dp
@@ -777,7 +777,7 @@
                   end do
               end do
 
-              call bound_lsm(14) ! (phi)
+              call bound_lsm(14)  ! (phi)
 
           end do
 
@@ -814,9 +814,9 @@
           do ib=1,nbp
 
               select case (op)
-                case (14) ! (phi)
+                case (14)  ! (phi)
                   fi => dom(ib)%phi
-                case (15) ! (phi_reinit)
+                case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
               end select
 
@@ -825,7 +825,7 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
 
                           lsv = fi(i,j,k)
-                          lssig = dom(ib)%s_phi0(i,j,k) ! s_phi0=phi initially
+                          lssig = dom(ib)%s_phi0(i,j,k)  ! s_phi0=phi initially
 
                           xm=dom(ib)%dphi_dxminus(i,j,k)
                           xp=dom(ib)%dphi_dxplus(i,j,k)
@@ -877,7 +877,7 @@
           end do
 
           return
-      end
+      end subroutine dphi_for_reinit
 !######################################################################
       subroutine hj_weno_dxplus_3d(op)
 !######################################################################
@@ -905,16 +905,16 @@
                 case (3)
                   fi => dom(ib)%w
                   npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
-                case (14) ! (phi)
+                case (14)  ! (phi)
                   fi => dom(ib)%phi
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (15) ! (phi_reinit)
+                case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (16) ! (phi_new)
+                case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (17) ! (phi_init)
+                case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
@@ -1249,16 +1249,16 @@
                 case (3)
                   fi => dom(ib)%w
                   npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
-                case (14) ! (phi)
+                case (14)  ! (phi)
                   fi => dom(ib)%phi
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (15) ! (phi_reinit)
+                case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (16) ! (phi_new)
+                case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (17) ! (phi_init)
+                case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
@@ -1363,16 +1363,16 @@
                 case (3)
                   fi => dom(ib)%w
                   npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
-                case (14) ! (phi)
+                case (14)  ! (phi)
                   fi => dom(ib)%phi
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (15) ! (phi_reinit)
+                case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (16) ! (phi_new)
+                case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
-                case (17) ! (phi_init)
+                case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
                   npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
               end select
@@ -1606,7 +1606,7 @@
 
                           end if
 
-                          dom(ib)%dens(i,j,k)=densg+(densl-densg)*dom(ib)%h_phi(i,j,k) !dens = densg above free surface, densl below
+                          dom(ib)%dens(i,j,k)=densg+(densl-densg)*dom(ib)%h_phi(i,j,k)  !dens = densg above free surface, densl below
                           dom(ib)%mu(i,j,k)=mug+(mul-mug)*dom(ib)%h_phi(i,j,k)  !mu = mug above free surface, mul below
 
                       end do
@@ -1616,8 +1616,8 @@
 
           end do
 
-          call bound_lsm(18) !(dens)
-          call bound_lsm(19) !(mu)
+          call bound_lsm(18)  !(dens)
+          call bound_lsm(19)  !(mu)
 
           return
       end subroutine heaviside

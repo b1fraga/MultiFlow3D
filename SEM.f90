@@ -69,7 +69,7 @@
           write(6,*)lsz(1),lez(1),lsz(2),lez(2),lez(2)-lsz(2)+1
 
 !THE AMPLITUDE OF THE VORTICES. This can be changed to have larger structures!!!!!!
-          SIGMA_VALUE=MIN(16.D0*g_dy,Lz/2.D0,Ly/2.D0) !isotropic
+          SIGMA_VALUE=MIN(16.D0*g_dy,Lz/2.D0,Ly/2.D0)  !isotropic
 
 !THE NUMBER OF EDDIES IS THE INLET SURFACE DIVIDED BY THE SURFACE OF EACH TURBULENT SPOT
           NE_SEM = (Ly*Lz)/SIGMA_VALUE**2
@@ -168,7 +168,7 @@
             'zone ',' i=',ljdom(I),',',' j=',lkdom(I),', k= ',1,' f=point'
               Enddo
 
-              MOLT = MATMUL(R,EPSILO) ! !aij*epsij   MATRIX MULTIPLICATION
+              MOLT = MATMUL(R,EPSILO)  ! !aij*epsij   MATRIX MULTIPLICATION
               MAXVSEM=0.D0 ; MINVSEM=1000000.D0
 !------BEGINNING OF SPATIAL ITERATION
               DO IY = 1,DIVY

@@ -32,7 +32,7 @@
           double precision :: a,b,c,wx,wy,wz,Cd,ao,bo,co
           double precision :: dwdy,dvdz,dudz,dwdx,dvdx,dudy
           double precision :: dh,delta,gamma_p,ddh,ddelta
-          double precision :: Vcell,Vp!,Vball
+          double precision :: Vcell,Vp  !,Vball
           double precision, allocatable, dimension(:):: ui_pt,vi_pt,wi_pt
           double precision, allocatable, dimension(:):: uoi_pt,voi_pt,woi_pt
           integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
@@ -52,17 +52,17 @@
 
           SELECT CASE (order)
             CASE (1)
-              m = 1 !1.5d0
+              m = 1  !1.5d0
             CASE (2)
-              m = 2 !2.5d0
+              m = 2  !2.5d0
             CASE (3)
-              m = 2 !2.d0
+              m = 2  !2.d0
             CASE (4)
-              m = 2 !2.5d0
+              m = 2  !2.5d0
             CASE (5)
-              m = 1 !1.5d0
+              m = 1  !1.5d0
             CASE (6)
-              m = 2 !2.d0
+              m = 2  !2.d0
           end select
 
 !loop in domains
@@ -457,7 +457,7 @@
                   gamma_p=rhop_loc(l)/dens                                          ! constant density
                   endif
 
-                  if ((dp_loc(l))<0.00001_dp) then !Particles with dp<10um treated as passive Aleks 05/2022
+                  if ((dp_loc(l))<0.00001_dp) then  !Particles with dp<10um treated as passive Aleks 05/2022
                   up_pt(l) = ui_pt(l)
                   vp_pt(l) = vi_pt(l)
                   wp_pt(l) = wi_pt(l)
@@ -494,7 +494,7 @@
                   IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
 
-                  if ((dp_loc(l))>=0.00001_dp) then !only do calcs if dp>=10um
+                  if ((dp_loc(l))>=0.00001_dp) then  !only do calcs if dp>=10um
                   !Update slip velocity
                   a = up_pt(l)-ui_pt(l)
                   b = vp_pt(l)-vi_pt(l)
@@ -650,7 +650,7 @@
           deallocate (id)
 
           return
-      end subroutine
+      end subroutine particle_tracking
 
 !##########################################################################
       subroutine final_LPT
@@ -719,7 +719,7 @@
           endif
 
           return
-      end subroutine
+      end subroutine final_LPT
 
 
 
