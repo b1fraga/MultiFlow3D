@@ -7,6 +7,6 @@
 # Executables
 *.exe
 
-# Install and build folder
-build/**/*
-install/**/*
+# Build folders
+build_json_fortran/**/*
+build_test_drive/**/*
