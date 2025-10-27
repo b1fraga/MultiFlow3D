@@ -63,7 +63,8 @@ bounds_lsm.o\
 lsm.o\
 SEM.o\
 sediment.o \
-json_io.o
+json_io.o \
+io.o
 
 test_objects = \
 tests/test_json_io.o \
@@ -154,5 +155,6 @@ log_law.o : log_law.f90 module_multidata.o module_vars.o
 weno.o : weno.f90 module_multidata.o module_vars.o 
 SEM.o : SEM.f90 module_multidata.o module_vars.o module_SEM.o module_mpi.o
 json_io.o : json_io.f90
+io.o : io.f90 json_io.o
 tests/test_json_io.o : tests/test_json_io.f90 json_io.o
 tests/main.o : tests/main.f90 tests/test_json_io.o json_io.o
