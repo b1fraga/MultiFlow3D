@@ -350,7 +350,7 @@
           if (myrank==0) write (6,*) 'ctime=' , ctime
           if (myrank==0) write (numfile,*) 'ctime=' , ctime
 
- 5000     format(/1x,10(1h=),' nrtstp=',i8,2x,'ctime=',e14.6,2x, &
+ 5000 format(/, 1x, 10('='), ' nrtstp=', i8, 2x, 'ctime=', e14.6, 2x, &
      'dt=',e14.6,'  dtavg=',e14.6)
  5500     format(/1x,'Work took ',e18.8,2x,' seconds')
       end subroutine flosol
