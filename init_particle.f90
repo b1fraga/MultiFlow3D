@@ -380,8 +380,8 @@
           OPEN (UNIT=95, FILE=TRIM(ADJUSTL(filename)))
 
           WRITE (95,*) 'TITLE = ', '"Lagrangian field"'
-WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag</sub>",' // &
-                 '"V<sub>Lag</sub>","W<sub>Lag</sub>","D<sub>Lag</sub>","rho<sub>Lag</sub>"'
+WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
+                 '"V<sub>Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>"'
   !,"F<sub>u","F<sub>v","F<sub>w"'
           WRITE(95,*)'zone ','STRANDID=', 2, 'SOLUTIONTIME=', ctime
 
