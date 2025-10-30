@@ -1,282 +1,179 @@
 !######################################################################
-      subroutine init_lsm
+      module lsm
+!######################################################################
+	  SAVE
+      real,allocatable,dimension(:,:):: f,g,hj_phi,hj_phi1
+      real :: dt_reinit
+      
+      end module lsm
+!######################################################################
+      subroutine initial_lsm_3d_channel
 !######################################################################
       use vars
-      use module_LSM
+      use lsm
       use multidata
       use mpi
+
       implicit none
-      integer :: i,j,k,ib,tti,ttj,ttk
-      integer :: glevel,gl,mgc_i,mgc_j,mgc_k
+      integer :: i,j,k,ib,tti,ttj,ttk,sn,sn1
+      integer :: is,ie,js,je,ks,ke
+      real :: b,dummy
+      character*8 :: chb,chb1
+      character*31 :: gridfile
+      character *80 dummyline
 
-!READING
-      open (unit=13, file='lsm.cin')
-         read (12,*)
-         read (12,*) reinit,ntime_reinit,reldif_LSM,length,accuracy
-     & ,cfl_lsm
-         read (12,*) LENDS
-         read (12,*) L_LSMinit
-         read (12,*) L_anim_phi,L_anim_grd 
-         read (12,*) densl,densg,nul,nug
-         read (12,*) slope
+	if (myrank.eq.0) then
+	  write(*,'(a)') '**********************************************'
+	  write(*,'(a)') '*'
+	  write(*,'(a)') '*            TWO-PHASE SIMULATION'
+	  if (l_lsmbase) then
+	    write(*,'(a,f8.3)') '* Base case with rigid lid at z=',length
+	  else
+	    write(*,'(a,f8.3)') '* Initial water level: z=',length
+	  endif
+	  write(*,'(a)') '*'
+	  write(*,'(a)') '**********************************************'
+	endif
+
+      do ib=1,nbp  
+        tti=dom(ib)%ttc_i;  ttj=dom(ib)%ttc_j;  ttk=dom(ib)%ttc_k  
+        is=dom(ib)%isp; ie=dom(ib)%iep
+        js=dom(ib)%jsp; je=dom(ib)%jep
+        ks=dom(ib)%ksp; ke=dom(ib)%kep
+
+        allocate (dom(ib)%phi(tti,ttj,ttk),
+     &dom(ib)%phi_init(tti,ttj,ttk),dom(ib)%phi_reinit(tti,ttj,ttk),
+     &dom(ib)%phi_new(tti,ttj,ttk),dom(ib)%dphi_dx(tti,ttj,ttk),
+     &dom(ib)%dphi_dy(tti,ttj,ttk),dom(ib)%dphi_dz(tti,ttj,ttk),
+     &dom(ib)%s_phi0(tti,ttj,ttk),dom(ib)%h_phi(tti,ttj,ttk),
+     &dom(ib)%phim(tti,ttj,ttk))
+!
+! Read in phi field if restarting from previous solution 
+!
+        if (L_LSM .and. lrestart) then    
+          write(chb,'(i8)') dom_id(ib)
+          write(chb1,'(i8)') itime_start
+          sn=len(trim(adjustl(chb)))
+          sn1=len(trim(adjustl(chb1)))
+          chb=repeat('0',(4-sn))//trim(adjustl(chb))
+          chb1=repeat('0',(6-sn1))//trim(adjustl(chb1))            
+          gridfile='tecout_phi_'//trim(adjustl(chb))//'_'//
+     & 'initial'//'.dat'
+          open (unit=703, file=gridfile)
+          read (703,*) dummyline
+          read (703,*) dummyline
+          read (703,*) dummyline
+          read (703,*) dummyline
+          read (703,*) dummyline
+          do k=ks-1,ke 
+            do j=js-1,je 
+              do i=is-1,ie 
+                read (703,73) dummy,dummy,dummy,
+     & dom(ib)%phi(i,j,k),dom(ib)%phim(i,j,k),
+     & dom(ib)%dens(i,j,k),dom(ib)%mu(i,j,k)
+              end do
+            end do
+          end do
+ 73       format (10e25.8)
+          close(703)
+          dom(ib)%phi_init = 0.0
+          dom(ib)%phi_new = 0.0
+          dom(ib)%phi_reinit = 0.0
+        else
+!
+! Initialise uniform phi field, if not restarting
+!
+          dom(ib)%phi=1.0
+          dom(ib)%phi_init = 0.0
+          dom(ib)%phi_new = 0.0
+          dom(ib)%phi_reinit = 0.0
       
-      close(13)
-!WARNINGS
-      if (L_LSMinit .and. (L_anim_phi .or. L_anim_grd)) then
-            if (myrank.eq.0) then
-             print*,'Error: not possible to output animation files',
-     &'  for LSM_init run!'
-            endif
-            stop
-           endif
-   
-           if (L_LSMbase .and. L_LSMinit) then
-            if (myrank.eq.0) then
-            print*,'Error: L_LSMbase and L_LSMinit cannot both be true!'
-            endif
-            stop
-           endif
-   
-           if (L_LSMbase .and. L_LSM) then
-            if (myrank.eq.0) then
-             print*,'Error: L_LSMbase and L_LSM cannot both be true!'
-            endif
-            stop
-           endif
-   
-           if (L_LSMinit .and. (.not.L_LSM)) then
-            if (myrank.eq.0) then
-             print*,'Error: L_LSMinit cannot be true if L_LSM is false!'
-            endif
-            stop
-           endif
-   
-           if (L_anim_phi .and. (.not.L_LSM)) then
-            if (myrank.eq.0) then
-            print*,'Error: L_anim_phi cannot be true if L_LSM is false!'
-            endif
-            stop
-           endif
-!ALLOCATIONS
-            allocate(dom(ib)%ijkp_lsm(0:dom(ib)%ngrid))
-            allocate (dom(ib)%dens_mg(dom(ib)%tot))
-   
-            dom(ib)%ijkp_lsm = 0
-            dom(ib)%ijkp_lsm(1)=(dom(ib)%ttc_i-2*pl)*
-     & (dom(ib)%ttc_j-2*pl)*(dom(ib)%ttc_k-2*pl) 
-                do glevel=2,dom(ib)%ngrid
-                  mgc_i=(dom(ib)%iep-dom(ib)%isp+1)/2**(glevel-1)+2
-                  mgc_j=(dom(ib)%jep-dom(ib)%jsp+1)/2**(glevel-1)+2
-                  mgc_k=(dom(ib)%kep-dom(ib)%ksp+1)/2**(glevel-1)+2
-                  dom(ib)%ijkp_lsm(glevel)=dom(ib)%ijkp_lsm(glevel-1)+
-     & (mgc_i-2)*(mgc_j-2)*(mgc_k-2)
-                end do
-                dom(ib)%tot=dom(ib)%ijkp_lsm(dom(ib)%ngrid)
-!INITIALISATIONS
-      if (L_LSMbase) then
-            do k=2,ttk
-              do j=1,ttj
+          if (trim(keyword).eq.'channel') then      ! Channel flow case
+            do k=1,ttk                
+              do j=1,ttj    
                 do i=1,tti
-                  if (dom(ib)%z(k-1).le.length) then
-                    dom(ib)%u(i,j,k)=Ubulk  
-                    dom(ib)%uo(i,j,k)=Ubulk 
-                    dom(ib)%uoo(i,j,k)=Ubulk
-                  else
-                    dom(ib)%u(i,j,k)=0.0
-                    dom(ib)%uo(i,j,k)=0.0
-                    dom(ib)%uoo(i,j,k)=0.0
+!
+! Set initial free surface profile, if not uniform (this is case dependent)
+! Initialise length (i.e. distance of free surface from bed)
+!========== Richard cube test =========================================
+!          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.035)) then
+!            length=0.025
+!          else if ((dom(ib)%xc(i).gt.0.035).and.
+!     &             (dom(ib)%xc(i).le.0.065)) then
+!            length=-0.266666667*dom(ib)%xc(i)+0.0343
+!          else if ((dom(ib)%xc(i).gt.0.065).and.
+!     &             (dom(ib)%xc(i).le.0.25088)) then 
+!            length=0.017
+!          end if	
+!========== Sibel constriction test ===================================
+!          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.59)) then
+!            length=0.076
+!          else if ((dom(ib)%xc(i).gt.0.59).and.
+!     &             (dom(ib)%xc(i).le.0.885)) then
+!            length=-0.213559322*dom(ib)%xc(i)+0.202
+!          else if ((dom(ib)%xc(i).gt.0.885).and.
+!     &             (dom(ib)%xc(i).le.1.475)) then 
+!            length=0.013
+!          end if
+!======================================================================
+!
+! Initialise phi (free surface defined by phi=0, phi=-ve above, +ve below)
+!
+                  if (dom(ib)%zc(k).lt.length)   then
+                    dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
+                  else if (dom(ib)%zc(k).gt.length)   then
+                    dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
+                  else if (dom(ib)%zc(k).eq.length)  then
+                    dom(ib)%phi(i,j,k) = 0.0
                   end if
+                  dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
+                  dom(ib)%phi_reinit(i,j,k)=dom(ib)%phi(i,j,k)
+                end do
               end do
+            end do
+
+          else if (trim(keyword).eq.'wave') then   ! Solitary wave case
+
+            do k=1,ttk          
+              do j=1,ttj    
+                do i=1,tti  
+                  b=length/(cosh(sqrt(3.*length)/2.*(dom(ib)%xc(i))))**2       
+                  if (dom(ib)%zc(k).lt.(b+1))   then
+                    dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-(b+1))
+                  else if (dom(ib)%zc(k).gt.(b+1))   then
+                    dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-(b+1))
+                  else if (dom(ib)%zc(k).eq.(b+1))  then
+                    dom(ib)%phi(i,j,k) = 0.0
+                  end if
+                  dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
+                end do
               end do
-              end do
-      else if (L_LSM) then
-           do k=2,ttk
-           do j=1,ttj
-           do i=1,tti
-            if (dom(ib)%phi(i,j,k).ge.0.0) then
-                    dom(ib)%u(i,j,k)=Ubulk  
-                    dom(ib)%uo(i,j,k)=Ubulk 
-                    dom(ib)%uoo(i,j,k)=Ubulk
-           else
-                    dom(ib)%u(i,j,k)=0.0
-                    dom(ib)%uo(i,j,k)=0.0
-                    dom(ib)%uoo(i,j,k)=0.0
-            end if
-            enddo;enddo;enddo
-      endif
+            end do
 
-      mul = nul * densl
-      mug = nug * densg
+          end if
 
-      end subroutine init_lsm
+        end if
 
-! !######################################################################
-!       subroutine initial_lsm_3d_channel
-! !######################################################################
-!       use vars
-!       use module_LSM
-!       use multidata
-!       use mpi
+        dt_reinit = cfl_lsm*max(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz)
 
-!       implicit none
-!       integer :: i,j,k,ib,tti,ttj,ttk,sn,sn1
-!       integer :: is,ie,js,je,ks,ke
-!       real :: b,dummy
-!       character*8 :: chb,chb1
-!       character*31 :: gridfile
-!       character *80 dummyline
+      end do    
+!
+! Set level set function phi to a signed distance function
+!
+      if (reinit)  call tvd_rk_reinit
+!
+! Define density and viscosity above, below and across the surface
+!
+      call heaviside
 
-! 	if (myrank.eq.0) then
-! 	  write(*,'(a)') '**********************************************'
-! 	  write(*,'(a)') '*'
-! 	  write(*,'(a)') '*            TWO-PHASE SIMULATION'
-! 	  if (l_lsmbase) then
-! 	    write(*,'(a,f8.3)') '* Base case with rigid lid at z=',length
-! 	  else
-! 	    write(*,'(a,f8.3)') '* Initial water level: z=',length
-! 	  endif
-! 	  write(*,'(a)') '*'
-! 	  write(*,'(a)') '**********************************************'
-! 	endif
+      return
+      end subroutine initial_lsm_3d_channel
 
-!       do ib=1,nbp  
-!         tti=dom(ib)%ttc_i;  ttj=dom(ib)%ttc_j;  ttk=dom(ib)%ttc_k  
-!         is=dom(ib)%isp; ie=dom(ib)%iep
-!         js=dom(ib)%jsp; je=dom(ib)%jep
-!         ks=dom(ib)%ksp; ke=dom(ib)%kep
-
-!         allocate (dom(ib)%phi(tti,ttj,ttk),
-!      &dom(ib)%phi_init(tti,ttj,ttk),dom(ib)%phi_reinit(tti,ttj,ttk),
-!      &dom(ib)%phi_new(tti,ttj,ttk),dom(ib)%dphi_dx(tti,ttj,ttk),
-!      &dom(ib)%dphi_dy(tti,ttj,ttk),dom(ib)%dphi_dz(tti,ttj,ttk),
-!      &dom(ib)%s_phi0(tti,ttj,ttk),dom(ib)%h_phi(tti,ttj,ttk),
-!      &dom(ib)%phim(tti,ttj,ttk))
-! !
-! ! Read in phi field if restarting from previous solution 
-! !
-!         if (L_LSM .and. lrestart) then    
-!           write(chb,'(i8)') dom_id(ib)
-!           write(chb1,'(i8)') itime_start
-!           sn=len(trim(adjustl(chb)))
-!           sn1=len(trim(adjustl(chb1)))
-!           chb=repeat('0',(4-sn))//trim(adjustl(chb))
-!           chb1=repeat('0',(6-sn1))//trim(adjustl(chb1))            
-!           gridfile='tecout_phi_'//trim(adjustl(chb))//'_'//
-!      & 'initial'//'.dat'
-!           open (unit=703, file=gridfile)
-!           read (703,*) dummyline
-!           read (703,*) dummyline
-!           read (703,*) dummyline
-!           read (703,*) dummyline
-!           read (703,*) dummyline
-!           do k=ks-1,ke 
-!             do j=js-1,je 
-!               do i=is-1,ie 
-!                 read (703,73) dummy,dummy,dummy,
-!      & dom(ib)%phi(i,j,k),dom(ib)%phim(i,j,k),
-!      & dom(ib)%dens(i,j,k),dom(ib)%mu(i,j,k)
-!               end do
-!             end do
-!           end do
-!  73       format (10e25.8)
-!           close(703)
-!           dom(ib)%phi_init = 0.0
-!           dom(ib)%phi_new = 0.0
-!           dom(ib)%phi_reinit = 0.0
-!         else
-! !
-! ! Initialise uniform phi field, if not restarting
-! !
-!           dom(ib)%phi=1.0
-!           dom(ib)%phi_init = 0.0
-!           dom(ib)%phi_new = 0.0
-!           dom(ib)%phi_reinit = 0.0
-      
-!           if (trim(keyword).eq.'channel') then      ! Channel flow case
-!             do k=1,ttk                
-!               do j=1,ttj    
-!                 do i=1,tti
-! !
-! ! Set initial free surface profile, if not uniform (this is case dependent)
-! ! Initialise length (i.e. distance of free surface from bed)
-! !========== Richard cube test =========================================
-! !          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.035)) then
-! !            length=0.025
-! !          else if ((dom(ib)%xc(i).gt.0.035).and.
-! !     &             (dom(ib)%xc(i).le.0.065)) then
-! !            length=-0.266666667*dom(ib)%xc(i)+0.0343
-! !          else if ((dom(ib)%xc(i).gt.0.065).and.
-! !     &             (dom(ib)%xc(i).le.0.25088)) then 
-! !            length=0.017
-! !          end if	
-! !========== Sibel constriction test ===================================
-! !          if ((dom(ib)%xc(i).ge.0).and.(dom(ib)%xc(i).le.0.59)) then
-! !            length=0.076
-! !          else if ((dom(ib)%xc(i).gt.0.59).and.
-! !     &             (dom(ib)%xc(i).le.0.885)) then
-! !            length=-0.213559322*dom(ib)%xc(i)+0.202
-! !          else if ((dom(ib)%xc(i).gt.0.885).and.
-! !     &             (dom(ib)%xc(i).le.1.475)) then 
-! !            length=0.013
-! !          end if
-! !======================================================================
-! !
-! ! Initialise phi (free surface defined by phi=0, phi=-ve above, +ve below)
-! !
-!                   if (dom(ib)%zc(k).lt.length)   then
-!                     dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-length)
-!                   else if (dom(ib)%zc(k).gt.length)   then
-!                     dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-length)
-!                   else if (dom(ib)%zc(k).eq.length)  then
-!                     dom(ib)%phi(i,j,k) = 0.0
-!                   end if
-!                   dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
-!                   dom(ib)%phi_reinit(i,j,k)=dom(ib)%phi(i,j,k)
-!                 end do
-!               end do
-!             end do
-
-!           else if (trim(keyword).eq.'wave') then   ! Solitary wave case
-
-!             do k=1,ttk          
-!               do j=1,ttj    
-!                 do i=1,tti  
-!                   b=length/(cosh(sqrt(3.*length)/2.*(dom(ib)%xc(i))))**2       
-!                   if (dom(ib)%zc(k).lt.(b+1))   then
-!                     dom(ib)%phi(i,j,k) = 1.0*abs(dom(ib)%zc(k)-(b+1))
-!                   else if (dom(ib)%zc(k).gt.(b+1))   then
-!                     dom(ib)%phi(i,j,k) = -1.0*abs(dom(ib)%zc(k)-(b+1))
-!                   else if (dom(ib)%zc(k).eq.(b+1))  then
-!                     dom(ib)%phi(i,j,k) = 0.0
-!                   end if
-!                   dom(ib)%s_phi0(i,j,k)=dom(ib)%phi(i,j,k)
-!                 end do
-!               end do
-!             end do
-
-!           end if
-
-!         end if
-
-!         dt_reinit = cfl_lsm*max(dom(ib)%dx,dom(ib)%dy,dom(ib)%dz)
-
-!       end do    
-! !
-! ! Set level set function phi to a signed distance function
-! !
-!       if (reinit)  call tvd_rk_reinit
-! !
-! ! Define density and viscosity above, below and across the surface
-! !
-!       call heaviside
-
-!       return
-!       end subroutine initial_lsm_3d_channel
 !######################################################################
       subroutine lsm_3d
 !######################################################################
       use vars
-      use module_LSM
+      use lsm
       use multidata
 
       implicit none
@@ -293,7 +190,7 @@
 ! 3 step runge kutta routine to return convected phi field
 !**********************************************************************
       use vars
-      use module_LSM
+      use lsm
       use multidata
       use mpi
 
@@ -521,7 +418,7 @@
       subroutine dphi_a_v_3d(op)     !(fi)            
 !#######################################################################
       use vars
-      use module_LSM
+      use lsm
       use mpi
       use multidata
       implicit none
@@ -613,15 +510,15 @@
 ! 3 step runge kutta routine which returns re-initialised phi field
 !**********************************************************************
       use vars
-      use module_LSM
+      use lsm
       use multidata
       use mpi
 
       implicit none
       integer :: i,j,k,it,ib
       logical :: bool
-      double precision :: max_abs,abs_dphi,abs_phidiff,max_phidiff
-      double precision :: local_max_abs,local_max_phidiff,dt_reinit
+      real :: max_abs,abs_dphi,abs_phidiff,max_phidiff
+      real :: local_max_abs,local_max_phidiff
 
       bool=.false.
       it=0
@@ -789,7 +686,7 @@
       subroutine dphi_for_reinit(op)  
 !######################################################################
       use vars
-      use module_LSM
+      use lsm
       use multidata
 
       implicit none
@@ -1559,7 +1456,7 @@
       subroutine heaviside
 !######################################################################
       use vars
-      use module_LSM
+      use lsm
       use mpi
       use multidata
 

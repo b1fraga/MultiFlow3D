@@ -14,7 +14,7 @@
         double precision :: vr_a,vr_b,vr_c,vr_d
         double precision :: s12,s13,s23
         double precision :: ss,cons_k,cons_eps
-        double precision :: conv,diff,prod,other
+        double precision :: rrey,conv,diff,prod,other
         double precision :: delta_grid
         double precision :: alfark(3)
         double precision ::dx,dy,dz
@@ -26,6 +26,7 @@
         alfark(2)=0.5
         alfark(3)=1.0
 
+        rrey=1.0/Re
         cons_k=0.05; cons_eps=1.00
 
         do rk=1,3

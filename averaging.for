@@ -229,7 +229,6 @@
 !##########################################################################
         use vars
         use multidata
-        use module_LSM
         implicit none
         double precision    :: fnoise
         double precision    :: random_number_normal

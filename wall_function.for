@@ -6,21 +6,15 @@
 !##########################################################################
         use vars
         use multidata
-
         implicit none
         integer i,j,k,ib,bound,cond
         double precision delta,n_x,n_y,n_z,vnor,vtan,dvtan,sub
-        double precision uc,vc,wc,small,dycell,rycell,vtankr
+        double precision uc,vc,wc,rrey,small,dycell,rycell,vtankr
         double precision tausub,taupow
 	  double precision aaa,bbb,const1,const2,const3,const4
 
-      
-      if (LAS.or.L_LSM) then                                            !variable density
-      do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
-         rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-      enddo;enddo;enddo
-      endif
-      small = 1.e-30
+        rrey=1.0/Re
+        small = 1.e-30
 
 	  SELECT CASE (bound)
 	  	CASE (1) 
@@ -73,6 +67,7 @@
               i=dom(ib)%isp
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                  do j=dom(ib)%jsp-1,dom(ib)%jep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
@@ -103,6 +98,7 @@
               i=dom(ib)%iep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                  do j=dom(ib)%jsp-1,dom(ib)%jep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
@@ -133,6 +129,7 @@
 
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                  do i=dom(ib)%isp-1,dom(ib)%iep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
@@ -163,6 +160,7 @@
               j=dom(ib)%jep
               do k=dom(ib)%ksp-1,dom(ib)%kep+1
                  do i=dom(ib)%isp-1,dom(ib)%iep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
@@ -193,6 +191,7 @@
               k=dom(ib)%ksp
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                  do i=dom(ib)%isp-1,dom(ib)%iep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
@@ -223,6 +222,7 @@
               k=dom(ib)%kep
               do j=dom(ib)%jsp-1,dom(ib)%jep+1
                  do i=dom(ib)%isp-1,dom(ib)%iep+1
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
                     uc=0.5*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                     vc=0.5*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                     wc=0.5*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))

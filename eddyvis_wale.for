@@ -11,7 +11,7 @@
         double precision :: s12,s13,s23
         double precision :: s11d,s22d,s33d,s12d,s13d,s23d
         double precision :: ss,sdsd,eqnA,denom
-        double precision :: h1,h2,h3,rh123
+        double precision :: rrey,h1,h2,h3,rh123
         double precision :: ufv_c,ufv_n1,ufv_n2
         double precision :: vfv_c,vfv_n1,vfv_n2
         double precision :: wfv_c,wfv_n1,wfv_n2
@@ -22,6 +22,7 @@
         character*25 :: gf
 
 
+        rrey=1.0/Re
         cw=0.46
     
         do ib=1,nbp

@@ -204,7 +204,6 @@
         use vars
         use mpi
         use multidata
-        use module_LSM
         implicit none
         integer i,j,k,ib,isp,jspr,jepr,kspr,kepr,ispr,iepr
         double precision qstpp,fakfor,flwsum_loc,flwsum,A_loc,A

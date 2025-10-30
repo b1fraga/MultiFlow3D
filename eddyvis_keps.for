@@ -13,7 +13,7 @@
         integer :: i,j,k,rk,ly
         integer :: ib,is,ie,js,je,ks,ke
         double precision :: cmu
-        double precision :: dx,dy,dz
+        double precision :: rrey,dx,dy,dz
         double precision :: alfark(3),strain
 
         alfark(1)=1./3.
@@ -33,6 +33,7 @@
 		call eddyv_eps(alfark(rk))
 	 enddo
 
+       rrey=1.0/Re
        cmu=0.09
 
        do ib=1,nbp
@@ -45,9 +46,8 @@
            do j=js-1,je+1
               do i=is-1,ie+1
 
-      if (LAS.or.L_LSM) then                                            !variable density
-         rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-      endif
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
+
 !	if (abs(dom(ib)%eps(i,j,k)).lt.1.0d-07) then
 !		dom(ib)%eps(i,j,k)=1.0d-07
 !	endif
@@ -249,22 +249,19 @@
         double precision :: dxx,dyy,dzz,vsgs
         double precision :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
         double precision :: sigmak,cmu
-        double precision :: conv,diff,prod,other
+        double precision :: rrey,conv,diff,prod,other
         double precision :: alfark
 	  double precision :: strain
 
+        rrey=1.0/Re
         sigmak=1.00
 	  cmu = 0.09
 
         do ib=1,nbp
+              
               do k=1,dom(ib)%ttc_k
               do i=1,dom(ib)%ttc_i
               do j=1,dom(ib)%ttc_j
-
-               if (LAS.or.L_LSM) then                                            !variable density
-                  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-               endif
-               
                  dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
                  dom(ib)%epso(i,j,k)=dom(ib)%eps(i,j,k)
 			if (dom(ib)%epso(i,j,k).lt.1.0d-07) then
@@ -294,6 +291,8 @@
         do k=ks,ke
            do j=js,je
               do i=is,ie
+
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 
         vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k)		!eddy viscosity based on t-1
 
@@ -488,26 +487,23 @@
         integer :: i,j,k
         integer :: ib,is,ie,js,je,ks,ke
         double precision :: epsdudx,epsdvdy,epsdwdz
- 	     double precision :: epsp,epsm,epsu,epsc,epsd,b_r
+ 	  double precision :: epsp,epsm,epsu,epsc,epsd,b_r
         double precision :: awT,aeT,asT,anT,abT,atT,apT
         double precision :: dxx,dyy,dzz,vsgs
         double precision :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
+        double precision :: rrey
         double precision :: cmu,c1eps,c2eps,sigmaeps
         double precision :: conv,diff,prod,other
         double precision :: alfark,strain
 
         c1eps=1.44; c2eps=1.92 ; sigmaeps=1.31 ; cmu=0.09
+        rrey=1.0/Re
 
         do ib=1,nbp				
-
-
+			
               do k=1,dom(ib)%ttc_k
               do i=1,dom(ib)%ttc_i
               do j=1,dom(ib)%ttc_j
-               if (LAS.or.L_LSM) then                                            !variable density
-                        rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-               endif
-
                  dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
 			if (dom(ib)%ksgso(i,j,k).lt.1.0d-07) then
 				dom(ib)%ksgso(i,j,k)=1.0d-07
@@ -528,6 +524,8 @@
         do k=ks,ke
            do j=js,je
               do i=is,ie
+
+        if (L_LSM)  rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 
         vsgs=cmu*dom(ib)%ksgso(i,j,k)**2.0/dom(ib)%epso(i,j,k)		!eddy viscosity based on t-1
 
@@ -740,6 +738,8 @@
         double precision :: s12,s13,s23
 
         do ib=1,nbp				
+
+
 !====================================================
         vr_a = 0.25*( dom(ib)%uoo(i,j,k)   + dom(ib)%uoo(i-1,j,k) +
      &	 	  dom(ib)%uoo(i,j+1,k) + dom(ib)%uoo(i-1,j+1,k) )

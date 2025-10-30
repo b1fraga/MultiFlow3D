@@ -3,12 +3,11 @@
 !##########################################################################
         use vars
         use multidata
-        use module_LSM
         implicit none
         integer i,j,k,ijk,ib
         integer ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
-        integer ij1,ij2,ij3,ij4,ij5,ij6,ij7,ij8,pre_nipl
-        integer pre_njpl,pre_nkpl
+        integer ij1,ij2,ij3,ij4,ij5,ij6,ij7,ij8,pre_nipl,pre_njpl,
+     & pre_nkpl
         integer glevel,gl,mgc_i,mgc_j,mgc_k,cnt,incr,ijk_lsm
         integer prmgci,prmgcj,prmgck
         real :: dxx,dyy,dzz,ndx,ndy,ndz
@@ -16,7 +15,7 @@
         do ib=1,nbp
 
         ijk_lsm=0
-        if (L_LSM) dom(ib)%dens_mg=0.0
+        dom(ib)%dens_mg=0.0
 
         dom(ib)%faz(1)=(dom(ib)%iep-dom(ib)%isp+3)*
      & (dom(ib)%jep-dom(ib)%jsp+3)*

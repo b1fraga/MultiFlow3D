@@ -53,10 +53,15 @@
 	   ireadinlet = 0
 	   iaddinlet = 1
 
-      if (myrank.eq.1) then
+!========================================================
+      if (LSCALAR) then
+         if (.not.LRESTART) call sediment_init
+      end if
+!========================================================
+   	if (myrank.eq.1) then
    	 open(unit=203, file='worktime.dat')
    	 write(203,*)'Variables=it,C-D,PSolver,IBM,LPT,Total'
-      endif
+   	endif
 
 !================== Start Time Loop ====================================
       do itime=itime_start,itime_end
@@ -67,6 +72,7 @@
 
            ctime=ctime+dt
            ntime = ntime + 1
+           cctime=cctime + 1
 
 !----------------------reading inflow data------------------------------!brunho2014
 	   if (read_inflow) then
@@ -91,31 +97,40 @@
            if (LSCALAR) call boundS
 
            do ib=1,nbp
-                 dom(ib)%uoo=dom(ib)%u
-                 dom(ib)%voo=dom(ib)%v
-                 dom(ib)%woo=dom(ib)%w
-                 
-              if (LENERGY)    dom(ib)%To=dom(ib)%T
-	     	     if (LSCALAR) 	dom(ib)%So=dom(ib)%S
+              do k=1,dom(ib)%ttc_k
+              do i=1,dom(ib)%ttc_i
+              do j=1,dom(ib)%ttc_j
+                 dom(ib)%uoo(i,j,k)=dom(ib)%u(i,j,k)
+                 dom(ib)%voo(i,j,k)=dom(ib)%v(i,j,k)
+                 dom(ib)%woo(i,j,k)=dom(ib)%w(i,j,k)
+                 dom(ib)%To(i,j,k)=dom(ib)%T(i,j,k)
+	     	     if (LSCALAR) 	dom(ib)%So(i,j,k)=dom(ib)%S(i,j,k)
+              end do
+              end do
+              end do
            end do
 
-            if (LENERGY) call energy
-            if (LSCALAR) call sediment_4thtest
-            if (LAS) call Active_scalar
-            if (LNonNewt) call NonNewtonian
-            if (L_LSM)  then
+           if (LENERGY) call energy
+           if (LSCALAR) call sediment_4thtest
+           if (L_LSM)  then
              call LSM_3D
              call heaviside  
-            end if
-            if (LPT) then								!Brunho2013-2024
-               if (myrank.eq.0) then
-                  call release_pt	                                          !release new particles if any fraction requires       
-                  if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
-                  call alloc_pt                                               !if not periodic, particles that leave the domain are removed
-               endif		
-               call MPI_pt				
-      	   endif
-            if(SGS) then
+           end if
+
+      if (LIMB)  call IB_previous   
+
+	   if (LPT) then								!Brunho2013-2024
+      if (myrank.eq.0) then
+            call release_pt	                                          !release new particles if any fraction requires       
+            if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
+            call alloc_pt                                               !if not periodic, particles that leave the domain are removed
+      endif		
+
+      call MPI_pt					
+
+	   endif
+
+           if(SGS) then
               if(sgs_model.eq.1) then
                  call eddyv_smag
               else if(sgs_model.eq.2) then
@@ -142,7 +157,7 @@
 
                  select case (differencing)
                     case (1) 
-                       call rungek_conv2nd !
+                       call rungek_conv2nd
                     case (2) 
                        call rungek_conv4th
                     case (3)
@@ -151,7 +166,7 @@
                  if (diff_sch.eq.3) then
                     select case (differencing)
                        case (1) 
-                          call rungek_diff2nd !
+                          call rungek_diff2nd
                        case (2) 
                           call rungek_diff4th
                        case (3)
@@ -184,7 +199,7 @@
 	   if (myrank.eq.0) wtime_lpt = MPI_WTIME ( ) - wtime_lpt
 
 	     if (myrank.eq.1) wtime_ib = MPI_WTIME ( )
-           if (LIMB)  call IBM							
+           if (LIMB)  call IBM							!Pablo2015
 	     if (myrank.eq.1) wtime_ib = MPI_WTIME ( ) - wtime_ib
 
            call correctoutflux
@@ -258,10 +273,10 @@
 
 
 !------write solution in tecplot format------------------------------
-      if (LTRANSIENT) then                                             
-                if ((mod(itime,tsteps_pt).eq.0).and.
+      if (LTRANSIENT) then
+                if ((mod(cctime,tsteps_pt).eq.0).and.
      &          (itime.gt.itime_start)) then                    
-                call TECPLOT(count)
+!                call TECPLOT(count)
                 if (LPT) then                           
                   if (myrank.eq.0.and.np.gt.0) call TECPARTICLE(count)
                 endif

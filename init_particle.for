@@ -16,7 +16,7 @@ C#############################################################
 
       implicit none   
 
-      integer :: l,ib,f,frac1,frac_end,m,sphere_optn,ll
+      integer :: l,ib,f,frac1,frac_end,m,sphere_optn
       integer :: i,j,k,nfrac,ptnr,tsnr,np_restart
       double precision :: random_number_normal,sigma_rho
       double precision :: xp,yp,zp,uop,vop,wop,Dp,sigma,rho_p
@@ -39,7 +39,6 @@ C#############################################################
       read(10,*) nfrac                    !how many Lag fractions you want to calculate BF2023
       read(10,*) Lcol
       read(10,*) Lcolwall
-      read(10,*) k_n
 
       np=0
       np_restart=0
@@ -76,7 +75,6 @@ C#############################################################
       enddo
 
       close(10)
-      ! write(6,*)'init_part unit 10 closed'
 
       allocate (xp_pt(np),yp_pt(np),zp_pt(np))
       allocate (uop_pt(np),vop_pt(np),wop_pt(np))
@@ -84,7 +82,7 @@ C#############################################################
       allocate (uopold(np),vopold(np),wopold(np))
       allocate (dp_pt(np),dp_old(np),rho_pt(np))
       allocate (Fu(np),Fv(np),Fw(np),rhop_old(np))
-      allocate (ptsinproc(nprocs),ptsinproc_g(nprocs))
+      allocate (ptsinproc(nprocs))
 
       open(30,file='LPT.cin')             !reopen the file to read the details of every fraction
       read(30,*)                          !header
@@ -92,7 +90,6 @@ C#############################################################
       read(30,*)                          !nfrac
       read(30,*)                          !Lcol
       read(30,*)                          !Lcolwall
-      read(30,*)                          !k_n
 
       IF (myrank.eq.0) then
 
@@ -140,10 +137,8 @@ C#############################################################
                   if (random) then                                            !location
                         mindis=1.1*Dp
                         dist=0
-                        ll=0
                   do while (dist.lt.mindis)                             !avoiding overlap
                   dist=mindis
-                  ll=ll+1
                   if (.not.LSPHERICAL) then !default cube release
                   xp_pt(l)=random_number_uniform(xp-0.5*Wx,xp+0.5*Wx)
                   yp_pt(l)=random_number_uniform(yp-0.5*Wy,yp+0.5*Wy)
@@ -161,14 +156,6 @@ C#############################################################
                   endif
                         dist=min(dist,distance)
                   enddo
-                  if (ll.gt.10000) then
-                        write(6,*) '================================' 
-                        write(6,*) 'Release area too small.' 
-                        write(6,*) 'Cannot create so many particles'
-                        write(6,*) 'without overlapping.'
-                        write(6,*) '================================' 
-                        stop
-                  endif
                   enddo
                   uop_pt(l)=uop
                   vop_pt(l)=vop
@@ -208,7 +195,6 @@ C#############################################################
       ENDIF                                                             !myrank
       
       close (30)
-      ! write(6,*)'init_part unit 30 closed'
 
       RETURN
       END SUBROUTINE
@@ -229,7 +215,6 @@ C **********************************************************************
             character(LEN=20) filename
             character(LEN=4) b_str,c_str
             double precision u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
-            double precision S_cn,rho_cn
             
 
       do ib=1,nbp
@@ -251,14 +236,9 @@ C **********************************************************************
       OPEN (UNIT=idfile, FILE=filename)
 
       WRITE (idfile,*) 'TITLE = ', '"Eulerian field"'
+      WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P","T"'!,"S",
+!     &"k","eps","vis"'
 
-      if (LSCALAR) then
-      WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"
-     &,"S"'
-!      ,"dens","T","S","vis"'
-      ELSE
-      WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"'
-      endif
 
         is=pl+1; ie=dom(ib)%ttc_i-pl
         js=pl+1; je=dom(ib)%ttc_j-pl
@@ -292,18 +272,11 @@ C **********************************************************************
      &dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+
      &dom(ib)%p(i+1,j,k+1)  +dom(ib)%p(i,j+1,k+1)+
      &dom(ib)%p(i+1,j+1,k+1))
-            if (LSCALAR) then
-                S_cn  =0.125*(dom(ib)%S(i,j,k)+
-     &dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+
-     &dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+
-     &dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+
-     &dom(ib)%S(i+1,j+1,k+1))
-                rho_cn  =0.125*(dom(ib)%dens(i,j,k)+
-     &dom(ib)%dens(i+1,j,k)    +dom(ib)%dens(i,j+1,k)+
-     &dom(ib)%dens(i+1,j+1,k)  +dom(ib)%dens(i,j,k+1)+
-     &dom(ib)%dens(i+1,j,k+1)  +dom(ib)%dens(i,j+1,k+1)+
-     &dom(ib)%dens(i+1,j+1,k+1))
-            endif
+!                 S_cn  =0.125*(dom(ib)%S(i,j,k)+
+!     &dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+
+!     &dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+
+!     &dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+
+!     &dom(ib)%S(i+1,j+1,k+1))
 !                 k_cn  =0.125*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
 !     &dom(ib)%ksgs(i+1,j+1,k)  +dom(ib)%ksgs(i,j,k+1)+
@@ -319,21 +292,14 @@ C **********************************************************************
 !     &dom(ib)%vis(i+1,j+1,k)  +dom(ib)%vis(i,j,k+1)+
 !     &dom(ib)%vis(i+1,j,k+1)  +dom(ib)%vis(i,j+1,k+1)+
 !     &dom(ib)%vis(i+1,j+1,k+1))
-            if (LENERGY) then
                  T_cn  =0.125*(dom(ib)%T(i,j,k)+
      &dom(ib)%T(i+1,j,k)    +dom(ib)%T(i,j+1,k)+
      &dom(ib)%T(i+1,j+1,k)  +dom(ib)%T(i,j,k+1)+
      &dom(ib)%T(i+1,j,k+1)  +dom(ib)%T(i,j+1,k+1)+
      &dom(ib)%T(i+1,j+1,k+1))
-            endif
 
-      if (LSCALAR) then
-       write (idfile,'(9e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
-     & ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn!T_cn,S_cn,k_cn,eps_cn,vis_cn
-      else
-      write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
-     & ,u_cn,v_cn,w_cn,p_cn
-      endif
+      write (idfile,'(11e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
+     & ,u_cn,v_cn,w_cn,p_cn,T_cn!S_cn,k_cn,eps_cn,vis_cn
 
             enddo
             enddo
@@ -435,7 +401,7 @@ C
               
             ! Generate random theta from 0 to 2*pi
             call random_number(u)
-            theta = pi * u !for circle: 2.0d0 * pi * u
+            theta = 2.0d0 * pi * u
 
             if (.not.LSURFACE) then !if releasing inside volume/area, generate random r
                   if (sphere_optn.eq.0) then
@@ -475,57 +441,3 @@ C
               
 
 
-C **********************************************************************
-      SUBROUTINE HELL(num_output)
-C **********************************************************************
-      
-              use multidata
-              use mpi
-              use vars   
-      
-                  implicit none     
-      
-                  integer strlen,i,j,k,ib,ni,nj,nk,ii,idfile,num_output
-                  integer is,ie,js,je,ks,ke
-                  character(LEN=20) filename
-                  character(LEN=4) b_str,c_str
-                  double precision u_cn,v_cn,w_cn,p_cn,T_cn!,S_cn,k_cn,eps_cn,vis_cn
-                  double precision S_cn,rho_cn
-                  
-      
-            do ib=1,nbp
-      
-                    idfile=600+dom_id(ib)
-      
-            filename='demon.hdf5'
-      
-            OPEN (UNIT=idfile, FILE=filename)
-
-      
-              is=pl+1; ie=dom(ib)%ttc_i-pl
-              js=pl+1; je=dom(ib)%ttc_j-pl
-              ks=pl+1; ke=dom(ib)%ttc_k-pl
-              ni=ie-(is-1)+1
-              nj=je-(js-1)+1
-              nk=ke-(ks-1)+1
-      
-      WRITE(idfile,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime
-      WRITE(idfile,*)'I=',ni,', J=',nj,', K=',nk,'F=POINT'
-      
-            do k=ks-1,ke
-            do j=js-1,je
-            do i=is-1,ie
-
-      write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k)
-
-      
-            enddo
-            enddo
-            enddo
-
-            end do
-
-            close (idfile)
-      
-            END SUBROUTINE
-      

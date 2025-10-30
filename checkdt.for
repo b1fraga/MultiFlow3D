@@ -4,7 +4,6 @@
         use vars
         use mpi
         use multidata
-        use module_LSM
         implicit none
         integer :: i,j,k,ib
 	  double precision :: dxx,dyy,dzz,umax,vmax,wmax,dtmax
@@ -118,11 +117,11 @@
             dtvisc=max(mul/densl,mug/densg)*
      & (2.0/(dxx)+2.0/(dyy)+2.0/(dzz))
             Cu=1./((umax/dom(ib)%dx+dtvisc)+sqrt((umax/dom(ib)%dx+
-     & dtvisc)**2+4.*abs(gx)/dom(ib)%dx))
+     & dtvisc)**2+4.*abs(grx)/dom(ib)%dx))
             Cv=1./((vmax/dom(ib)%dy+dtvisc)+sqrt((vmax/dom(ib)%dy+
-     & dtvisc)**2+4.*abs(gy)/dom(ib)%dy))
+     & dtvisc)**2+4.*abs(gry)/dom(ib)%dy))
             Cw=1./((wmax/dom(ib)%dz+dtvisc)+sqrt((wmax/dom(ib)%dz+
-     & dtvisc)**2+4.*abs(gz)/dom(ib)%dz))
+     & dtvisc)**2+4.*abs(grz)/dom(ib)%dz))
             dt = 2.*safety_factor*min(Cu,Cv,Cw)
 	    end do
         end if

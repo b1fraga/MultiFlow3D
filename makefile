@@ -1,7 +1,7 @@
 #############################################################
-F90=mpif90
-OPTIONS    = -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp
-LOPTIONS   = -O2 -fopenmp
+F90=mpifort
+OPTIONS    = -c -real-size 64 -O2 -qopenmp -traceback
+LOPTIONS   = -O2 -qopenmp
 ##############################################################
 
 objects = \
@@ -10,7 +10,6 @@ module_multidata.o\
 module_mpi.o\
 module_vars_pt.o\
 module_SEM.o\
-module_LSM.o\
 imb.o\
 shapes.o\
 fdstag.o\
@@ -65,27 +64,21 @@ sediment.o
 .for.o:
 	$(F90) $(OPTIONS) -o $@ $<
 
-M3D_v2.exe: $(objects) 
+3dFDM.exe: $(objects) 
 	$(F90) $(objects) $(LOPTIONS) -o M3D_v2.exe \
 
 clean:
 	rm -rfv *.o *.mod M3D_v2.exe
 
 
-module_mpi.o : module_mpi.for 
-module_multidata.o : module_multidata.for 
-module_vars.o : module_vars.for 
-module_vars_pt.o : module_vars_pt.for 
-module_LSM.o:module_LSM.for
-module_SEM.o:module_SEM.for
-lsm.o : lsm.for module_mpi.o module_multidata.o module_vars.o module_LSM.o 
+
 alloc_dom.o : alloc_dom.for module_mpi.o module_vars.o module_multidata.o 
 alloc_pt.o : alloc_pt.for module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
 averaging.o : averaging.for module_vars.o module_multidata.o 
 bounds.o : bounds.for imb.o module_mpi.o module_multidata.o module_vars.o 
 bounds_keps.o : bounds_keps.for module_multidata.o module_vars.o 
-bounds_lsm.o : bounds_lsm.for module_multidata.o module_vars.o module_LSM.o 
-checkdt.o : checkdt.for module_multidata.o module_mpi.o module_vars.o module_LSM.o  
+bounds_lsm.o : bounds_lsm.for module_multidata.o lsm.o module_vars.o 
+checkdt.o : checkdt.for module_multidata.o module_mpi.o module_vars.o 
 convection.o : convection.for module_multidata.o module_vars.o 
 delta_func.o : delta_func.for 
 diffusion.o : diffusion.for module_multidata.o module_mpi.o module_vars.o 
@@ -106,14 +99,19 @@ exchangev.o : exchangev.for module_vars.o module_mpi.o module_multidata.o
 exchangew.o : exchangew.for module_vars.o module_mpi.o module_multidata.o 
 fdstag.o : fdstag.for module_vars.o module_mpi.o 
 flosol.o : flosol.for module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
-imb.o : imb.for module_mpi.o module_multidata.o module_vars.o module_LSM.o
+imb.o : imb.for module_mpi.o module_multidata.o module_vars.o 
 initial.o : initial.for module_mpi.o module_multidata.o module_vars.o 
 init_particle.o : init_particle.for module_vars_pt.o module_vars.o module_mpi.o module_multidata.o 
 localparameters.o : localparameters.for module_multidata.o module_mpi.o module_vars.o 
 collision.o: LPT.for module_vars_pt.o module_vars.o module_mpi.o module_multidata.o 
 LPT.o : LPT.for module_vars_pt.o module_vars.o module_mpi.o module_multidata.o 
+lsm.o : lsm.for module_mpi.o module_multidata.o module_vars.o 
 sediment.o: sediment.for module_multidata.o module_vars.o module_mpi.o
-mgsolver.o : mgsolver.for module_multidata.o module_vars.o module_LSM.o 
+mgsolver.o : mgsolver.for module_multidata.o module_vars.o 
+module_mpi.o : module_mpi.for 
+module_multidata.o : module_multidata.for 
+module_vars.o : module_vars.for 
+module_vars_pt.o : module_vars_pt.for 
 MPI_pt.o : MPI_pt.for module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
 newsolv_mg.o : newsolv_mg.for module_multidata.o module_mpi.o module_vars.o 
 post.o : post.for module_vars.o module_multidata.o 

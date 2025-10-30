@@ -4,9 +4,9 @@
 	  SAVE
       double precision  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
 	double precision  :: lambda,sigma,nxl
-      Logical :: LDrag
+
 	INTEGER :: imp_proc_master,imb_block_master,forcefilej,a,b
-      INTEGER :: bodynum,maxnode,master,maxnodeIBS,mdfsteps,yangcase
+        INTEGER :: bodynum,maxnode,master,maxnodeIBS,mdfsteps,yangcase
 
 	LOGICAL,allocatable,dimension (:):: rotating,LSELFST,intflow
 
@@ -77,6 +77,7 @@
       INTEGER      :: L,I,strlen,maxn,K
       CHARACTER*8  :: char_block
       CHARACTER*31 :: gridfile
+      character*80 :: dummyline
 
         PI = 4.D0*DATAN(1.D0)
         xt = 0.d0	; xdt = 0.d0	; xddt = 0.d0
@@ -87,7 +88,7 @@
 	master=0 ! 0 is going to be always the master processor
 
        open (unit=1, file='geom.cin')
-       read (1,*) 
+       read (1,*) dummyline
        read (1,*) yangcase
        read (1,*) mdfsteps
        read (1,*) bodynum
@@ -131,9 +132,8 @@
 
         i = 1
         DO WHILE (i.le.bodynum)
-		read (1,*) 
+		read (1,*) dummyline
 		read (1,*) imb_shape(i)
-            read (1,*) LDrag
 		read (1,*) linfin(i),zini(i),zend(i)
 		read (1,*) Cx(i),Cy(i),Cz(i)
 		read (1,*) R(i)
@@ -145,7 +145,7 @@
 		read (1,*) intflow(i)
 		read (1,*) reddelta(i),rdiv_imb(i)
 !--- Turbine parameters: ---
-		read (1,*) 
+		read (1,*) dummyline
 		read (1,*) turax(i)
 		read (1,*) xaero(i),yaero(i),zaero(i)
 		read (1,*) pitch(i)
@@ -283,7 +283,6 @@
 !	write(6,'(a,f12.4,a,f12.4)')'    dx:',dx,'      dy:', dy
 !	WRITE(6,*)' '
 
-      call IB_previous
 
       RETURN
       end
@@ -611,8 +610,8 @@ C     &                  nodez_loc(ii))=1.d0
 		alpha0_loc(ii)=alpha0(M,L)
 		lag_bod_loc(ii)=M
 		    ENDIF
-		rott_loc(ii)=1                                  !Moving Lagrangian
-		IF(.not.rotating(M))rott_loc(ii)=2              !Static Lagrangian
+		rott_loc(ii)=1 !Moving Lagrangian
+		IF(rotating(M).eqv..false.)rott_loc(ii)=2   !Static Lagrangian
 		 ENDDO
 		Enddo
 
@@ -854,12 +853,8 @@ C     &                  nodez_loc(ii))=1.d0
 	call exchange(11)
 	call exchange(22)
 	call exchange(33)
-      call exchange(5)!T
+        call exchange(5)!T
       !   call exchange(20)!Sp (in covid code but not this one)
-
-      Do M=1,bodynum
-            IF (rotating(K)) call IB_previous
-      Enddo
 
         IF (Myrank.eq.master) THEN
 	  FX1NF = 0.d0  ;  FX2NF=0.d0 	;  FX3NF=0.d0
@@ -967,7 +962,7 @@ C     &                  nodez_loc(ii))=1.d0
       Do L = 1,maxnodeIBS
 	 nl=0 ; dhtotal=0.d0
 	IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 700
-	 IF( rott_loc(L).eq.1 )then                     !moving body
+	 IF( rott_loc(L).eq.1 )then
           DO I = 1, dom(ib)%ttc_i
        IF (dom(ib)%x(i) .gt.(nodex_loc(L)+nxl*dom(ib)%dx) .or.
      &     dom(ib)%x(i) .lt.(nodex_loc(L)-nxl*dom(ib)%dx)) GOTO 210
@@ -1007,7 +1002,7 @@ C     &                  nodez_loc(ii))=1.d0
 
 	U_Beta1_loc(L)=U_Beta1_loc(L)*1.0d0/dhtotal
 
-	ELSE                          !body not moving
+	ELSE
 	 Do nl=1,KmaxU(L)
 	  I=I_nr_U(L,nl) ;  J=J_nr_U(L,nl) ;  K=K_nr_U(L,nl)
 	 	!IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then			!Brunho comp channel 2016
@@ -1251,78 +1246,74 @@ C     &                  nodez_loc(ii))=1.d0
       use imb
       implicit none
       INTEGER :: M,L,KK,ib,iii
-      double precision :: PI,aplh,UIB_loc,VIB_loc,WIB_loc,tt,dx
-      
-      PI = 4.D0*DATAN(1.D0)
+      double precision :: PI,aplh,UIB_loc,VIB_loc,WIB_loc,tt
+       PI = 4.D0*DATAN(1.D0)
+
+	 FX1_loc = 0.d0; FX2_loc = 0.d0; FX3_loc = 0.d0
+         FXSp_loc = 0.d0; FXT_loc=0.d0
 
 	DO ib=1,nbp
-            dx=dom(ib)%dx
-	IF (imbinblock_loc(dom_id(ib)+1).gt.0) then
 
-      Do L = 1,maxnodeIBS
+	IF (imbinblock_loc(dom_id(ib)+1).eq.0) GOTO 333	!No points within the block
 
-      IF (imb_block_loc(L).eq.dom_id(ib)) then
-
-      UIB_loc = 0.d0; VIB_loc = 0.d0; WIB_loc = 0.d0                    !stationary boundary (default)
-
-      !===================Drag Force====================================(Bruño 24)
-      if (LDrag) then
-      UIB_loc=U_Beta1_loc(L)-sign(U_Beta1_loc(L),0.5*U_Beta1_loc(L)**2
-     &*0.44*(PI*0.5**2.d0*dx**2.d0))
-      VIB_loc=U_Beta2_loc(L)-sign(U_Beta2_loc(L),0.5*U_Beta2_loc(L)**2
-     &*0.44*(PI*0.5**2.d0*dx**2.d0))
-      WIB_loc=U_Beta3_loc(L)-sign(U_Beta2_loc(L),0.5*U_Beta3_loc(L)**2
-     &*0.44*(PI*0.5**2.d0*dx**2.d0))
-      endif
-      !====================Rotating body================================
-      M=lag_bod_loc(L)
-	IF(imb_shape(M).eq.5.and.rott_loc(L).eq.1) then
-	      IF (turax(M).eq.1) then	                                    ! Vertical Axis Turbine
+        Do L = 1,maxnodeIBS
+	  IF(imb_block_loc(L).ne.dom_id(ib)) GOTO 800 !If the IB point is not in the present block
+	   UIB_loc = 0.d0; VIB_loc = 0.d0; WIB_loc = 0.d0
+		M=lag_bod_loc(L)
+	    IF(imb_shape(M).eq.5.and.rott_loc(L).eq.1) then
+	     IF (turax(M).eq.1) then	! Vertical Axis Turbine
 		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1
 		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)
 	      UIB_loc=-radsin(M)*R0_loc(L)*cos(aplh-alpha0_loc(L))
 	      VIB_loc=-radsin(M)*R0_loc(L)*sin(aplh-alpha0_loc(L))
 	      WIB_loc= 0.d0
-	      ELSEIF (turax(M).eq.2) then                                      ! Horizontal Axis Turbine
+	     ENDIF
+	     IF (turax(M).eq.2) then ! Horizontal Axis Turbine
+!		iii=INT((L-1)/(nodes(M)/imbnumber(M)))+1
+!		aplh=rads(M)+(iii-1)*2.D0*PI/imbnumber(M)
 	      UIB_loc=0.d0
 	      VIB_loc= radsin(M)*R0_loc(L)*cos(rads(M)+alpha0_loc(L))
 	      WIB_loc=-radsin(M)*R0_loc(L)*sin(rads(M)+alpha0_loc(L))
-	      ENDIF
-	ENDIF
-      !====================Temperature boundary=========================(Aleks 23)
-      !tt=273.d0
-      !====================Tracer boundary==============================(Riza 21)
-      !Sp_Beta_loc(L)=
-      !====================Multi-Direct Forcing=========================
-      !Velocities
-      FX1_loc(L) = (UIB_loc - U_Beta1_loc(L))/dt
-      FX2_loc(L) = (VIB_loc - U_Beta2_loc(L))/dt
-      FX3_loc(L) = (WIB_loc - U_Beta3_loc(L))/dt
-      !Tracer
-      !FXSp_loc(L) = - Sp_Beta_loc(L)/dt      
-      !Temperature      
-      !FXT_loc(L) = (tt - T_Beta_loc(L))/dt                              !Setting T inside IB Aleks 04/23
+	     ENDIF
 
-      ENDIF                                                             !imb_in_block
-      ENDDO                                                             !loop in immersed boundaries
-      ENDIF                                                             !if IMB is in this block                    
-      Enddo                                                             !loop in domains
+	    ENDIF
+!Write here any other imposed movement in case.
+! Aleks 04/23 setting temperature (tt) for different IB bodies
+            !     if (L.le.nodes(1)) tt=297.d0    ! IB1 body T=297K
+            !     if (L.ge.(nodes(1)+1)) tt=317.d0        !IB2 body T=317K
+               tt=273.d0
+!This sets values to eulerian field inside the IB points:
+            FX1_loc(L) = ( UIB_loc - U_Beta1_loc(L) )/dt
+            FX2_loc(L) = ( VIB_loc - U_Beta2_loc(L) )/dt
+            FX3_loc(L) = ( WIB_loc - U_Beta3_loc(L) )/dt
+            ! FXSp_loc(L) = - Sp_Beta_loc(L)/dt 
+            FXT_loc(L) = (tt - T_Beta_loc(L))/dt !Setting T inside IB Aleks 04/23
+            ! write(217,*)L,FXT_loc(L)
+C            write(113,*),L,nodex_loc(L),nodey_loc(L),
+C     &          nodez_loc(L),imb_block_loc(L),tt,FXT_loc(L)
 
-      !==============MPI distribution===================================
-      !The force vectors are added to the master array
-      call MPI_BARRIER(MPI_COMM_WORLD,ierr)                          
-      call MPI_ALLREDUCE (FX1_loc,FX1_MASTER,maxnodeIBS,
-     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
-      call MPI_ALLREDUCE (FX2_loc,FX2_MASTER,maxnodeIBS,
-     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
-      call MPI_ALLREDUCE (FX3_loc,FX3_MASTER,maxnodeIBS,
-     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
-!call MPI_ALLREDUCE (FXSp_loc,FXSp_MASTER,maxnodeIBS,
-!&            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
-!call MPI_ALLREDUCE (FXT_loc,FXT_MASTER,maxnodeIBS,
-!&            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+800	CONTINUE
+!          enddo
+        ENDDO !maxnodeIBS loop
 
-      if (myrank.eq.master) then
+333	CONTINUE
+
+       Enddo !ib-loop
+
+
+        call MPI_BARRIER(MPI_COMM_WORLD,ierr)
+!The force vectors are added to the resultant located in the master
+        call MPI_ALLREDUCE (FX1_loc,FX1_MASTER,maxnodeIBS,
+     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+        call MPI_ALLREDUCE (FX2_loc,FX2_MASTER,maxnodeIBS,
+     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+        call MPI_ALLREDUCE (FX3_loc,FX3_MASTER,maxnodeIBS,
+     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+!         call MPI_ALLREDUCE (FXSp_loc,FXSp_MASTER,maxnodeIBS,
+!      &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+        call MPI_ALLREDUCE (FXT_loc,FXT_MASTER,maxnodeIBS,
+     &            MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,ierr )
+	if (myrank.eq.master) then
 	KK=0
 	Do M=1,bodynum
 	 Do L=1,nodes(M)
@@ -1330,11 +1321,12 @@ C     &                  nodez_loc(ii))=1.d0
 	  FX1(M,L)=FX1_MASTER(KK)
 	  FX2(M,L)=FX2_MASTER(KK)
 	  FX3(M,L)=FX3_MASTER(KK)
-!          FXSp(M,L)=FXSp_MASTER(KK)
-!          FXT(M,L)=FXT_MASTER(KK)
+      !     FXSp(M,L)=FXSp_MASTER(KK)
+          FXT(M,L)=FXT_MASTER(KK)
 	 enddo
 	enddo
-      endif
+
+	endif
 
       RETURN
       END

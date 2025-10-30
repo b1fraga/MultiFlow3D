@@ -35,11 +35,12 @@
 !		      write(idfile,*)'Zone= "Time step= ',itime,'"'
 			write(idfile,*)'Variables = "itime","u","v","w"'
      &		,',"umean","vmean","wmean","p","pmean","k","eps"'
+     &          ,',"T","Tm"'
 			do j=1,jtime
 				if (.not.LRESTART) jj=j+
      &					(t_start_averaging2/dt)-1		   !Aleks 04/24
 			if (LRESTART) jj=j+ntav_restart
-     &					+(t_start_averaging2/dt)-1 !Aleks 04/24 - assumes dt doesn't change on restart!!
+     &					+(t_start_averaging2/0.01)-1 !Aleks 04/24 - assumes dt doesn't change on restart!!
 				write(idfile,*)jj,dom(ib)%u_unst(i,j),
      &			dom(ib)%v_unst(i,j),dom(ib)%w_unst(i,j),
      &			dom(ib)%um_unst(i,j),dom(ib)%vm_unst(i,j),

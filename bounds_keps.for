@@ -199,13 +199,13 @@
 !##############################################################################
         use vars
         use multidata
-        use module_LSM
         implicit none
         integer :: i,j,k,ib,ly
         integer :: is,ie,js,je,ks,ke
-	  double precision :: rk1,drkdy,lz
+	  double precision :: rrey,rk1,drkdy,lz
 	  double precision :: dx,dy,dz,kappa,delta
 
+        rrey=1.0/Re
 	  kappa=0.41
 	  lz=zen-zst
 	        if (L_LSM) lz=length

@@ -39,21 +39,20 @@
 
  !================================== collision at wall ========================================
             if (yp_pt(l).lt.yst) then
-                  yp_pt(l)=yst+dp_pt(l)
+                  yp_pt(l)=yst+0.75*dp_pt(l)
             elseif (yp_pt(l).gt.yen) then
-                  yp_pt(l)=yen-dp_pt(l)
+                  yp_pt(l)=yen-0.75*dp_pt(l)
             endif
             if (zp_pt(l).lt.zst) then
-                  zp_pt(l)=zst+dp_pt(l)
+                  zp_pt(l)=zst+0.75*dp_pt(l)
             elseif (zp_pt(l).gt.zen) then
-                  zp_pt(l)=zen-dp_pt(l)
+                  zp_pt(l)=zen-0.75*dp_pt(l)
             endif
 ! =============================================================================================
 
       ENDIF
 
 !     Comprobar si permanece en el dominio
-      if (PERIODIC) then
             if ((xp_pt(l).le.xst).or.(xp_pt(l)
      &.ge.xen)) then
                   out_pt(l) = .TRUE.
@@ -70,25 +69,6 @@
                   out_cnt = out_cnt + 1
                   goto 50
             end if
-
-      else
-            if ((xp_pt(l).le.xst).or.(xp_pt(l)
-     &.ge.xen-g_dx)) then
-                  out_pt(l) = .TRUE.
-                  out_cnt = out_cnt + 1
-                  goto 50
-            elseif ((yp_pt(l).le.yst).or.(yp_pt(l)
-     &.ge.yen)) then
-                  out_pt(l) = .TRUE.
-                  out_cnt = out_cnt + 1
-                  goto 50
-            elseif ((zp_pt(l).lt.zst).or.(zp_pt(l)
-     &.ge.zen)) then
-                  out_pt(l) = .TRUE.
-                  out_cnt = out_cnt + 1
-                  goto 50
-            end if
-      endif
 
 50    continue
 
@@ -203,7 +183,6 @@
       read(15,*) nfrac              !how many Lag fractions you want to calculate BF2023
       read(15,*) 
       read(15,*) 
-      read(15,*)                    !k_n
       
       np_old=np
   
@@ -273,7 +252,6 @@
       read(35,*)                    !nfrac
       read(35,*)                    !Lcol
       read(35,*)                    !Lcolwall
-      read(35,*)                    !k_n
 
       frac1=np_old+1
       do f=1,nfrac
