@@ -2,6 +2,7 @@ program tester
   use, intrinsic :: iso_fortran_env, only : error_unit
   use testdrive, only : run_testsuite, new_testsuite, testsuite_type
   use test_json_io, only : collect_json
+  use test_io, only : collect_io
   implicit none
   integer :: stat, is
   type(testsuite_type), allocatable :: testsuites(:)
@@ -10,7 +11,8 @@ program tester
   stat = 0
 
   testsuites = [ &
-    new_testsuite("json", collect_json)&
+       new_testsuite("json", collect_json),&
+       new_testsuite("io", collect_io)&
     ]
 
   do is = 1, size(testsuites)
