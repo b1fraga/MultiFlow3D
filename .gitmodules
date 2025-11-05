@@ -4,3 +4,6 @@
 [submodule "test-drive"]
 	path = test-drive
 	url = https://github.com/fortran-lang/test-drive.git
+[submodule "hdf5"]
+	path = hdf5
+	url = https://github.com/HDFGroup/hdf5.git
