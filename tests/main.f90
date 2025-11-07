@@ -3,6 +3,7 @@ program tester
   use testdrive, only : run_testsuite, new_testsuite, testsuite_type
   use test_json_io, only : collect_json
   use test_io, only : collect_io
+  use test_hdf5_io, only: collect_hdf5
   implicit none
   integer :: stat, is
   type(testsuite_type), allocatable :: testsuites(:)
@@ -12,7 +13,8 @@ program tester
 
   testsuites = [ &
        new_testsuite("json", collect_json),&
-       new_testsuite("io", collect_io)&
+       new_testsuite("io", collect_io),&
+       new_testsuite("hdf5", collect_hdf5)&
     ]
 
   do is = 1, size(testsuites)

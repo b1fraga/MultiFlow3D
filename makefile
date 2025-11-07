@@ -6,6 +6,8 @@ JSON_FORTRAN_INCLUDE_PATH := build_json_fortran/include/
 JSON_FORTRAN_LIBRARY_PATH := build_json_fortran/lib/
 TEST_DRIVE_INCLUDE_PATH := build_test_drive/include/
 TEST_DRIVE_LIBRARY_PATH := build_test_drive/
+HDF5_INCLUDE_PATH := build_hdf5/mod/shared/
+HDF5_LIBRARY_PATH := build_hdf5/bin
 ##############################################################
 
 objects = \
@@ -64,13 +66,16 @@ lsm.o\
 SEM.o\
 sediment.o \
 json_io.o \
-io.o
+io.o \
+hdf5_io.o
 
 test_objects = \
 tests/test_json_io.o \
 tests/test_io.o \
+tests/test_hdf5_io.o \
 json_io.o \
 io.o \
+hdf5_io.o \
 tests/main.o
 
 all: test
@@ -83,19 +88,23 @@ test: tests.exe
 .SUFFIXES: .f90
 
 .f90.o:
-	$(F90) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran -o $@ $<
+	$(F90) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
+			   -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -lhdf5 -lhdf5_fortran -o $@ $<
 
 M3D_v2.exe: $(objects) 
-	$(F90) $(objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran -o M3D_v2.exe \
+	$(F90) $(objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
+				      -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -lhdf5 -lhdf5_fortran -o M3D_v2.exe \
 
 tests/%.o: tests/%.f90
 	$(F90) $(LOPTIONS) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran \
-					-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) -ljsonfortran -ltest-drive -c -o $@ $<
+					-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) \
+                                        -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -ltest-drive -lhdf5 -lhdf5_fortran -c -o $@ $<
 
 tests.exe: $(test_objects) M3D_v2.exe
 	$(F90) $(test_objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
 			-Wl,-rpath,$(CURDIR)/$(JSON_FORTRAN_LIBRARY_PATH) -Wl,-rpath,$(CURDIR)/$(TEST_DRIVE_LIBRARY_PATH) \
-			-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) -ljsonfortran -ltest-drive -o tests/tests.exe
+			-Wl,-rpath,$(CURDIR)/$(HDF5_LIBRARY_PATH) -I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) \
+            -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -ltest-drive -lhdf5 -lhdf5_fortran -o tests/tests.exe
 
 clean:
 	rm -rfv *.o *.mod M3D_v2.exe
@@ -158,6 +167,8 @@ weno.o : weno.f90 module_multidata.o module_vars.o
 SEM.o : SEM.f90 module_multidata.o module_vars.o module_SEM.o module_mpi.o
 json_io.o : json_io.f90
 io.o : io.f90 json_io.o
+hdf5_io.o : hdf5_io.f90
 tests/test_json_io.o : tests/test_json_io.f90 json_io.o
 tests/test_io.o : tests/test_io.f90 io.o
+tests/test_hdf5_io.o: tests/test_hdf5_io.f90 hdf5_io.o
 tests/main.o : tests/main.f90 tests/test_json_io.o tests/test_io.o json_io.o io.o

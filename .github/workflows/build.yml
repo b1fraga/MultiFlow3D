@@ -41,4 +41,6 @@ jobs:
           cmake --build build_json_fortran
           cmake -S ./test-drive/ -B ./build_test_drive/ -DCMAKE_Fortran_COMPILER=mpif90
           cmake --build build_test_drive
+          cmake -S ./hdf5/ -B ./build_hdf5/ -DCMAKE_Fortran_COMPILER=mpif90 -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DHDF5_BUILD_FORTRAN=ON
+          cmake --build build_hdf5 --parallel $(nproc --all)
           make -j $(nproc --all)
