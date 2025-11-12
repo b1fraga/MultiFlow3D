@@ -1,8 +1,0 @@
-=======================Free surface parameters==========================
-F F 3 0.001 0.02 22 0.65     L_LSM,reinit,ntime_reinit,reldif_LSM,length,accuracy (HJ_ENO=11,HJ_WENO=22)
-F				     LENDS
-F                            L_LSMinit
-F F				     L_anim_phi,L_anim_grd
-1000.0 1.205 1.0E-6 1.5E-5   densl,densg,nul,nug
-0.0 0.0 -9.8                 gx,gy,gz
-0.00				     slope
