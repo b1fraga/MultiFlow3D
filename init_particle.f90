@@ -222,6 +222,7 @@
           use multiflow3d_mpi
           use vars
           use vars_pt
+          use multiflow3d_hdf5_io
           use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none
@@ -232,8 +233,9 @@
           character(LEN=4) :: b_str,c_str
           double precision :: u_cn,v_cn,w_cn,p_cn,T_cn  !,S_cn,k_cn,eps_cn,vis_cn
           double precision :: S_cn,rho_cn
-
-
+#if USE_HDF5 == 1
+          real(dp), allocatable, dimension(:,:,:) :: u,v,w,p,s,rho,T
+#endif
           do ib=1,nbp
 
 !     if (dom_id(ib).eq.12.or.dom_id(ib).eq.37.or.dom_id(ib).eq.62
@@ -271,7 +273,12 @@
               !WRITE(idfile,*)'ZONE T="','id:',dom_id(ib),'it:',ntime,'"'
               WRITE(idfile,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime
               WRITE(idfile,*)'I=',ni,', J=',nj,', K=',nk,'F=POINT'
-
+#if USE_HDF5 == 1
+              allocate(u(is-1:ie,js-1:je,ks-1:ke),v(is-1:ie,js-1:je,ks-1:ke), &
+                   w(is-1:ie,js-1:je,ks-1:ke),p(is-1:ie,js-1:je,ks-1:ke), &
+                   s(is-1:ie,js-1:je,ks-1:ke),rho(is-1:ie,js-1:je,ks-1:ke), &
+                   T(is-1:ie,js-1:je,ks-1:ke))
+#endif
               do k=ks-1,ke
                   do j=js-1,je
                       do i=is-1,ie
@@ -279,31 +286,46 @@
                           u_cn  =0.25_dp*(dom(ib)%u(i,j,k)+ &
                     dom(ib)%u(i,j+1,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i,j+1,k+1))
-
+#if USE_HDF5 == 1
+                    u(i,j,k) = u_cn
+#endif
                           v_cn  =0.25_dp*(dom(ib)%v(i,j,k)+ &
                     dom(ib)%v(i+1,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i+1,j,k+1))
-
+#if USE_HDF5 == 1
+                    v(i,j,k) = v_cn
+#endif
                           w_cn  =0.25_dp*(dom(ib)%w(i,j,k)+ &
                     dom(ib)%w(i+1,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i+1,j+1,k))
-
+#if USE_HDF5 == 1
+                    w(i,j,k) = w_cn
+#endif                    
                           p_cn  =0.125_dp*(dom(ib)%p(i,j,k)+ &
                     dom(ib)%p(i+1,j,k)    +dom(ib)%p(i,j+1,k)+ &
                     dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+ &
                     dom(ib)%p(i+1,j,k+1)  +dom(ib)%p(i,j+1,k+1)+ &
                     dom(ib)%p(i+1,j+1,k+1))
+#if USE_HDF5 == 1
+                    p(i,j,k) = p_cn
+#endif
                           if (LSCALAR) then
                           S_cn  =0.125_dp*(dom(ib)%S(i,j,k)+ &
                     dom(ib)%S(i+1,j,k)    +dom(ib)%S(i,j+1,k)+ &
                     dom(ib)%S(i+1,j+1,k)  +dom(ib)%S(i,j,k+1)+ &
                     dom(ib)%S(i+1,j,k+1)  +dom(ib)%S(i,j+1,k+1)+ &
                     dom(ib)%S(i+1,j+1,k+1))
+#if USE_HDF5 == 1
+                    s(i,j,k) = s_cn
+#endif
                           rho_cn  =0.125_dp*(dom(ib)%dens(i,j,k)+ &
                     dom(ib)%dens(i+1,j,k)    +dom(ib)%dens(i,j+1,k)+ &
                     dom(ib)%dens(i+1,j+1,k)  +dom(ib)%dens(i,j,k+1)+ &
                     dom(ib)%dens(i+1,j,k+1)  +dom(ib)%dens(i,j+1,k+1)+ &
                     dom(ib)%dens(i+1,j+1,k+1))
+#if USE_HDF5 == 1
+                    rho(i,j,k) = rho_cn
+#endif
                           endif
 !                 k_cn  =0.125_dp*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
@@ -326,8 +348,11 @@
                     dom(ib)%T(i+1,j+1,k)  +dom(ib)%T(i,j,k+1)+ &
                     dom(ib)%T(i+1,j,k+1)  +dom(ib)%T(i,j+1,k+1)+ &
                     dom(ib)%T(i+1,j+1,k+1))
+#if USE_HDF5 == 1
+                          T(i,j,k) = T_cn
+#endif
                           endif
-
+#if USE_HDF5 == 0
                           if (LSCALAR) then
                           write (idfile,'(9e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                     ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn  !T_cn,S_cn,k_cn,eps_cn,vis_cn
@@ -335,7 +360,7 @@
                           write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                      ,u_cn,v_cn,w_cn,p_cn
                           endif
-
+#endif
 
 
                       enddo
@@ -344,9 +369,45 @@
 !           write (90,*) dom(ib)%isp,dom(ib)%iep,
 !     & dom(ib)%jsp,dom(ib)%jep,dom(ib)%ksp,dom(ib)%kep
 !     endif
+#if USE_HDF5 == 1
+          filename='tecout_'//b_str//'_'//c_str//'.h5'
+          if (LSCALAR) then
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=u,key='U',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=v,key='V',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=w,key='W',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=p,key='P',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=s,key='S',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=rho,key='RHO',group="test")
+          else
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=u,key='U',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=v,key='V',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=w,key='W',group="test")
+             call hdf5_write_real(filename=filename,&
+                  array_input_3d=p,key='P',group="test")
+          endif
+#endif
           end do
-
-
 
           close (idfile)
 
