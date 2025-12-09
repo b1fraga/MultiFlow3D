@@ -729,7 +729,7 @@
       end subroutine eddyv_eps
 
 !##########################################################################
-      real(dp) function strain(i,j,k)
+      function strain(i,j,k) result(val)
 !     calculates the Strain tensor based on the velocity gradients
 !##########################################################################
 
@@ -742,6 +742,7 @@
           real(dp) :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
           real(dp) :: vr_a,vr_b,vr_c,vr_d
           real(dp) :: s12,s13,s23
+          real(dp) :: val
 
           do ib=1,nbp
 !====================================================
@@ -791,7 +792,7 @@
               s12 = 0.5_dp * (dudy + dvdx)
               s13 = 0.5_dp * (dudz + dwdx)
               s23 = 0.5_dp * (dvdz + dwdy)
-              strain  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
+              val  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
             2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
           enddo
