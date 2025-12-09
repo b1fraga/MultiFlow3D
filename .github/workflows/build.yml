@@ -23,7 +23,6 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          # Compile with OpenACC and OpenMP as the default
           - { compiler: gcc, version: 14 }
           - { compiler: nvidia-hpc, version: '25.1' }
 
