@@ -14,9 +14,9 @@
           use vars
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-!        double precision    :: facp1,facm1,facp2,facm2
-          double precision    :: ufuf,vfvf,wfwf,ufvf,ufwf,vfwf
-          double precision    :: ucf,vcf,wcf,pfpf,TfTf
+!        real(dp)    :: facp1,facm1,facp2,facm2
+          real(dp)    :: ufuf,vfvf,wfwf,ufvf,ufwf,vfwf
+          real(dp)    :: ucf,vcf,wcf,pfpf,TfTf
           integer :: i,j,k,ib
 
           do ib=1,nbp
@@ -233,8 +233,8 @@
           use module_LSM
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          double precision    :: fnoise
-          double precision    :: random_number_normal
+          real(dp)    :: fnoise
+          real(dp)    :: random_number_normal
           integer :: i,j,k,ib
 
 !......add some gausian noise to flowfield
@@ -321,11 +321,11 @@
 !       (source from internet)
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          double precision       :: fn_val,mean,sigma
-          double precision       :: ull, sumall
-          double precision, save :: vll, sln
+          real(dp)       :: fn_val,mean,sigma
+          real(dp)       :: ull, sumall
+          real(dp), save :: vll, sln
           logical, save   :: second = .false.
-          double precision, parameter :: one = 1.0_dp, vsmall = tiny( one )
+          real(dp), parameter :: one = 1.0_dp, vsmall = tiny( one )
 
           if (second) then
 

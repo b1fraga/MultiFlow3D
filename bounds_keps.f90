@@ -9,7 +9,7 @@
           implicit none
           integer :: i,j,k,ib,ly
           integer :: is,ie,js,je,ks,ke
-          double precision :: cmu
+          real(dp) :: cmu
 
           if (PERIODIC) call exchange_bc(6,pl_ex)
 
@@ -205,8 +205,8 @@
           implicit none
           integer :: i,j,k,ib,ly
           integer :: is,ie,js,je,ks,ke
-          double precision :: rk1,drkdy,lz
-          double precision :: dx,dy,dz,kappa,delta
+          real(dp) :: rk1,drkdy,lz
+          real(dp) :: dx,dy,dz,kappa,delta
 
           kappa=0.41_dp
           lz=zen-zst

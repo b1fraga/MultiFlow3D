@@ -8,8 +8,8 @@
           integer :: i,j,k,ijk,op,ib,tsend,ly,nly
           integer :: my_cor,tag1,tag2,tag3,tag4
           integer :: is,ie,js,je,ks,ke
-          double precision, pointer, dimension(:,:,:) :: fi
-          double precision, pointer, dimension(:)   :: sbuf,rbuf
+          real(dp), pointer, dimension(:,:,:) :: fi
+          real(dp), pointer, dimension(:)   :: sbuf,rbuf
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 

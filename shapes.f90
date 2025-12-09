@@ -7,7 +7,7 @@
           use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
-          double precision         :: nodexmin,nodexmax,nodeymin,nodeymax
+          real(dp)         :: nodexmin,nodexmax,nodeymin,nodeymax
           INTEGER      :: M,L,nin,njn,I,J,k,strlen2,c,nlay,maxc,clay
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
@@ -102,7 +102,7 @@
           use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
-          double precision         :: thc,PI,Rtemp(1000),zccos,zcsin
+          real(dp)         :: thc,PI,Rtemp(1000),zccos,zcsin
           INTEGER      ::M,L,I,K,c,ctot,nlay,maxc,strlen2,nodes_percyl(1000)
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
@@ -197,8 +197,8 @@
           use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
-          double precision :: nodexmin,nodexmax,nodeymin
-          double precision :: nodeymax,nodezmin,nodezmax
+          real(dp) :: nodexmin,nodexmax,nodeymin
+          real(dp) :: nodeymax,nodezmin,nodezmax
           INTEGER      :: M,L,nin,njn,nkn,I,J,k,strlen2
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
@@ -293,13 +293,13 @@
           use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
-          double precision         :: thc,PI,thz(80),zccos,zcsin
+          real(dp)         :: thc,PI,thz(80),zccos,zcsin
           INTEGER      :: M,L,K,c
           INTEGER      :: strlen2,nzr(80),izr,maxnzr
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
-          double precision,allocatable,dimension (:,:) :: ztemp_layer
-          double precision,allocatable,dimension (:,:,:) :: Rtemp_layer
+          real(dp),allocatable,dimension (:,:) :: ztemp_layer
+          real(dp),allocatable,dimension (:,:,:) :: Rtemp_layer
           INTEGER,allocatable,dimension (:,:) :: ctot_layer,nodes_layer
           INTEGER,allocatable,dimension (:,:,:) :: nodes_percyl_layer
 
@@ -401,11 +401,11 @@
           use multiflow3d_mpi
           implicit none
           integer, intent (in) :: numIB
-          double precision       :: PI,angle
+          real(dp)       :: PI,angle
           INTEGER      :: L,nin,I,K,nlay,dummy,strlen
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
-          double precision, ALLOCATABLE, DIMENSION (:) ::xfile,yfile,zfile
+          real(dp), ALLOCATABLE, DIMENSION (:) ::xfile,yfile,zfile
 
           PI = 4.D0*DATAN(1.D0)
 
@@ -710,7 +710,7 @@
           use multiflow3d_mpi
           implicit none
           INTEGER, intent(in) :: numIB
-          double precision       :: PI
+          real(dp)       :: PI
           INTEGER      :: L,I,K,strlen,Geom_Time1
           CHARACTER(len=8)  :: char_block
           CHARACTER(len=31) :: gridfile1

@@ -13,9 +13,9 @@
           implicit none
           integer :: i,j,k,rk,ly
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: cmu
-          double precision :: dx,dy,dz
-          double precision :: alfark(3),strain
+          real(dp) :: cmu
+          real(dp) :: dx,dy,dz
+          real(dp) :: alfark(3),strain
 
           alfark(1)=1.0_dp/3.0_dp
           !alfark(1)=1.0_dp/4.0_dp
@@ -246,14 +246,14 @@
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: dukdx,dvkdy,dwkdz,kp,km,ku,kc,kd,b_r
-          double precision :: awT,aeT,asT,anT,abT,atT,apT
-          double precision :: dxx,dyy,dzz,vsgs
-          double precision :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
-          double precision :: sigmak,cmu
-          double precision :: conv,diff,prod,other
-          double precision :: alfark
-          double precision :: strain
+          real(dp) :: dukdx,dvkdy,dwkdz,kp,km,ku,kc,kd,b_r
+          real(dp) :: awT,aeT,asT,anT,abT,atT,apT
+          real(dp) :: dxx,dyy,dzz,vsgs
+          real(dp) :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
+          real(dp) :: sigmak,cmu
+          real(dp) :: conv,diff,prod,other
+          real(dp) :: alfark
+          real(dp) :: strain
 
           sigmak=1.00_dp
           cmu = 0.09_dp
@@ -490,14 +490,14 @@
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: epsdudx,epsdvdy,epsdwdz
-          double precision :: epsp,epsm,epsu,epsc,epsd,b_r
-          double precision :: awT,aeT,asT,anT,abT,atT,apT
-          double precision :: dxx,dyy,dzz,vsgs
-          double precision :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
-          double precision :: cmu,c1eps,c2eps,sigmaeps
-          double precision :: conv,diff,prod,other
-          double precision :: alfark,strain
+          real(dp) :: epsdudx,epsdvdy,epsdwdz
+          real(dp) :: epsp,epsm,epsu,epsc,epsd,b_r
+          real(dp) :: awT,aeT,asT,anT,abT,atT,apT
+          real(dp) :: dxx,dyy,dzz,vsgs
+          real(dp) :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
+          real(dp) :: cmu,c1eps,c2eps,sigmaeps
+          real(dp) :: conv,diff,prod,other
+          real(dp) :: alfark,strain
 
           c1eps=1.44_dp; c2eps=1.92_dp ; sigmaeps=1.31_dp ; cmu=0.09_dp
 
@@ -729,7 +729,7 @@
       end subroutine eddyv_eps
 
 !##########################################################################
-      double precision function strain(i,j,k)
+      real(dp) function strain(i,j,k)
 !     calculates the Strain tensor based on the velocity gradients
 !##########################################################################
 
@@ -739,9 +739,9 @@
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
-          double precision :: vr_a,vr_b,vr_c,vr_d
-          double precision :: s12,s13,s23
+          real(dp) :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: vr_a,vr_b,vr_c,vr_d
+          real(dp) :: s12,s13,s23
 
           do ib=1,nbp
 !====================================================

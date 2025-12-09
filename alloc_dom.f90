@@ -383,7 +383,7 @@
 
           integer :: i,j,k,ib,ndoms,say,ndo
           integer :: sync_dir,cpu_next,cpu_prev
-          !       double precision::xs2,xe2,ys2,ye2,zs2,ze2
+          !       real(dp)::xs2,xe2,ys2,ye2,zs2,ze2
           character(len=80) :: dummyline
 
           open (unit=12, file='input/infodom.cin')

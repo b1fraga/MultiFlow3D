@@ -16,10 +16,10 @@ contains
                              array_input_1d,array_input_2d,array_input_3d,key,group)
 
     character(len=*), intent(in) :: filename
-    real (dp), optional, intent(in) :: array_input_1d(:)
-    real (dp), optional, intent(in) :: array_input_2d(:,:)
-    real (dp), optional, intent(in) :: array_input_3d(:,:,:)
-    real (dp), optional, intent (in) :: scalar_input
+    real(dp), optional, intent(in) :: array_input_1d(:)
+    real(dp), optional, intent(in) :: array_input_2d(:,:)
+    real(dp), optional, intent(in) :: array_input_3d(:,:,:)
+    real(dp), optional, intent (in) :: scalar_input
     character(len=*), intent(in) :: key, group
     character(len=20) :: dataset_location
     integer(hsize_t),allocatable :: data_dims(:)

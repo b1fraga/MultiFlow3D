@@ -122,7 +122,7 @@
 !       implicit none
 !       integer :: i,j,k,ib,tti,ttj,ttk,sn,sn1
 !       integer :: is,ie,js,je,ks,ke
-!       real :: b,dummy
+!       real(dp) :: b,dummy
 !       character*8 :: chb,chb1
 !       character*31 :: gridfile
 !       character *80 dummyline
@@ -301,7 +301,7 @@
 
           implicit none
           integer :: i,j,k,ib
-          real :: uijk,vijk,wijk,h1,h2,h3
+          real(dp) :: uijk,vijk,wijk,h1,h2,h3
 !
 ! First RK step (phi --> phi_new)
 !
@@ -530,9 +530,9 @@
           implicit none
 
           integer :: i,j,k,ifi,op,ib
-          real :: uijk,vijk,wijk,phi_minus_ip12j
-          real :: phi_plus_ip12j,phi_minus_ijp12
-          real :: phi_plus_ijp12,superbee
+          real(dp) :: uijk,vijk,wijk,phi_minus_ip12j
+          real(dp) :: phi_plus_ip12j,phi_minus_ijp12
+          real(dp) :: phi_plus_ijp12,superbee
 
           call hj_weno_dxplus_3d(op)
           call hj_weno_dyplus_3d(op)
@@ -624,8 +624,8 @@
           implicit none
           integer :: i,j,k,it,ib
           logical :: bool
-          double precision :: max_abs,abs_dphi,abs_phidiff,max_phidiff
-          double precision :: local_max_abs,local_max_phidiff,dt_reinit
+          real(dp) :: max_abs,abs_dphi,abs_phidiff,max_phidiff
+          real(dp) :: local_max_abs,local_max_phidiff,dt_reinit
 
           bool=.false.
           it=0
@@ -800,9 +800,9 @@
           implicit none
 
           integer :: i,j,k,ifi,op,ib
-          real :: s_phi012
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: lsv,lssig,xm,xp,ym,yp,zm,zp
+          real(dp) :: s_phi012
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: lsv,lssig,xm,xp,ym,yp,zm,zp
 
           call hj_weno_dxplus_3d(op)
           call hj_weno_dyplus_3d(op)
@@ -888,10 +888,10 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
-          real :: e
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp) :: e
 
           do ib=1,nbp
 
@@ -1003,10 +1003,10 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
-          real :: e
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp) :: e
 
           do ib=1,nbp
 
@@ -1118,10 +1118,10 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
-          real :: e
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp) :: e
 
           do ib=1,nbp
 
@@ -1232,10 +1232,10 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
-          real :: e
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp) :: e
 
           do ib=1,nbp
 
@@ -1347,9 +1347,9 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: e,q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: e,q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
 
           do ib=1,nbp
 
@@ -1461,10 +1461,10 @@
           implicit none
 
           integer :: i,j,k,l,k_star,npp,nq,nr,op,ib
-          double precision, pointer, dimension(:,:,:)::fi
-          real :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
-          real :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
-          real :: e
+          real(dp), pointer, dimension(:,:,:)::fi
+          real(dp) :: q1,q2,q3,c_star,v1,v2,v3,v4,v5,v11,v22
+          real(dp) :: v33,v44,v55,s1,s2,s3,a1,a2,a3,w1,w2,w3
+          real(dp) :: e
 
           do ib=1,nbp
 
@@ -1577,8 +1577,8 @@
 
           implicit none
           integer :: i,j,k,n_epsl,ib,tti,ttj,ttk
-          real :: epsl
-          real, parameter :: pi = 3.14159265359_dp
+          real(dp) :: epsl
+          real(dp), parameter :: pi = 3.14159265359_dp
 !
 ! Define an infinitely differentiable smoothed heaviside function h_phi
 !

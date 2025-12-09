@@ -15,7 +15,7 @@
           implicit none
           integer :: ib,i,j,k,tti,ttj,ttk
           integer :: is,ie,js,je,ks,ke
-          !double precision :: Vcell,temp1,temp2
+          !real(dp) :: Vcell,temp1,temp2
 
           do ib=1,nbp
 
@@ -46,14 +46,14 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: dxx,dyy,dzz
-          double precision :: conv,diff
-          double precision :: duSdx,dvSdy,dwSdz,dwsSdz,dSdt
-          double precision :: awS,aeS,asS,anS,ab_S,atS,apS
-          double precision :: masout
-          double precision :: ues,uws,vns,vss,wts,wbs,wsbs
-          double precision :: masconv,masdiff,masws
-          double precision :: kp,km,ku,kc,kd,b_r,ws,Vcell
+          real(dp) :: dxx,dyy,dzz
+          real(dp) :: conv,diff
+          real(dp) :: duSdx,dvSdy,dwSdz,dwsSdz,dSdt
+          real(dp) :: awS,aeS,asS,anS,ab_S,atS,apS
+          real(dp) :: masout
+          real(dp) :: ues,uws,vns,vss,wts,wbs,wsbs
+          real(dp) :: masconv,masdiff,masws
+          real(dp) :: kp,km,ku,kc,kd,b_r,ws,Vcell
 
           do ib=1,nbp
 
@@ -282,7 +282,7 @@
           implicit none
           integer :: i,j,k,ib,ni,nj,nk,ly
           integer :: is,ie,js,je,ks,ke
-          double precision :: absz,absy
+          real(dp) :: absz,absy
 
           if (PERIODIC) call exchange_bc(8,pl_ex)
 
@@ -418,7 +418,7 @@
           implicit none
 
           integer :: ib,i,j,k
-          double precision :: strain,n
+          real(dp) :: strain,n
           !constitutive relationship is for sludge
           do ib=1,nbp
               do i=dom(ib)%isp,dom(ib)%iep

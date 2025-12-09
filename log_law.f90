@@ -9,10 +9,10 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,bound,icont,tkmax
-          double precision :: delta,n_x,n_y,n_z,vnor,vtan
-          double precision :: uc,vc,wc,small
-          double precision :: aaa,bbb,const1,const2,const3,const4
-          double precision :: ustar,yplus,ustarold,conv,Ecte,kappa
+          real(dp) :: delta,n_x,n_y,n_z,vnor,vtan
+          real(dp) :: uc,vc,wc,small
+          real(dp) :: aaa,bbb,const1,const2,const3,const4
+          real(dp) :: ustar,yplus,ustarold,conv,Ecte,kappa
 
           small = 1.e-30_dp
           kappa = 0.41_dp

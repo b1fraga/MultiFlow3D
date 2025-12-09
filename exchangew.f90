@@ -18,12 +18,12 @@
           integer :: tsend,trecv
           integer :: ni,nj,nk,nic,nif,njc,njf,nkc,nkf
           integer :: nix,njx,nkx,nixc,njxc,nkxc,nixf,njxf,nkxf
-          double precision :: tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9
-          double precision :: sp2,sp1,sm1,sm2
-          double precision, allocatable,dimension(:,:,:,:) :: fif
-          double precision, allocatable,dimension(:,:,:,:) :: fic
-          double precision, pointer, dimension(:,:,:) :: fi
-          double precision, pointer, dimension(:) :: sbuf
+          real(dp) :: tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9
+          real(dp) :: sp2,sp1,sm1,sm2
+          real(dp), allocatable,dimension(:,:,:,:) :: fif
+          real(dp), allocatable,dimension(:,:,:,:) :: fic
+          real(dp), pointer, dimension(:,:,:) :: fi
+          real(dp), pointer, dimension(:) :: sbuf
 
           pll=(pl+1)*(pl+1)
 

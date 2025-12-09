@@ -1,13 +1,14 @@
 !##########################################################################
-      module vars
+module vars
+  use, intrinsic :: iso_fortran_env, only: dp => real64
 !##########################################################################
           SAVE
-          double precision :: g_dx,g_dy,g_dz,dens,Re,eps,fac,Pr,beta,Th,Tc
-          double precision :: qzero,qstpn,forcn,gx,gy,gz,Sc_t,rrey,Tinit
-          double precision :: flomas,rmax,alfapr,resor,fric,TI_SEM
-          double precision :: ctime,dt,dtavg,dtsum,safety_factor,noise,Mdef
-          double precision :: t_start_averaging1,t_start_averaging2,ubulk
-          double precision :: xst,xen,yst,yen,zst,zen
+          real(dp) :: g_dx,g_dy,g_dz,dens,Re,eps,fac,Pr,beta,Th,Tc
+          real(dp) :: qzero,qstpn,forcn,gx,gy,gz,Sc_t,rrey,Tinit
+          real(dp) :: flomas,rmax,alfapr,resor,fric,TI_SEM
+          real(dp) :: ctime,dt,dtavg,dtsum,safety_factor,noise,Mdef
+          real(dp) :: t_start_averaging1,t_start_averaging2,ubulk
+          real(dp) :: xst,xen,yst,yen,zst,zen
           integer :: alfabc,niter,nswp(4),nsweep,iter,nsweeps,ntime
           integer :: ngg,nge,ngc,n_unstpt,OMP_threads,iaddinlet,ireadinlet
           integer :: ngrid_input,ngrd_gl,maxcy,iproln,irestr
@@ -25,7 +26,7 @@
           logical :: LPT,save_inflow,read_inflow,L_dt,LSCALAR,LAS,L_LSM
           logical :: LTRANSIENT,LNonNewt,L_LSMbase
           integer :: np
-          double precision :: ntav1_count,ntav2_count,ntav_restart  !Aleks 04/24
+          real(dp) :: ntav1_count,ntav2_count,ntav_restart  !Aleks 04/24
 !=========================================================================
       end module vars
 !##########################################################################

@@ -6,8 +6,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           INTEGER :: I,J,K,L,k_star,npp,nq,nr,op,ib,pll
-          REAL, pointer, DIMENSION(:,:,:)::FI
-          REAL :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
+          REAL(dp), pointer, DIMENSION(:,:,:)::FI
+          REAL(dp) :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
     ,S3,a1,a2,a3,w1,w2,w3
           pll=pl_ex+1
           do ib=1,nbp
@@ -125,8 +125,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           INTEGER :: I,J,K,L,k_star,npp,nq,nr,op,ib,pll
-          REAL, pointer, DIMENSION(:,:,:)::FI
-          REAL :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
+          REAL(dp), pointer, DIMENSION(:,:,:)::FI
+          REAL(dp) :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
     ,S3,a1,a2,a3,w1,w2,w3
           pll=pl_ex+1
           do ib=1,nbp
@@ -244,8 +244,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           INTEGER :: I,J,K,L,k_star,npp,nq,nr,op,ib,pll
-          REAL, pointer, DIMENSION(:,:,:)::FI
-          REAL :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
+          REAL(dp), pointer, DIMENSION(:,:,:)::FI
+          REAL(dp) :: e,Q1,Q2,Q3,c_star,v1,v2,v3,v4,v5,v11,v22,v33,v44,v55,S1,S2 &
     ,S3,a1,a2,a3,w1,w2,w3
           pll=pl_ex+1
           do ib=1,nbp

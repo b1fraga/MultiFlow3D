@@ -174,11 +174,11 @@
 
           integer :: l,np_old,ptnr,tsnr,nfrac,f,m,frac1,frac_end
           integer :: sphere_optn  !Aleks 04/24 spherical vol of release
-          double precision :: random_number_normal,random_number_uniform
-          double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
-          double precision :: Wx,Wy,Wz,sigma_rho
-          double precision :: mindis,dist,distance
-          double precision :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
+          real(dp) :: random_number_normal,random_number_uniform
+          real(dp) :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
+          real(dp) :: Wx,Wy,Wz,sigma_rho
+          real(dp) :: mindis,dist,distance
+          real(dp) :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
           logical :: random, LSPHERICAL, LSURFACE  !Aleks 04/24 spherical vol of release
 
 !       wtime_release = MPI_WTIME ( )

@@ -7,7 +7,7 @@
           integer :: op,ly,ib,ni,nj,nk,ijk,nly
           integer :: i,j,k,is,ie,js,je,ks,ke
           integer :: ispr,iepr,jspr,jepr,kspr,kepr
-          double precision, pointer, dimension(:,:,:) :: fi
+          real(dp), pointer, dimension(:,:,:) :: fi
 
 ! stfcinf: 1=iprev, 3=jprev, 5=kprev, 2=inext, 4=jnext, 6=knext
 
@@ -352,8 +352,8 @@
           integer :: tag,ta,ly
           integer :: tsend,trecv
           integer :: ni,nj,nk,pl1,pl2,pl3,pll,nn
-          double precision, pointer, dimension(:,:,:) :: fi
-          double precision, pointer, dimension(:) :: sbuf
+          real(dp), pointer, dimension(:,:,:) :: fi
+          real(dp), pointer, dimension(:) :: sbuf
 
           pll=(pl+1)*(pl+1)
 
