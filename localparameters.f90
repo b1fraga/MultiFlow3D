@@ -10,7 +10,7 @@
           integer :: buffer_nmax,nmax,buffer_nemax,nemax,ni,nj,nk
           integer :: buffer_rdiv,maxrdiv,act_ngrid
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k,pow2
-          real    :: n1,n2,n3
+          real(dp) :: n1,n2,n3
           integer,allocatable,dimension(:,:) :: b_rv1,b_rv2
           nmax=0
           nemax=0

@@ -18,11 +18,11 @@
           integer :: tsend,trecv
           integer :: ni,nj,nk,nic,nif,njc,njf,nkc,nkf
           integer :: nix,njx,nkx,nixc,njxc,nkxc,nixf,njxf,nkxf
-          real    :: chc1,chc2,chc3
-          double precision, allocatable,dimension(:,:,:,:) :: fif
-          double precision, allocatable,dimension(:,:,:,:) :: fic
-          double precision, pointer, dimension(:,:,:) :: fi
-          double precision, pointer, dimension(:) :: sbuf
+          real(dp)    :: chc1,chc2,chc3
+          real(dp), allocatable,dimension(:,:,:,:) :: fif
+          real(dp), allocatable,dimension(:,:,:,:) :: fic
+          real(dp), pointer, dimension(:,:,:) :: fi
+          real(dp), pointer, dimension(:) :: sbuf
 
           pll=(pl+1)*(pl+1)
 

@@ -13,30 +13,30 @@
           integer :: cpu_next,cpu_prev,tsend,trecv
           integer :: ns1,ns2,nsr1,nsr2,nsc1,nsc2
           integer :: nic,nif,njc,njf,nkc,nkf
-          double precision    :: chc,chc1,chc2,chc3
-          double precision, pointer, dimension(:) :: fi
-          double precision, pointer, dimension(:) :: sbuf_m,sbuf_p
-          double precision, pointer, dimension(:) :: rbuf_m,rbuf_p
-          double precision, pointer, dimension(:) :: sbufc1m,sbufc1p
-          double precision, pointer, dimension(:) :: rbufc1m,rbufc1p
-          double precision, pointer, dimension(:) :: sbufc2m,sbufc2p
-          double precision, pointer, dimension(:) :: rbufc2m,rbufc2p
-          double precision, pointer, dimension(:) :: sbufc3m,sbufc3p
-          double precision, pointer, dimension(:) :: rbufc3m,rbufc3p
-          double precision, pointer, dimension(:) :: sbufc4m,sbufc4p
-          double precision, pointer, dimension(:) :: rbufc4m,rbufc4p
-          double precision, pointer, dimension(:) :: sbufe1m,sbufe1p
-          double precision, pointer, dimension(:) :: rbufe1m,rbufe1p
-          double precision, pointer, dimension(:) :: sbufe2m,sbufe2p
-          double precision, pointer, dimension(:) :: rbufe2m,rbufe2p
-          double precision, pointer, dimension(:) :: sbufe3m,sbufe3p
-          double precision, pointer, dimension(:) :: rbufe3m,rbufe3p
-          double precision, pointer, dimension(:) :: sbufe4m,sbufe4p
-          double precision, pointer, dimension(:) :: rbufe4m,rbufe4p
-          double precision, pointer, dimension(:) :: sbufe5m,sbufe5p
-          double precision, pointer, dimension(:) :: rbufe5m,rbufe5p
-          double precision, pointer, dimension(:) :: sbufe6m,sbufe6p
-          double precision, pointer, dimension(:) :: rbufe6m,rbufe6p
+          real(dp)    :: chc,chc1,chc2,chc3
+          real(dp), pointer, dimension(:) :: fi
+          real(dp), pointer, dimension(:) :: sbuf_m,sbuf_p
+          real(dp), pointer, dimension(:) :: rbuf_m,rbuf_p
+          real(dp), pointer, dimension(:) :: sbufc1m,sbufc1p
+          real(dp), pointer, dimension(:) :: rbufc1m,rbufc1p
+          real(dp), pointer, dimension(:) :: sbufc2m,sbufc2p
+          real(dp), pointer, dimension(:) :: rbufc2m,rbufc2p
+          real(dp), pointer, dimension(:) :: sbufc3m,sbufc3p
+          real(dp), pointer, dimension(:) :: rbufc3m,rbufc3p
+          real(dp), pointer, dimension(:) :: sbufc4m,sbufc4p
+          real(dp), pointer, dimension(:) :: rbufc4m,rbufc4p
+          real(dp), pointer, dimension(:) :: sbufe1m,sbufe1p
+          real(dp), pointer, dimension(:) :: rbufe1m,rbufe1p
+          real(dp), pointer, dimension(:) :: sbufe2m,sbufe2p
+          real(dp), pointer, dimension(:) :: rbufe2m,rbufe2p
+          real(dp), pointer, dimension(:) :: sbufe3m,sbufe3p
+          real(dp), pointer, dimension(:) :: rbufe3m,rbufe3p
+          real(dp), pointer, dimension(:) :: sbufe4m,sbufe4p
+          real(dp), pointer, dimension(:) :: rbufe4m,rbufe4p
+          real(dp), pointer, dimension(:) :: sbufe5m,sbufe5p
+          real(dp), pointer, dimension(:) :: rbufe5m,rbufe5p
+          real(dp), pointer, dimension(:) :: sbufe6m,sbufe6p
+          real(dp), pointer, dimension(:) :: rbufe6m,rbufe6p
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 
@@ -4775,8 +4775,8 @@
           integer :: i,j,k,ijk,ib,totdom,ijkc,ijkn,g,gl
           integer :: ni,nj,nk,nijk
           integer :: my_cor,tsend,tag1,tag2,tag3,tag4
-          double precision, pointer, dimension(:)   :: fi
-          double precision, pointer, dimension(:)   :: sbuf,rbuf
+          real(dp), pointer, dimension(:)   :: fi
+          real(dp), pointer, dimension(:)   :: sbuf,rbuf
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 

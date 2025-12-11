@@ -1,16 +1,17 @@
 !##########################################################################
       module module_LSM
+use, intrinsic :: iso_fortran_env, only: dp => real64
 !##########################################################################
           SAVE
 !============================== LSM VARIABLES =============================
-          double precision :: reldif_LSM,length,densl,densg,nul,nug,mul,mug
-          double precision :: cfl_lsm
-          double precision :: uprev
-          double precision :: slope
-          double precision :: densip12,densjp12,denskp12
-          double precision :: densim12,densjm12,denskm12
-          double precision :: muip12,mujp12,mukp12,muim12,mujm12,mukm12
-          double precision :: Mdef_w
+          real(dp) :: reldif_LSM,length,densl,densg,nul,nug,mul,mug
+          real(dp) :: cfl_lsm
+          real(dp) :: uprev
+          real(dp) :: slope
+          real(dp) :: densip12,densjp12,denskp12
+          real(dp) :: densim12,densjm12,denskm12
+          real(dp) :: muip12,mujp12,mukp12,muim12,mujm12,mukm12
+          real(dp) :: Mdef_w
           integer :: ntime_reinit,accuracy
           integer :: ngrid
           integer :: numfile3

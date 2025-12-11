@@ -7,17 +7,17 @@
           implicit none
           integer :: i,j,k
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
-          double precision :: vr_a,vr_b,vr_c,vr_d
-          double precision :: s12,s13,s23
-          double precision :: s11d,s22d,s33d,s12d,s13d,s23d
-          double precision :: ss,sdsd,eqnA,denom
-          double precision :: h1,h2,h3,rh123
-          double precision :: ufv_c,ufv_n1,ufv_n2
-          double precision :: vfv_c,vfv_n1,vfv_n2
-          double precision :: wfv_c,wfv_n1,wfv_n2
-          double precision :: cw,delta_grid,l_s
-          double precision :: dx,dy,dz
+          real(dp) :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: vr_a,vr_b,vr_c,vr_d
+          real(dp) :: s12,s13,s23
+          real(dp) :: s11d,s22d,s33d,s12d,s13d,s23d
+          real(dp) :: ss,sdsd,eqnA,denom
+          real(dp) :: h1,h2,h3,rh123
+          real(dp) :: ufv_c,ufv_n1,ufv_n2
+          real(dp) :: vfv_c,vfv_n1,vfv_n2
+          real(dp) :: wfv_c,wfv_n1,wfv_n2
+          real(dp) :: cw,delta_grid,l_s
+          real(dp) :: dx,dy,dz
           integer :: sn
           character(len=8) :: chb1
           character(len=25) :: gf

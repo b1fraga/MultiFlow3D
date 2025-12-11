@@ -21,7 +21,10 @@ jobs:
     name: "Build"
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      matrix:
+        toolchain:
+          - { compiler: gcc, version: 14 }
+          - { compiler: nvidia-hpc, version: '25.1' }
 
     steps:
       - uses: actions/checkout@v5
@@ -30,7 +33,21 @@ jobs:
           submodules: 'true'
 
       - run: |
+          # Frees up space, so can install nvhpc.
+          # See https://github.com/orgs/community/discussions/25678 for
+          # where suggestion came from
+          rm -rf /opt/hostedtoolcache
+
+      - uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
+        with:
+          compiler: ${{ matrix.toolchain.compiler }}
+          version: ${{ matrix.toolchain.version }}
+
+        
+      - run: |
           sudo apt-get install -y openmpi-bin libopenmpi-dev
+        if: ${{ contains(matrix.toolchain.compiler, 'gcc') }}
 
       - run: |
           cmake -S ./json-fortran/ -B ./build_json_fortran/ -DCMAKE_Fortran_COMPILER=mpif90

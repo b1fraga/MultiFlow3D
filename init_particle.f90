@@ -9,6 +9,7 @@
 !#############################################################
       SUBROUTINE INIT_PARTICLE
 !#############################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use multidata
           use multiflow3d_mpi
           use vars
@@ -19,11 +20,11 @@
 
           integer :: l,ib,f,frac1,frac_end,m,sphere_optn,ll
           integer :: i,j,k,nfrac,ptnr,tsnr,np_restart
-          double precision :: random_number_normal,sigma_rho
-          double precision :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
-          double precision :: Wx,Wy,Wz,random_number_uniform
-          double precision :: mindis,dist,distance
-          double precision :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
+          real(dp) :: random_number_normal,sigma_rho
+          real(dp) :: xp,yp,zp,uop,vop,wop,Dp_var,sigma,rho_p
+          real(dp) :: Wx,Wy,Wz,random_number_uniform
+          real(dp) :: mindis,dist,distance
+          real(dp) :: xxp, yyp, zzp, r  !Aleks 04/24 spherical vol of release
           logical :: random, LSPHERICAL, LSURFACE
 
           if (myrank==0) then
@@ -217,7 +218,7 @@
 ! **********************************************************************
       SUBROUTINE TECPLOT(num_output)
 ! **********************************************************************
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use multidata
           use multiflow3d_mpi
           use vars
@@ -230,8 +231,8 @@
           integer :: is,ie,js,je,ks,ke
           character(LEN=20) :: filename
           character(LEN=4) :: b_str,c_str
-          double precision :: u_cn,v_cn,w_cn,p_cn,T_cn  !,S_cn,k_cn,eps_cn,vis_cn
-          double precision :: S_cn,rho_cn
+          real(dp) :: u_cn,v_cn,w_cn,p_cn,T_cn  !,S_cn,k_cn,eps_cn,vis_cn
+          real(dp) :: S_cn,rho_cn
 
 
           do ib=1,nbp
@@ -359,7 +360,7 @@
       SUBROUTINE TECPARTICLE(num_output)
 ! **********************************************************************
 !
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use multidata
           use multiflow3d_mpi
           use vars
@@ -397,20 +398,19 @@ WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
       END SUBROUTINE TECPARTICLE
 
 !=======================================================================
-      double precision FUNCTION random_number_uniform(a,b)
+      function random_number_uniform(a,b) result(val)
 !=======================================================================
-
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
 
-          double precision :: a,b,r
-
+          real(dp) :: a,b,r
+          real(dp) :: val
 
           CALL RANDOM_SEED
           CALL RANDOM_NUMBER(r)
 
-          random_number_uniform=(b-a)*r+a
+          val=(b-a)*r+a
 
-          return
       end function random_number_uniform
 !=======================================================================!Aleks 04/24
       subroutine random_number_spherical(xp, yp, zp, r, sphere_optn, &
@@ -422,13 +422,14 @@ WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
 ! theta=2pi*u where u is a random number in range 0-1
 ! phi=acos(2v-1) where v is a random number in range 0-1
 ! --------------------------------------------------------------------
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          double precision, intent(in) :: xp, yp, zp, r
+          real(dp), intent(in) :: xp, yp, zp, r
           integer, intent(in) :: sphere_optn
           logical, intent(in) :: LSURFACE
-          double precision, intent(out) :: xxp, yyp, zzp
-          double precision :: theta, phi, pi
-          double precision :: u,v,w, ra
+          real(dp), intent(out) :: xxp, yyp, zzp
+          real(dp) :: theta, phi, pi
+          real(dp) :: u,v,w, ra
 
           pi = 3.1416d0  !Set value to pi
 

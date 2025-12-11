@@ -7,7 +7,7 @@
 
           implicit none
           integer :: I,J,K,npp,nq,nr,op,ib,ipl
-          double precision, pointer, dimension(:,:,:) :: FI
+          real(dp), pointer, dimension(:,:,:) :: FI
 
           do ib=1,nbp
 

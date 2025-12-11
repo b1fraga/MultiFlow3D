@@ -1,6 +1,6 @@
 module json_io
   use json_module
-  use, intrinsic :: iso_fortran_env, only: int8
+  use, intrinsic :: iso_fortran_env, only: int8, dp => real64
 
   implicit none
   private
@@ -38,7 +38,7 @@ contains
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
-    real,intent(out) :: output
+    real(dp) ,intent(out) :: output
 
     call json%initialize()
 

@@ -13,7 +13,7 @@
           integer :: i,j,k,ib,ly,im
           integer :: is,ie,js,je,ks,ke,ktop,kk,jj
           integer :: strlen,dummy
-          double precision :: Fwallu,dyy,dzz,dxx,up
+          real(dp) :: Fwallu,dyy,dzz,dxx,up
           character (LEN=25) :: filename
           character (LEN=29) :: fileSEM
           character (LEN=3) :: dominio
@@ -351,7 +351,7 @@
           character (LEN=29):: fileSEM
           character (LEN=4) :: domain
           character (LEN=5) :: name_end
-          double precision :: Fwallv,dxx,dzz,dummy,dyy
+          real(dp) :: Fwallv,dxx,dzz,dummy,dyy
 
           if (PERIODIC) call exchange_bc(2,pl_ex)
 
@@ -640,7 +640,7 @@
           character (LEN=29):: fileSEM
           character (LEN=4) :: domain
           character (LEN=5) :: name_end
-          double precision :: Fwallw,dxx,dyy,dummy,dzz
+          real(dp) :: Fwallw,dxx,dyy,dummy,dzz
 
           if (PERIODIC) call exchange_bc(3,pl_ex)
 
@@ -926,8 +926,8 @@
           implicit none
           integer :: i,j,k,ib,op
           integer :: is,ie,js,je,ks,ke
-          double precision :: d,dxx,dyy,dzz
-          double precision, pointer, dimension(:,:,:) :: fi
+          real(dp) :: d,dxx,dyy,dzz
+          real(dp), pointer, dimension(:,:,:) :: fi
 
 
           do ib=1,nbp

@@ -28,13 +28,13 @@
           integer :: iballs_u,iballe_u,jballs_u,jballe_u,kballs_u,kballe_u
           integer :: iballs_v,iballe_v,jballs_v,jballe_v,kballs_v,kballe_v
           integer :: iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w
-          real :: REp,rx,ry,rz
-          double precision :: a,b,c,wx,wy,wz,Cd,ao,bo,co
-          double precision :: dwdy,dvdz,dudz,dwdx,dvdx,dudy
-          double precision :: dh,delta,gamma_p,ddh,ddelta
-          double precision :: Vcell,Vp  !,Vball
-          double precision, allocatable, dimension(:):: ui_pt,vi_pt,wi_pt
-          double precision, allocatable, dimension(:):: uoi_pt,voi_pt,woi_pt
+          real(dp) :: REp,rx,ry,rz
+          real(dp) :: a,b,c,wx,wy,wz,Cd,ao,bo,co
+          real(dp) :: dwdy,dvdz,dudz,dwdx,dvdx,dudy
+          real(dp) :: dh,delta,gamma_p,ddh,ddelta
+          real(dp) :: Vcell,Vp  !,Vball
+          real(dp), allocatable, dimension(:):: ui_pt,vi_pt,wi_pt
+          real(dp), allocatable, dimension(:):: uoi_pt,voi_pt,woi_pt
           integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
           integer,dimension(nprocs) :: strider
 

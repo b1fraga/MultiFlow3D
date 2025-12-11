@@ -7,9 +7,9 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ii,jj,kk
-          double precision :: du2dx,dv2dy,dw2dz
-          double precision :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
-          double precision :: sp2,sp1,sn,sm1,sm2
+          real(dp) :: du2dx,dv2dy,dw2dz
+          real(dp) :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
+          real(dp) :: sp2,sp1,sn,sm1,sm2
 
           call boundu
 
@@ -212,7 +212,7 @@
           implicit none
           integer :: i,j,k,ib
           integer :: is,ie,js,je,ks,ke
-          double precision :: dxx,dyy,dzz,visc,diff
+          real(dp) :: dxx,dyy,dzz,visc,diff
 
           fac=1.0_dp
 
@@ -321,9 +321,9 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: du2dx,dv2dy,dw2dz
-          double precision :: up12,um12,vp12,vm12,wp12,wm12
-          double precision :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
+          real(dp) :: du2dx,dv2dy,dw2dz
+          real(dp) :: up12,um12,vp12,vm12,wp12,wm12
+          real(dp) :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
 
           call boundu
 
@@ -422,10 +422,10 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: du2dx,dv2dy,dw2dz
-          double precision :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
-          double precision :: uijk,vijk,wijk,dudx,dudy,dudz
-          double precision :: dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: du2dx,dv2dy,dw2dz
+          real(dp) :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
+          real(dp) :: uijk,vijk,wijk,dudx,dudy,dudz
+          real(dp) :: dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
 
           call boundu
           call HJ_WENO_dx(1)
@@ -595,7 +595,7 @@
           implicit none
           integer :: i,j,k,ib
           integer :: is,ie,js,je,ks,ke
-          double precision :: dxx,dyy,dzz,visc,diff
+          real(dp) :: dxx,dyy,dzz,visc,diff
 
           fac=1.0_dp
 

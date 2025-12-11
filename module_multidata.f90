@@ -1,5 +1,6 @@
 !##########################################################################
       module multidata
+use, intrinsic :: iso_fortran_env, only: dp => real64
 !##########################################################################
           SAVE
           integer :: nbp,nbpmax,num_domains
@@ -10,7 +11,7 @@
           integer,allocatable,dimension(:) :: i_unst,j_unst,k_unst
           integer,allocatable,dimension(:) :: id_unst
           integer,allocatable,dimension(:) :: imbinblk  !Pablo
-          double precision, allocatable,dimension(:,:)::xcor,ycor,zcor  !Pablo
+          real(dp), allocatable,dimension(:,:)::xcor,ycor,zcor  !Pablo
 
           type multidom
               integer :: inext,iprev,jnext,jprev,knext,kprev
@@ -33,85 +34,85 @@
               integer :: rq_c1p,rq_c2p,rq_c3p,rq_c4p
               integer :: rq_e1m,rq_e2m,rq_e3m,rq_e4m,rq_e5m,rq_e6m
               integer :: rq_e1p,rq_e2p,rq_e3p,rq_e4p,rq_e5p,rq_e6p
-              double precision    :: xsl,ysl,zsl,xel,yel,zel,dx,dy,dz
-              double precision,pointer,dimension(:) :: tauw
-              double precision, pointer, dimension(:,:,:) :: S,So,Sm,Stm
-              double precision, pointer, dimension(:,:,:) :: sfactor
-              double precision, pointer, dimension(:) :: x,y,z,xc,yc,zc
-              double precision, pointer, dimension(:,:,:) :: u,v,w,p,pp
-              double precision, pointer, dimension(:,:,:) :: ksgs,ksgso
-              double precision, pointer, dimension(:,:,:) :: eps,epso
-              double precision, pointer, dimension(:,:,:) :: T,To,Tm,Ttm
-              double precision, pointer, dimension(:,:,:) :: su,ap,sup
-              double precision, pointer, dimension(:,:,:) :: ae,aw,as,an
-              double precision, pointer, dimension(:,:,:) :: at,ab
-              double precision, pointer, dimension(:,:,:) :: um,vm,wm
-              double precision, pointer, dimension(:,:,:) :: pm,ppm,vis
-              double precision, pointer, dimension(:,:,:) :: uum,vvm,wwm
-              double precision, pointer, dimension(:,:,:) :: uvm,uwm,vwm
-              double precision, pointer, dimension(:,:,:) :: ustar,vstar
-              double precision, pointer, dimension(:,:,:) :: wstar
-              double precision, pointer, dimension(:,:,:) :: uo,uoo,vo
-              double precision, pointer, dimension(:,:,:) :: voo,wo,woo
-              double precision, pointer, dimension(:,:,:) :: stfcinf
-              double precision, pointer, dimension(:,:,:) :: facp1,facp2
-              double precision, pointer, dimension(:,:,:) :: facm1,facm2
-              double precision, pointer, dimension (:) :: dh1,dh2,dh3
+              real(dp)    :: xsl,ysl,zsl,xel,yel,zel,dx,dy,dz
+              real(dp),pointer,dimension(:) :: tauw
+              real(dp), pointer, dimension(:,:,:) :: S,So,Sm,Stm
+              real(dp), pointer, dimension(:,:,:) :: sfactor
+              real(dp), pointer, dimension(:) :: x,y,z,xc,yc,zc
+              real(dp), pointer, dimension(:,:,:) :: u,v,w,p,pp
+              real(dp), pointer, dimension(:,:,:) :: ksgs,ksgso
+              real(dp), pointer, dimension(:,:,:) :: eps,epso
+              real(dp), pointer, dimension(:,:,:) :: T,To,Tm,Ttm
+              real(dp), pointer, dimension(:,:,:) :: su,ap,sup
+              real(dp), pointer, dimension(:,:,:) :: ae,aw,as,an
+              real(dp), pointer, dimension(:,:,:) :: at,ab
+              real(dp), pointer, dimension(:,:,:) :: um,vm,wm
+              real(dp), pointer, dimension(:,:,:) :: pm,ppm,vis
+              real(dp), pointer, dimension(:,:,:) :: uum,vvm,wwm
+              real(dp), pointer, dimension(:,:,:) :: uvm,uwm,vwm
+              real(dp), pointer, dimension(:,:,:) :: ustar,vstar
+              real(dp), pointer, dimension(:,:,:) :: wstar
+              real(dp), pointer, dimension(:,:,:) :: uo,uoo,vo
+              real(dp), pointer, dimension(:,:,:) :: voo,wo,woo
+              real(dp), pointer, dimension(:,:,:) :: stfcinf
+              real(dp), pointer, dimension(:,:,:) :: facp1,facp2
+              real(dp), pointer, dimension(:,:,:) :: facm1,facm2
+              real(dp), pointer, dimension (:) :: dh1,dh2,dh3
               integer, pointer, dimension (:,:,:,:) :: ndimb,imbbodynum
               integer, pointer, dimension (:) :: faz,cntp
               integer, pointer, dimension (:,:,:) :: ntav1,ntav2
               integer, dimension (26) :: tg
               integer, pointer, dimension (:,:,:) :: ibfactor
-              double precision, pointer, dimension(:)     :: cof
-              double precision, pointer, dimension(:,:)   :: tauwe,tauww
-              double precision, pointer, dimension(:,:)   :: tauws,tauwn
-              double precision, pointer, dimension(:,:)   :: tauwt,tauwb
-              double precision, pointer, dimension(:,:)   :: tauwe2,tauww2
-              double precision, pointer, dimension(:,:)   :: tauws2,tauwn2
-              double precision, pointer, dimension(:,:)   :: tauwt2,tauwb2
-              double precision, pointer, dimension(:) :: sendb_m1,sendb_p1
-              double precision, pointer, dimension(:) :: recvb_m1,recvb_p1
-              double precision, pointer, dimension(:) :: sendb_m2,sendb_p2
-              double precision, pointer, dimension(:) :: recvb_m2,recvb_p2
-              double precision, pointer, dimension(:) :: sendb_m3,sendb_p3
-              double precision, pointer, dimension(:) :: recvb_m3,recvb_p3
-              double precision, pointer, dimension(:)::sc1m,sc1p,rc1m,rc1p
-              double precision, pointer, dimension(:)::sc2m,sc2p,rc2m,rc2p
-              double precision, pointer, dimension(:)::sc3m,sc3p,rc3m,rc3p
-              double precision, pointer, dimension(:)::sc4m,sc4p,rc4m,rc4p
-              double precision, pointer, dimension(:)::se1m,se1p,re1m,re1p
-              double precision, pointer, dimension(:)::se2m,se2p,re2m,re2p
-              double precision, pointer, dimension(:)::se3m,se3p,re3m,re3p
-              double precision, pointer, dimension(:)::se4m,se4p,re4m,re4p
-              double precision, pointer, dimension(:)::se5m,se5p,re5m,re5p
-              double precision, pointer, dimension(:)::se6m,se6p,re6m,re6p
-              double precision, pointer, dimension(:,:,:) ::d1,dphi_dxplus
-              double precision, pointer, dimension(:,:,:) ::dphi_dyplus, &
+              real(dp), pointer, dimension(:)     :: cof
+              real(dp), pointer, dimension(:,:)   :: tauwe,tauww
+              real(dp), pointer, dimension(:,:)   :: tauws,tauwn
+              real(dp), pointer, dimension(:,:)   :: tauwt,tauwb
+              real(dp), pointer, dimension(:,:)   :: tauwe2,tauww2
+              real(dp), pointer, dimension(:,:)   :: tauws2,tauwn2
+              real(dp), pointer, dimension(:,:)   :: tauwt2,tauwb2
+              real(dp), pointer, dimension(:) :: sendb_m1,sendb_p1
+              real(dp), pointer, dimension(:) :: recvb_m1,recvb_p1
+              real(dp), pointer, dimension(:) :: sendb_m2,sendb_p2
+              real(dp), pointer, dimension(:) :: recvb_m2,recvb_p2
+              real(dp), pointer, dimension(:) :: sendb_m3,sendb_p3
+              real(dp), pointer, dimension(:) :: recvb_m3,recvb_p3
+              real(dp), pointer, dimension(:)::sc1m,sc1p,rc1m,rc1p
+              real(dp), pointer, dimension(:)::sc2m,sc2p,rc2m,rc2p
+              real(dp), pointer, dimension(:)::sc3m,sc3p,rc3m,rc3p
+              real(dp), pointer, dimension(:)::sc4m,sc4p,rc4m,rc4p
+              real(dp), pointer, dimension(:)::se1m,se1p,re1m,re1p
+              real(dp), pointer, dimension(:)::se2m,se2p,re2m,re2p
+              real(dp), pointer, dimension(:)::se3m,se3p,re3m,re3p
+              real(dp), pointer, dimension(:)::se4m,se4p,re4m,re4p
+              real(dp), pointer, dimension(:)::se5m,se5p,re5m,re5p
+              real(dp), pointer, dimension(:)::se6m,se6p,re6m,re6p
+              real(dp), pointer, dimension(:,:,:) ::d1,dphi_dxplus
+              real(dp), pointer, dimension(:,:,:) ::dphi_dyplus, &
         dphi_dzplus,dphi_dxminus,dphi_dyminus,dphi_dzminus
 
-              double precision, pointer, dimension (:,:) :: u_unst,v_unst
-              double precision, pointer, dimension (:,:) :: w_unst
-              double precision, pointer, dimension (:,:) :: um_unst,vm_unst
-              double precision, pointer, dimension (:,:) :: wm_unst
-              double precision, pointer, dimension (:,:) :: p_unst,pm_unst
-              double precision, pointer, dimension (:,:) :: ksgs_unst
-              double precision, pointer, dimension (:,:) :: eps_unst
-              double precision, pointer, dimension (:,:) :: T_unst,Tm_unst  !Aleks 04/24
+              real(dp), pointer, dimension (:,:) :: u_unst,v_unst
+              real(dp), pointer, dimension (:,:) :: w_unst
+              real(dp), pointer, dimension (:,:) :: um_unst,vm_unst
+              real(dp), pointer, dimension (:,:) :: wm_unst
+              real(dp), pointer, dimension (:,:) :: p_unst,pm_unst
+              real(dp), pointer, dimension (:,:) :: ksgs_unst
+              real(dp), pointer, dimension (:,:) :: eps_unst
+              real(dp), pointer, dimension (:,:) :: T_unst,Tm_unst  !Aleks 04/24
 !============================== LSM VARIABLES ============================
-              double precision, pointer, dimension(:,:,:) :: phi_init, &
+              real(dp), pointer, dimension(:,:,:) :: phi_init, &
         phi_new,phi_reinit,phi,dphi_dx,dphi_dy,dphi_dz,s_phi0,h_phi, &
         dens,mu,phim,abs_dphi_check
-              double precision, pointer, dimension(:)     :: dens_mg
-              real, pointer, dimension(:) :: sendb_m,sendb_p
-              real, pointer, dimension(:) :: recvb_m,recvb_p
+              real(dp), pointer, dimension(:)     :: dens_mg
+              real(dp), pointer, dimension(:) :: sendb_m,sendb_p
+              real(dp), pointer, dimension(:) :: recvb_m,recvb_p
               integer, pointer, dimension (:) :: ijkp_lsm
               integer :: tot
               integer :: niul,njul,nkul,nivl,njvl,nkvl,niwl,njwl,nkwl
               integer :: nipl,njpl,nkpl,nigl,njgl,nkgl
               integer :: nipl2,njpl2,nkpl2
-              double precision, pointer, dimension(:,:,:) :: resmax
-              double precision, pointer, dimension(:,:,:) :: resfact
-              double precision, pointer, dimension(:,:,:) :: resfact1
+              real(dp), pointer, dimension(:,:,:) :: resmax
+              real(dp), pointer, dimension(:,:,:) :: resfact
+              real(dp), pointer, dimension(:,:,:) :: resfact1
 !==========================================================================
               integer :: bc_west,bc_east,bc_south,bc_north,bc_bottom,bc_top
               integer :: Tbc_west,Tbc_east,Tbc_south,Tbc_north

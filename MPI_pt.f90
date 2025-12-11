@@ -48,36 +48,36 @@
 !       integer :: nxdom_edgnext4,nydom_edgnext4,nzdom_edgnext4
 !       integer :: nxdom_edgnext5,nydom_edgnext5,nzdom_edgnext5
 !       integer :: nxdom_edgnext6,nydom_edgnext6,nzdom_edgnext6
-          real :: lx,ly,lz,dx,dy,dz
+          real(dp) :: lx,ly,lz,dx,dy,dz
           integer,allocatable,dimension(:)::  lpt_proc,lpt_block
           integer,allocatable,dimension(:)::  id_MPI,id_MPI_loc
-          double precision, allocatable, dimension(:):: X_MPI,Y_MPI,Z_MPI
-          double precision, allocatable, dimension(:):: X_MPI_loc,Y_MPI_loc
-          double precision, allocatable, dimension(:):: Z_MPI_loc
-          double precision, allocatable, dimension(:):: U_MPI,V_MPI,W_MPI
-          double precision, allocatable, dimension(:):: U_MPI_loc,V_MPI_loc
-          double precision, allocatable, dimension(:):: W_MPI_loc
-          double precision, allocatable, dimension(:):: dp_MPI,dp_MPI_loc
-          double precision, allocatable, dimension(:):: rhop_MPI
-          double precision, allocatable, dimension(:):: rhop_MPI_loc
+          real(dp), allocatable, dimension(:):: X_MPI,Y_MPI,Z_MPI
+          real(dp), allocatable, dimension(:):: X_MPI_loc,Y_MPI_loc
+          real(dp), allocatable, dimension(:):: Z_MPI_loc
+          real(dp), allocatable, dimension(:):: U_MPI,V_MPI,W_MPI
+          real(dp), allocatable, dimension(:):: U_MPI_loc,V_MPI_loc
+          real(dp), allocatable, dimension(:):: W_MPI_loc
+          real(dp), allocatable, dimension(:):: dp_MPI,dp_MPI_loc
+          real(dp), allocatable, dimension(:):: rhop_MPI
+          real(dp), allocatable, dimension(:):: rhop_MPI_loc
 
 ! ---------------------------------------------------
 ! ghost particles
 ! ---------------------------------------------------
           integer :: ll,oo,iii
           integer,allocatable,dimension(:)::  idg_MPI,idg_MPI_loc
-          double precision, allocatable, dimension(:):: Xg_MPI,Yg_MPI
-          double precision, allocatable, dimension(:):: Xg_MPI_loc,Zg_MPI
-          double precision, allocatable, dimension(:):: Yg_MPI_loc
-          double precision, allocatable, dimension(:):: Zg_MPI_loc
-          double precision, allocatable, dimension(:):: Ug_MPI,Vg_MPI
-          double precision, allocatable, dimension(:):: Ug_MPI_loc,Wg_MPI
-          double precision, allocatable, dimension(:):: Vg_MPI_loc
-          double precision, allocatable, dimension(:):: Wg_MPI_loc
-          double precision, allocatable, dimension(:):: dpg_MPI
-          double precision, allocatable, dimension(:):: dpg_MPI_loc
-          double precision, allocatable, dimension(:):: rhopg_MPI
-          double precision, allocatable, dimension(:):: rhopg_MPI_loc
+          real(dp), allocatable, dimension(:):: Xg_MPI,Yg_MPI
+          real(dp), allocatable, dimension(:):: Xg_MPI_loc,Zg_MPI
+          real(dp), allocatable, dimension(:):: Yg_MPI_loc
+          real(dp), allocatable, dimension(:):: Zg_MPI_loc
+          real(dp), allocatable, dimension(:):: Ug_MPI,Vg_MPI
+          real(dp), allocatable, dimension(:):: Ug_MPI_loc,Wg_MPI
+          real(dp), allocatable, dimension(:):: Vg_MPI_loc
+          real(dp), allocatable, dimension(:):: Wg_MPI_loc
+          real(dp), allocatable, dimension(:):: dpg_MPI
+          real(dp), allocatable, dimension(:):: dpg_MPI_loc
+          real(dp), allocatable, dimension(:):: rhopg_MPI
+          real(dp), allocatable, dimension(:):: rhopg_MPI_loc
 
           integer,allocatable,dimension(:):: lpt_proc_iprev,lpt_block_iprev
           integer,allocatable,dimension(:):: lpt_proc_jprev,lpt_block_jprev

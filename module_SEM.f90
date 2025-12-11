@@ -1,13 +1,14 @@
 !#############################################################################
       module module_SEM
+use, intrinsic :: iso_fortran_env, only: dp => real64
 !#############################################################################
-          DOUBLE PRECISION,DIMENSION(:,:,:), ALLOCATABLE :: Vsem ,Usem
-          DOUBLE PRECISION,DIMENSION(:,:), ALLOCATABLE :: X_EDDY,EPSILO,MOLT
-          DOUBLE PRECISION,DIMENSION(:,:), ALLOCATABLE :: SIGMA
-          DOUBLE PRECISION,DIMENSION(:), ALLOCATABLE ::  Ksem
-          DOUBLE PRECISION,DIMENSION(:) :: X_POINT(3),REYNOLDS(6)
-          DOUBLE PRECISION,DIMENSION(:) :: TEMP(3),TEMP2(3)
-          DOUBLE PRECISION, DIMENSION(:,:) ::  R(3,3)
+          real(dp),DIMENSION(:,:,:), ALLOCATABLE :: Vsem ,Usem
+          real(dp),DIMENSION(:,:), ALLOCATABLE :: X_EDDY,EPSILO,MOLT
+          real(dp),DIMENSION(:,:), ALLOCATABLE :: SIGMA
+          real(dp),DIMENSION(:), ALLOCATABLE ::  Ksem
+          real(dp),DIMENSION(:) :: X_POINT(3),REYNOLDS(6)
+          real(dp),DIMENSION(:) :: TEMP(3),TEMP2(3)
+          real(dp), DIMENSION(:,:) ::  R(3,3)
           CHARACTER(len=44) :: FILEGLOBAL
           INTEGER,ALLOCATABLE:: elemyst(:),elemyen(:),elemzst(:),elemzen(:)
           INTEGER,ALLOCATABLE:: iddom(:),ljdom(:),lkdom(:)
