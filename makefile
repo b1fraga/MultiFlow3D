@@ -1,6 +1,6 @@
 #############################################################
 F90=mpif90
-OPTIONS    =  -c -O2 -g -fopenmp
+OPTIONS    =  -c -cpp -O2 -g -fopenmp
 ifneq (,$(findstring GNU,$(shell $(F90) --version)))
    OPTIONS += -std=f2018
 endif
