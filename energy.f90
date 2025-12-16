@@ -44,14 +44,14 @@
                           ku=dom(ib)%To(i-2,j,k)
                           kc=dom(ib)%To(i-1,j,k)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%u(i-1,j,k)<0.0_dp) then
                           ku=dom(ib)%To(i+1,j,k)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i-1,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -61,14 +61,14 @@
                           ku=dom(ib)%To(i-1,j,k)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i+1,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%u(i,j,k)<0.0_dp) then
                           ku=dom(ib)%To(i+2,j,k)
                           kc=dom(ib)%To(i+1,j,k)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -80,14 +80,14 @@
                           ku=dom(ib)%To(i,j-2,k)
                           kc=dom(ib)%To(i,j-1,k)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%v(i,j-1,k)<0.0_dp) then
                           ku=dom(ib)%To(i,j+1,k)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i,j-1,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -97,14 +97,14 @@
                           ku=dom(ib)%To(i,j-1,k)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i,j+1,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%v(i,j,k)<0.0_dp) then
                           ku=dom(ib)%To(i,j+2,k)
                           kc=dom(ib)%To(i,j+1,k)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -116,14 +116,14 @@
                           ku=dom(ib)%To(i,j,k-2)
                           kc=dom(ib)%To(i,j,k-1)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%w(i,j,k-1)<0.0_dp) then
                           ku=dom(ib)%To(i,j,k+1)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i,j,k-1)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -133,14 +133,14 @@
                           ku=dom(ib)%To(i,j,k-1)
                           kc=dom(ib)%To(i,j,k)
                           kd=dom(ib)%To(i,j,k+1)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else if(dom(ib)%w(i,j,k)<0.0_dp) then
                           ku=dom(ib)%To(i,j,k+2)
                           kc=dom(ib)%To(i,j,k+1)
                           kd=dom(ib)%To(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           kp=kc+0.5_dp*b_r*(kc-ku)
                           else
@@ -161,12 +161,12 @@
 
                           apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
 
-                          diff=(apT*dom(ib)%To(i,j,k)+ &
-                    anT*dom(ib)%To(i,j+1,k) + asT*dom(ib)%To(i,j-1,k)+ &
-                    aeT*dom(ib)%To(i+1,j,k) + awT*dom(ib)%To(i-1,j,k)+ &
+                          diff=(apT*dom(ib)%To(i,j,k)+ &
+                    anT*dom(ib)%To(i,j+1,k) + asT*dom(ib)%To(i,j-1,k)+ &
+                    aeT*dom(ib)%To(i+1,j,k) + awT*dom(ib)%To(i-1,j,k)+ &
                     atT*dom(ib)%To(i,j,k+1) + abT*dom(ib)%To(i,j,k-1))
 
-                          dom(ib)%T(i,j,k)=(dom(ib)%To(i,j,k)- &
+                          dom(ib)%T(i,j,k)=(dom(ib)%To(i,j,k)- &
                     dt*(conv+diff))
 
                       end do
@@ -191,9 +191,9 @@
           integer :: i,j,k,ib
           integer :: is,ie,js,je,ks,ke
           !++++++++++may need to edit constitutive relationship
-          dom(ib)%dens(i,j,k) = &
+          dom(ib)%dens(i,j,k) = &
     999.8_dp/(1.0_dp+0.000088_dp*(dom(ib)%T(i,j,k)+20.0_dp))
-          dom(ib)%mu(i,j,k) = &
+          dom(ib)%mu(i,j,k) = &
     2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.0_dp-413.d0))
           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -206,8 +206,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%ustar(i,j,k)= &
-                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
+                          dom(ib)%ustar(i,j,k)= &
+                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
                     (1.d0-beta*0.5_dp*(dom(ib)%T(i+1,j,k)+dom(ib)%T(i,j,k)))
                       end do
                   end do
@@ -220,8 +220,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%vstar(i,j,k)= &
-                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
+                          dom(ib)%vstar(i,j,k)= &
+                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
                     (1.d0-beta*0.5_dp*(dom(ib)%T(i,j+1,k)+dom(ib)%T(i,j,k)))
                       end do
                   end do
@@ -234,8 +234,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%wstar(i,j,k)= &
-                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
+                          dom(ib)%wstar(i,j,k)= &
+                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
                     (1.d0-beta*0.5_dp*(dom(ib)%T(i,j,k+1)+dom(ib)%T(i,j,k)))
 
                       end do
@@ -269,8 +269,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%ustar(i,j,k)= &
-                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
+                          dom(ib)%ustar(i,j,k)= &
+                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
                     1.d0*(dom(ib)%dens(i+1,j,k)-dom(ib)%dens(i,j,k))/1000.0_dp
                       end do
                   end do
@@ -283,8 +283,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%vstar(i,j,k)= &
-                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
+                          dom(ib)%vstar(i,j,k)= &
+                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
                     1.d0*(dom(ib)%dens(i,j+1,k)-dom(ib)%dens(i,j,k))/1000.0_dp
                       end do
                   end do
@@ -297,8 +297,8 @@
               do k=ks,ke
                   do i=is,ie
                       do j=js,je
-                          dom(ib)%wstar(i,j,k)= &
-                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
+                          dom(ib)%wstar(i,j,k)= &
+                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
                     1.d0*(dom(ib)%dens(i,j,k+1)-dom(ib)%dens(i,j,k))/1000.0_dp
                       end do
                   end do
@@ -333,8 +333,8 @@
               do k=ks-1,ke
                   do i=is-1,ie
                       do j=js-1,je
-                          dom(ib)%ustar(i,j,k)= &
-                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
+                          dom(ib)%ustar(i,j,k)= &
+                    dom(ib)%ustar(i,j,k)+dt*alfapr*gx* &
                     (-beta*(0.5_dp*(dom(ib)%T(i+1,j,k)+dom(ib)%T(i,j,k))-293.d0))
                       end do
                   end do
@@ -347,8 +347,8 @@
               do k=ks-1,ke
                   do i=is-1,ie
                       do j=js-1,je
-                          dom(ib)%vstar(i,j,k)= &
-                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
+                          dom(ib)%vstar(i,j,k)= &
+                    dom(ib)%vstar(i,j,k)+dt*alfapr*gy* &
                     (-beta*(0.5_dp*(dom(ib)%T(i,j+1,k)+dom(ib)%T(i,j,k))-293.d0))
                       end do
                   end do
@@ -361,8 +361,8 @@
               do k=ks-1,ke
                   do i=is-1,ie
                       do j=js-1,je
-                          dom(ib)%wstar(i,j,k)= &
-                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
+                          dom(ib)%wstar(i,j,k)= &
+                    dom(ib)%wstar(i,j,k)+dt*alfapr*gz* &
                     (-beta*(0.5_dp*(dom(ib)%T(i,j,k+1)+dom(ib)%T(i,j,k))-293.d0))
 
                       end do

@@ -19,53 +19,53 @@
                   do i=dom(ib)%isu,dom(ib)%ieu
                       do j=dom(ib)%jsu,dom(ib)%jeu
 
-                          ii=i+2; sp2=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
+                          ii=i+2; sp2=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
                     9.0_dp*dom(ib)%u(ii-1,j,k)-dom(ib)%u(ii-2,j,k))/16.0_dp)**2
-                          ii=i+1; sp1=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
+                          ii=i+1; sp1=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
                     9.0_dp*dom(ib)%u(ii-1,j,k)-dom(ib)%u(ii-2,j,k))/16.0_dp)**2
-                          ii=i;   sn=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
+                          ii=i;   sn=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
                     9.0_dp*dom(ib)%u(ii-1,j,k)-dom(ib)%u(ii-2,j,k))/16.0_dp)**2
-                          ii=i-1; sm1=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
+                          ii=i-1; sm1=((-dom(ib)%u(ii+1,j,k)+9.0_dp*dom(ib)%u(ii,j,k)+ &
                     9.0_dp*dom(ib)%u(ii-1,j,k)-dom(ib)%u(ii-2,j,k))/16.0_dp)**2
                           du2dx=(-sp2+27.0_dp*sp1-27.0_dp*sn+sm1)/(24.0_dp*dom(ib)%dx)
 
-                          jj=j+1; sp1=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
+                          jj=j+1; sp1=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i-1,jj,k))/16.0_dp)
-                          jj=j;   sn=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
+                          jj=j;   sn=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i-1,jj,k))/16.0_dp)
-                          jj=j-1; sm1=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
+                          jj=j-1; sm1=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i-1,jj,k))/16.0_dp)
-                          jj=j-2; sm2=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
+                          jj=j-2; sm2=((-dom(ib)%u(i,jj+2,k)+9.0_dp*dom(ib)%u(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%u(i,jj,k)-dom(ib)%u(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i+2,jj,k)+9.0_dp*dom(ib)%v(i+1,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i-1,jj,k))/16.0_dp)
                           duvdy=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dy)
 
-                          kk=k+1; sp1=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
+                          kk=k+1; sp1=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i-1,j,kk))/16.0_dp)
-                          kk=k;   sn=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
+                          kk=k;   sn=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i-1,j,kk))/16.0_dp)
-                          kk=k-1; sm1=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
+                          kk=k-1; sm1=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i-1,j,kk))/16.0_dp)
-                          kk=k-2; sm2=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
+                          kk=k-2; sm2=((-dom(ib)%u(i,j,kk+2)+9.0_dp*dom(ib)%u(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%u(i,j,kk)-dom(ib)%u(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i+2,j,kk)+9.0_dp*dom(ib)%w(i+1,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i-1,j,kk))/16.0_dp)
                           duwdz=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dz)
 
-                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
+                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
                     dt*alfapr*(du2dx+duvdy+duwdz))
 
                       end do
@@ -81,53 +81,53 @@
                   do i=dom(ib)%isv,dom(ib)%iev
                       do j=dom(ib)%jsv,dom(ib)%jev
 
-                          jj=j+2; sp2=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
+                          jj=j+2; sp2=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj-1,k)-dom(ib)%v(i,jj-2,k))/16.0_dp)**2
-                          jj=j+1; sp1=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
+                          jj=j+1; sp1=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj-1,k)-dom(ib)%v(i,jj-2,k))/16.0_dp)**2
-                          jj=j  ; sn=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
+                          jj=j  ; sn=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj-1,k)-dom(ib)%v(i,jj-2,k))/16.0_dp)**2
-                          jj=j-1; sm1=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
+                          jj=j-1; sm1=((-dom(ib)%v(i,jj+1,k)+9.0_dp*dom(ib)%v(i,jj,k)+ &
                     9.0_dp*dom(ib)%v(i,jj-1,k)-dom(ib)%v(i,jj-2,k))/16.0_dp)**2
                           dv2dy=(-sp2+27.0_dp*sp1-27.0_dp*sn+sm1)/(24.0_dp*dom(ib)%dy)
 
-                          ii=i+1; sp1=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
+                          ii=i+1; sp1=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j-1,k))/16.0_dp)
-                          ii=i;   sn=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
+                          ii=i;   sn=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j-1,k))/16.0_dp)
-                          ii=i-1; sm1=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
+                          ii=i-1; sm1=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j-1,k))/16.0_dp)
-                          ii=i-2; sm2=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
+                          ii=i-2; sm2=((-dom(ib)%v(ii+2,j,k)+9.0_dp*dom(ib)%v(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%v(ii,j,k)-dom(ib)%v(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j+2,k)+9.0_dp*dom(ib)%u(ii,j+1,k)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j-1,k))/16.0_dp)
                           duvdx=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dx)
 
-                          kk=k+1; sp1=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
+                          kk=k+1; sp1=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i,j-1,kk))/16.0_dp)
-                          kk=k;   sn=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
+                          kk=k;   sn=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i,j-1,kk))/16.0_dp)
-                          kk=k-1; sm1=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
+                          kk=k-1; sm1=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i,j-1,kk))/16.0_dp)
-                          kk=k-2; sm2=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
-                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
-                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
+                          kk=k-2; sm2=((-dom(ib)%v(i,j,kk+2)+9.0_dp*dom(ib)%v(i,j,kk+1)+ &
+                    9.0_dp*dom(ib)%v(i,j,kk)-dom(ib)%v(i,j,kk-1))/16.0_dp)* &
+                    ((-dom(ib)%w(i,j+2,kk)+9.0_dp*dom(ib)%w(i,j+1,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk)-dom(ib)%w(i,j-1,kk))/16.0_dp)
                           dvwdz=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dz)
 
-                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
+                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
                     dt*alfapr*(duvdx+dv2dy+dvwdz))
 
                       end do
@@ -144,53 +144,53 @@
                   do i=dom(ib)%isw,dom(ib)%iew
                       do j=dom(ib)%jsw,dom(ib)%jew
 
-                          kk=k+2; sp2=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
+                          kk=k+2; sp2=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk-1)-dom(ib)%w(i,j,kk-2))/16.0_dp)**2
-                          kk=k+1; sp1=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
+                          kk=k+1; sp1=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk-1)-dom(ib)%w(i,j,kk-2))/16.0_dp)**2
-                          kk=k  ; sn=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
+                          kk=k  ; sn=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk-1)-dom(ib)%w(i,j,kk-2))/16.0_dp)**2
-                          kk=k-1; sm1=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
+                          kk=k-1; sm1=((-dom(ib)%w(i,j,kk+1)+9.0_dp*dom(ib)%w(i,j,kk)+ &
                     9.0_dp*dom(ib)%w(i,j,kk-1)-dom(ib)%w(i,j,kk-2))/16.0_dp)**2
                           dw2dz=(-sp2+27.0_dp*sp1-27.0_dp*sn+sm1)/(24.0_dp*dom(ib)%dz)
 
-                          ii=i+1; sp1=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
+                          ii=i+1; sp1=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j,k-1))/16.0_dp)
-                          ii=i;   sn=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
+                          ii=i;   sn=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j,k-1))/16.0_dp)
-                          ii=i-1; sm1=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
+                          ii=i-1; sm1=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j,k-1))/16.0_dp)
-                          ii=i-2; sm2=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
-                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
-                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
+                          ii=i-2; sm2=((-dom(ib)%w(ii+2,j,k)+9.0_dp*dom(ib)%w(ii+1,j,k)+ &
+                    9.0_dp*dom(ib)%w(ii,j,k)-dom(ib)%w(ii-1,j,k))/16.0_dp)* &
+                    ((-dom(ib)%u(ii,j,k+2)+9.0_dp*dom(ib)%u(ii,j,k+1)+ &
                     9.0_dp*dom(ib)%u(ii,j,k)-dom(ib)%u(ii,j,k-1))/16.0_dp)
                           duwdx=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dx)
 
-                          jj=j+1; sp1=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
+                          jj=j+1; sp1=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i,jj,k-1))/16.0_dp)
-                          jj=j;   sn=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
+                          jj=j;   sn=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i,jj,k-1))/16.0_dp)
-                          jj=j-1; sm1=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
+                          jj=j-1; sm1=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i,jj,k-1))/16.0_dp)
-                          jj=j-2; sm2=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
-                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
-                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
+                          jj=j-2; sm2=((-dom(ib)%w(i,jj+2,k)+9.0_dp*dom(ib)%w(i,jj+1,k)+ &
+                    9.0_dp*dom(ib)%w(i,jj,k)-dom(ib)%w(i,jj-1,k))/16.0_dp)* &
+                    ((-dom(ib)%v(i,jj,k+2)+9.0_dp*dom(ib)%v(i,jj,k+1)+ &
                     9.0_dp*dom(ib)%v(i,jj,k)-dom(ib)%v(i,jj,k-1))/16.0_dp)
                           dvwdy=(-sp1+27.0_dp*sn-27.0_dp*sm1+sm2)/(24.0_dp*dom(ib)%dy)
 
-                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
+                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
                     dt*alfapr*(duwdx+dvwdy+dw2dz))
 
                       end do
@@ -230,21 +230,21 @@
                       do j=js,je
                           visc=dom(ib)%vis(i,j,k)
 
-                          diff=visc*( &
-                    ((-dom(ib)%u(i+2,j,k)+16.0_dp*dom(ib)%u(i+1,j,k) &
-                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i-1,j,k) &
-                    -dom(ib)%u(i-2,j,k))/(12.0_dp*dxx))+ &
-                    ((-dom(ib)%u(i,j+2,k)+16.0_dp*dom(ib)%u(i,j+1,k) &
-                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i,j-1,k) &
-                    -dom(ib)%u(i,j-2,k))/(12.0_dp*dyy))+ &
-                    ((-dom(ib)%u(i,j,k+2)+16.0_dp*dom(ib)%u(i,j,k+1) &
-                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i,j,k-1) &
+                          diff=visc*( &
+                    ((-dom(ib)%u(i+2,j,k)+16.0_dp*dom(ib)%u(i+1,j,k) &
+                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i-1,j,k) &
+                    -dom(ib)%u(i-2,j,k))/(12.0_dp*dxx))+ &
+                    ((-dom(ib)%u(i,j+2,k)+16.0_dp*dom(ib)%u(i,j+1,k) &
+                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i,j-1,k) &
+                    -dom(ib)%u(i,j-2,k))/(12.0_dp*dyy))+ &
+                    ((-dom(ib)%u(i,j,k+2)+16.0_dp*dom(ib)%u(i,j,k+1) &
+                    -30.0_dp*dom(ib)%u(i,j,k)+16.0_dp*dom(ib)%u(i,j,k-1) &
                     -dom(ib)%u(i,j,k-2))/(12.0_dp*dzz)))
 
-                          dom(ib)%ustar(i,j,k)=(dom(ib)%ustar(i,j,k)+ &
+                          dom(ib)%ustar(i,j,k)=(dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*diff)
 
-                          if (pressureforce) dom(ib)%ustar(i,j,k)= &
+                          if (pressureforce) dom(ib)%ustar(i,j,k)= &
                     dom(ib)%ustar(i,j,k)+dt*alfapr*forcn
 
                       end do
@@ -261,18 +261,18 @@
                       do j=js,je
                           visc=dom(ib)%vis(i,j+1,k)
 
-                          diff=visc*( &
-                    ((-dom(ib)%v(i+2,j,k)+16.0_dp*dom(ib)%v(i+1,j,k) &
-                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i-1,j,k) &
-                    -dom(ib)%v(i-2,j,k))/(12.0_dp*dxx))+ &
-                    ((-dom(ib)%v(i,j+2,k)+16.0_dp*dom(ib)%v(i,j+1,k) &
-                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i,j-1,k) &
-                    -dom(ib)%v(i,j-2,k))/(12.0_dp*dyy))+ &
-                    ((-dom(ib)%v(i,j,k+2)+16.0_dp*dom(ib)%v(i,j,k+1) &
-                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i,j,k-1) &
+                          diff=visc*( &
+                    ((-dom(ib)%v(i+2,j,k)+16.0_dp*dom(ib)%v(i+1,j,k) &
+                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i-1,j,k) &
+                    -dom(ib)%v(i-2,j,k))/(12.0_dp*dxx))+ &
+                    ((-dom(ib)%v(i,j+2,k)+16.0_dp*dom(ib)%v(i,j+1,k) &
+                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i,j-1,k) &
+                    -dom(ib)%v(i,j-2,k))/(12.0_dp*dyy))+ &
+                    ((-dom(ib)%v(i,j,k+2)+16.0_dp*dom(ib)%v(i,j,k+1) &
+                    -30.0_dp*dom(ib)%v(i,j,k)+16.0_dp*dom(ib)%v(i,j,k-1) &
                     -dom(ib)%v(i,j,k-2))/(12.0_dp*dzz)))
 
-                          dom(ib)%vstar(i,j,k)=(dom(ib)%vstar(i,j,k)+ &
+                          dom(ib)%vstar(i,j,k)=(dom(ib)%vstar(i,j,k)+ &
                     dt*alfapr*diff)
 
                       end do
@@ -288,18 +288,18 @@
                       do j=js,je
                           visc=dom(ib)%vis(i,j,k+1)
 
-                          diff=visc*( &
-                    ((-dom(ib)%w(i+2,j,k)+16.0_dp*dom(ib)%w(i+1,j,k) &
-                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i-1,j,k) &
-                    -dom(ib)%w(i-2,j,k))/(12.0_dp*dxx))+ &
-                    ((-dom(ib)%w(i,j+2,k)+16.0_dp*dom(ib)%w(i,j+1,k) &
-                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i,j-1,k) &
-                    -dom(ib)%w(i,j-2,k))/(12.0_dp*dyy))+ &
-                    ((-dom(ib)%w(i,j,k+2)+16.0_dp*dom(ib)%w(i,j,k+1) &
-                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i,j,k-1) &
+                          diff=visc*( &
+                    ((-dom(ib)%w(i+2,j,k)+16.0_dp*dom(ib)%w(i+1,j,k) &
+                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i-1,j,k) &
+                    -dom(ib)%w(i-2,j,k))/(12.0_dp*dxx))+ &
+                    ((-dom(ib)%w(i,j+2,k)+16.0_dp*dom(ib)%w(i,j+1,k) &
+                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i,j-1,k) &
+                    -dom(ib)%w(i,j-2,k))/(12.0_dp*dyy))+ &
+                    ((-dom(ib)%w(i,j,k+2)+16.0_dp*dom(ib)%w(i,j,k+1) &
+                    -30.0_dp*dom(ib)%w(i,j,k)+16.0_dp*dom(ib)%w(i,j,k-1) &
                     -dom(ib)%w(i,j,k-2))/(12.0_dp*dzz)))
 
-                          dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+ &
+                          dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+ &
                     dt*alfapr*diff)
 
                       end do
@@ -336,16 +336,16 @@
                           up12=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i+1,j,k))
                           um12=0.5_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i-1,j,k))
                           du2dx=(up12**2-um12**2)/dom(ib)%dx
-                          duvdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k))* &
-                    (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)) - &
-                    (dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))* &
+                          duvdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k))* &
+                    (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)) - &
+                    (dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j-1,k)) )/dom(ib)%dy
-                          duwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k))* &
-                    (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)) - &
-                    (dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))* &
+                          duwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k))* &
+                    (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)) - &
+                    (dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))* &
                     (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k-1)) )/dom(ib)%dz
 
-                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
+                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
                     dt*alfapr*(du2dx+duvdy+duwdz))
 
                       end do
@@ -364,16 +364,16 @@
                           vp12=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j+1,k))
                           vm12=0.5_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j-1,k))
                           dv2dy=(vp12**2-vm12**2)/dom(ib)%dy
-                          duvdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k))* &
-                    (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)) - &
-                    (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))* &
+                          duvdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k))* &
+                    (dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)) - &
+                    (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i-1,j,k)) )/dom(ib)%dx
-                          dvwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k))* &
-                    (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)) - &
-                    (dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))* &
+                          dvwdz=0.25_dp*( (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k))* &
+                    (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)) - &
+                    (dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))* &
                     (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k-1)) )/dom(ib)%dz
 
-                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
+                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
                     dt*alfapr*(duvdx+dv2dy+dvwdz))
 
                       end do
@@ -393,16 +393,16 @@
                           wp12=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k+1))
                           wm12=0.5_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j,k-1))
                           dw2dz=(wp12**2-wm12**2)/dom(ib)%dz
-                          duwdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1))* &
-                    (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)) - &
-                    (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))* &
+                          duwdx=0.25_dp*( (dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1))* &
+                    (dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)) - &
+                    (dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i-1,j,k)) )/dom(ib)%dx
-                          dvwdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1))* &
-                    (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)) - &
-                    (dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))* &
+                          dvwdy=0.25_dp*( (dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1))* &
+                    (dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)) - &
+                    (dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))* &
                     (dom(ib)%w(i,j,k)+dom(ib)%w(i,j-1,k)) )/dom(ib)%dy
 
-                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
+                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
                     dt*alfapr*(duwdx+dvwdy+dw2dz))
 
                       end do
@@ -446,7 +446,7 @@
                           dudx = 0.0_dp
                           end if
 
-                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)+ &
+                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i+1,j,k)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i+1,j-1,k))
                           if (vijk>0.0_dp) then
                           dudy = dom(ib)%dphi_dyminus(i,j,k)
@@ -456,7 +456,7 @@
                           dudy = 0.0_dp
                           end if
 
-                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)+ &
+                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i+1,j,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i+1,j,k-1))
                           if (wijk>0.0_dp) then
                           dudz = dom(ib)%dphi_dzminus(i,j,k)
@@ -470,7 +470,7 @@
                           duvdy=vijk*dudy
                           duwdz=wijk*dudz
 
-                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
+                          dom(ib)%ustar(i,j,k)=(dom(ib)%uoo(i,j,k)- &
                     dt*alfapr*(du2dx+duvdy+duwdz))
 
                       end do
@@ -489,7 +489,7 @@
                   do i=dom(ib)%isv,dom(ib)%iev
                       do j=dom(ib)%jsv,dom(ib)%jev
 
-                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)+ &
+                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j+1,k)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j+1,k))
                           if (uijk>0.0_dp) then
                           dvdx = dom(ib)%dphi_dxminus(i,j,k)
@@ -507,7 +507,7 @@
                           dvdy = 0.0_dp
                           end if
 
-                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)+ &
+                          wijk=0.25_dp*(dom(ib)%w(i,j,k)+dom(ib)%w(i,j+1,k)+ &
                     dom(ib)%w(i,j,k-1)+dom(ib)%w(i,j+1,k-1))
                           if (wijk>0.0_dp) then
                           dvdz = dom(ib)%dphi_dzminus(i,j,k)
@@ -521,7 +521,7 @@
                           dv2dy=dom(ib)%v(i,j,k)*dvdy
                           dvwdz=wijk*dvdz
 
-                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
+                          dom(ib)%vstar(i,j,k)=(dom(ib)%voo(i,j,k)- &
                     dt*alfapr*(duvdx+dv2dy+dvwdz))
 
                       end do
@@ -541,7 +541,7 @@
                   do i=dom(ib)%isw,dom(ib)%iew
                       do j=dom(ib)%jsw,dom(ib)%jew
 
-                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)+ &
+                          uijk=0.25_dp*(dom(ib)%u(i,j,k)+dom(ib)%u(i,j,k+1)+ &
                     dom(ib)%u(i-1,j,k)+dom(ib)%u(i-1,j,k+1))
                           if (uijk>0.0_dp) then
                           dwdx = dom(ib)%dphi_dxminus(i,j,k)
@@ -551,7 +551,7 @@
                           dwdx = 0.0_dp
                           end if
 
-                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)+ &
+                          vijk=0.25_dp*(dom(ib)%v(i,j,k)+dom(ib)%v(i,j,k+1)+ &
                     dom(ib)%v(i,j-1,k)+dom(ib)%v(i,j-1,k+1))
                           if (vijk>0.0_dp) then
                           dwdy = dom(ib)%dphi_dyminus(i,j,k)
@@ -573,7 +573,7 @@
                           dvwdy=vijk*dwdy
                           dw2dz=dom(ib)%w(i,j,k)*dwdz
 
-                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
+                          dom(ib)%wstar(i,j,k)=(dom(ib)%woo(i,j,k)- &
                     dt*alfapr*(duwdx+dvwdy+dw2dz))
 
                       end do
@@ -631,24 +631,24 @@
                           if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
                           if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
-                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
-                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
-                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
+                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
+                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
+                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))
 
-                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%u(i,j,k)+ &
-                    dom(ib)%an(i,j,k)*dom(ib)%u(i,j+1,k) + &
-                    dom(ib)%as(i,j,k)*dom(ib)%u(i,j-1,k)+ &
-                    dom(ib)%ae(i,j,k)*dom(ib)%u(i+1,j,k) + &
-                    dom(ib)%aw(i,j,k)*dom(ib)%u(i-1,j,k)+ &
-                    dom(ib)%at(i,j,k)*dom(ib)%u(i,j,k+1) + &
+                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%u(i,j,k)+ &
+                    dom(ib)%an(i,j,k)*dom(ib)%u(i,j+1,k) + &
+                    dom(ib)%as(i,j,k)*dom(ib)%u(i,j-1,k)+ &
+                    dom(ib)%ae(i,j,k)*dom(ib)%u(i+1,j,k) + &
+                    dom(ib)%aw(i,j,k)*dom(ib)%u(i-1,j,k)+ &
+                    dom(ib)%at(i,j,k)*dom(ib)%u(i,j,k+1) + &
                     dom(ib)%ab(i,j,k)*dom(ib)%u(i,j,k-1))
 
-                          dom(ib)%ustar(i,j,k)=(dom(ib)%ustar(i,j,k)+ &
+                          dom(ib)%ustar(i,j,k)=(dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*diff)
 
                           if (L_LSM) then  ! .or. L_LSMbase) then
-                          dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*gx*1.0_dp- &
+                          dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*gx*1.0_dp- &
                     dt*alfapr*gz*sin(atan(slope))  !*
 !     &                                dom(ib)%blku(i,j,k))
                           end if
@@ -656,12 +656,12 @@
                           if (pressureforce) then
                           if (L_LSM) then
                           if (dom(ib)%phi(i,j,k) >= 0.0_dp) then
-                          dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
+                          dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*forcn
                           endif
                           else if (L_LSMbase) then
                           if (dom(ib)%zc(k)<=length) then
-                          dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
+                          dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                      dt*alfapr*forcn
                           endif
                           else
@@ -696,20 +696,20 @@
                           if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
                           if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
-                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
-                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
-                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
+                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
+                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
+                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))
 
-                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%v(i,j,k)+ &
-                    dom(ib)%an(i,j,k)*dom(ib)%v(i,j+1,k) + &
-                    dom(ib)%as(i,j,k)*dom(ib)%v(i,j-1,k)+ &
-                    dom(ib)%ae(i,j,k)*dom(ib)%v(i+1,j,k) + &
-                    dom(ib)%aw(i,j,k)*dom(ib)%v(i-1,j,k)+ &
-                    dom(ib)%at(i,j,k)*dom(ib)%v(i,j,k+1) + &
+                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%v(i,j,k)+ &
+                    dom(ib)%an(i,j,k)*dom(ib)%v(i,j+1,k) + &
+                    dom(ib)%as(i,j,k)*dom(ib)%v(i,j-1,k)+ &
+                    dom(ib)%ae(i,j,k)*dom(ib)%v(i+1,j,k) + &
+                    dom(ib)%aw(i,j,k)*dom(ib)%v(i-1,j,k)+ &
+                    dom(ib)%at(i,j,k)*dom(ib)%v(i,j,k+1) + &
                     dom(ib)%ab(i,j,k)*dom(ib)%v(i,j,k-1))
 
-                          dom(ib)%vstar(i,j,k)=(dom(ib)%vstar(i,j,k)+ &
+                          dom(ib)%vstar(i,j,k)=(dom(ib)%vstar(i,j,k)+ &
                     dt*alfapr*diff)
 
                           if (L_LSM) then  ! .or. L_LSMbase) then
@@ -744,20 +744,20 @@
                           if (dom(ib)%bc_bottom>=61)  dom(ib)%ab(i,j,ks) = 0.d0
                           if (dom(ib)%bc_top>=61)     dom(ib)%at(i,j,ke) = 0.d0
 
-                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
-                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
-                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
+                          dom(ib)%ap(i,j,k) = -1.0_dp*( &
+                    dom(ib)%aw(i,j,k)+dom(ib)%ae(i,j,k)+ &
+                    dom(ib)%as(i,j,k)+dom(ib)%an(i,j,k)+ &
                     dom(ib)%ab(i,j,k)+dom(ib)%at(i,j,k))
 
-                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%w(i,j,k)+ &
-                    dom(ib)%an(i,j,k)*dom(ib)%w(i,j+1,k) + &
-                    dom(ib)%as(i,j,k)*dom(ib)%w(i,j-1,k)+ &
-                    dom(ib)%ae(i,j,k)*dom(ib)%w(i+1,j,k) + &
-                    dom(ib)%aw(i,j,k)*dom(ib)%w(i-1,j,k)+ &
-                    dom(ib)%at(i,j,k)*dom(ib)%w(i,j,k+1) + &
+                          diff=-(dom(ib)%ap(i,j,k)*dom(ib)%w(i,j,k)+ &
+                    dom(ib)%an(i,j,k)*dom(ib)%w(i,j+1,k) + &
+                    dom(ib)%as(i,j,k)*dom(ib)%w(i,j-1,k)+ &
+                    dom(ib)%ae(i,j,k)*dom(ib)%w(i+1,j,k) + &
+                    dom(ib)%aw(i,j,k)*dom(ib)%w(i-1,j,k)+ &
+                    dom(ib)%at(i,j,k)*dom(ib)%w(i,j,k+1) + &
                     dom(ib)%ab(i,j,k)*dom(ib)%w(i,j,k-1))
 
-                          dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+ &
+                          dom(ib)%wstar(i,j,k)=(dom(ib)%wstar(i,j,k)+ &
                     dt*alfapr*diff)
 
 !         if (L_LSM) then! .or. L_LSMbase) then
