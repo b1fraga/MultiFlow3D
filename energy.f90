@@ -20,11 +20,11 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: dxx,dyy,dzz
-          double precision :: conv,diff
-          double precision :: duTdx,dvTdy,dwTdz
-          double precision :: awT,aeT,asT,anT,abT,atT,apT
-          double precision :: kp,km,ku,kc,kd,b_r
+          real(dp) :: dxx,dyy,dzz
+          real(dp) :: conv,diff
+          real(dp) :: duTdx,dvTdy,dwTdz
+          real(dp) :: awT,aeT,asT,anT,abT,atT,apT
+          real(dp) :: kp,km,ku,kc,kd,b_r
 
           do ib=1,nbp
 

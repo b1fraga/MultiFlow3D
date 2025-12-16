@@ -7,15 +7,15 @@
           implicit none
           integer :: i,j,k,chk_wallboun
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
-          double precision :: vr_a,vr_b,vr_c,vr_d
-          double precision :: s12,s13,s23,sbet,utauw,he1
-          double precision :: h1,h2,h3,rh123,dist
-          double precision :: ufv_c,ufv_n1,ufv_n2
-          double precision :: vfv_c,vfv_n1,vfv_n2
-          double precision :: wfv_c,wfv_n1,wfv_n2
-          double precision :: dx,dy,dz
-          double precision :: cs1,delta_grid,l_s,dnmin,yplus,ratio,damp
+          real(dp) :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: vr_a,vr_b,vr_c,vr_d
+          real(dp) :: s12,s13,s23,sbet,utauw,he1
+          real(dp) :: h1,h2,h3,rh123,dist
+          real(dp) :: ufv_c,ufv_n1,ufv_n2
+          real(dp) :: vfv_c,vfv_n1,vfv_n2
+          real(dp) :: wfv_c,wfv_n1,wfv_n2
+          real(dp) :: dx,dy,dz
+          real(dp) :: cs1,delta_grid,l_s,dnmin,yplus,ratio,damp
           logical :: vandriest
 
           vandriest=.true.
@@ -591,8 +591,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,bound
-          double precision :: delta,n_x,n_y,n_z,vnor,vtan
-          double precision :: uc,vc,wc,small
+          real(dp) :: delta,n_x,n_y,n_z,vnor,vtan
+          real(dp) :: uc,vc,wc,small
 
 
           if (LAS.or.L_LSM) then                                            !variable density

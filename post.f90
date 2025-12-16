@@ -9,7 +9,7 @@
           integer :: sn,sn1,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          double precision :: ujkl,vikl,wijl
+          real(dp) :: ujkl,vikl,wijl
           character(len=8) :: chb,chb1
           character(len=25) :: gf
 
@@ -160,7 +160,7 @@
           integer :: ki,ib
           character(len=8) :: chb
           character(len=25) :: gf
-          double precision :: tau
+          real(dp) :: tau
 
           do ib=1,nbp
 
@@ -315,8 +315,8 @@
           integer :: sn,i,j,k,toti,totj,totk
           integer :: is,ie,js,je,ks,ke
           integer :: ki,ib
-          double precision :: u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn,tau
-          double precision :: uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml
+          real(dp) :: u_cn,v_cn,w_cn,um_cn,vm_cn,wm_cn,tau
+          real(dp) :: uum_cn,vvm_cn,wwm_cn,uvml,uwml,vwml
           character(len=8) :: chb
           character(len=25) :: gf
 
@@ -506,7 +506,7 @@
           implicit none
           integer :: sn,i,j,k,toti,totj,totk
           integer :: ki,ib,inind,jnind,knind
-          double precision, dimension(21) :: dm
+          real(dp), dimension(21) :: dm
           character(len=8) :: chb
           character(len=25) :: gf
 

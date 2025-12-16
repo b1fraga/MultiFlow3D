@@ -6,13 +6,13 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ii,jj,kk
-          double precision :: du2dx,dv2dy,dw2dz,vel
-          double precision :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
-          double precision :: up12,um12,vp12,vm12,wp12,wm12
-          double precision :: uijk,vijk,wijk
-          double precision :: dxx,dyy,dzz,dudx,dudy,dudz
-          double precision :: dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
-          double precision :: sp2,sp1,sn,sm1,sm2
+          real(dp) :: du2dx,dv2dy,dw2dz,vel
+          real(dp) :: duvdx,duvdy,duwdx,duwdz,dvwdy,dvwdz
+          real(dp) :: up12,um12,vp12,vm12,wp12,wm12
+          real(dp) :: uijk,vijk,wijk
+          real(dp) :: dxx,dyy,dzz,dudx,dudy,dudz
+          real(dp) :: dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: sp2,sp1,sn,sm1,sm2
 
           do ib=1,nbp
               dom(ib)%ustar=dom(ib)%u

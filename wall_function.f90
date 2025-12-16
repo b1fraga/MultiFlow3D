@@ -10,10 +10,10 @@
 
           implicit none
           integer :: i,j,k,ib,bound,cond
-          double precision :: delta,n_x,n_y,n_z,vnor,vtan,dvtan,sub
-          double precision :: uc,vc,wc,small,dycell,rycell,vtankr
-          double precision :: tausub,taupow
-          double precision :: aaa,bbb,const1,const2,const3,const4
+          real(dp) :: delta,n_x,n_y,n_z,vnor,vtan,dvtan,sub
+          real(dp) :: uc,vc,wc,small,dycell,rycell,vtankr
+          real(dp) :: tausub,taupow
+          real(dp) :: aaa,bbb,const1,const2,const3,const4
 
 
           if (LAS.or.L_LSM) then                                            !variable density

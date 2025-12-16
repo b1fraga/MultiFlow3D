@@ -7,7 +7,7 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: fact,fact1,buffer_rmax
+          real(dp) :: fact,fact1,buffer_rmax
 
           rmax=0.0_dp
 
@@ -210,8 +210,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,isp,jspr,jepr,kspr,kepr,ispr,iepr
-          double precision :: qstpp,fakfor,flwsum_loc,flwsum,A_loc,A
-          double precision,dimension(2) :: sndbuffer,recbuffer
+          real(dp) :: qstpp,fakfor,flwsum_loc,flwsum,A_loc,A
+          real(dp),dimension(2) :: sndbuffer,recbuffer
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -284,8 +284,8 @@
           implicit none
           integer :: i,j,k,l,m
           integer :: ib,isp,iep,jsp,jep,ksp,kep
-          double precision :: ppref,buffer_ppref
-          real ( kind =8 )  :: wtimedum
+          real(dp) :: ppref,buffer_ppref
+          real(dp) :: wtimedum
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 

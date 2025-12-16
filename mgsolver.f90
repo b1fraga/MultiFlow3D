@@ -12,7 +12,7 @@
           integer :: pre_njpl,pre_nkpl
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k,cnt,incr,ijk_lsm
           integer :: prmgci,prmgcj,prmgck
-          real :: dxx,dyy,dzz,ndx,ndy,ndz
+          real(dp) :: dxx,dyy,dzz,ndx,ndy,ndz
 
           do ib=1,nbp
 
@@ -380,8 +380,8 @@
           integer :: ijkp,ijke,ijkw,ijkn,ijks,ijkb,ijkt,ijkphi,ijksu
           integer :: glevel,it,gl
           integer :: incr,itr,ni,nj,nk,nij,nij2,nijk
-          real :: apr
-          real, dimension(ngg) :: a,c
+          real(dp) :: apr
+          real(dp), dimension(ngg) :: a,c
 
 
           do itr=1,it
@@ -631,7 +631,7 @@
           integer :: nif,njf,nkf,nic,njc,nkc
           integer :: nijc,nijf,nijc2,nijf2,nijkc,nijkf
           integer :: incr_c,incr_f
-          real, allocatable,dimension(:,:,:) :: resf
+          real(dp), allocatable,dimension(:,:,:) :: resf
 
 
           do ib=1,nbp

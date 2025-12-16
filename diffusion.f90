@@ -8,7 +8,7 @@
           implicit none
           integer :: i,j,k,ib
           integer :: is,ie,js,je,ks,ke
-          double precision :: dxx,dyy,dzz
+          real(dp) :: dxx,dyy,dzz
 
 ! ------ Compute coefficients for diffusion terms
 

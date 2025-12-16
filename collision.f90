@@ -11,7 +11,6 @@
 ! !######################################################################!
 
           !NOTE: make Lcol and Lcolwalls arrays for every fraction
-
           use multidata
           use multiflow3d_mpi
           use vars
@@ -21,32 +20,32 @@
 
           integer :: tot_np,ib
           integer :: l,l1,l2,ls,ls1,ls2
-          double precision :: dis_x,dis_y,dis_z,dis_dd,max_dis
-          double precision :: cita_xy,cita_xyz,dis_xy,dif_uvw,dis_xyz
-          double precision :: dif1_uv,dis1_xy,dif1_uvw,dis1_xyz
-          double precision :: dif2_uv,dis2_xy,dif2_uvw,dis2_xyz
-          double precision :: ip1,jp1,kp1,ip2,jp2,kp2
-          double precision :: damp,stiffness,collision,overlap
-          double precision :: lambda_p,lambda_wb,lambda_ww,lambda_wt
-          double precision :: lambda_we,lambda_ws,lambda_wn
-          double precision,allocatable,dimension(:):: up_sv,vp_sv,wp_sv
-          double precision,allocatable,dimension(:):: xp_sv,yp_sv,zp_sv
-          double precision,allocatable,dimension(:):: upg_sv,vpg_sv,wpg_sv
-          double precision,allocatable,dimension(:):: xpg_sv,ypg_sv,zpg_sv
-          double precision,allocatable,dimension(:):: dp_sv,dpg_sv
-          double precision :: dif1_uvw_t,dif2_uvw_t,collision_t
-          double precision :: collision_x,collision_y,collision_z
-          double precision :: vector_x,vector_y,vector_z
-          double precision :: collision_tx,collision_ty,collision_tz
+          real(dp) :: dis_x,dis_y,dis_z,dis_dd,max_dis
+          real(dp) :: cita_xy,cita_xyz,dis_xy,dif_uvw,dis_xyz
+          real(dp) :: dif1_uv,dis1_xy,dif1_uvw,dis1_xyz
+          real(dp) :: dif2_uv,dis2_xy,dif2_uvw,dis2_xyz
+          real(dp) :: ip1,jp1,kp1,ip2,jp2,kp2
+          real(dp) :: damp,stiffness,collision,overlap
+          real(dp) :: lambda_p,lambda_wb,lambda_ww,lambda_wt
+          real(dp) :: lambda_we,lambda_ws,lambda_wn
+          real(dp),allocatable,dimension(:):: up_sv,vp_sv,wp_sv
+          real(dp),allocatable,dimension(:):: xp_sv,yp_sv,zp_sv
+          real(dp),allocatable,dimension(:):: upg_sv,vpg_sv,wpg_sv
+          real(dp),allocatable,dimension(:):: xpg_sv,ypg_sv,zpg_sv
+          real(dp),allocatable,dimension(:):: dp_sv,dpg_sv
+          real(dp) :: dif1_uvw_t,dif2_uvw_t,collision_t
+          real(dp) :: collision_x,collision_y,collision_z
+          real(dp) :: vector_x,vector_y,vector_z
+          real(dp) :: collision_tx,collision_ty,collision_tz
           logical,allocatable,dimension(:):: collide_pt
 
-          double precision :: theta_col,e_col,mp
+          real(dp) :: theta_col,e_col,mp
 
          !2. Damping
           e_col=1.d0
           mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
-          theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
-         (3.1416_dp**2+(alog(e_col))**2)
+          theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
+         (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
 
           tot_np = np_loc+npg_loc
 
@@ -162,6 +161,7 @@
       Subroutine collision_walls(l)                                    !
 !     Calculates collisions with walls and boundaries                  !
 !######################################################################!
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use multidata
           use multiflow3d_mpi
           use vars
@@ -171,10 +171,10 @@
           implicit none
 
           integer :: l
-          double precision :: fcol_n,fcol_t,mu_f
-          double precision :: lambda_w,lambda_u,lambda_v
-          double precision :: theta_col,e_col,mp  !,k_t
-          double precision :: deltap
+          real(dp) :: fcol_n,fcol_t,mu_f
+          real(dp) :: lambda_w,lambda_u,lambda_v
+          real(dp) :: theta_col,e_col,mp  !,k_t
+          real(dp) :: deltap
 
           mu_f=9.2d-2
 
@@ -190,8 +190,8 @@
          !3. Damping
           e_col=1.d0
           mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
-          theta_col=-2*alog(e_col)*(mp*k_n)**0.5_dp/ &
-         (3.1416_dp**2+(alog(e_col))**2)
+          theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
+         (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
 
 ! ----------------------- collisions with bottom wall ----------------------------------
           if (zp_loc(l)<lambda_w+0.5_dp*dp_loc(l)) then

@@ -7,10 +7,10 @@
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
-          real ( kind =8 )  :: wtimedum,wtime_total,wtime_solver,wtime_ib
-          real (kind =8) :: wtime_cd,wtime_lpt
+          real(dp)  :: wtimedum,wtime_total,wtime_solver,wtime_ib
+          real(dp) :: wtime_cd,wtime_lpt
           integer :: ib,i,j,k,kutta,kuttacond,jjtime,ii
-          double precision :: alfark(3)
+          real(dp) :: alfark(3)
 
 ! Set some constants ---------------------
 ! ..... 3-STEP RUNGE KUTTA

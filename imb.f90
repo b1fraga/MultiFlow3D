@@ -3,52 +3,52 @@
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           SAVE
-          double precision  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
-          double precision  :: lambda,sigma,nxl
+          real(dp)  :: xt(5),yt(5),xdt(5),ydt(5),xddt(5),yddt(5),yto
+          real(dp)  :: lambda,sigma,nxl
           Logical :: LDrag
           INTEGER :: imp_proc_master,imb_block_master,forcefilej,a,b
           INTEGER :: bodynum,maxnode,master,maxnodeIBS,mdfsteps,yangcase
 
           LOGICAL,allocatable,dimension (:):: rotating,LSELFST,intflow
 
-          double precision,allocatable ::Cx(:),Cxor(:),Cy(:),Cyor(:)
-          double precision,allocatable ::Cz(:),Czor(:),Czz(:),Cxx(:)
-          double precision,allocatable ::l2norm(:)
-          double precision,allocatable,dimension(:) :: xaero,yaero,zaero
-          double precision,allocatable,dimension(:) :: iniT_selfST
-          double precision,allocatable,dimension(:) :: SUMtorque_ST
-          double precision,allocatable,dimension(:) :: acc_selfST,massI
-          double precision,allocatable,dimension(:) :: radsin,rads,pitch
-          double precision,allocatable,dimension(:) :: R,reddelta
-          double precision,allocatable,dimension(:) :: FX1_MASTER,FX2_MASTER
-          double precision,allocatable,dimension(:) :: FXSp_MASTER
-          double precision,allocatable,dimension(:) :: FXT_MASTER
-          double precision,allocatable,dimension(:) :: FX3_MASTER,FX3_loc
-          double precision,allocatable,dimension(:) :: nodex_loc,nodey_loc
-          double precision,allocatable,dimension(:) :: nodez_loc
-          double precision,allocatable,dimension(:) :: FXSp_loc,FXT_loc
-          double precision,allocatable,dimension(:) :: FX1_loc,FX2_loc
-          double precision,allocatable,dimension(:) :: R0_loc,alpha0_loc
-          double precision,allocatable,dimension(:) :: U_Beta1_loc
-          double precision,allocatable,dimension(:) :: Sp_Beta_loc
-          double precision,allocatable,dimension(:) :: T_Beta_loc
-          double precision,allocatable,dimension(:) :: U_Beta2_loc,zend
-          double precision,allocatable,dimension(:) :: U_Beta3_loc,zini
-          double precision,allocatable,dimension(:,:) :: dh1_loc,dh2_loc
-          double precision,allocatable,dimension(:,:) :: dh3_loc,delvol
-          double precision,allocatable,dimension(:,:) :: dh4_loc  !,dh5_loc
-          double precision,allocatable,dimension(:,:) :: nodexlocal
-          double precision,allocatable,dimension(:,:) :: nodeylocal
-          double precision,allocatable,dimension(:,:) :: nodezlocal
-          double precision,allocatable,dimension(:,:) :: FX1NF,FX2NF,FX3NF
-          double precision,allocatable,dimension(:,:) :: FXSpNF,FXTNF
-          double precision,allocatable,dimension(:,:) :: nodex,nodey,nodez
-          double precision,allocatable,dimension(:,:) :: torque,U_Beta3
-          double precision,allocatable,dimension(:,:) :: U_Beta1,U_Beta2
-          double precision,allocatable,dimension(:,:) :: FX1,FX2,FX3
-          double precision,allocatable,dimension(:,:) :: FXSp,FXT
-          double precision,allocatable,dimension(:,:) :: alpha0,R0
-          double precision,allocatable,dimension(:) :: dxm,dym,dzm
+          real(dp),allocatable ::Cx(:),Cxor(:),Cy(:),Cyor(:)
+          real(dp),allocatable ::Cz(:),Czor(:),Czz(:),Cxx(:)
+          real(dp),allocatable ::l2norm(:)
+          real(dp),allocatable,dimension(:) :: xaero,yaero,zaero
+          real(dp),allocatable,dimension(:) :: iniT_selfST
+          real(dp),allocatable,dimension(:) :: SUMtorque_ST
+          real(dp),allocatable,dimension(:) :: acc_selfST,massI
+          real(dp),allocatable,dimension(:) :: radsin,rads,pitch
+          real(dp),allocatable,dimension(:) :: R,reddelta
+          real(dp),allocatable,dimension(:) :: FX1_MASTER,FX2_MASTER
+          real(dp),allocatable,dimension(:) :: FXSp_MASTER
+          real(dp),allocatable,dimension(:) :: FXT_MASTER
+          real(dp),allocatable,dimension(:) :: FX3_MASTER,FX3_loc
+          real(dp),allocatable,dimension(:) :: nodex_loc,nodey_loc
+          real(dp),allocatable,dimension(:) :: nodez_loc
+          real(dp),allocatable,dimension(:) :: FXSp_loc,FXT_loc
+          real(dp),allocatable,dimension(:) :: FX1_loc,FX2_loc
+          real(dp),allocatable,dimension(:) :: R0_loc,alpha0_loc
+          real(dp),allocatable,dimension(:) :: U_Beta1_loc
+          real(dp),allocatable,dimension(:) :: Sp_Beta_loc
+          real(dp),allocatable,dimension(:) :: T_Beta_loc
+          real(dp),allocatable,dimension(:) :: U_Beta2_loc,zend
+          real(dp),allocatable,dimension(:) :: U_Beta3_loc,zini
+          real(dp),allocatable,dimension(:,:) :: dh1_loc,dh2_loc
+          real(dp),allocatable,dimension(:,:) :: dh3_loc,delvol
+          real(dp),allocatable,dimension(:,:) :: dh4_loc  !,dh5_loc
+          real(dp),allocatable,dimension(:,:) :: nodexlocal
+          real(dp),allocatable,dimension(:,:) :: nodeylocal
+          real(dp),allocatable,dimension(:,:) :: nodezlocal
+          real(dp),allocatable,dimension(:,:) :: FX1NF,FX2NF,FX3NF
+          real(dp),allocatable,dimension(:,:) :: FXSpNF,FXTNF
+          real(dp),allocatable,dimension(:,:) :: nodex,nodey,nodez
+          real(dp),allocatable,dimension(:,:) :: torque,U_Beta3
+          real(dp),allocatable,dimension(:,:) :: U_Beta1,U_Beta2
+          real(dp),allocatable,dimension(:,:) :: FX1,FX2,FX3
+          real(dp),allocatable,dimension(:,:) :: FXSp,FXT
+          real(dp),allocatable,dimension(:,:) :: alpha0,R0
+          real(dp),allocatable,dimension(:) :: dxm,dym,dzm
           INTEGER,allocatable,dimension(:,:) :: I_nr_V,J_nr_V,K_nr_V
           INTEGER,allocatable,dimension(:,:) :: I_nr_U,J_nr_U,K_nr_U
           INTEGER,allocatable,dimension(:,:) :: I_nr_W,J_nr_W,K_nr_W
@@ -61,7 +61,7 @@
           INTEGER,allocatable,dimension(:) :: lag_bod_loc,cmax,linfin
           INTEGER,allocatable,dimension(:) :: domtemp,imb_block_loc,axis
           INTEGER,allocatable,dimension(:) :: imbinblock_loc,rott_loc
-          double precision,allocatable,dimension(:) :: rdiv_imb
+          real(dp),allocatable,dimension(:) :: rdiv_imb
           integer,allocatable,dimension(:) :: IBip,IBjp,IBkp  !Aleks 04/23 - arrays for storing ijk values of IB points
           CHARACTER(len=32), allocatable, dimension (:) :: filepoints
 
@@ -74,7 +74,7 @@
           use imb
           use multiflow3d_mpi
           implicit none
-          double precision         :: PI,revoltime
+          real(dp)         :: PI,revoltime
           INTEGER      :: L,I,strlen,maxn,K
           CHARACTER(len=8)  :: char_block
           CHARACTER(len=31) :: gridfile
@@ -296,7 +296,7 @@
           use multiflow3d_mpi
           implicit none
           INTEGER  :: M,L,iii,K
-          double precision :: PI
+          real(dp) :: PI
           PI = 4.D0*DATAN(1.D0)
 
           Do M=1,bodynum
@@ -505,7 +505,7 @@
           implicit none
           INTEGER :: M,L,ii,nxdom,nydom,nzdom,tnm,N,nx,ny,nz
           integer :: ib,is,ie,js,je,ks,ke, tti,ttj,ttk
-          DOUBLE PRECISION :: lxdom(idom+1),lydom(jdom+1),lzdom(kdom+1)
+          real(dp) :: lxdom(idom+1),lydom(jdom+1),lzdom(kdom+1)
 
           IF(myrank==master)THEN
           lxdom=0 ; lydom=0 ; lzdom=0
@@ -650,7 +650,7 @@
           use multidata
           use imb
           implicit none
-          double precision :: dh,dhtotal
+          real(dp) :: dh,dhtotal
           INTEGER :: I,J,L,ib,nl,K
 
 !   IF(nmls.eq.0) then
@@ -845,7 +845,7 @@
           use imb
           implicit none
           INTEGER :: NF,M,L
-          double precision :: sumvel,l1norm
+          real(dp) :: sumvel,l1norm
 
 !call exchange subroutines to fill the ghost cells with values
           !call exchange(1)
@@ -943,7 +943,7 @@
           use multidata
           use imb
           implicit none
-          double precision :: dh,dhtotal
+          real(dp) :: dh,dhtotal
           INTEGER :: I,J,K,L,M,ib,nl,nt
 
           U_Beta1_loc=0.d0 ; U_Beta2_loc=0.d0 ; U_Beta3_loc=0.d0    !Pablo
@@ -1247,7 +1247,7 @@
           use imb
           implicit none
           INTEGER :: M,L,KK,ib,iii
-          double precision :: PI,aplh,UIB_loc,VIB_loc,WIB_loc,tt,dx
+          real(dp) :: PI,aplh,UIB_loc,VIB_loc,WIB_loc,tt,dx
 
           PI = 4.D0*DATAN(1.D0)
 
@@ -1343,7 +1343,7 @@
           use imb
           implicit none
           INTEGER :: I,J,K,L,ib,nl
-          double precision :: fbeta
+          real(dp) :: fbeta
 
           Do ib=1,nbp
 
@@ -1405,7 +1405,7 @@
           use multiflow3d_mpi
           implicit none
           INTEGER :: M,L,j,iii,inipts,finpts,totalpoints
-          double precision :: PI,fx_loc,fy_loc,fz_loc,alph,alpharads
+          real(dp) :: PI,fx_loc,fy_loc,fz_loc,alph,alpharads
 
           PI = 4.D0*DATAN(1.D0)
 

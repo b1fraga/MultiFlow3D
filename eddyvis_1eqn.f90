@@ -7,18 +7,18 @@
           implicit none
           integer :: i,j,k,rk
           integer :: ib,is,ie,js,je,ks,ke
-          double precision :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
-          double precision :: dukdx,dvkdy,dwkdz,kp,km,ku,kc,kd,b_r
-          double precision :: awT,aeT,asT,anT,abT,atT,apT
-          double precision :: dxx,dyy,dzz,vsgs
-          double precision :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
-          double precision :: vr_a,vr_b,vr_c,vr_d
-          double precision :: s12,s13,s23
-          double precision :: ss,cons_k,cons_eps
-          double precision :: conv,diff,prod,other
-          double precision :: delta_grid
-          double precision :: alfark(3)
-          double precision ::dx,dy,dz
+          real(dp) :: dudx,dudy,dudz,dvdx,dvdy,dvdz,dwdx,dwdy,dwdz
+          real(dp) :: dukdx,dvkdy,dwkdz,kp,km,ku,kc,kd,b_r
+          real(dp) :: awT,aeT,asT,anT,abT,atT,apT
+          real(dp) :: dxx,dyy,dzz,vsgs
+          real(dp) :: visc_w,visc_e,visc_s,visc_n,visc_b,visc_t
+          real(dp) :: vr_a,vr_b,vr_c,vr_d
+          real(dp) :: s12,s13,s23
+          real(dp) :: ss,cons_k,cons_eps
+          real(dp) :: conv,diff,prod,other
+          real(dp) :: delta_grid
+          real(dp) :: alfark(3)
+          real(dp) ::dx,dy,dz
           integer :: sn
           character(len=8) :: chb1
           character(len=25) :: gf

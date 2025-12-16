@@ -1,6 +1,7 @@
 !##########################################################################
       subroutine read_control
 !##########################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use vars
           use multidata
           use multiflow3d_mpi
@@ -140,6 +141,7 @@
 !##########################################################################
       subroutine initial
 !##########################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use vars
           use multiflow3d_mpi
           use multidata
@@ -147,7 +149,7 @@
           implicit none
           integer :: i,ib,tti,ttj,ttk
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k,is,ie,js,je,ks,ke
-          double precision    :: ndx,ndy,ndz,nwxend,nwyend,nwzend
+          real(dp)    :: ndx,ndy,ndz,nwxend,nwyend,nwzend
 
           do ib=1,nbp
               tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j
@@ -383,7 +385,7 @@
 
           implicit none
           integer :: i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
-          double precision :: buffer_flomas
+          real(dp) :: buffer_flomas
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -458,13 +460,14 @@
 !##########################################################################
       subroutine correctoutflux
 !##########################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use vars
           use multidata
           use multiflow3d_mpi
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,ispr,iepr,jspr,jepr,kspr,kepr
-          double precision :: fmout,fct,buffer_fmout
+          real(dp) :: fmout,fct,buffer_fmout
 
           MPI_FLT = MPI_DOUBLE_PRECISION
 
@@ -620,6 +623,7 @@
 !##########################################################################
       subroutine initflowfield
 !##########################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use vars
           use multiflow3d_mpi
           use multidata
@@ -629,8 +633,8 @@
           integer :: i,j,k,ib,tti,ttj,ttk,pll
           integer :: sn,sn2
           integer :: inind,jnind,knind
-          double precision :: dum,ubw,ube,ubs,ubn,ubt,ubb,vb,wb,lz,dummy
-          double precision, dimension(21) :: dm
+          real(dp) :: dum,ubw,ube,ubs,ubn,ubt,ubb,vb,wb,lz,dummy
+          real(dp), dimension(21) :: dm
           character(len=8)   :: chb1
           character(len=25)  :: gf
 

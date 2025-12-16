@@ -1,6 +1,7 @@
 !##########################################################################
       module multiflow3d_mpi
 !##########################################################################
+          use, intrinsic :: iso_fortran_env, only: dp => real64
           use mpi
           implicit none
 
@@ -10,8 +11,8 @@
           integer           :: ierr
           integer           :: MPI_FLT
           integer           :: status(MPI_STATUS_SIZE)
-          real ( kind =8 )  :: wtime
-          real ( kind =8 )  :: wtime2
+          real(dp)  :: wtime
+          real(dp)  :: wtime2
 
       contains
 

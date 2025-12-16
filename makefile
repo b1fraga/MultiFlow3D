@@ -1,6 +1,9 @@
 #############################################################
 F90=mpif90
-OPTIONS    =  -c -fdefault-real-8 -fdefault-double-8  -O2 -fbacktrace -fallow-argument-mismatch -g -fopenmp -std=f2018
+OPTIONS    =  -c -O2 -g -fopenmp
+ifneq (,$(findstring GNU,$(shell $(F90) --version)))
+   OPTIONS += -std=f2018
+endif
 LOPTIONS   = -O2 -fopenmp
 JSON_FORTRAN_INCLUDE_PATH := build_json_fortran/include/
 JSON_FORTRAN_LIBRARY_PATH := build_json_fortran/lib/

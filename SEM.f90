@@ -8,10 +8,10 @@
           USE multidata
           use multiflow3d_mpi
           IMPLICIT NONE
-          DOUBLE PRECISION :: VOL,Ly,Lz,ENNE,XMIN,XMAX,YMIN
-          DOUBLE PRECISION :: YMAX,ZMIN,ZMAX,PI,U0,HU,RIZ,RDIVz,UAVE(3)
-          DOUBLE PRECISION :: SIGMA_VALUE,MAXVSEM,MINVSEM
-          REAL :: rand_num
+          real(dp) :: VOL,Ly,Lz,ENNE,XMIN,XMAX,YMIN
+          real(dp) :: YMAX,ZMIN,ZMAX,PI,U0,HU,RIZ,RDIVz,UAVE(3)
+          real(dp) :: SIGMA_VALUE,MAXVSEM,MINVSEM
+          real(dp) :: rand_num
           INTEGER :: DIVY,DIVZ,IY,IZ,II,N,I,J,M,IT,IGLOBAL
           INTEGER,allocatable,dimension(:)::lsy,lsz,ley,lez
 !THE BOX DIMENSIONS ARE DIFINED AS [XLENGHT] * [Ly] * [Lz]
@@ -73,7 +73,7 @@
 
 !THE NUMBER OF EDDIES IS THE INLET SURFACE DIVIDED BY THE SURFACE OF EACH TURBULENT SPOT
           NE_SEM = (Ly*Lz)/SIGMA_VALUE**2
-![N](INTEGER) AND [ENNE](DOUBLE PRECISION) REPRESENT THE NUMBER OF EDDIES
+![N](INTEGER) AND [ENNE](real(dp)) REPRESENT THE NUMBER OF EDDIES
           N = INT(NE_SEM)   ;  ENNE = REAL(N)
 
           if(myrank==0) write(6,*) 'The number of SEM eddies is :', N

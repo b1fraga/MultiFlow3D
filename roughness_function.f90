@@ -1,15 +1,15 @@
 !##########################################################################
       MODULE var_rough
 !##########################################################################
-
-          real :: hd,sigma
+          use, intrinsic :: iso_fortran_env, only: dp => real64
+          real(dp) :: hd,sigma
           integer :: maxk,iblock,rough_blockno,rough_proc
           integer, allocatable,dimension (:) :: rough_block
 
           type multi_rough
-              real :: d50
-              real, pointer, dimension(:,:,:) :: rough,irough
-              real, pointer, dimension(:,:)   :: zbp,z_rough
+              real(dp) :: d50
+              real(dp), pointer, dimension(:,:,:) :: rough,irough
+              real(dp), pointer, dimension(:,:)   :: zbp,z_rough
           end type multi_rough
 
           type (multi_rough), pointer, dimension(:) :: rough_dom
@@ -26,7 +26,7 @@
           implicit none
 
           integer :: ib,proc_no,L,N,ni,nj,nk
-          real :: d50_dummy
+          real(dp) :: d50_dummy
           CHARACTER(len=31) :: gridfile
 
 
@@ -79,13 +79,13 @@
           integer, intent(in) :: ib
           integer :: ni, nj,nk
 
-          real :: aa(301), A(301),b
-          real    :: xistep,yjstep,zdelta,zbav, rms
-          real    :: random_number_normal2,maxelev,minelev,maxelev2,minelev2
+          real(dp) :: aa(301), A(301),b
+          real(dp)    :: xistep,yjstep,zdelta,zbav, rms
+          real(dp)    :: random_number_normal2,maxelev,minelev,maxelev2,minelev2
           integer :: i,j,k,istep,jstep,ii1,ii2,ii,icount  !,ib
           character (LEN=80)   :: tecfile, cdummy
           character (LEN=4)    :: char_block
-          real :: random, xicount
+          real(dp) :: random, xicount
 
           ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
 
@@ -326,7 +326,7 @@
           IMPLICIT NONE
           integer :: i,j,k,ib
           integer :: ni, nj,nk,L
-          real :: dummy
+          real(dp) :: dummy
           character (LEN=80)   :: tecfile,charac
           character (LEN=4)    :: char_block
 
@@ -377,15 +377,15 @@
 !------------------------------------------------------------------------
           use, intrinsic :: iso_fortran_env, only: dp => real64
           IMPLICIT NONE
-          REAL  :: fn_val
-          REAL  :: mean,sigma
+          real(dp) :: fn_val
+          real(dp) :: mean,sigma
 !
 !.... Local variables
 !
-          REAL            :: u, sum
-          REAL, SAVE      :: v, sln
+          real(dp) :: u, sum
+          real(dp), SAVE      :: v, sln
           LOGICAL, SAVE   :: second = .FALSE.
-          REAL, PARAMETER :: one = 1.0_dp, vsmall = TINY( one )
+          real(dp), PARAMETER :: one = 1.0_dp, vsmall = TINY( one )
 
           IF (second) THEN
 !

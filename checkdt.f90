@@ -8,12 +8,12 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: dxx,dyy,dzz,umax,vmax,wmax,dtmax
-          double precision :: dtmax1,dtvisc,dtvisc1,dtthr
-          double precision :: uc,vc,wc
-          double precision :: buffer_umax,buffer_vmax,buffer_wmax
-          double precision :: buffer_dtmax,dt1,small
-          double precision :: Cu,Cv,Cw
+          real(dp) :: dxx,dyy,dzz,umax,vmax,wmax,dtmax
+          real(dp) :: dtmax1,dtvisc,dtvisc1,dtthr
+          real(dp) :: uc,vc,wc
+          real(dp) :: buffer_umax,buffer_vmax,buffer_wmax
+          real(dp) :: buffer_dtmax,dt1,small
+          real(dp) :: Cu,Cv,Cw
 
           umax=0.0_dp
           vmax=0.0_dp

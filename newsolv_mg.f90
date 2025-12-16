@@ -7,8 +7,8 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib
-          double precision :: ppref,buffer_ppref
-          real ( kind =8 )  :: wtimedum
+          real(dp) :: ppref,buffer_ppref
+          real(dp)  :: wtimedum
 
           if (L_LSM) then  ! .or. L_LSMbase)  then
           call coeff
@@ -110,7 +110,7 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,sn
-          double precision :: resid
+          real(dp) :: resid
           character(len=8) :: chb
           character(len=25) :: gf,gf2
 
