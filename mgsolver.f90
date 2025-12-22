@@ -19,8 +19,8 @@
               ijk_lsm=0
               if (L_LSM) dom(ib)%dens_mg=0.0_dp
 
-              dom(ib)%faz(1)=(dom(ib)%iep-dom(ib)%isp+3)* &
-        (dom(ib)%jep-dom(ib)%jsp+3)* &
+              dom(ib)%faz(1)=(dom(ib)%iep-dom(ib)%isp+3)* &
+        (dom(ib)%jep-dom(ib)%jsp+3)* &
         (dom(ib)%kep-dom(ib)%ksp+3)
               prmgci=(dom(ib)%iep-dom(ib)%isp+3)
               prmgcj=(dom(ib)%jep-dom(ib)%jsp+3)
@@ -34,7 +34,7 @@
                   mgc_i=(dom(ib)%iep-dom(ib)%isp+1)/2**(gl-1)+2
                   mgc_j=(dom(ib)%jep-dom(ib)%jsp+1)/2**(gl-1)+2
                   mgc_k=(dom(ib)%kep-dom(ib)%ksp+1)/2**(gl-1)+2
-                  dom(ib)%faz(glevel)=dom(ib)%faz(glevel-1)+ &
+                  dom(ib)%faz(glevel)=dom(ib)%faz(glevel-1)+ &
             mgc_i*mgc_j*mgc_k+8*(prmgci-2)*(prmgcj-2)*(prmgck-2)
                   prmgci=mgc_i; prmgcj=mgc_j; prmgck=mgc_k
               end do
@@ -78,17 +78,17 @@
 
                               ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
-                              dom(ib)%dens_mg(ijk_lsm)= &
+                              dom(ib)%dens_mg(ijk_lsm)= &
                                dom(ib)%dens(i+pl-1,j+pl-1,k+pl-1)
                               else if (glevel/=1)  then
-                              ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
+                              ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
                               pre_nipl=(dom(ib)%ttc_i-(2*pl))/2**(glevel-2)+2
                               pre_njpl=(dom(ib)%ttc_j-(2*pl))/2**(glevel-2)+2
                               pre_nkpl=(dom(ib)%ttc_k-(2*pl))/2**(glevel-2)+2
 
-                              ij1 = (2*k-4)*(pre_nipl-2)*(pre_njpl-2) + &
+                              ij1 = (2*k-4)*(pre_nipl-2)*(pre_njpl-2) + &
                         (2*i-4)*(pre_njpl-2) + (2*j-3) + dom(ib)%ijkp_lsm(glevel-2)
                               ij2 = ij1 + 1
                               ij3 = ij1 + (pre_njpl-2)
@@ -98,9 +98,9 @@
                               ij7 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2)
                               ij8 = ij1 + (pre_nipl-2)*(pre_njpl-2) + (pre_njpl-2) +1
 
-                              dom(ib)%dens_mg(ijk_lsm)=0.125_dp*(dom(ib)%dens_mg(ij1)+ &
-                        dom(ib)%dens_mg(ij2)+dom(ib)%dens_mg(ij3)+dom(ib)%dens_mg(ij4) + &
-                        dom(ib)%dens_mg(ij5)+dom(ib)%dens_mg(ij6)+dom(ib)%dens_mg(ij7) + &
+                              dom(ib)%dens_mg(ijk_lsm)=0.125_dp*(dom(ib)%dens_mg(ij1)+ &
+                        dom(ib)%dens_mg(ij2)+dom(ib)%dens_mg(ij3)+dom(ib)%dens_mg(ij4) + &
+                        dom(ib)%dens_mg(ij5)+dom(ib)%dens_mg(ij6)+dom(ib)%dens_mg(ij7) + &
                         dom(ib)%dens_mg(ij8))
 
                               end if
@@ -116,70 +116,70 @@
                       do  i=2,mgc_i-1
                           do j=2,mgc_j-1
 
-                              ijk=dom(ib)%faz(glevel)+ &
+                              ijk=dom(ib)%faz(glevel)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
                               if (L_LSM) then  ! .or. L_LSMbase) then
 
-                              if (glevel==1) ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+ &
+                              if (glevel==1) ijk_lsm=(k-2)*(mgc_i-2)*(mgc_j-2)+ &
                         (i-2)*(mgc_j-2)+(j-1)
 
-                              if (glevel/=1) ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
+                              if (glevel/=1) ijk_lsm=dom(ib)%ijkp_lsm(glevel-1)+ &
                         (k-2)*(mgc_i-2)*(mgc_j-2)+(i-2)*(mgc_j-2)+(j-1)
 
                               if (i==2) then
                               densim12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densim12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densim12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_j-2)))
                               end if
 
                               if (i==mgc_i-1) then
                               densip12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densip12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densip12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_j-2)))
                               end if
 
                               if (j==2) then
                               densjm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-1))
                               end if
 
                               if (j==mgc_j-1) then
                               densjp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              densjp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              densjp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+1))
                               end if
 
                               if (k==2) then
                               denskm12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskm12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm-(mgc_i-2)*(mgc_j-2)))
                               end if
 
                               if (k==mgc_k-1) then
                               denskp12=dom(ib)%dens_mg(ijk_lsm)
                               else
-                              denskp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
+                              denskp12=0.5_dp*(dom(ib)%dens_mg(ijk_lsm)+ &
                         dom(ib)%dens_mg(ijk_lsm+(mgc_i-2)*(mgc_j-2)))
                               end if
 
-                              dom(ib)%cof(ijk)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
+                              dom(ib)%cof(ijk)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
                         densim12  !aw
-                              dom(ib)%cof(ijk+1*incr)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
+                              dom(ib)%cof(ijk+1*incr)=dom(ib)%dy*dom(ib)%dz/dom(ib)%dx/ &
                         densip12  !ae
-                              dom(ib)%cof(ijk+2*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
+                              dom(ib)%cof(ijk+2*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
                         densjm12  !as
-                              dom(ib)%cof(ijk+3*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
+                              dom(ib)%cof(ijk+3*incr)=dom(ib)%dx*dom(ib)%dz/dom(ib)%dy/ &
                         densjp12  !an
-                              dom(ib)%cof(ijk+4*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
+                              dom(ib)%cof(ijk+4*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
                         denskm12  !ab
-                              dom(ib)%cof(ijk+5*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
+                              dom(ib)%cof(ijk+5*incr)=dom(ib)%dx*dom(ib)%dy/dom(ib)%dz/ &
                         denskp12  !at
 
                               else
@@ -191,22 +191,22 @@
                               dom(ib)%cof(ijk+5*incr)=1.0_dp/dzz  !at
                               end if
 
-                              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5 &
+                              if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5 &
                         .and. i==2)         dom(ib)%cof(ijk)       =0.0_dp
-                              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5 &
+                              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5 &
                         .and. i==mgc_i-1)  dom(ib)%cof(ijk+1*incr)=0.0_dp
-                              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5 &
+                              if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5 &
                         .and. j==2)         dom(ib)%cof(ijk+2*incr)=0.0_dp
-                              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5 &
+                              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5 &
                         .and. j==mgc_j-1)  dom(ib)%cof(ijk+3*incr)=0.0_dp
-                              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5 &
+                              if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5 &
                         .and. k==2)         dom(ib)%cof(ijk+4*incr)=0.0_dp
-                              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5 &
+                              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5 &
                         .and. k==mgc_k-1)  dom(ib)%cof(ijk+5*incr)=0.0_dp
 
-                              dom(ib)%cof(ijk+6*incr)=-1.0_dp*(dom(ib)%cof(ijk)+ &
-                        dom(ib)%cof(ijk+1*incr)+dom(ib)%cof(ijk+2*incr)+ &
-                        dom(ib)%cof(ijk+3*incr)+dom(ib)%cof(ijk+4*incr)+ &
+                              dom(ib)%cof(ijk+6*incr)=-1.0_dp*(dom(ib)%cof(ijk)+ &
+                        dom(ib)%cof(ijk+1*incr)+dom(ib)%cof(ijk+2*incr)+ &
+                        dom(ib)%cof(ijk+3*incr)+dom(ib)%cof(ijk+4*incr)+ &
                         dom(ib)%cof(ijk+5*incr))  !ap
 
                               dom(ib)%cof(ijk+7*incr)=0.0_dp  !res
@@ -253,7 +253,7 @@
               do  k=2,mgc_k-1
                   do  i=2,mgc_i-1
                       do j=2,mgc_j-1
-                          ijk=dom(ib)%faz(1)+(k-2)*(mgc_i-2)*(mgc_j-2)+ &
+                          ijk=dom(ib)%faz(1)+(k-2)*(mgc_i-2)*(mgc_j-2)+ &
                     (i-2)*(mgc_j-2)+(j-1)+incrp
                           if (L_LSM) then
                           dom(ib)%cof(ijk)=dom(ib)%sup(i+pl-1,j+pl-1,k+pl-1)
@@ -418,12 +418,12 @@
                               ijkp=ijkw+6*incr
                               ijksu=ijkw+7*incr
 
-                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
-                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
-                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
-                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
-                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
-                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
+                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
+                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
+                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
+                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
+                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
+                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
                         dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)))/dom(ib)%cof(ijkp))
 
                           end do
@@ -457,11 +457,11 @@
 
                               apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijks)*a(j-1))
                               a(j)=dom(ib)%cof(ijkn)*apr
-                              c(j)=(dom(ib)%cof(ijksu)- &
-                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)- &
-                        dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)- &
-                        dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)- &
-                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)- &
+                              c(j)=(dom(ib)%cof(ijksu)- &
+                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)- &
+                        dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)- &
+                        dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)- &
+                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)- &
                         dom(ib)%cof(ijks)*c(j-1))*apr
                           end do
 
@@ -494,11 +494,11 @@
 
                               apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkw)*a(i-1))
                               a(i)=dom(ib)%cof(ijke)*apr
-                              c(i)=(dom(ib)%cof(ijksu)- &
-                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
-                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)- &
-                        dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)- &
-                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)- &
+                              c(i)=(dom(ib)%cof(ijksu)- &
+                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
+                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)- &
+                        dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)- &
+                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)- &
                         dom(ib)%cof(ijkw)*c(i-1))*apr
                           end do
 
@@ -531,11 +531,11 @@
 
                               apr=1.0_dp/(dom(ib)%cof(ijkp)-dom(ib)%cof(ijkb)*a(k-1))
                               a(k)=dom(ib)%cof(ijkt)*apr
-                              c(k)=(dom(ib)%cof(ijksu)- &
-                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
-                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)- &
-                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)- &
-                        dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)- &
+                              c(k)=(dom(ib)%cof(ijksu)- &
+                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)- &
+                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)- &
+                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)- &
+                        dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)- &
                         dom(ib)%cof(ijkb)*c(k-1))*apr
                           end do
 
@@ -563,12 +563,12 @@
                               ijkp=ijkw+6*incr
                               ijksu=ijkw+7*incr
 
-                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
-                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
-                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
-                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
-                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
-                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
+                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
+                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
+                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
+                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
+                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
+                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
                         dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)))/dom(ib)%cof(ijkp))
 
                               end if
@@ -590,12 +590,12 @@
                               ijkp=ijkw+6*incr
                               ijksu=ijkw+7*incr
 
-                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
-                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
-                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
-                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
-                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
-                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
+                              dom(ib)%cof(ijkphi)=((dom(ib)%cof(ijksu)- &
+                        (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-nj)+ &
+                        dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+nj)+ &
+                        dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
+                        dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
+                        dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nij)+ &
                         dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nij)))/dom(ib)%cof(ijkp))
 
                               end if
@@ -663,7 +663,7 @@
               do  k=2,nkc-1
                   do  i=2,nic-1
                       do j=2,njc-1
-                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
+                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
                           dom(ib)%cof(ijksu)=0.0_dp
                       end do
@@ -703,13 +703,13 @@
                           ijkp=ijkw+6*incr_f
                           ijksu=ijkw+7*incr_f
 
-                          resf(i,j,k)=dom(ib)%cof(ijksu)- &
-                    (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-njf)+ &
-                    dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+njf)+ &
-                    dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
-                    dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
-                    dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nijf)+ &
-                    dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nijf)+ &
+                          resf(i,j,k)=dom(ib)%cof(ijksu)- &
+                    (dom(ib)%cof(ijkw)*dom(ib)%cof(ijkphi-njf)+ &
+                    dom(ib)%cof(ijke)*dom(ib)%cof(ijkphi+njf)+ &
+                    dom(ib)%cof(ijks)*dom(ib)%cof(ijkphi-1)+ &
+                    dom(ib)%cof(ijkn)*dom(ib)%cof(ijkphi+1)+ &
+                    dom(ib)%cof(ijkb)*dom(ib)%cof(ijkphi-nijf)+ &
+                    dom(ib)%cof(ijkt)*dom(ib)%cof(ijkphi+nijf)+ &
                     dom(ib)%cof(ijkp)*dom(ib)%cof(ijkphi))
                       end do
                   end do
@@ -726,7 +726,7 @@
                   do  i=2,nic-1
                       do j=2,njc-1
 
-                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
+                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
 
 
@@ -741,13 +741,13 @@
                   do  i=2,nic-1
                       do j=2,njc-1
 
-                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
+                          ijksu=dom(ib)%faz(glevel)+(k-2)*nijc2+ &
                     (i-2)*(njc-2)+(j-1)+7*incr_c
 
-                          dom(ib)%cof(ijksu)=0.125_dp*(resf(2*i-2,2*j-2,2*k-2)+ &
-                    resf(2*i-1,2*j-2,2*k-2)+resf(2*i-2,2*j-1,2*k-2)+ &
-                    resf(2*i-1,2*j-1,2*k-2)+resf(2*i-2,2*j-2,2*k-1)+ &
-                    resf(2*i-1,2*j-2,2*k-1)+resf(2*i-2,2*j-1,2*k-1)+ &
+                          dom(ib)%cof(ijksu)=0.125_dp*(resf(2*i-2,2*j-2,2*k-2)+ &
+                    resf(2*i-1,2*j-2,2*k-2)+resf(2*i-2,2*j-1,2*k-2)+ &
+                    resf(2*i-1,2*j-1,2*k-2)+resf(2*i-2,2*j-2,2*k-1)+ &
+                    resf(2*i-1,2*j-2,2*k-1)+resf(2*i-2,2*j-1,2*k-1)+ &
                     resf(2*i-1,2*j-1,2*k-1))
 
                       end do
@@ -834,60 +834,60 @@
                           ijkc=(kc-1)*nijc+(ic-1)*njc+jc+dom(ib)%faz(glevel+1)-nijkc
                           ijkf=(k-1)*nijf+(i-1)*njf+j+dom(ib)%faz(glevel)-nijkf
 
-                          dom(ib)%cof(ijkf)=dom(ib)%cof(ijkf)+ &
-                    (27.0d0*dom(ib)%cof(ijkc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf)=dom(ib)%cof(ijkf)+ &
+                    (27.0d0*dom(ib)%cof(ijkc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     1.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+njf)=dom(ib)%cof(ijkf+njf)+ &
-                    (9.0d0*dom(ib)%cof(ijkc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    1.0d0*dom(ib)%cof(ijkc+nijc+1)+27.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+njf)=dom(ib)%cof(ijkf+njf)+ &
+                    (9.0d0*dom(ib)%cof(ijkc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    1.0d0*dom(ib)%cof(ijkc+nijc+1)+27.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     3.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+1)=dom(ib)%cof(ijkf+1)+ &
-                    (9.0d0*dom(ib)%cof(ijkc)+ &
-                    27.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+njc+1)+1.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+1)=dom(ib)%cof(ijkf+1)+ &
+                    (9.0d0*dom(ib)%cof(ijkc)+ &
+                    27.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+njc+1)+1.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     3.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+nijf)=dom(ib)%cof(ijkf+nijf)+ &
-                    (9.0d0*dom(ib)%cof(ijkc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+1)+27.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    1.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+nijf)=dom(ib)%cof(ijkf+nijf)+ &
+                    (9.0d0*dom(ib)%cof(ijkc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+1)+27.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    1.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     3.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+njf+1)=dom(ib)%cof(ijkf+njf+1)+ &
-                    (3.0d0*dom(ib)%cof(ijkc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+1)+1.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    27.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+njf+1)=dom(ib)%cof(ijkf+njf+1)+ &
+                    (3.0d0*dom(ib)%cof(ijkc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+1)+1.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    27.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     9.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+nijf+njf)=dom(ib)%cof(ijkf+nijf+njf)+ &
-                    (3.0d0*dom(ib)%cof(ijkc)+ &
-                    1.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+njc+1)+27.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+nijf+njf)=dom(ib)%cof(ijkf+nijf+njf)+ &
+                    (3.0d0*dom(ib)%cof(ijkc)+ &
+                    1.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+nijc+1)+9.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+njc+1)+27.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     9.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+nijf+1)=dom(ib)%cof(ijkf+nijf+1)+ &
-                    (3.0d0*dom(ib)%cof(ijkc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    27.0d0*dom(ib)%cof(ijkc+nijc+1)+1.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+nijf+1)=dom(ib)%cof(ijkf+nijf+1)+ &
+                    (3.0d0*dom(ib)%cof(ijkc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+1)+9.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    27.0d0*dom(ib)%cof(ijkc+nijc+1)+1.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+njc+1)+3.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     9.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
-                          dom(ib)%cof(ijkf+nijf+njf+1)= &
-                    dom(ib)%cof(ijkf+nijf+njf+1)+(1.0d0*dom(ib)%cof(ijkc)+ &
-                    3.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
-                    9.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
+                          dom(ib)%cof(ijkf+nijf+njf+1)= &
+                    dom(ib)%cof(ijkf+nijf+njf+1)+(1.0d0*dom(ib)%cof(ijkc)+ &
+                    3.0d0*dom(ib)%cof(ijkc+1)+3.0d0*dom(ib)%cof(ijkc+nijc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+nijc+1)+3.0d0*dom(ib)%cof(ijkc+njc)+ &
+                    9.0d0*dom(ib)%cof(ijkc+njc+1)+9.0d0*dom(ib)%cof(ijkc+njc+nijc)+ &
                     27.0d0*dom(ib)%cof(ijkc+1+njc+nijc))/64.0d0
 
                       end do

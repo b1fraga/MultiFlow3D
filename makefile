@@ -1,6 +1,6 @@
 #############################################################
 F90=mpif90
-OPTIONS    =  -c -O2 -g -fopenmp
+OPTIONS    =  -c -cpp -O2 -g -fopenmp
 ifneq (,$(findstring GNU,$(shell $(F90) --version)))
    OPTIONS += -std=f2018
 endif
@@ -92,7 +92,7 @@ test: tests.exe
 
 .f90.o:
 	$(F90) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
-			   -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -lhdf5 -lhdf5_fortran -o $@ $<
+			   -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -DUSE_HDF5=1 -ljsonfortran -lhdf5 -lhdf5_fortran -o $@ $<
 
 M3D_v2.exe: $(objects) 
 	$(F90) $(objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \

@@ -147,7 +147,7 @@
                           ku=dom(ib)%So(i,j-2,k)
                           kc=dom(ib)%So(i,j-1,k)
                           kd=dom(ib)%So(i,j,k)
-                          b_r=max(0.0_dp, &
+                          b_r=max(0.0_dp, &
                     min(2.0_dp*((kd-kc)/(kc-ku)),0.75_dp*((kd-kc)/(kc-ku))+0.25_dp,4.0_dp))
                           km=(kc+0.5_dp*b_r*(kc-ku))
                           else if(dom(ib)%v(i,j-1,k)<0.0_dp) then

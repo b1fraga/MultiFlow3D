@@ -136,7 +136,7 @@
               do  k=dom(ib)%ksp,dom(ib)%kep
                   do j=dom(ib)%jsp,dom(ib)%jep
                       do  i=dom(ib)%isp,dom(ib)%iep
-                          resid=( &
+                          resid=( &
                     (dom(ib)%u(i,j,k)-dom(ib)%u(i-1,j,k))*dom(ib)%dy*dom(ib)%dz+ &
                     (dom(ib)%v(i,j,k)-dom(ib)%v(i,j-1,k))*dom(ib)%dx*dom(ib)%dz+ &
                     (dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k-1))*dom(ib)%dx*dom(ib)%dy)
@@ -158,4 +158,5 @@
    88     format (10e25.8)
 
       end subroutine plotres
-!##########################################################################    
+!##########################################################################
+    
