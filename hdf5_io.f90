@@ -255,7 +255,7 @@ module multiflow3d_hdf5_io
     call h5close_f(error_hdf5)
 
   end subroutine hdf5_read_int_scalar
-    
+
   subroutine hdf5_write_real(filename,scalar_input,&
                              array_input_1d,array_input_2d,array_input_3d,key,group)
 

@@ -301,7 +301,7 @@
                     dom(ib)%w(i+1,j+1,k))
 #if USE_HDF5 == 1
                     w(i,j,k) = w_cn
-#endif                    
+#endif
                           p_cn  =0.125_dp*(dom(ib)%p(i,j,k)+ &
                     dom(ib)%p(i+1,j,k)    +dom(ib)%p(i,j+1,k)+ &
                     dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+ &
