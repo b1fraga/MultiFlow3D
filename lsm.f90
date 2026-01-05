@@ -580,26 +580,35 @@
                                 9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 
-                          if (uijk>0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
-                          if (uijk<0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
-                          if (uijk==0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = 0.0_dp
+                          if (uijk>0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
+                          end if
+                          if (uijk<0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
+                          end if
+                          if (uijk==0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = 0.0_dp
+                          end if
 
-                          if (vijk>0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
-                          if (vijk<0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
-                          if (vijk==0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = 0.0_dp
+                          if (vijk>0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
+                          end if
+                          if (vijk<0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
+                          end if
+                          if (vijk==0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = 0.0_dp
+                          end if
 
-                          if (wijk>0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
-                          if (wijk<0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
-                          if (wijk==0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = 0.0_dp
+                          if (wijk>0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
+                          end if
+                          if (wijk<0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
+                          end if
+                          if (wijk==0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = 0.0_dp
+                          end if
 
                       end do
                   end do
@@ -1592,8 +1601,9 @@
                   do i=dom(ib)%isp-pl,dom(ib)%iep+pl
                       do j=dom(ib)%jsp-pl,dom(ib)%jep+pl
 
-                          if (dom(ib)%phi(i,j,k)<(-1.0_dp*epsl)) &
-                    dom(ib)%h_phi(i,j,k) = 0.0_dp  ! h_phi=0 above free surface
+                          if (dom(ib)%phi(i,j,k)<(-1.0_dp*epsl)) then
+                            dom(ib)%h_phi(i,j,k) = 0.0_dp
+                          end if  ! h_phi=0 above free surface
 
                           if (dom(ib)%phi(i,j,k)>(epsl)) dom(ib)%h_phi(i,j,k) = 1.0_dp  ! h_phi=1.0_dp below free surface
 

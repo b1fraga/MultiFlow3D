@@ -313,18 +313,24 @@
                           dom(ib)%at(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
                           dom(ib)%ab(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
 
-                          if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) &
-                    dom(ib)%aw(isp,j,k)=0.0_dp
-                          if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) &
-                    dom(ib)%ae(iep,j,k)=0.0_dp
-                          if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) &
-                    dom(ib)%as(i,jsp,k)=0.0_dp
-                          if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) &
-                    dom(ib)%an(i,jep,k)=0.0_dp
-                          if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) &
-                    dom(ib)%ab(i,j,ksp)=0.0_dp
-                          if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) &
-                    dom(ib)%at(i,j,kep)=0.0_dp
+                          if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
+                            dom(ib)%aw(isp,j,k)=0.0_dp
+                          end if
+                          if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
+                            dom(ib)%ae(iep,j,k)=0.0_dp
+                          end if
+                          if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
+                            dom(ib)%as(i,jsp,k)=0.0_dp
+                          end if
+                          if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
+                            dom(ib)%an(i,jep,k)=0.0_dp
+                          end if
+                          if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
+                            dom(ib)%ab(i,j,ksp)=0.0_dp
+                          end if
+                          if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
+                            dom(ib)%at(i,j,kep)=0.0_dp
+                          end if
 
 
                           dom(ib)%ap(i,j,k) = -1.0_dp*(dom(ib)%aw(i,j,k)+ &

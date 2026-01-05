@@ -187,10 +187,12 @@
                       end do; end do
                   else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_south<63) &
-            call log_law(3,ib)
-                  if (dom(ib)%bc_south>=63) &
-            call wall_function(3,ib)
+                  if (dom(ib)%bc_south<63) then
+                    call log_law(3,ib)
+                  end if
+                  if (dom(ib)%bc_south>=63) then
+                    call wall_function(3,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauws2(i,k) &
                     *dom(ib)%u(i,js,k)/dxx            !*Acell/Vcell
@@ -221,10 +223,12 @@
                       end do; end do
                   else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_north<63) &
-            call log_law(4,ib)
-                  if (dom(ib)%bc_north>=63) &
-            call wall_function(4,ib)
+                  if (dom(ib)%bc_north<63) then
+                    call log_law(4,ib)
+                  end if
+                  if (dom(ib)%bc_north>=63) then
+                    call wall_function(4,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwn2(i,k) &
                     *dom(ib)%u(i,je,k)/dxx            !*Acell/Vcell
@@ -260,10 +264,12 @@
                       end do; end do
                   else if (dom(ib)%bc_bottom>=61) then                    !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_bottom<63) &
-            call log_law(5,ib)
-                  if (dom(ib)%bc_bottom>=63) &
-            call wall_function(5,ib)
+                  if (dom(ib)%bc_bottom<63) then
+                    call log_law(5,ib)
+                  end if
+                  if (dom(ib)%bc_bottom>=63) then
+                    call wall_function(5,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwb2(i,j) &
                     *dom(ib)%u(i,j,ks)/dxx            !*Acell/Vcell??
@@ -309,10 +315,12 @@
                       end do; end do
                   else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_top<63) &
-            call log_law(6,ib)
-                  if (dom(ib)%bc_top>=63) &
-            call wall_function(6,ib)
+                  if (dom(ib)%bc_top<63) then
+                    call log_law(6,ib)
+                  end if
+                  if (dom(ib)%bc_top>=63) then
+                    call wall_function(6,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwt2(i,j) &
                     *dom(ib)%u(i,j,ke)/dxx            !*Acell/Vcell
@@ -380,10 +388,12 @@
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_west<63) &
-            call log_law(1,ib)
-                  if (dom(ib)%bc_west>=63) &
-            call wall_function(1,ib)
+                  if (dom(ib)%bc_west<63) then
+                    call log_law(1,ib)
+                  end if
+                  if (dom(ib)%bc_west>=63) then
+                    call wall_function(1,ib)
+                  end if
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauww2(j,k) &
                     *dom(ib)%v(is,j,k)/dyy            !*Acell/Vcell
@@ -482,10 +492,12 @@
                   end if
                   else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_east<63) &
-            call log_law(2,ib)
-                  if (dom(ib)%bc_east>=63) &
-            call wall_function(2,ib)
+                  if (dom(ib)%bc_east<63) then
+                    call log_law(2,ib)
+                  end if
+                  if (dom(ib)%bc_east>=63) then
+                    call wall_function(2,ib)
+                  end if
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauwe2(j,k) &
                     *dom(ib)%v(ie,j,k)/dyy            !*Acell/Vcell
@@ -551,10 +563,12 @@
                       end do; end do
                   else if (dom(ib)%bc_bottom>=61) then                !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_bottom<63) &
-              call log_law(5,ib)
-                  if (dom(ib)%bc_bottom>=63) &
-            call wall_function(5,ib)
+                  if (dom(ib)%bc_bottom<63) then
+                    call log_law(5,ib)
+                  end if
+                  if (dom(ib)%bc_bottom>=63) then
+                    call wall_function(5,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallv = dom(ib)%tauwb2(i,j) &
                     *dom(ib)%v(i,j,ks)/dyy            !*Acell/Vcell
@@ -598,10 +612,12 @@
                       end do; end do
                   else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_top<63) &
-            call log_law(6,ib)
-                  if (dom(ib)%bc_top>=63) &
-            call wall_function(6,ib)
+                  if (dom(ib)%bc_top<63) then
+                    call log_law(6,ib)
+                  end if
+                  if (dom(ib)%bc_top>=63) then
+                    call wall_function(6,ib)
+                  end if
 
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallv = dom(ib)%tauwt2(i,j) &
@@ -669,10 +685,12 @@
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_west<63) &
-            call log_law(1,ib)
-                  if (dom(ib)%bc_west>=63) &
-            call wall_function(1,ib)
+                  if (dom(ib)%bc_west<63) then
+                    call log_law(1,ib)
+                  end if
+                  if (dom(ib)%bc_west>=63) then
+                    call wall_function(1,ib)
+                  end if
 
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallw = dom(ib)%tauww2(j,k) &
@@ -776,10 +794,12 @@
                   end if
                   else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_east<63) &
-            call log_law(2,ib)
-                  if (dom(ib)%bc_east>=63) &
-            call wall_function(2,ib)
+                  if (dom(ib)%bc_east<63) then
+                    call log_law(2,ib)
+                  end if
+                  if (dom(ib)%bc_east>=63) then
+                    call wall_function(2,ib)
+                  end if
 
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallw = dom(ib)%tauwe2(j,k) &
@@ -811,10 +831,12 @@
                       end do; end do
                   else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_south<63) &
-            call log_law(3,ib)
-                  if (dom(ib)%bc_south>=63) &
-            call wall_function(3,ib)
+                  if (dom(ib)%bc_south<63) then
+                    call log_law(3,ib)
+                  end if
+                  if (dom(ib)%bc_south>=63) then
+                    call wall_function(3,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauws2(i,k) &
                     *dom(ib)%w(i,js,k)/dzz            !*Acell/Vcell
@@ -844,10 +866,12 @@
                       end do; end do
                   else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_north<63) &
-            call log_law(4,ib)
-                  if (dom(ib)%bc_north>=63) &
-            call wall_function(4,ib)
+                  if (dom(ib)%bc_north<63) then
+                    call log_law(4,ib)
+                  end if
+                  if (dom(ib)%bc_north>=63) then
+                    call wall_function(4,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauwn2(i,k) &
                     *dom(ib)%w(i,je,k)/dzz            !*Acell/Vcell

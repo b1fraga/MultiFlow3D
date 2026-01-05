@@ -183,12 +183,15 @@
               end if
 !=========================================================================
 
-              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) &
-        dom(ib)%ieu=dom(ib)%ieu-1
-              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) &
-        dom(ib)%jev=dom(ib)%jev-1
-              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) &
-        dom(ib)%kew=dom(ib)%kew-1
+              if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
+                dom(ib)%ieu=dom(ib)%ieu-1
+              end if
+              if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
+                dom(ib)%jev=dom(ib)%jev-1
+              end if
+              if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
+                dom(ib)%kew=dom(ib)%kew-1
+              end if
 
               ni=dom(ib)%ttc_i
               nj=dom(ib)%ttc_j

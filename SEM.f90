@@ -153,8 +153,9 @@
           R(3,3) = DSQRT(REYNOLDS(6) - R(3,1)*R(3,1) - R(3,2)*R(3,2))
 !BEGINNING OF TIME ITERATIONS
           DO IT=1,ITMAX_SEM         !PARALLELIZE THIS LOOP
-              if(mod(IT,50)==0) &
-         WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,"[S]"
+              if(mod(IT,50)==0) then
+                WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,"[S]"
+              end if
 
 !PRINTINGS OF GLOBAL VELOCITY AND OF CONVECTION VELOCITY
               Do I=1,jdom*kdom

@@ -138,8 +138,9 @@
           if(itime/=itime_start) then
           if(dt<dtavg*0.1_dp) then
           print*,"#*#*#*#*#*# dt becomes smaller, check result!!!!"
-          if (myrank==0) &
-    write(numfile,*) "#*#*#*# dt becomes smaller, check result!!!!"
+          if (myrank==0) then
+            write(numfile,*) "#*#*#*# dt becomes smaller, check result!!!!"
+          end if
           call tecgrid(itime)
           call tecplot_p(itime)
           call tecplot_u(itime)

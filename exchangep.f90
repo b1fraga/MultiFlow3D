@@ -2556,8 +2556,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=ispr-pl1; j=jspr-pl2; k=kspr-pl3
-                          if(i<is .or. j<js .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % rc1m(ijk)
+                          if(i<is .or. j<js .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % rc1m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2571,8 +2572,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=ispr-pl1; j=jepr+pl2; k=kspr-pl3
-                          if(i<is .or. j>je .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % rc2m(ijk)
+                          if(i<is .or. j>je .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % rc2m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2586,8 +2588,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=iepr+pl1; j=jepr+pl2; k=kspr-pl3
-                          if(i>ie .or. j>je .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % rc3m(ijk)
+                          if(i>ie .or. j>je .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % rc3m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2601,8 +2604,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=iepr+pl1; j=jspr-pl2; k=kspr-pl3
-                          if(i>ie .or. j<js .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % rc4m(ijk)
+                          if(i>ie .or. j<js .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % rc4m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2616,8 +2620,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=iepr+pl1; j=jepr+pl2; k=kepr+pl3
-                          if(i>ie .or. j>je .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % rc1p(ijk)
+                          if(i>ie .or. j>je .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % rc1p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2631,8 +2636,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=iepr+pl1; j=jspr-pl2; k=kepr+pl3
-                          if(i>ie .or. j<js .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % rc2p(ijk)
+                          if(i>ie .or. j<js .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % rc2p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2646,8 +2652,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=ispr-pl1; j=jspr-pl2; k=kepr+pl3
-                          if(i<is .or. j<js .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % rc3p(ijk)
+                          if(i<is .or. j<js .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % rc3p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2661,8 +2668,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
                           ijk=pl1*pll+pl2*(pl+1)+pl3+1
                           i=ispr-pl1; j=jepr+pl2; k=kepr+pl3
-                          if(i<is .or. j>je .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % rc4p(ijk)
+                          if(i<is .or. j>je .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % rc4p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2676,8 +2684,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=ispr-pl1; j=nn; k=kspr-pl2
-                          if(i<is .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % re1m(ijk)
+                          if(i<is .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % re1m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2691,8 +2700,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=nn; j=jepr+pl1; k=kspr-pl2
-                          if(j>je .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % re2m(ijk)
+                          if(j>je .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % re2m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2706,8 +2716,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=iepr+pl1; j=nn; k=kspr-pl2
-                          if(i>ie .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % re3m(ijk)
+                          if(i>ie .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % re3m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2721,8 +2732,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=nn; j=jspr-pl1; k=kspr-pl2
-                          if(j<js .or. k<ks) &
-                    fi(i,j,k)=dom(ib) % re4m(ijk)
+                          if(j<js .or. k<ks) then
+                            fi(i,j,k)=dom(ib) % re4m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2736,8 +2748,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=ispr-pl1 ; j=jspr-pl2; k=nn
-                          if(i<is .or. j<js) &
-                    fi(i,j,k)=dom(ib) % re5m(ijk)
+                          if(i<is .or. j<js) then
+                            fi(i,j,k)=dom(ib) % re5m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2751,8 +2764,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=ispr-pl1 ; j=jepr+pl2; k=nn
-                          if(i<is .or. j>je) &
-                    fi(i,j,k)=dom(ib) % re6m(ijk)
+                          if(i<is .or. j>je) then
+                            fi(i,j,k)=dom(ib) % re6m(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2766,8 +2780,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=iepr+pl1; j=nn; k=kepr+pl2
-                          if(i>ie .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % re1p(ijk)
+                          if(i>ie .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % re1p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2781,8 +2796,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=nn; j=jspr-pl1; k=kepr+pl2
-                          if(j<js .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % re2p(ijk)
+                          if(j<js .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % re2p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2796,8 +2812,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=ispr-pl1; j=nn; k=kepr+pl2
-                          if(i<is .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % re3p(ijk)
+                          if(i<is .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % re3p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2811,8 +2828,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=nn; j=jepr+pl1; k=kepr+pl2
-                          if(j>je .or. k>ke) &
-                    fi(i,j,k)=dom(ib) % re4p(ijk)
+                          if(j>je .or. k>ke) then
+                            fi(i,j,k)=dom(ib) % re4p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2826,8 +2844,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=iepr+pl1 ; j=jepr+pl2; k=nn
-                          if(i>ie .or. j>je) &
-                    fi(i,j,k)=dom(ib) % re5p(ijk)
+                          if(i>ie .or. j>je) then
+                            fi(i,j,k)=dom(ib) % re5p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if
@@ -2841,8 +2860,9 @@
               do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
                           ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
                           i=iepr+pl1 ; j=jspr-pl2; k=nn
-                          if(i>ie .or. j<js) &
-                    fi(i,j,k)=dom(ib) % re6p(ijk)
+                          if(i>ie .or. j<js) then
+                            fi(i,j,k)=dom(ib) % re6p(ijk)
+                          end if
                       end do; end do; end do
               end if
               end if

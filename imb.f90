@@ -557,13 +557,15 @@
 
           do L=1,num_domains  !Check in all the domains
               tnm=tnm+imbinblk(L)
-              IF (itime==itime_start .AND. imbinblk(L)/=0) &
-           write(6,*)"Dom,#markrs",L-1,imbinblk(L),tnm
+              IF (itime==itime_start .AND. imbinblk(L)/=0) then
+                write(6,*)"Dom,#markrs",L-1,imbinblk(L),tnm
+              end if
               imbinblock_loc(L)=imbinblk(L)  !New variable for all the other MPI
           end do
           !Warning if some point is not assigned to some domain
-          if(tnm<maxnodeIBS) &
-      write(6,*)"Some Lagrangian are not assigned to a domain!!!CHECK"
+          if(tnm<maxnodeIBS) then
+            write(6,*)"Some Lagrangian are not assigned to a domain!!!CHECK"
+          end if
 
 !        do ib=1,nbp !------------------------- Aleks 04/23
 !                tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j

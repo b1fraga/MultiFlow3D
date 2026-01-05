@@ -145,8 +145,9 @@
           if (dom(ib)%jprev<0) then
           do i = 1,ni
               do j = pl, 1, -1
-                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
-            rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) then
+                    rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
+                  end if
               end do
           end do
           end if
@@ -154,8 +155,9 @@
           if (dom(ib)%jnext<0) then
           do i = 1,ni
               do j =  nj-pl+1,nj
-                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
-            rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) then
+                    rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
+                  end if
               end do
           end do
           end if
