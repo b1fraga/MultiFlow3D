@@ -47,11 +47,11 @@
                 dom(ib)%pm_unst(i,j), &
                 dom(ib)%ksgs_unst(i,j),dom(ib)%eps_unst(i,j), &
                 dom(ib)%T_unst(i,j),dom(ib)%Tm_unst(i,j)
-                  enddo
+                  end do
                   close (idfile)
-                  endif
-              enddo
-          enddo
+                  end if
+              end do
+          end do
 
 !  500  format(A,F6.3,A)
 
@@ -92,17 +92,17 @@
           do k=dom(i)%ksu-1,dom(i)%keu+1
               do j=dom(i)%jsu-1,dom(i)%jeu+1
                   write(ireadinlet+500,*)dom(i)%u(29,j,k)
-              enddo
-          enddo
+              end do
+          end do
           do k=dom(i)%ksv-1,dom(i)%kev+1
               do j=dom(i)%jsv-1,dom(i)%jev+1
                   write(ireadinlet+500,*)dom(i)%v(29,j,k)
-              enddo
-          enddo
+              end do
+          end do
           do k=dom(i)%ksw-1,dom(i)%kew+1
               do j=dom(i)%jsw-1,dom(i)%jew+1
                   write(ireadinlet+500,*)dom(i)%w(29,j,k)
-              enddo
-          enddo
+              end do
+          end do
           close(ireadinlet+500)
       end subroutine write_inflow

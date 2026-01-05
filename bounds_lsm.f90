@@ -36,7 +36,7 @@
                   DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                       DO ipl = 1,pl
                           FI (dom(ib)%iep+ipl,j,k) = FI(dom(ib)%iep+ipl-1,j,k)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF
@@ -47,7 +47,7 @@
                   DO j = dom(ib)%jsp-pl, dom(ib)%jep+pl
                       DO ipl = 1,pl
                           FI(dom(ib)%isp-ipl,j,k) = FI(dom(ib)%isp-ipl+1,j,k)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF
@@ -58,7 +58,7 @@
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
                           FI (i,j,dom(ib)%ksp-ipl) = FI(i,j,dom(ib)%ksp-ipl+1)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF
@@ -69,7 +69,7 @@
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
                           FI (i,j,dom(ib)%kep+ipl) = FI(i,j,dom(ib)%kep+ipl-1)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF
@@ -80,7 +80,7 @@
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 1,pl
                           FI (i,dom(ib)%jsp-ipl,k) = FI(i,dom(ib)%jsp-ipl+1,k)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF
@@ -91,7 +91,7 @@
                   DO i = dom(ib)%isp-pl, dom(ib)%iep+pl
                       DO ipl = 0,pl
                           FI (i,dom(ib)%jep+ipl,k) = FI(i,dom(ib)%jep+ipl-1,k)
-                      ENDDO
+                      END DO
                   END DO
               END DO
               END IF

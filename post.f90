@@ -29,7 +29,7 @@
               sn=len(trim(adjustl(chb)))
               chb=repeat("0",(4-sn))//trim(adjustl(chb))
               gf="tecgrid"//trim(adjustl(chb))//".dat"
-              endif
+              end if
 
               open (unit=88, file=gf)
 
@@ -55,7 +55,7 @@
               write(88,*)"zone ", "STRANDID=", 1, "SOLUTIONTIME=", ctime, &
         "i=",toti,", "," j=",totj,", k= ",totk, &
         "zonetype=", "ordered",", DATAPACKING=point"
-              endif
+              end if
               else
               if (L_LSM) then
               write (88,*) &
@@ -68,7 +68,7 @@
         'variables="x","y","z","U-velocity","V-velocity","W-velocity"'
               write (88,*)  "zone ", " i=",toti,", ", &
         " j=",totj," k=",totk,", f=point"
-              endif
+              end if
               end if
 
               do k=ks-1,ke
@@ -454,7 +454,7 @@
               sn=len(trim(adjustl(chb)))
               chb=repeat("0",(4-sn))//trim(adjustl(chb))
               gf="tecout_phi_"//trim(adjustl(chb))//".dat"
-              endif
+              end if
 
               open (unit=88, file=gf)
 
@@ -479,7 +479,7 @@
               else
               write (88,*)"zone ", " i=",toti,", ", &
         " j=",totj,", k= ",totk," f=point"
-              endif
+              end if
 
               do k=ks-1,ke
                   do j=js-1,je

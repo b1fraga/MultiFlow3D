@@ -31,9 +31,9 @@
                           dom(ib)%S(i,j,k) = 1
                           else
                           dom(ib)%S(i,j,k) = 0  !fresh water
-                          endif
-                      enddo; enddo; enddo
-          enddo
+                          end if
+                      end do; end do; end do
+          end do
 
       end subroutine sediment_init
 
@@ -430,11 +430,11 @@
                           dom(ib)%mu(i,j,k)= rrey*dens*strain(i,j,k)**(n-1.d0)
                           else
                           dom(ib)%mu(i,j,k)= rrey*dens
-                          endif
+                          end if
                           dom(ib)%vis(i,j,k)=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 
-                      enddo;enddo;enddo
-          enddo
+                      end do;end do;end do
+          end do
 
       end subroutine NonNewtonian
 
@@ -455,7 +455,7 @@
                                 -2.38_dp*dom(ib)%S(i,j,k)**2.d0 &
                                 +14.6_dp*dom(ib)%S(i,j,k)+1000
 
-                      enddo;enddo;enddo
-          enddo
+                      end do;end do;end do
+          end do
 
       end subroutine Active_scalar

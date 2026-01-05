@@ -77,7 +77,7 @@
               vpg_sv(ls) = vop_loc(ls)
               wpg_sv(ls) = wop_loc(ls)
               dpg_sv(ls) = dp_loc(ls)
-          enddo
+          end do
           if (npg_loc>0) then
           do ls=1,npg_loc               ! save ghost particles
               xpg_sv(ls+np_loc) = xpg_loc(ls)
@@ -87,8 +87,8 @@
               vpg_sv(ls+np_loc) = vopg_loc(ls)
               wpg_sv(ls+np_loc) = wopg_loc(ls)
               dpg_sv(ls+np_loc) = dpg_loc(ls)
-          enddo
-          endif
+          end do
+          end if
 
           do ib=1,nbp
               ! ====================> p2p collision
@@ -143,16 +143,16 @@
                   up_pt(l) = up_pt(l)+dt*(collision_x+collision_tx)/mp
                   vp_pt(l) = vp_pt(l)+dt*(collision_y+collision_ty)/mp
                   wp_pt(l) = wp_pt(l)+dt*(collision_z+collision_tz)/mp
-                  endif                         ! MPI block
-              enddo                         ! end search loop
-              ENDIF                         ! distance
-          enddo                         ! end p2p loop
+                  end if                         ! MPI block
+              end do                         ! end search loop
+              END IF                         ! distance
+          end do                         ! end p2p loop
 
           if (npg_loc>0) then
           deallocate (xpg_loc,ypg_loc,zpg_loc)
           deallocate (uopg_loc,vopg_loc,wopg_loc)
           deallocate (dpg_loc,rhopg_loc)
-          endif
+          end if
 
           return
       end subroutine collision_particle
@@ -206,9 +206,9 @@
           if (bc_b/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           vp_pt(l) = vp_pt(l) + dt*fcol_t/mp
-          endif
+          end if
           !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
-          endif
+          end if
 ! ----------------------- collisions with top wall ----------------------------------
           if (zp_loc(l)>zen-(lambda_w+0.5_dp*dp_loc(l))) then
 
@@ -222,10 +222,10 @@
           if (bc_t/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           vp_pt(l) = vp_pt(l) + dt*fcol_t/mp
-          endif
+          end if
           !write (6,*)l,wp_pt(l),zp_loc(l),fcol_n,fcol_t
 
-          endif
+          end if
 ! ----------------------- collisions with south wall ----------------------------------
           if (yp_loc(l)<lambda_v+0.5_dp*dp_loc(l)) then
 
@@ -239,8 +239,8 @@
           if (bc_s/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           wp_pt(l) = wp_pt(l) + dt*fcol_t/mp
-          endif
-          endif
+          end if
+          end if
 ! ----------------------- collisions with north wall ----------------------------------
           if (yp_loc(l)>yen-(lambda_v+0.5_dp*dp_loc(l))) then
 
@@ -256,7 +256,7 @@
           if (bc_n/=3) then                 !slip condition
           up_pt(l) = up_pt(l) + dt*fcol_t/mp
           wp_pt(l) = wp_pt(l) + dt*fcol_t/mp
-          endif
-          endif
+          end if
+          end if
           return
       end subroutine collision_walls

@@ -97,12 +97,12 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) =  ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
+                          end if
                           dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp) +up
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk+up
-                          endif
+                          end if
                       end do ; end do
 
                   else if (dom(ib)%bc_west==12) then      !1/7th power law inlet condition Pablo 7/12/2015 (No SEM)
@@ -113,10 +113,10 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
+                          end if
                           dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp)
-                      enddo ; end do
+                      end do ; end do
 
                   else if (dom(ib)%bc_west==13) then      !1/7th power law inlet condition Pablo 7/12/2015
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -126,9 +126,9 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
-                      enddo ; end do
-                  endif
+                          end if
+                      end do ; end do
+                  end if
                   end if
 !...............................................................................
 !=== East ===> ..  4=wall  ..   2=Outflow
@@ -169,7 +169,7 @@
 
                           end if
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -203,8 +203,8 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,js-1-ly,k)= -dom(ib)%u(i,js+ly,k)
                       end do; end do
-                  endif
-                  endif
+                  end if
+                  end if
                   end if
 !.............................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
@@ -237,8 +237,8 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,je+1+ly,k)= -dom(ib)%u(i,je-ly,k)
                       end do; end do
-                  endif
-                  endif
+                  end if
+                  end if
                   end if
 !...............................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
@@ -278,7 +278,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ks-1-ly)= -dom(ib)%u(i,j,ks+ly)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !.............................................................................
@@ -294,7 +294,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ktop) = dom(ib)%u(i,j,ktop-1)
                           dom(ib)%u(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
 
@@ -325,7 +325,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ke+1+ly) = -dom(ib)%u(i,j,ke)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 
@@ -396,7 +396,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(is-1-ly,j,k)= -dom(ib)%v(is,j,k)
                       end do; end do
-                  endif
+                  end if
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
                   write(name_end,"(I5)") ireadinlet
@@ -465,7 +465,7 @@
                           end if
                           else
                           dom(ib)%v(ie+1+ly,j,k)=0.0_dp
-                          endif
+                          end if
 
                           else                                  !no LSM
 
@@ -477,7 +477,7 @@
                     dom(ib)%voo(ie,j,k))/dom(ib)%dx
                           end if
 
-                          endif
+                          end if
                       end do; end do
                   end if
                   else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
@@ -498,7 +498,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(ie+1+ly,j,k)= -dom(ib)%v(ie,j,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -567,7 +567,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ks-1-ly)= -dom(ib)%v(i,j,ks)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -583,7 +583,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ktop) = dom(ib)%v(i,j,ktop-1)
                           dom(ib)%v(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
 
@@ -615,7 +615,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ke+1+ly)= -dom(ib)%v(i,j,ke)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 
@@ -681,12 +681,12 @@
                           dom(ib)%w(is,j,k)=dom(ib)%w(is,j,k) &
                     +Fwallw*alfapr*dt
                           dom(ib)%w(is-1,j,k)= -dom(ib)%w(is,j,k)
-                      enddo; enddo
+                      end do; end do
                   else
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(is-1-ly,j,k)= -dom(ib)%w(is,j,k)
                       end do; end do
-                  endif
+                  end if
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
                   write(name_end,"(I5)") ireadinlet
@@ -744,7 +744,7 @@
                           dom(ib)%w(ie+1+ly,j,k)= -dom(ib)%w(ie-ly,j,k)
                       end do; end do
 
-                  elseif (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
+                  else if (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
                   if (alfabc==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
 
@@ -760,7 +760,7 @@
                           end if
                           else
                           dom(ib)%w(ie+1+ly,j,k)=0.0_dp
-                          endif
+                          end if
 
                           else  !no LSM
                           if (dom(ib)%bc_east==2) then
@@ -770,7 +770,7 @@
                     -dt*alfapr*(dom(ib)%woo(ie+1+ly,j,k)- &
                     dom(ib)%woo(ie,j,k))/dom(ib)%dx
                           end if
-                          endif
+                          end if
 
                       end do; end do
                   end if
@@ -793,7 +793,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(ie+1+ly,j,k)= -dom(ib)%w(ie,j,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -827,7 +827,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,js-1-ly,k)= -dom(ib)%w(i,js,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !.............................................................................
@@ -860,7 +860,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,je+1+ly,k)= -dom(ib)%w(i,je,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -892,12 +892,12 @@
                   k=1
                   do while (dom(ib)%z(k)<=length)
                       k=k+1
-                  enddo
+                  end do
                   ktop=k-1
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ktop) = dom(ib)%w(i,j,ktop-1)
                           dom(ib)%w(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
                   if (dom(ib)%knext<0) then

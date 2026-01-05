@@ -115,7 +115,7 @@
                                             *rough_dom(ib)%d50
                   maxelev=MAX(maxelev,rough_dom(ib)%z_rough(i,j))
                   minelev=MIN(minelev,rough_dom(ib)%z_rough(i,j))
-              enddo
+              end do
           end do
 
 !  shift bed upwards so that the troughs are at zero
@@ -131,7 +131,7 @@
                       rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(k+1,j)
                       end if
                   end do
-              enddo
+              end do
           end do
           end if
 
@@ -139,7 +139,7 @@
           do i = ni,ni
               do j = 1, nj
 !           z_rough(i,j)=z_rough(1,j)
-              enddo
+              end do
           end do
 
           if (dom(ib)%jprev<0) then
@@ -147,7 +147,7 @@
               do j = pl, 1, -1
                   if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
-              enddo
+              end do
           end do
           end if
 
@@ -156,7 +156,7 @@
               do j =  nj-pl+1,nj
                   if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
             rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
-              enddo
+              end do
           end do
           end if
 
@@ -193,7 +193,7 @@
               do j = 1, nj
                   rough_dom(ib)%zbp(i,j)=(rough_dom(ib)%z_rough(i,j)-zbav)
                   rms=rms+rough_dom(ib)%zbp(i,j)**2
-              enddo
+              end do
           end do
           rms=rms/(ni-nj)
 
@@ -202,7 +202,7 @@
                   rough_dom(ib)%zbp(i,j)=rough_dom(ib)%zbp(i,j)/ &
             (sigma*rough_dom(ib)%d50)
 !   write (78,69) 'mycpu#:',myrank,i,j,rough_dom(ib)%zbp(i,j)
-              enddo
+              end do
           end do
 
           aa(1)=-3.0_dp

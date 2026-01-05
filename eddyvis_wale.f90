@@ -45,7 +45,7 @@
                           dom(ib)%mu(i,j,k) = &
                     2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(i,j,k)+20.0_dp-413.d0))
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                          endif
+                          end if
 
 !====================================================
                           vr_a = 0.25_dp*( dom(ib)%u(i,j,k)   + dom(ib)%u(i-1,j,k) + &
@@ -116,7 +116,7 @@
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdx=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -142,7 +142,7 @@
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdx=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -168,7 +168,7 @@
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdy=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -194,7 +194,7 @@
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdy=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -220,7 +220,7 @@
                           dudz=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdz=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdz=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -246,7 +246,7 @@
                           dudz=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdz=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdz=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -294,7 +294,7 @@
                           dom(ib)%vis(i,j,k) = rrey
                           else
                           dom(ib)%vis(i,j,k) = rrey + l_s * sdsd**1.5_dp / denom
-                          endif
+                          end if
                           else
                           dom(ib)%vis(i,j,k) = rrey
                           end if

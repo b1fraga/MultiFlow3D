@@ -32,7 +32,7 @@
           do rk=1,3
               call eddyv_k(alfark(rk))
               call eddyv_eps(alfark(rk))
-          enddo
+          end do
 
           cmu=0.09_dp
 
@@ -48,7 +48,7 @@
 
                           if (LAS.or.L_LSM) then                                            !variable density
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                          endif
+                          end if
 !   if (abs(dom(ib)%eps(i,j,k)).lt.1.0d-07) then
 !       dom(ib)%eps(i,j,k)=1.0d-07
 !   endif
@@ -58,7 +58,7 @@
 
                           dom(ib)%vis(i,j,k) = min(dom(ib)%vis(i,j,k), &
                     0.33_dp*dom(ib)%ksgs(i,j,k)*sqrt(1.5_dp/strain(i,j,k)))
-                      enddo ; enddo ; enddo
+                      end do ; end do ; end do
 !   enddo
 
               call exchange(7)
@@ -231,7 +231,7 @@
                   end do
               end do
               end if
-          enddo
+          end do
 
 
           return
@@ -265,16 +265,16 @@
 
                           if (LAS.or.L_LSM) then                                            !variable density
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                          endif
+                          end if
 
                           dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
                           dom(ib)%epso(i,j,k)=dom(ib)%eps(i,j,k)
                           if (dom(ib)%epso(i,j,k)<1.0d-07) then
                           dom(ib)%epso(i,j,k)=1.0d-07
-                          endif
+                          end if
                           if (dom(ib)%ksgso(i,j,k)<1.0d-07) then
                           dom(ib)%ksgso(i,j,k)=1.0d-07
-                          endif
+                          end if
                       end do
                   end do
               end do
@@ -509,12 +509,12 @@
                       do j=1,dom(ib)%ttc_j
                           if (LAS.or.L_LSM) then                                            !variable density
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                          endif
+                          end if
 
                           dom(ib)%ksgso(i,j,k)=dom(ib)%ksgs(i,j,k)
                           if (dom(ib)%ksgso(i,j,k)<1.0d-07) then
                           dom(ib)%ksgso(i,j,k)=1.0d-07
-                          endif
+                          end if
                       end do
                   end do
               end do
@@ -795,6 +795,6 @@
               val  = ( dudx*dudx + dvdy*dvdy   + dwdz*dwdz  + &
             2.0_dp*s12*s12   + 2.0_dp*s13*s13 + 2.0_dp*s23*s23 )
 
-          enddo
+          end do
 
       end function strain

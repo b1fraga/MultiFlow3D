@@ -31,7 +31,7 @@
           write(6,*)"................................................"
           write(6,*)"      LAGRANGIAN PARTICLE TRACKING ON"
           write(6,*)"................................................"
-          endif
+          end if
 
           open(10,file="input/LPT.cin")             !first read with variables applicable to all fractions
           read(10,*)                          !header
@@ -50,7 +50,7 @@
           open(20,file="final_particle.dat")
           read(20,*) np_restart
           np=np_restart
-          endif
+          end if
 
           do f=1,nfrac
               read(10,*)                    !fraction header
@@ -60,7 +60,7 @@
               np=np+ptnr              !now we calculate the total number of particles to allocate the variables
               if (myrank==0)write(202,*) "Initialising Lagrangian" &
         ," field. Releasing",ptnr,"new particles in fraction",f
-              endif
+              end if
 
               read(10,*)                    !dp
               read(10,*)                    !rhop
@@ -73,9 +73,9 @@
               else
               do l=1,ptnr
                   read(10,*)
-              enddo
-              endif
-          enddo
+              end do
+              end if
+          end do
 
           close(10)
           ! write(6,*)'init_part unit 10 closed'
@@ -120,7 +120,7 @@
               dom(ib)%uoo = dom(ib)%u
               dom(ib)%voo = dom(ib)%v
               dom(ib)%woo = dom(ib)%w
-          enddo
+          end do
 
           ELSE  !np_restart=0
 
@@ -153,16 +153,16 @@
                       else  !Aleks 04/24. Distribute points in a spherical shape
                       call random_number_spherical(xp,yp,zp,r,sphere_optn, &
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
-                      endif
+                      end if
                       do m=frac1,l
                           if (l/=m) then
                           distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l) &
                     -yp_pt(m))**2+(zp_pt(l)-zp_pt(m))**2)
                           else
                           distance=1.d9
-                          endif
+                          end if
                           dist=min(dist,distance)
-                      enddo
+                      end do
                       if (ll>1000) then
                       write(6,*) "================================"
                       write(6,*) "Release area too small."
@@ -170,15 +170,15 @@
                       write(6,*) "without overlapping."
                       write(6,*) "================================"
                       stop
-                      endif
-                  enddo
+                      end if
+                  end do
                   uop_pt(l)=uop
                   vop_pt(l)=vop
                   wop_pt(l)=wop
                   else                                                  !not random
                   read(30,*)xp_pt(l),yp_pt(l),zp_pt(l), &
             uop_pt(l),vop_pt(l),wop_pt(l)
-                  endif
+                  end if
 
                   dp_pt(l)= random_number_normal(Dp_var,sigma)
                   rho_pt(l)= random_number_normal(rho_p,sigma_rho)
@@ -195,19 +195,19 @@
 
                   else  !tsnr
                   if (.not.random) read(30,*)
-                  endif  !tsnr
+                  end if  !tsnr
 
 !            print*,tsnr,f,np,frac1,frac_end,xp_pt(l),yp_pt(l),zp_pt(l)
 !     &,wop_pt(l),dp_pt(l),rho_pt(l)
 
-              enddo                                                       !loop in particles within frac
+              end do                                                       !loop in particles within frac
 
               if (tsnr==-1) frac1=frac1+ptnr
 
-          enddo                                                             !loop in fracs
+          end do                                                             !loop in fracs
           end if                                                            !RESTART
 
-          ENDIF                                                             !myrank
+          END IF                                                             !myrank
 
           close (30)
           ! write(6,*)'init_part unit 30 closed'
@@ -262,7 +262,7 @@
 !      ,"dens","T","S","vis"'
               ELSE
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"'
-              endif
+              end if
 
               is=pl+1; ie=dom(ib)%ttc_i-pl
               js=pl+1; je=dom(ib)%ttc_j-pl
@@ -327,7 +327,7 @@
 #if USE_HDF5 == 1
                     rho(i,j,k) = rho_cn
 #endif
-                          endif
+                          end if
 !                 k_cn  =0.125_dp*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
 !     &dom(ib)%ksgs(i+1,j+1,k)  +dom(ib)%ksgs(i,j,k+1)+
@@ -352,7 +352,7 @@
 #if USE_HDF5 == 1
                           T(i,j,k) = T_cn
 #endif
-                          endif
+                          end if
 #if USE_HDF5 == 0
                           if (LSCALAR) then
                           write (idfile,"(9e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
@@ -360,13 +360,13 @@
                           else
                           write (idfile,"(7e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                      ,u_cn,v_cn,w_cn,p_cn
-                          endif
+                          end if
 #endif
 
 
-                      enddo
-                  enddo
-              enddo
+                      end do
+                  end do
+              end do
 !           write (90,*) dom(ib)%isp,dom(ib)%iep,
 !     & dom(ib)%jsp,dom(ib)%jep,dom(ib)%ksp,dom(ib)%kep
 !     endif
@@ -406,7 +406,7 @@
                   array_input_3d=w,key="W",group="test")
              call hdf5_write_real(filename=filename,&
                   array_input_3d=p,key="P",group="test")
-          endif
+          end if
 #endif
           end do
 
@@ -509,10 +509,10 @@ WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
           else
           call random_number(w)
           ra = r * (w ** (1.0d0/2.0d0))  !generate within circular area
-          endif
+          end if
           else  !releasing on surface/circumference --> r is constant
           ra = r
-          endif
+          end if
 
 !generate random coordinates converted to the cartesian coordinate system
           select case (sphere_optn)

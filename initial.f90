@@ -53,12 +53,12 @@
           if (.not.LAS) then
           LAS=.TRUE.
           print*,"Density variable tracer activated"
-          endif
+          end if
           if (.not.LENERGY) then
           LENERGY=.TRUE.
           print*,"Energy equation activated"
-          endif
-          endif
+          end if
+          end if
           read (12,*) pl_ex
           read (12,*) Th,Tc,Tinit
           read (12,*)
@@ -74,7 +74,7 @@
     ,j_unst(n_unstpt),k_unst(n_unstpt))
           do i=1,n_unstpt
               read (12,*)id_unst(i),i_unst(i),j_unst(i),k_unst(i)
-          enddo
+          end do
 
           if (.not.LPT) np=0
 
@@ -126,16 +126,16 @@
           if (L_LSM .and. solver==1) then
           if (myrank==0) then
           print*,"Error: SIP solver not presently compatible with LSM"
-          endif
+          end if
           stop
-          endif
+          end if
 
           if (L_LSM .and. differencing/=3) then
           if (myrank==0) then
           print*,"Error: WENO differencing must be used with LSM"
-          endif
+          end if
           stop
-          endif
+          end if
 
       end subroutine read_control
 !##########################################################################
@@ -212,22 +212,22 @@
               allocate(dom(ib)%ksgso(tti,ttj,ttk))
               allocate(dom(ib)%eps(tti,ttj,ttk))
               allocate(dom(ib)%epso(tti,ttj,ttk))
-              endif
+              end if
               allocate (dom(ib)%stfcinf(6,pl,ngg))
               if (LENERGY) then
               allocate(dom(ib)%T(tti,ttj,ttk),dom(ib)%To(tti,ttj,ttk))
               allocate(dom(ib)%Tm(tti,ttj,ttk),dom(ib)%Ttm(tti,ttj,ttk))
               allocate(dom(ib)%mu(tti,ttj,ttk))
-              endif
+              end if
               if (LSCALAR) then
               allocate(dom(ib)%S(tti,ttj,ttk),dom(ib)%Sm(tti,ttj,ttk))
               allocate(dom(ib)%So(tti,ttj,ttk),dom(ib)%Stm(tti,ttj,ttk))
               allocate(dom(ib)%sfactor(tti,ttj,ttk))
-              endif
+              end if
               if (L_LSM) then
               allocate(dom(ib)%dens_mg(dom(ib)%tot))
               allocate(dom(ib)%mu(tti,ttj,ttk))
-              endif
+              end if
               if (LAS)   allocate(dom(ib)%mu(tti,ttj,ttk))
               if (differencing==3) allocate(dom(ib)%d1(tti,ttj,ttk), &
         dom(ib)%dphi_dxplus(tti,ttj,ttk), &
@@ -411,7 +411,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%jprev<0) then
@@ -429,7 +429,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%kprev<0) then
@@ -447,7 +447,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
           end do
 
@@ -493,7 +493,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%jnext<0) then
@@ -511,7 +511,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%knext<0) then
@@ -529,7 +529,7 @@
                       end if
                   end do
               end do
-              endif
+              end if
               end if
           end do
 
@@ -564,7 +564,7 @@
                 dom(ib)%w(dom(ib)%iew+1,j,k)*fct
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%jnext<0) then
@@ -589,7 +589,7 @@
                 dom(ib)%w(i,dom(ib)%jew+1,k)*fct
                   end do
               end do
-              endif
+              end if
               end if
 
               if(dom(ib)%knext<0) then
@@ -614,7 +614,7 @@
                 dom(ib)%w(i,j,dom(ib)%kew+1)*fct
                   end do
               end do
-              endif
+              end if
               end if
           end do
 
@@ -657,7 +657,7 @@
               dom(ib)%ntav1=ntav1_count
               dom(ib)%ntav2=ntav2_count
               ntav_restart=ntav2_count
-              endif
+              end if
 !===============================================================
 
               write(chb1,"(i8)") dom_id(ib)
@@ -773,17 +773,17 @@
               dom(ib)%Tm=0.0_dp; dom(ib)%Ttm=0.0_dp
               dom(ib)%mu=rrey*dens
               call energy_init
-              endif
+              end if
               if (LSCALAR) then
               dom(ib)%S=0.0_dp;  dom(ib)%So=0.0_dp
               dom(ib)%Sm=0.0_dp; dom(ib)%Stm=0.0_dp
               call sediment_init
-              endif
+              end if
               if (L_LSM)          dom(ib)%mu=rrey*dens
               if (LAS) then
               dom(ib)%mu=rrey*dens
               call Active_scalar
-              endif
+              end if
               if (LNonNewt) call NonNewtonian
 
               dom(ib)%um   = 0.0_dp; dom(ib)%vm   = 0.0_dp
@@ -805,7 +805,7 @@
               dom(ib)%eps  = 0.09_dp**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07_dp*lz)
               dom(ib)%ksgso = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
               dom(ib)%epso  = 0.09_dp**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07_dp*lz)
-              endif
+              end if
 
               if (trim(keyword)=="channel") then
               if (.not.L_LSM) dom(ib)%u=ubulk
@@ -1001,10 +1001,10 @@
                           else
                           dom(ib)%u(i,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
+                          end if
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k)*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.d0/7.d0)
-                      enddo ; end do ;  end do
+                      end do ; end do ;  end do
               END IF
 !.######### U=> When power law inlet condition, 7 Dic 2015 .##########
               IF (dom(ib)%bc_west==13) THEN
@@ -1017,8 +1017,8 @@
                           else
                           dom(ib)%u(i,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
-                      enddo ; end do ;  end do
+                          end if
+                      end do ; end do ;  end do
               END IF
 
               end if    !No restart
@@ -1029,7 +1029,7 @@
 
               if (ntime*dt<t_start_averaging2) then
               jtime=itime_end-INT(t_start_averaging2/dt)+1
-              endif
+              end if
 
               allocate(dom(ib)%u_unst(n_unstpt,jtime))
               allocate(dom(ib)%v_unst(n_unstpt,jtime))
@@ -1052,7 +1052,7 @@
           print*,"Writing the SEM inlet"
           call SEM  !Generate the files for the inlet turbulent field
           print*,"Finish the SEM inlet"
-          ENDIF
+          END IF
 
    70     format (10e25.8)
    71     format (3F15.6)

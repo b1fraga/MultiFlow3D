@@ -41,7 +41,7 @@
                   end do
               end do
               ntav1_count = ntav1_count + 1
-              endif
+              end if
 
 !.....For second order moments
               if (ctime>=t_start_averaging2) then
@@ -63,7 +63,7 @@
                   end do
               end do
               ntav2_count = ntav2_count + 1
-              endif
+              end if
 
 !        do ib=1,nbp
 
@@ -250,16 +250,16 @@
                           if (dom(ib)%zc(k)<=length) then
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k) + &
                      random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else if (L_LSM) then
                           if (dom(ib)%phi(i,j,k) >= 0.0_dp) then
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                       end do
                   end do
               end do
@@ -271,16 +271,16 @@
                           if (dom(ib)%zc(k)<=length) then
                           dom(ib)%v(i,j,k) = dom(ib)%v(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else if (L_LSM) then
                           if (dom(ib)%phi(i,j,k) >= 0.0_dp) then
                           dom(ib)%v(i,j,k) = dom(ib)%v(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else
                           dom(ib)%v(i,j,k) = dom(ib)%v(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                       end do
                   end do
               end do
@@ -292,16 +292,16 @@
                           if (dom(ib)%zc(k)<=length) then
                           dom(ib)%w(i,j,k) = dom(ib)%w(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else if (L_LSM) then
                           if (dom(ib)%phi(i,j,k) >= 0.0_dp) then
                           dom(ib)%w(i,j,k) = dom(ib)%w(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                           else
                           dom(ib)%w(i,j,k) = dom(ib)%w(i,j,k) + &
                     random_number_normal(0.0_dp,fnoise)
-                          endif
+                          end if
                       end do
                   end do
               end do

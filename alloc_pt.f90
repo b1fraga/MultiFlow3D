@@ -40,17 +40,17 @@
               !================================== collision at wall ========================================
               if (yp_pt(l)<yst) then
               yp_pt(l)=yst+dp_pt(l)
-              elseif (yp_pt(l)>yen) then
+              else if (yp_pt(l)>yen) then
               yp_pt(l)=yen-dp_pt(l)
-              endif
+              end if
               if (zp_pt(l)<zst) then
               zp_pt(l)=zst+dp_pt(l)
-              elseif (zp_pt(l)>zen) then
+              else if (zp_pt(l)>zen) then
               zp_pt(l)=zen-dp_pt(l)
-              endif
+              end if
 ! =============================================================================================
 
-              ENDIF
+              END IF
 
 !     Comprobar si permanece en el dominio
               if (PERIODIC) then
@@ -59,12 +59,12 @@
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((yp_pt(l)<=yst).or.(yp_pt(l) &
+              else if ((yp_pt(l)<=yst).or.(yp_pt(l) &
         .ge.yen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((zp_pt(l)<zst).or.(zp_pt(l) &
+              else if ((zp_pt(l)<zst).or.(zp_pt(l) &
         .ge.zen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
@@ -77,18 +77,18 @@
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((yp_pt(l)<=yst).or.(yp_pt(l) &
+              else if ((yp_pt(l)<=yst).or.(yp_pt(l) &
         .ge.yen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
-              elseif ((zp_pt(l)<zst).or.(zp_pt(l) &
+              else if ((zp_pt(l)<zst).or.(zp_pt(l) &
         .ge.zen)) then
               out_pt(l) = .TRUE.
               out_cnt = out_cnt + 1
               goto 50
               end if
-              endif
+              end if
 
    50         continue
 
@@ -102,16 +102,16 @@
               wopold(l-out_cnt)=wop_pt(l)
               dp_old(l-out_cnt)=dp_pt(l)
               rhop_old(l-out_cnt)=rho_pt(l)
-              endif
+              end if
 
-          enddo
+          end do
 
           np = np - out_cnt
 
           if (out_cnt>0) then
           write(202,*) ntime,"Removing",out_cnt,"particles" &
     ,". Total remaining:",np
-          endif
+          end if
 
           deallocate (out_pt)
           deallocate (xp_pt,yp_pt,zp_pt)
@@ -133,7 +133,7 @@
               wop_pt(l)= wopold(l)
               dp_pt(l) = dp_old(l)
               rho_pt(l) = rhop_old(l)
-          enddo
+          end do
 
           deallocate (xpold,ypold,zpold,uopold,vopold,wopold)
           deallocate (rhop_old,dp_old)
@@ -216,7 +216,7 @@
               np=np+ptnr
               write(202,*) ntime,"Releasing",ptnr,"new particles ", &
         "within fraction",f
-              endif
+              end if
 
               read(15,*)                    !dp
               read(15,*)                    !rhop
@@ -229,9 +229,9 @@
               else
               do l=1,ptnr
                   read(15,*)
-              enddo
-              endif
-          enddo
+              end do
+              end if
+          end do
 
           close(15)
 
@@ -307,24 +307,24 @@
                       else  !Aleks 04/24. Distribute points in a spherical shape
                       call random_number_spherical(xp,yp,zp,r,sphere_optn, &
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
-                      endif
+                      end if
                       do m=frac1,l
                           if (l/=m) then
                           distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l) &
                     -yp_pt(m))**2+(zp_pt(l)-zp_pt(m))**2)
                           else
                           distance=1.d9
-                          endif
+                          end if
                           dist=min(dist,distance)
-                      enddo
-                  enddo
+                      end do
+                  end do
                   uop_pt(l)=uop
                   vop_pt(l)=vop
                   wop_pt(l)=wop
                   else                                                  !not random, read from file
                   read(35,*)xp_pt(l),yp_pt(l),zp_pt(l), &
             uop_pt(l),vop_pt(l),wop_pt(l)
-                  endif                                                 !random location
+                  end if                                                 !random location
                   dp_pt(l)= random_number_normal(Dp_var,sigma)
                   rho_pt(l)= random_number_normal(rho_p,sigma_rho)
 
@@ -338,12 +338,12 @@
                   Fu(l)=0 ; Fv(l)=0 ; Fw(l)=0
                   else                                                  !tsnr
                   if (.not.random) read(35,*)
-                  endif                                                 !tsnr
-              enddo                                                       !particles
+                  end if                                                 !tsnr
+              end do                                                       !particles
 
               if ((tsnr>0).and.(mod(itime,tsnr)==0)) frac1=frac1+ptnr
 
-          enddo                                                             !loop in fracs
+          end do                                                             !loop in fracs
 
           close(35)
 
@@ -365,9 +365,9 @@
 !     Comprobar si permanece en el dominio
               if (xp_pt(l)<xst) then
               xp_pt(l)=xp_pt(l)+(xen-xst)                     !bubble comes back at the top (unlikely)
-              elseif(xp_pt(l)>xen) then
+              else if(xp_pt(l)>xen) then
               xp_pt(l)=xp_pt(l)-(xen-xst)                     !bubble comes back at the bottom (likely)
-              endif
+              end if
 !       if (yp_pt(l).lt.yst) then
 !             yp_pt(l)=yp_pt(l)+(yen-yst)                     !bubble comes back
 !       elseif (yp_pt(l).gt.yen) then
@@ -379,7 +379,7 @@
 !             zp_pt(l)=zp_pt(l)-(zen-zst)                     !bubble comes back
 !       end if
 
-          enddo
+          end do
 
 
           return

@@ -47,7 +47,7 @@
           if (LPT) then                     !Brunho2013
           if (myrank==0)  open(unit=202, file="particle_log")
           call init_particle
-          endif
+          end if
 
           if ((solver==2).and.(.not.L_LSM)) call coeff
 

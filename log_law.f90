@@ -22,8 +22,8 @@
           if (LAS.or.L_LSM) then                                            !variable density
           do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
                       rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                  enddo;enddo;enddo
-          endif
+                  end do;end do;end do
+          end if
 
           SELECT CASE (bound)
 
@@ -43,7 +43,7 @@
                       if (dom(ib)%bc_west==62) then               !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_west==61) then               !smooth wall
+                      else if (dom(ib)%bc_west==61) then               !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -55,19 +55,19 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.067d0) then
                       dom(ib)%tauww(j,k)=rrey * vtan / delta
                       else
                       dom(ib)%tauww(j,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauww2(j,k)=dom(ib)%tauww(j,k)/vtan   !needs to be multiplied by a velocity component to provide tau_1j
-                      endif
+                      end if
                   end do
               end do
 
@@ -87,7 +87,7 @@
                       if (dom(ib)%bc_east==62) then               !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_east==61) then               !smooth wall
+                      else if (dom(ib)%bc_east==61) then               !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -99,19 +99,19 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.067d0) then
                       dom(ib)%tauwe(j,k)=rrey * vtan / delta
                       else
                       dom(ib)%tauwe(j,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwe2(j,k)=dom(ib)%tauwe(j,k)/vtan       !units m/s
-                      endif
+                      end if
                   end do
               end do
 
@@ -132,7 +132,7 @@
                       if (dom(ib)%bc_south==62) then              !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_south==61) then              !smooth wall
+                      else if (dom(ib)%bc_south==61) then              !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -144,19 +144,19 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.067d0) then
                       dom(ib)%tauws(i,k)=rrey * vtan / delta
                       else
                       dom(ib)%tauws(i,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauws2(i,k)=dom(ib)%tauws(i,k)/vtan
-                      endif
+                      end if
                   end do
               end do
 
@@ -177,7 +177,7 @@
                       if (dom(ib)%bc_north==62) then              !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_north==61) then              !smooth wall
+                      else if (dom(ib)%bc_north==61) then              !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -189,19 +189,19 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.067d0) then
                       dom(ib)%tauwn(i,k)=rrey * vtan / delta
                       else
                       dom(ib)%tauwn(i,k)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwn2(i,k)=dom(ib)%tauwn(i,k)/vtan
-                      endif
+                      end if
                   end do
               end do
 
@@ -223,7 +223,7 @@
                       if (dom(ib)%bc_bottom==62) then             !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_bottom==61) then             !smooth wall
+                      else if (dom(ib)%bc_bottom==61) then             !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -236,22 +236,22 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
 !               if (dom_id(ib).eq.0.and.j.eq.20)
 !     &         write(6,*)ustar,yplus,delta,rrey,kappa
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.067d0) then
                       dom(ib)%tauwb(i,j)=rrey * vtan / delta
                       else
                       dom(ib)%tauwb(i,j)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwb2(i,j)=dom(ib)%tauwb(i,j)/vtan
                       !dom(ib)%vis(i,j,k)=dom(ib)%tauwb2(i,j)*delta
-                      endif
+                      end if
                   end do
               end do
 
@@ -272,7 +272,7 @@
                       if (dom(ib)%bc_top==62) then                !rough wall
                       ustar = kappa*vtan / log(30.d0*delta/fric)
                       yplus = delta*ustar/rrey
-                      elseif (dom(ib)%bc_top==61) then                !smooth wall
+                      else if (dom(ib)%bc_top==61) then                !smooth wall
                       conv  = 1.0_dp
                       ustar = 1.0_dp
                       icont = 0
@@ -284,19 +284,19 @@
                           yplus = max(1.0000001_dp,delta*ustar/rrey)
                           ustar = vtan*kappa/log(Ecte*yplus)
                           conv  = abs((ustar-ustarold)/ustar)
-                      enddo
+                      end do
                       if (icont==tkmax) then
                       print*,"USTAR DOESNT CONVERGE"
                       print*,"Tang. vel. = ",vtan
                       stop
-                      endif
-                      endif
+                      end if
+                      end if
                       if (yplus<11.63d0) then
                       dom(ib)%tauwt(i,j)=rrey * vtan / delta
                       else
                       dom(ib)%tauwt(i,j)=ustar**2.0_dp             !tau_1
                       dom(ib)%tauwt2(i,j)=dom(ib)%tauwt(i,j)/vtan
-                      endif
+                      end if
                   end do
               end do
 

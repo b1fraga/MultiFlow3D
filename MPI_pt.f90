@@ -116,7 +116,7 @@
           allocate(lpt_block_jnext(np),lpt_proc_jnext(np))
           allocate(lpt_block_knext(np),lpt_proc_knext(np))
 
-          endif  !Lcol
+          end if  !Lcol
 
           IF (Myrank==0) THEN
 
@@ -156,7 +156,7 @@
 !                 write(6,*)xp_pt(l)
 !                 write(6,*)(lx/idom)*(nxdom)
 !           write(6,*)'======================================='
-          enddo
+          end do
 
           if (Lcol) then
           ptsinproc_g=0
@@ -181,7 +181,7 @@
               lpt_proc_iprev(lp)=dom_ad(lpt_block_iprev(lp))+1
               ptsinproc_g(lpt_proc_iprev(lp))= &
         ptsinproc_g(lpt_proc_iprev(lp))+1
-              endif
+              end if
               ! ---
               nxdom_jprev = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
               nydom_jprev = INT((yp_pt(lp)-dy-yst-1d-12)/(ly/jdom))
@@ -193,7 +193,7 @@
               lpt_proc_jprev(lp)=dom_ad(lpt_block_jprev(lp))+1
               ptsinproc_g(lpt_proc_jprev(lp))= &
         ptsinproc_g(lpt_proc_jprev(lp))+1
-              endif
+              end if
               ! ---
               nxdom_kprev = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
               nydom_kprev = INT((yp_pt(lp)-yst-1d-12)/(ly/jdom))
@@ -205,7 +205,7 @@
               lpt_proc_kprev(lp)=dom_ad(lpt_block_kprev(lp))+1
               ptsinproc_g(lpt_proc_kprev(lp))= &
         ptsinproc_g(lpt_proc_kprev(lp))+1
-              endif
+              end if
 
 !           endif
               !=== Next Neighbor  ===>
@@ -219,8 +219,8 @@
               lpt_proc_inext(lp)=dom_ad(lpt_block_inext(lp))+1
               ptsinproc_g(lpt_proc_inext(lp))= &
         ptsinproc_g(lpt_proc_inext(lp))+1
-              endif
-              endif
+              end if
+              end if
               ! -+-
               if (abs(yp_pt(lp)-yen)>dy) then
               nxdom_jnext = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
@@ -232,8 +232,8 @@
               lpt_proc_jnext(lp)=dom_ad(lpt_block_jnext(lp))+1
               ptsinproc_g(lpt_proc_jnext(lp))= &
         ptsinproc_g(lpt_proc_jnext(lp))+1
-              endif
-              endif
+              end if
+              end if
               ! --+
               if (abs(zp_pt(lp)-zen)>dz) then
               nxdom_knext = INT((xp_pt(lp)-xst-1d-12)/(lx/idom))
@@ -245,10 +245,10 @@
               lpt_proc_knext(lp)=dom_ad(lpt_block_knext(lp))+1
               ptsinproc_g(lpt_proc_knext(lp))= &
         ptsinproc_g(lpt_proc_knext(lp))+1
-              endif
-              endif
-          enddo
-          endif  !Lcol
+              end if
+              end if
+          end do
+          end if  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -272,9 +272,9 @@
                   id_MPI(ii+np*(o-1))=lpt_block(l)
 
                   ii=ii+1
-                  endif
-              ENDDO
-          enddo
+                  end if
+              END DO
+          end do
 
           ! --------------------------------
           ! ghost particles
@@ -338,13 +338,13 @@
 !                       write(myrank+1000,*) Xg_MPI(iii+npt*(oo-1)),xp_pt(ll)
                   iii=iii+1
 
-                  endif
-              ENDDO
-          enddo
+                  end if
+              END DO
+          end do
 
-          endif  !Lcol
+          end if  !Lcol
 
-          ENDIF  !master proc
+          END IF  !master proc
 
           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
 
@@ -368,7 +368,7 @@
 
           !write(6,*)'ghost parts',myrank,npg_loc
 
-          endif  !Lcol
+          end if  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -426,7 +426,7 @@
           call MPI_SCATTER(idg_MPI,np,MPI_INTEGER,idg_MPI_loc,&              !block to which they belong
               np,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)
 
-          endif  !Lcol
+          end if  !Lcol
 ! --------------------------------
 ! real particles
 ! --------------------------------
@@ -460,15 +460,15 @@
               rhop_loc(l)=rhop_MPI_loc(l)
 
               id(l)=id_MPI_loc(l)
-              endif
-          enddo
+              end if
+          end do
           if (ii/=np_loc) then
           write(6,*)"MPI ERROR in proc:",myrank
           write(6,*)"np_loc=",np_loc,"=/=",ii
           stop
-          endif
+          end if
 
-          endif
+          end if
 
 ! --------------------------------
 ! ghost particles
@@ -498,17 +498,17 @@
               rhopg_loc(ll)=rhopg_MPI_loc(ll)
 !                       write(myrank+1000,*) xp_loc(l), dp_loc(l), rho_loc(l)
 !                       idg(ll)=idg_MPI_loc(ll)
-              endif
-          enddo
+              end if
+          end do
           if (iii/=npg_loc) then
           write(6,*)"MPI ERROR in proc (ghost particles):",myrank
           write(6,*)"npg_loc=",npg_loc,"=/=",iii
           stop
-          endif
+          end if
 
-          endif  !npg_loc
+          end if  !npg_loc
 
-          endif  !Lcol
+          end if  !Lcol
 
           deallocate(lpt_proc,lpt_block)
           deallocate(X_MPI,Y_MPI,Z_MPI)
@@ -534,7 +534,7 @@
           deallocate(lpt_proc_inext,lpt_block_inext)
           deallocate(lpt_proc_jnext,lpt_block_jnext)
           deallocate(lpt_proc_knext,lpt_block_knext)
-          endif  !Lcol
+          end if  !Lcol
 
           RETURN
       END SUBROUTINE MPI_pt

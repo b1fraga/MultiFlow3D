@@ -31,7 +31,7 @@
           DO N=1,kdom ; DO J=1,jdom
                   I=I+1
                   iddom(I)=idom*(J-1)+(jdom*idom*(N-1))
-              ENDDO ; ENDDO
+              END DO ; END DO
 !DIVISION ON THE Y AND Z DIRECTIONS
           Do J=1,jdom
               ley(J)=ley(J-1)+ &
@@ -40,9 +40,9 @@
               lsy(J)=1
               ELSE
               lsy(J)=ley(J-1)+1
-              ENDIF
+              END IF
               DIVY = DIVY + NINT((ycor(iddom(J),2)-ycor(iddom(J),1))/g_dy) +1
-          Enddo
+          End do
           DO N=1,kdom
               lez(N)=lez(N-1)+ &
          NINT((zcor(iddom(N),2)-zcor(iddom(N),1))/g_dz)+1
@@ -50,9 +50,9 @@
               lsz(N)=1
               ELSE
               lsz(N)=lez(N-1)+1
-              ENDIF
+              END IF
               DIVZ = DIVZ + NINT((zcor(iddom(N),2)-zcor(iddom(N),1))/g_dz) +1
-          ENDDO
+          END DO
 !THE DIVISIONS FOR EACH OF THE DOMAINS IS DETERMINED:
           I=0
           DO N=1,kdom  ;  DO J=1,jdom
@@ -61,7 +61,7 @@
                   elemyen(I) = ley(J)  ;  elemzen(I) = lez(N)
                   ljdom(I) = elemyen(I) -  elemyst(I) + 1
                   lkdom(I) = elemzen(I) -  elemzst(I) + 1
-              enddo ; enddo
+              end do ; end do
 
           write(6,*)"Divisions :",DIVY,DIVZ
           write(6,*)"# BLOCKS  :",jdom,kdom
@@ -166,7 +166,7 @@
                   WRITE (IGLOBAL,*)"Variables=up,vp,wp"
                   WRITE (IGLOBAL,*) &
             "zone "," i=",ljdom(I),","," j=",lkdom(I),", k= ",1," f=point"
-              Enddo
+              End do
 
               MOLT = MATMUL(R,EPSILO)  ! !aij*epsij   MATRIX MULTIPLICATION
               MAXVSEM=0.D0 ; MINVSEM=1000000.D0
@@ -204,9 +204,9 @@
                   Do M=elemzst(I),elemzen(I)
                       Do J=elemyst(I),elemyen(I)
                           WRITE(500+I,"(3E15.6)")Vsem(J,M,:)                !turn down precision for large files
-                      enddo ;enddo
+                      end do ;end do
                   CLOSE (UNIT=IGLOBAL)
-              Enddo
+              End do
 !--------BEGINNING OF EDDIES CONVECTION ITERATIONS
               DO II=1,N
 !RE-CALCULATION OF THE EDDIES POSITION. IF ANY EDDY GOES BEYOND THE BOX LIMITS

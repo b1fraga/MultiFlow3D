@@ -26,52 +26,52 @@
               if (dom(ib)%iprev<0) then
               if (dom(ib)%bc_west==4) then
               call tauw_noslip(1,ib)                        !friction velocity for no slip boundaries
-              elseif (dom(ib)%bc_west>=63) then
+              else if (dom(ib)%bc_west>=63) then
               call wall_function(1,ib)
-              elseif(dom(ib)%bc_west==61.or.dom(ib)%bc_west==62)then
+              else if(dom(ib)%bc_west==61.or.dom(ib)%bc_west==62)then
               call log_law(1,ib)
               end if
-              elseif (dom(ib)%inext<0) then
+              else if (dom(ib)%inext<0) then
               if (dom(ib)%bc_east==4) then
               call tauw_noslip(2,ib)
-              elseif (dom(ib)%bc_east>=63) then
+              else if (dom(ib)%bc_east>=63) then
               call wall_function(2,ib)
-              elseif(dom(ib)%bc_east==61.or.dom(ib)%bc_east==62)then
+              else if(dom(ib)%bc_east==61.or.dom(ib)%bc_east==62)then
               call log_law(2,ib)
-              endif
-              elseif (dom(ib)%jprev<0) then
+              end if
+              else if (dom(ib)%jprev<0) then
               if (dom(ib)%bc_south==4) then
               call tauw_noslip(3,ib)
-              elseif (dom(ib)%bc_south>=63) then
+              else if (dom(ib)%bc_south>=63) then
               call wall_function(3,ib)
-              elseif(dom(ib)%bc_south==61.or.dom(ib)%bc_south==62)then
+              else if(dom(ib)%bc_south==61.or.dom(ib)%bc_south==62)then
               call log_law(3,ib)
-              endif
-              elseif (dom(ib)%jnext<0) then
+              end if
+              else if (dom(ib)%jnext<0) then
               if (dom(ib)%bc_north==4) then
               call tauw_noslip(4,ib)
-              elseif (dom(ib)%bc_north>=63) then
+              else if (dom(ib)%bc_north>=63) then
               call wall_function(4,ib)
-              elseif(dom(ib)%bc_north==61.or.dom(ib)%bc_north==62)then
+              else if(dom(ib)%bc_north==61.or.dom(ib)%bc_north==62)then
               call log_law(4,ib)
               end if
-              elseif (dom(ib)%kprev<0) then
+              else if (dom(ib)%kprev<0) then
               if (dom(ib)%bc_bottom==4) then
               call tauw_noslip(5,ib)
-              elseif (dom(ib)%bc_bottom>=63) then
+              else if (dom(ib)%bc_bottom>=63) then
               call wall_function(5,ib)
-              elseif(dom(ib)%bc_bottom==61.or.dom(ib)%bc_bottom==62)then
+              else if(dom(ib)%bc_bottom==61.or.dom(ib)%bc_bottom==62)then
               call log_law(5,ib)
               end if
-              elseif (dom(ib)%knext<0) then
+              else if (dom(ib)%knext<0) then
               if (dom(ib)%bc_top==4) then
               call tauw_noslip(6,ib)
-              elseif (dom(ib)%bc_top>=63) then
+              else if (dom(ib)%bc_top>=63) then
               call wall_function(6,ib)
-              elseif(dom(ib)%bc_top==61.or.dom(ib)%bc_top==62)then
+              else if(dom(ib)%bc_top==61.or.dom(ib)%bc_top==62)then
               call log_law(6,ib)
               end if
-              endif
+              end if
 
               delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
@@ -86,7 +86,7 @@
 
                           if (LAS.or.L_LSM) then                                            !variable density
                           rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                          endif
+                          end if
 
                           chk_wallboun=0
 
@@ -159,7 +159,7 @@
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdx=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -185,7 +185,7 @@
                           dudx=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdx=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdx=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -211,7 +211,7 @@
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdy=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -237,7 +237,7 @@
                           dudy=(h2*h2*(ufv_n1-ufv_c)+h1*h1*(ufv_c-ufv_n2))*rh123
                           dvdy=(h2*h2*(vfv_n1-vfv_c)+h1*h1*(vfv_c-vfv_n2))*rh123
                           dwdy=(h2*h2*(wfv_n1-wfv_c)+h1*h1*(wfv_c-wfv_n2))*rh123
-                          endif
+                          end if
                           end if
                           end if
 
@@ -308,7 +308,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
                           if (dom(ib)%bc_east==4.or.dom(ib)%bc_east>=61) then
                           dist=dom(ib)%xel-dom(ib)%xc(i)
@@ -320,7 +320,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
                           if (dom(ib)%bc_south==4.or.dom(ib)%bc_south>=61) then
                           dist=dom(ib)%yc(j)-dom(ib)%ysl
@@ -332,7 +332,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
                           if (dom(ib)%bc_north==4.or.dom(ib)%bc_north>=61) then
                           dist=dom(ib)%yel-dom(ib)%yc(j)
@@ -344,7 +344,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
                           if (dom(ib)%bc_bottom==4.or.dom(ib)%bc_bottom>=61) then
                           dist=dom(ib)%zc(k)-dom(ib)%zsl
@@ -356,7 +356,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
                           if (dom(ib)%bc_top==4.or.dom(ib)%bc_top>=61) then
                           dist=dom(ib)%zel-dom(ib)%zc(k)
@@ -368,7 +368,7 @@
                           utauw = min (he1,utauw)
                           end if
                           end if
-                          endif
+                          end if
 
 
                           damp= 1.0_dp
@@ -381,8 +381,8 @@
 
                           if (ratio<12.0_dp) then
                           damp = sqrt (1.0_dp - exp (-ratio) )
-                          endif
-                          endif
+                          end if
+                          end if
 
 !==========================================================================
 ! ..... EDDY VISCOSITY CALCULATION
@@ -598,8 +598,8 @@
           if (LAS.or.L_LSM) then                                            !variable density
           do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
                       rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                  enddo;enddo;enddo
-          endif
+                  end do;end do;end do
+          end if
           small = 1.e-30_dp
 
           dom(ib)%tauww=0.0_dp; dom(ib)%tauwe=0.0_dp

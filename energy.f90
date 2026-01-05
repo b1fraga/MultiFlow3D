@@ -8,7 +8,7 @@
 
           do ib=1,nbp
               dom(ib)%T=Tinit
-          enddo
+          end do
 
       end subroutine energy_init
 !##########################################################################

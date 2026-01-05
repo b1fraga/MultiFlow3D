@@ -27,37 +27,37 @@
           if (myrank==0) then
           print*,"Error: not possible to output animation files", &
     "  for LSM_init run!"
-          endif
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMbase .and. L_LSMinit) then
           if (myrank==0) then
           print*,"Error: L_LSMbase and L_LSMinit cannot both be true!"
-          endif
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMbase .and. L_LSM) then
           if (myrank==0) then
           print*,"Error: L_LSMbase and L_LSM cannot both be true!"
-          endif
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMinit .and. (.not.L_LSM)) then
           if (myrank==0) then
           print*,"Error: L_LSMinit cannot be true if L_LSM is false!"
-          endif
+          end if
           stop
-          endif
+          end if
 
           if (L_anim_phi .and. (.not.L_LSM)) then
           if (myrank==0) then
           print*,"Error: L_anim_phi cannot be true if L_LSM is false!"
-          endif
+          end if
           stop
-          endif
+          end if
 !ALLOCATIONS
           allocate(dom(ib)%ijkp_lsm(0:dom(ib)%ngrid))
           allocate (dom(ib)%dens_mg(dom(ib)%tot))
@@ -103,8 +103,8 @@
                       dom(ib)%uo(i,j,k)=0.0_dp
                       dom(ib)%uoo(i,j,k)=0.0_dp
                       end if
-                  enddo;enddo;enddo
-          endif
+                  end do;end do;end do
+          end if
 
           mul = nul * densl
           mug = nug * densg
@@ -785,7 +785,7 @@
           write(*,*) "norm v (reinit)", max_abs, "needed steps", it
           write(numfile3,"(i8,f18.8,i8,2f18.8)") ntime,max_abs,it,ctime, &
     dt
-          endif
+          end if
 
           return
       end subroutine tvd_rk_reinit
