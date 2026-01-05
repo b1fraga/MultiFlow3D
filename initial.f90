@@ -9,7 +9,7 @@
           implicit none
           integer :: mgi,mgj,mgk,pow2,ib,i,j
 
-          open (unit=12, file='input/control.cin')
+          open (unit=12, file="input/control.cin")
 !------DOMAIN SIZE AND DISCRETIZATION -------------------------------------
           read (12,*)
           read (12,*) keyword,ubulk
@@ -52,11 +52,11 @@
           if (LNonNewt) then
           if (.not.LAS) then
           LAS=.TRUE.
-          print*,'Density variable tracer activated'
+          print*,"Density variable tracer activated"
           endif
           if (.not.LENERGY) then
           LENERGY=.TRUE.
-          print*,'Energy equation activated'
+          print*,"Energy equation activated"
           endif
           endif
           read (12,*) pl_ex
@@ -78,7 +78,7 @@
 
           if (.not.LPT) np=0
 
-          if (trim(L_n)=='n') fric=fric**0.33_dp
+          if (trim(L_n)=="n") fric=fric**0.33_dp
 
 !        if(bc_w.eq.5 .or. bc_e.eq.5 .or.
 !     & bc_s.eq.5 .or. bc_n.eq.5 .or.
@@ -113,26 +113,26 @@
 
           if(differencing==3 .and. pl_ex/=2) then
           pl_ex=2
-          print*,'error: you select WENO but do not assign', &
-    '  correct number of ghost planes,now it is corrected to 2'
+          print*,"error: you select WENO but do not assign", &
+    "  correct number of ghost planes,now it is corrected to 2"
           end if
 
           if(SGS .and. sgs_model==3 .and. pl_ex/=2) then
           pl_ex=2
-          print*,'error: you select 1-EQN model but do not assign', &
-    '  correct number of ghost planes,now it is corrected to 2'
+          print*,"error: you select 1-EQN model but do not assign", &
+    "  correct number of ghost planes,now it is corrected to 2"
           end if
 
           if (L_LSM .and. solver==1) then
           if (myrank==0) then
-          print*,'Error: SIP solver not presently compatible with LSM'
+          print*,"Error: SIP solver not presently compatible with LSM"
           endif
           stop
           endif
 
           if (L_LSM .and. differencing/=3) then
           if (myrank==0) then
-          print*,'Error: WENO differencing must be used with LSM'
+          print*,"Error: WENO differencing must be used with LSM"
           endif
           stop
           endif
@@ -319,21 +319,21 @@
 
               if (dom(ib)%inext>=0) then
               if(abs(dom(ib)%x(dom(ib)%iep)-dom(ib)%xel)>1e-5_dp) then
-              print*,'mycpu#:',myrank,' error-11'
+              print*,"mycpu#:",myrank," error-11"
               stop
               end if
               end if
 
               if (dom(ib)%jnext>=0) then
               if(abs(dom(ib)%y(dom(ib)%jep)-dom(ib)%yel)>1e-5_dp) then
-              print*,'mycpu#:',myrank,' error-12'
+              print*,"mycpu#:",myrank," error-12"
               stop
               end if
               end if
 
               if (dom(ib)%knext>=0) then
               if(abs(dom(ib)%z(dom(ib)%kep)-dom(ib)%zel)>1e-5_dp) then
-              print*,'mycpu#:',myrank,' error-13'
+              print*,"mycpu#:",myrank," error-13"
               stop
               end if
               end if
@@ -365,7 +365,7 @@
                   if((abs(dom(ib)%x(dom(ib)%iep)-nwxend)>1E-8_dp) &
             .or.(abs(dom(ib)%y(dom(ib)%jep)-nwyend)>1E-8_dp) &
             .or.(abs(dom(ib)%z(dom(ib)%kep)-nwzend)>1E-8_dp)) then
-                  print*,'==ERROR==> in multigrid: max ngrid value'
+                  print*,"==ERROR==> in multigrid: max ngrid value"
                   stop
                   end if
               end do
@@ -649,8 +649,8 @@
               if (LRESTART) then
 
               qzero=ubulk  !brunho2014
-              open (unit=700, file='final_ctime.dat')
-              read (700,'(i8,3F15.6)') ntime,ctime,forcn,qstpn,count &
+              open (unit=700, file="final_ctime.dat")
+              read (700,"(i8,3F15.6)") ntime,ctime,forcn,qstpn,count &
         ,ntav1_count,ntav2_count
               close (700)
               if (.not.reinitmean) then  !Aleks 04/24
@@ -660,19 +660,19 @@
               endif
 !===============================================================
 
-              write(chb1,'(i8)') dom_id(ib)
+              write(chb1,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb1)))
-              chb1=repeat('0',(4-sn))//trim(adjustl(chb1))
-              gf='tecbin'//trim(adjustl(chb1))//'.bin'
-              open (unit=700, file=gf, form='unformatted',status='old')
+              chb1=repeat("0",(4-sn))//trim(adjustl(chb1))
+              gf="tecbin"//trim(adjustl(chb1))//".bin"
+              open (unit=700, file=gf, form="unformatted",status="old")
 
               read (700) tti,ttj,ttk
               read (700) pll
               read (700) inind,jnind,knind
 
               if(pll/=pl .and. myrank==0) then
-              print*,'&*&* different number of overlapping layers!!',pl,pll
-              write(numfile,*) '&*&* different number of overlapping layers!!'
+              print*,"&*&* different number of overlapping layers!!",pl,pll
+              write(numfile,*) "&*&* different number of overlapping layers!!"
               stop
               end if
 
@@ -807,21 +807,21 @@
               dom(ib)%epso  = 0.09_dp**0.75_dp*dom(ib)%ksgs**1.5_dp/(0.07_dp*lz)
               endif
 
-              if (trim(keyword)=='channel') then
+              if (trim(keyword)=="channel") then
               if (.not.L_LSM) dom(ib)%u=ubulk
               ubw=ubulk; ube=ubulk; ubs=ubulk               !brunho2014
               ubn=ubulk; ubt=ubulk; ubb=ubulk
               vb=0.0_dp; wb=0.0_dp
-              else if (trim(keyword)=='cavity') then
+              else if (trim(keyword)=="cavity") then
               dom(ib)%u=0.0_dp
               ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=2.0_dp; ubt=0.0_dp; ubb=0.0_dp
               vb=0.0_dp; wb=0.0_dp
-              else if (trim(keyword)=='column') then
+              else if (trim(keyword)=="column") then
               dom(ib)%u=0.0_dp
               ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=0.0_dp; ubt=0.0_dp; ubb=0.0_dp
               vb=0.0_dp; wb=0.0_dp
               else
-              write (6,*) ' wrong keyword '
+              write (6,*) " wrong keyword "
               end if
 
 !..............U=> West and East ...............
@@ -1049,9 +1049,9 @@
 !.################################################
 !.###########  Synthetic Eddy Method, 14 Dic 2015    ##########
           IF (bc_w==8 .and. myrank==0) then
-          print*,'Writing the SEM inlet'
+          print*,"Writing the SEM inlet"
           call SEM  !Generate the files for the inlet turbulent field
-          print*,'Finish the SEM inlet'
+          print*,"Finish the SEM inlet"
           ENDIF
 
    70     format (10e25.8)

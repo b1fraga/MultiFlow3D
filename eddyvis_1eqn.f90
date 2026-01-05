@@ -252,8 +252,8 @@
                         alfark(rk)*dt*(diff-conv+prod-other))
 
                               if(dom(ib)%ksgs(i,j,k)<0.0_dp) then
-                              print*,'ERRORRRR in the 1-EQN model & STOP'
-                              write (6,*) 'ERRORRRR in the 1-EQN model & STOP'
+                              print*,"ERRORRRR in the 1-EQN model & STOP"
+                              write (6,*) "ERRORRRR in the 1-EQN model & STOP"
                               stop
                               end if
 

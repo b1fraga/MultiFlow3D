@@ -28,12 +28,12 @@
           logical :: random, LSPHERICAL, LSURFACE
 
           if (myrank==0) then
-          write(6,*)'................................................'
-          write(6,*)'      LAGRANGIAN PARTICLE TRACKING ON'
-          write(6,*)'................................................'
+          write(6,*)"................................................"
+          write(6,*)"      LAGRANGIAN PARTICLE TRACKING ON"
+          write(6,*)"................................................"
           endif
 
-          open(10,file='input/LPT.cin')             !first read with variables applicable to all fractions
+          open(10,file="input/LPT.cin")             !first read with variables applicable to all fractions
           read(10,*)                          !header
           read(10,*) PSIcell,order
           DF=.false.
@@ -47,7 +47,7 @@
           np_restart=0
 
           if (LRESTART) then                  !there is no release before the time loop
-          open(20,file='final_particle.dat')
+          open(20,file="final_particle.dat")
           read(20,*) np_restart
           np=np_restart
           endif
@@ -58,8 +58,8 @@
               read(10,*) ptnr
               if (tsnr==-1) then
               np=np+ptnr              !now we calculate the total number of particles to allocate the variables
-              if (myrank==0)write(202,*) 'Initialising Lagrangian' &
-        ,' field. Releasing',ptnr,'new particles in fraction',f
+              if (myrank==0)write(202,*) "Initialising Lagrangian" &
+        ," field. Releasing",ptnr,"new particles in fraction",f
               endif
 
               read(10,*)                    !dp
@@ -88,7 +88,7 @@
           allocate (Fu(np),Fv(np),Fw(np),rhop_old(np))
           allocate (ptsinproc(nprocs),ptsinproc_g(nprocs))
 
-          open(30,file='input/LPT.cin')             !reopen the file to read the details of every fraction
+          open(30,file="input/LPT.cin")             !reopen the file to read the details of every fraction
           read(30,*)                          !header
           read(30,*)                          !PSIcell/ball
           read(30,*)                          !nfrac
@@ -164,11 +164,11 @@
                           dist=min(dist,distance)
                       enddo
                       if (ll>1000) then
-                      write(6,*) '================================'
-                      write(6,*) 'Release area too small.'
-                      write(6,*) 'Cannot create so many particles'
-                      write(6,*) 'without overlapping.'
-                      write(6,*) '================================'
+                      write(6,*) "================================"
+                      write(6,*) "Release area too small."
+                      write(6,*) "Cannot create so many particles"
+                      write(6,*) "without overlapping."
+                      write(6,*) "================================"
                       stop
                       endif
                   enddo
@@ -244,18 +244,18 @@
 
               idfile=600+dom_id(ib)
 
-              write(b_str,'(I4)') num_output
+              write(b_str,"(I4)") num_output
               strlen=LEN(TRIM(ADJUSTL(b_str)))
-              b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
-              write(c_str,'(I4)') dom_id(ib)
+              b_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
+              write(c_str,"(I4)") dom_id(ib)
               strlen=LEN(TRIM(ADJUSTL(c_str)))
-              c_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
+              c_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
 
-              filename='tecout_'//b_str//'_'//c_str//'.dat'
+              filename="tecout_"//b_str//"_"//c_str//".dat"
 
               OPEN (UNIT=idfile, FILE=filename)
 
-              WRITE (idfile,*) 'TITLE = ', '"Eulerian field"'
+              WRITE (idfile,*) "TITLE = ", '"Eulerian field"'
 
               if (LSCALAR) then
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P" ,"S"'
@@ -272,8 +272,8 @@
               nk=ke-(ks-1)+1
 
               !WRITE(idfile,*)'ZONE T="','id:',dom_id(ib),'it:',ntime,'"'
-              WRITE(idfile,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime
-              WRITE(idfile,*)'I=',ni,', J=',nj,', K=',nk,'F=POINT'
+              WRITE(idfile,*)"zone ","STRANDID=", 1, "SOLUTIONTIME=", ctime
+              WRITE(idfile,*)"I=",ni,", J=",nj,", K=",nk,"F=POINT"
 #if USE_HDF5 == 1
               allocate(u(is-1:ie,js-1:je,ks-1:ke),v(is-1:ie,js-1:je,ks-1:ke), &
                    w(is-1:ie,js-1:je,ks-1:ke),p(is-1:ie,js-1:je,ks-1:ke), &
@@ -355,10 +355,10 @@
                           endif
 #if USE_HDF5 == 0
                           if (LSCALAR) then
-                          write (idfile,'(9e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
+                          write (idfile,"(9e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                     ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn  !T_cn,S_cn,k_cn,eps_cn,vis_cn
                           else
-                          write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
+                          write (idfile,"(7e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                      ,u_cn,v_cn,w_cn,p_cn
                           endif
 #endif
@@ -371,41 +371,41 @@
 !     & dom(ib)%jsp,dom(ib)%jep,dom(ib)%ksp,dom(ib)%kep
 !     endif
 #if USE_HDF5 == 1
-          filename='tecout_'//b_str//'_'//c_str//'.h5'
+          filename="tecout_"//b_str//"_"//c_str//".h5"
           if (LSCALAR) then
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key='U',group="test")
+                  array_input_3d=u,key="U",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key='V',group="test")
+                  array_input_3d=v,key="V",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key='W',group="test")
+                  array_input_3d=w,key="W",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key='P',group="test")
+                  array_input_3d=p,key="P",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=s,key='S',group="test")
+                  array_input_3d=s,key="S",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=rho,key='RHO',group="test")
+                  array_input_3d=rho,key="RHO",group="test")
           else
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key='U',group="test")
+                  array_input_3d=u,key="U",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key='V',group="test")
+                  array_input_3d=v,key="V",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key='W',group="test")
+                  array_input_3d=w,key="W",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key='P',group="test")
+                  array_input_3d=p,key="P",group="test")
           endif
 #endif
           end do
@@ -433,19 +433,19 @@
           character(LEN=80) :: filename,filename2
           character(LEN=4) :: b_str
 
-          write(b_str,'(I4)') num_output
+          write(b_str,"(I4)") num_output
           strlen=LEN(TRIM(ADJUSTL(b_str)))
-          b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
+          b_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
 
-          filename='tecout_'//b_str//'_pt.dat'
+          filename="tecout_"//b_str//"_pt.dat"
 
           OPEN (UNIT=95, FILE=TRIM(ADJUSTL(filename)))
 
-          WRITE (95,*) 'TITLE = ', '"Lagrangian field"'
+          WRITE (95,*) "TITLE = ", '"Lagrangian field"'
 WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
                  '"V<sub>Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>"'
   !,"F<sub>u","F<sub>v","F<sub>w"'
-          WRITE(95,*)'zone ','STRANDID=', 2, 'SOLUTIONTIME=', ctime
+          WRITE(95,*)"zone ","STRANDID=", 2, "SOLUTIONTIME=", ctime
 
           do l=1,np
               WRITE (95,*) xp_pt(l),yp_pt(l),zp_pt(l) &

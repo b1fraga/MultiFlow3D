@@ -324,8 +324,8 @@
 
             case default
 
-              print*, '===ERROR==='
-              print*, ' order of delta function is not selected '
+              print*, "===ERROR==="
+              print*, " order of delta function is not selected "
               stop
 
           end Select

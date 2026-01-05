@@ -87,7 +87,7 @@
 
           master=0  ! 0 is going to be always the master processor
 
-          open (unit=1, file='input/geom.cin')
+          open (unit=1, file="input/geom.cin")
           read (1,*)
           read (1,*) yangcase
           read (1,*) mdfsteps
@@ -161,7 +161,7 @@
               endif
 
               if(intflow(i) .eqv. .true.) then
-              write(6,*)' This is not implemented in the current version'
+              write(6,*)" This is not implemented in the current version"
               STOP
               endif
 
@@ -171,10 +171,10 @@
               i = i + 1
           End do
           close (1)
-          WRITE(6,*)' '
-          WRITE(6,*)' '
-          WRITE(6,*)'=================================================='
-          WRITE(6,*)'===========  Immersed Boundary Details  =========='
+          WRITE(6,*)" "
+          WRITE(6,*)" "
+          WRITE(6,*)"=================================================="
+          WRITE(6,*)"===========  Immersed Boundary Details  =========="
 
 !CALCULATE TO WHICH BLOCK IS THE CENTRE OF THE BODIES
   545     CONTINUE
@@ -201,7 +201,7 @@
               IF (imb_shape(i)==5) call imb_file(IBMnum(i))
 !          IF (imb_shape(i).eq.6) call imb_pipe(IBMnum(i))
               maxnodeIBS=maxnodeIBS+nodes(i)
-              IF (maxnodeIBS>maxn) write(6,*)'Too many ib points'
+              IF (maxnodeIBS>maxn) write(6,*)"Too many ib points"
               IF (maxnodeIBS>maxn) STOP
           Enddo
 
@@ -221,14 +221,14 @@
                   IF (rotating(K) .AND. imb_shape(K)==5) then  !Rotating VATT
 
                   if(K==1 .and. i==1) then
-                  WRITE(6,*)' '
-                  WRITE(6,*)'=========== Rotating Parameters  ========= '
+                  WRITE(6,*)" "
+                  WRITE(6,*)"=========== Rotating Parameters  ========= "
                   endif
 
-                  write(char_block,'(I8)') L
+                  write(char_block,"(I8)") L
                   strlen=LEN(TRIM(ADJUSTL(char_block)))
-                  char_block=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block))
-                  gridfile='F_Blade_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  char_block=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block))
+                  gridfile="F_Blade_"//TRIM(ADJUSTL(char_block))//".dat"
                   open (unit=forcefilej, file=gridfile, status="unknown", &
             action="write")
                   write (forcefilej,*)'Variables="TIME","Deg","Fx","Fy","Fz"'
@@ -236,29 +236,29 @@
                   lambda=radsin(K)*R(K)/1.0_dp
                   sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416_dp)
                   revoltime=2.d0*PI/radsin(K)
-                  write(6,'(a,i1)')   '        Turbine  ',K,''
-                  write(6,'(a,f12.3)')'        TSR     :',lambda
-                  write(6,'(a,f12.3)')'        Solidity:',sigma
-                  WRITE(6,*)' '
+                  write(6,"(a,i1)")   "        Turbine  ",K,""
+                  write(6,"(a,f12.3)")"        TSR     :",lambda
+                  write(6,"(a,f12.3)")"        Solidity:",sigma
+                  WRITE(6,*)" "
                   ENDIF
                   ELSE
-                  write(char_block,'(I8)') L
+                  write(char_block,"(I8)") L
                   strlen=LEN(TRIM(ADJUSTL(char_block)))
-                  char_block=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block))
+                  char_block=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block))
                   if(imb_shape(K)==1) then
-                  gridfile='F_Squ_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  gridfile="F_Squ_"//TRIM(ADJUSTL(char_block))//".dat"
                   endif
                   if(imb_shape(K)==2) then
-                  gridfile='F_Cyl_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  gridfile="F_Cyl_"//TRIM(ADJUSTL(char_block))//".dat"
                   endif
                   if(imb_shape(K)==3) then
-                  gridfile='F_Cub_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  gridfile="F_Cub_"//TRIM(ADJUSTL(char_block))//".dat"
                   endif
                   if(imb_shape(K)==4) then
-                  gridfile='F_Sph_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  gridfile="F_Sph_"//TRIM(ADJUSTL(char_block))//".dat"
                   endif
                   if(imb_shape(K)==5) then
-                  gridfile='F_Body_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  gridfile="F_Body_"//TRIM(ADJUSTL(char_block))//".dat"
                   endif
 
                   open (unit=forcefilej, file=gridfile)
@@ -274,12 +274,12 @@
 !      endif
           ENDDO  !M
 
-          open (unit=757, file= 'l2norm.dat')
+          open (unit=757, file= "l2norm.dat")
           write(757,*)'Variables="Time","l2-norm","l1norm"'
-          WRITE(6,*)' '
-          WRITE(6,*)'Total # of IB POINTS.........',maxnodeIBS
-          WRITE(6,*)' '
-          WRITE(6,*)'=================================================='
+          WRITE(6,*)" "
+          WRITE(6,*)"Total # of IB POINTS.........",maxnodeIBS
+          WRITE(6,*)" "
+          WRITE(6,*)"=================================================="
 !   write(6,*)'        Mesh sizes at the IB domain           '
 !   write(6,'(a,f12.4,a,f12.4)')'    dx:',dx,'      dy:', dy
 !   WRITE(6,*)' '
@@ -488,10 +488,10 @@
           Call PartLoc
 
           IF(itime==itime_start) then
-          if(myrank==master)write(6,*)'Delta functions initiating'
+          if(myrank==master)write(6,*)"Delta functions initiating"
           Call Deltah
           call MPI_BARRIER(MPI_COMM_WORLD,IERR)
-          if(myrank==master)write(6,*)'Delta functions generated'
+          if(myrank==master)write(6,*)"Delta functions generated"
           ENDIF
 
       END SUBROUTINE IB_previous
@@ -558,12 +558,12 @@
           do L=1,num_domains  !Check in all the domains
               tnm=tnm+imbinblk(L)
               IF (itime==itime_start .AND. imbinblk(L)/=0) &
-           write(6,*)'Dom,#markrs',L-1,imbinblk(L),tnm
+           write(6,*)"Dom,#markrs",L-1,imbinblk(L),tnm
               imbinblock_loc(L)=imbinblk(L)  !New variable for all the other MPI
           enddo
           !Warning if some point is not assigned to some domain
           if(tnm<maxnodeIBS) &
-      write(6,*)'Some Lagrangian are not assigned to a domain!!!CHECK'
+      write(6,*)"Some Lagrangian are not assigned to a domain!!!CHECK"
 
 !        do ib=1,nbp !------------------------- Aleks 04/23
 !                tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j
@@ -811,7 +811,7 @@
               Enddo
   600         CONTINUE
 
-              if(myrank==master)   write(6,*)'Ended',ib
+              if(myrank==master)   write(6,*)"Ended",ib
 
           ENDDO
 
@@ -926,8 +926,8 @@
               Enddo
           enddo
 
-          if (bodynum==1) write(757,'(3f20.5)')CTIME,l2norm(1),l1norm
-          if (bodynum>=2) write(757,'(3f20.5)')CTIME,l2norm(1),l2norm(2)
+          if (bodynum==1) write(757,"(3f20.5)")CTIME,l2norm(1),l1norm
+          if (bodynum>=2) write(757,"(3f20.5)")CTIME,l2norm(1),l2norm(2)
 
           ENDIF
 
@@ -999,7 +999,7 @@
   210                 CONTINUE
                   END DO
 
-                  if (nl==0) write(6,*)L,'nl is equal to 0!!'
+                  if (nl==0) write(6,*)L,"nl is equal to 0!!"
 
                   U_Beta1_loc(L)=U_Beta1_loc(L)*1.0d0/dhtotal
 
@@ -1214,7 +1214,7 @@
   250                 CONTINUE
                   END DO
 
-                  if (nl==0) write(6,*)L,'nl is equal to 0!!'
+                  if (nl==0) write(6,*)L,"nl is equal to 0!!"
 
                   T_Beta_loc(L) =T_Beta_loc(L)*1.d0/dhtotal
 

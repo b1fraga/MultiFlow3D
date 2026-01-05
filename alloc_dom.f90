@@ -33,16 +33,16 @@
                   if (rdivmy/=rdivng) then
                   if (rdivmy>rdivng) then
                   if (rdivmy /= 2*rdivng) then
-                  print*, '====ERROR1===>  wrong rdiv',dom_id(ib)
+                  print*, "====ERROR1===>  wrong rdiv",dom_id(ib)
                   stop
                   end if
                   else if (rdivmy<rdivng) then
                   if (2*rdivmy /= rdivng) then
-                  print*, '====ERROR2===>  wrong rdiv',dom_id(ib)
+                  print*, "====ERROR2===>  wrong rdiv",dom_id(ib)
                   stop
                   end if
                   else
-                  print*, '===ERROR==='
+                  print*, "===ERROR==="
                   end if
                   end if
                   end if
@@ -54,16 +54,16 @@
                   if (rdivmy/=rdivng) then
                   if (rdivmy>rdivng) then
                   if (rdivmy /= 2*rdivng) then
-                  print*, '====ERROR3===>  wrong rdiv',dom_id(ib)
+                  print*, "====ERROR3===>  wrong rdiv",dom_id(ib)
                   stop
                   end if
                   else if (rdivmy<rdivng) then
                   if (2*rdivmy /= rdivng) then
-                  print*, '====ERROR4===>  wrong rdiv',dom_id(ib)
+                  print*, "====ERROR4===>  wrong rdiv",dom_id(ib)
                   stop
                   end if
                   else
-                  print*, '===ERROR==='
+                  print*, "===ERROR==="
                   end if
                   end if
                   end if
@@ -98,12 +98,12 @@
                       if (rdivmy/=rdivng) then
                       if (rdivmy>rdivng) then
                       if (rdivmy /= 2*rdivng) then
-                      print*, '====ERRORcor-p===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORcor-p===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
-                      print*, '====ERRORcor-p===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORcor-p===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       end if
@@ -116,12 +116,12 @@
                       if (rdivmy/=rdivng) then
                       if (rdivmy>rdivng) then
                       if (rdivmy /= 2*rdivng) then
-                      print*, '====ERRORcor-n===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORcor-n===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
-                      print*, '====ERRORcor-n===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORcor-n===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       end if
@@ -162,12 +162,12 @@
                       if (rdivmy/=rdivng) then
                       if (rdivmy>rdivng) then
                       if (rdivmy /= 2*rdivng) then
-                      print*, '====ERRORedg-p===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORedg-p===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
-                      print*, '====ERRORedg-p===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORedg-p===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       end if
@@ -180,12 +180,12 @@
                       if (rdivmy/=rdivng) then
                       if (rdivmy>rdivng) then
                       if (rdivmy /= 2*rdivng) then
-                      print*, '====ERRORedg-n===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORedg-n===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       else  !if (rdivmy.lt.rdivng) then
                       if (2*rdivmy /= rdivng) then
-                      print*, '====ERRORedg-n===>  wrong rdiv',dom_id(ib),dir
+                      print*, "====ERRORedg-n===>  wrong rdiv",dom_id(ib),dir
                       stop
                       end if
                       end if
@@ -208,7 +208,7 @@
               if (dom(ib)%inext>=0) then
               my_cor=dom(ib)%per_ip
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCw',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCw",dom_id(ib)
               stop
               end if
               end if
@@ -218,7 +218,7 @@
               if (dom(ib)%iprev>=0) then
               my_cor=dom(ib)%per_in
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCe',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCe",dom_id(ib)
               stop
               end if
               end if
@@ -231,7 +231,7 @@
               if (dom(ib)%jnext>=0) then
               my_cor=dom(ib)%per_jp
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCs',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCs",dom_id(ib)
               stop
               end if
               end if
@@ -241,7 +241,7 @@
               if (dom(ib)%jprev>=0) then
               my_cor=dom(ib)%per_jn
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCn',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCn",dom_id(ib)
               stop
               end if
               end if
@@ -254,7 +254,7 @@
               if (dom(ib)%knext>=0) then
               my_cor=dom(ib)%per_kp
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCb',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCb",dom_id(ib)
               stop
               end if
               end if
@@ -264,7 +264,7 @@
               if (dom(ib)%kprev>=0) then
               my_cor=dom(ib)%per_kn
               if(rdiv(dom_id(ib))/=rdiv(my_cor)) then
-              print*,'==ERROR==>wrong rdiv for perBCt',dom_id(ib)
+              print*,"==ERROR==>wrong rdiv for perBCt",dom_id(ib)
               stop
               end if
               end if
@@ -293,24 +293,24 @@
 
           if (myrank==0) then
           numfile=1001
-          open (unit=numfile, file='output.dat')
+          open (unit=numfile, file="output.dat")
           end if
 
-          open (unit=12, file='input/mdmap.cin')
+          open (unit=12, file="input/mdmap.cin")
 
           read (12,*) num_domains  !number of domains
           read (12,*) nptemp  !number of processors
 
           if (nprocs /= nptemp) then
-          print*, '=====ERROR====='
-          print*, 'number of cpus do not match map file'
+          print*, "=====ERROR====="
+          print*, "number of cpus do not match map file"
           stop
           end if
 
           if (num_domains > 9999) then
-          print*, '=====ERROR====='
-          print*, 'number of domains are exceeding', &
-    ' the limit in exchange subroutine'
+          print*, "=====ERROR====="
+          print*, "number of domains are exceeding", &
+    " the limit in exchange subroutine"
           stop
           end if
 
@@ -357,12 +357,12 @@
           if(myrank==0) then
           do i=0,num_domains-1
               if(dom_ad(i)==-1) then
-              print*,'unidentified domain in mdmap no:',i
-              print*,'ERROR! check mdmap.cin'
+              print*,"unidentified domain in mdmap no:",i
+              print*,"ERROR! check mdmap.cin"
               stop
               end if
-              print*, 'dom:',i,' cpu:',dom_ad(i),' ib:',dom_indid(i)
-              write(numfile,*) 'dom:',i,' cpu:',dom_ad(i),' ib:',dom_indid(i)
+              print*, "dom:",i," cpu:",dom_ad(i)," ib:",dom_indid(i)
+              write(numfile,*) "dom:",i," cpu:",dom_ad(i)," ib:",dom_indid(i)
           end do
           end if
 
@@ -386,14 +386,14 @@
           !       real(dp)::xs2,xe2,ys2,ye2,zs2,ze2
           character(len=80) :: dummyline
 
-          open (unit=12, file='input/infodom.cin')
+          open (unit=12, file="input/infodom.cin")
 
           read (12,*) ndoms  !number of domains
           read (12,*) dummyline
 
           if (ndoms /= num_domains) then
-          print*, '=====ERROR====='
-          print*, 'number of domains does not match infodom file'
+          print*, "=====ERROR====="
+          print*, "number of domains does not match infodom file"
           stop
           end if
 
@@ -446,7 +446,7 @@
         .and. zcor(i,1)==zst) prefdom=i
           end do
 
-          if(myrank==0) print*,'pressure reference domain is ',prefdom
+          if(myrank==0) print*,"pressure reference domain is ",prefdom
 
           if(prefdom<0) then
 !           print*,'ERROR about prefdom!!!!!!'
@@ -482,8 +482,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' previous neighbor in x direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " previous neighbor in x direction"
               stop
               end if
 
@@ -506,8 +506,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' next neighbor in x direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " next neighbor in x direction"
               stop
               end if
 
@@ -531,8 +531,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' previous neighbor in y direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " previous neighbor in y direction"
               stop
               end if
 
@@ -555,8 +555,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' next neighbor in y direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " next neighbor in y direction"
               stop
               end if
 
@@ -580,8 +580,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' previous neighbor in z direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " previous neighbor in z direction"
               stop
               end if
 
@@ -604,8 +604,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' next neighbor in z direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " next neighbor in z direction"
               stop
               end if
 
@@ -642,7 +642,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Previous #2 NEIGHBOR ==================
               say=0;
@@ -656,7 +656,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Previous #3 NEIGHBOR ==================
               say=0;
@@ -670,7 +670,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Previous #4 NEIGHBOR ==================
               say=0;
@@ -684,7 +684,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Next #1 NEIGHBOR ==================
               say=0;
@@ -698,7 +698,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Next #2 NEIGHBOR ==================
               say=0;
@@ -712,7 +712,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Next #3 NEIGHBOR ==================
               say=0;
@@ -726,7 +726,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 !==================CORNER Next #4 NEIGHBOR ==================
               say=0;
@@ -740,7 +740,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one cr-ng'; stop
+              print*,dom_id(ib)," has more than one cr-ng"; stop
               end if
 
 
@@ -781,7 +781,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Previous #2 NEIGHBOR ==================
               say=0;
@@ -797,7 +797,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Previous #3 NEIGHBOR ==================
               say=0;
@@ -813,7 +813,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Previous #4 NEIGHBOR ==================
               say=0;
@@ -829,7 +829,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Previous #5 NEIGHBOR ==================
               say=0;
@@ -845,7 +845,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Previous #6 NEIGHBOR ==================
               say=0;
@@ -861,7 +861,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #1 NEIGHBOR ==================
               say=0;
@@ -877,7 +877,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #2 NEIGHBOR ==================
               say=0;
@@ -893,7 +893,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #3 NEIGHBOR ==================
               say=0;
@@ -909,7 +909,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #4 NEIGHBOR ==================
               say=0;
@@ -925,7 +925,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #5 NEIGHBOR ==================
               say=0;
@@ -941,7 +941,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 !==================EDGE Next #6 NEIGHBOR ==================
               say=0;
@@ -957,7 +957,7 @@
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib),' has more than one edg-ng'; stop
+              print*,dom_id(ib)," has more than one edg-ng"; stop
               end if
 
 !        write (6,5602) dom_id(ib),dom(ib)%edgprev1,dom(ib)%edgprev2,
@@ -1000,8 +1000,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic previous neighbor in x direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic previous neighbor in x direction"
               stop
               end if
 
@@ -1028,8 +1028,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic next neighbor in x direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic next neighbor in x direction"
               stop
               end if
 
@@ -1056,8 +1056,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic previous neighbor in y direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic previous neighbor in y direction"
               stop
               end if
 
@@ -1084,8 +1084,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic next neighbor in y direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic next neighbor in y direction"
               stop
               end if
 
@@ -1112,8 +1112,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic previous neighbor in z direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic previous neighbor in z direction"
               stop
               end if
 
@@ -1140,8 +1140,8 @@
               end do
 
               if(say>1) then
-              print*,'dom#:',dom_id(ib),' has more than one', &
-        ' periodic next neighbor in z direction'
+              print*,"dom#:",dom_id(ib)," has more than one", &
+        " periodic next neighbor in z direction"
               stop
               end if
 
@@ -1354,31 +1354,31 @@
 !**************************************************************************
 
           if (myrank==0) then
-          write (6,*) '===== end of connectivity information ===== '
-          write (6,*) ' '
-          write (6,*) ' '
-          write (numfile,*) '=== end of connectivity information === '
-          write (numfile,*) ' '
-          write (numfile,*) ' '
+          write (6,*) "===== end of connectivity information ===== "
+          write (6,*) " "
+          write (6,*) " "
+          write (numfile,*) "=== end of connectivity information === "
+          write (numfile,*) " "
+          write (numfile,*) " "
           end if
 
 
- 5501     format(/1x,'neighbors of dom#:',i5,' ip:',i5,' in:',i5, &
-     ' jp:', i5,' jn:',i5,' kp:',i5,' kn:',i5)
- 5601     format(/1x,'cor-neighbors of dom#:',i5,' pr1:',i5,' pr2:',i5, &
-     ' pr3:', i5,' pr4:',i5,' nx1:',i5,' nx2:',i5, &
-     ' nx3:', i5,' nx4:',i5)
- 5602     format(/1x,'edge-neighbors of dom#:',i5,' pr1:',i5,' pr2:',i5, &
-     ' pr3:', i5,' pr4:',i5,' pr5:',i5,' pr6:',i5, &
-     ' nx1:', i5,' nx2:',i5,' nx3:',i5,' nx4:',i5, &
-     ' nx5:', i5,' nx6:',i5)
+ 5501     format(/1x,"neighbors of dom#:",i5," ip:",i5," in:",i5, &
+     " jp:", i5," jn:",i5," kp:",i5," kn:",i5)
+ 5601     format(/1x,"cor-neighbors of dom#:",i5," pr1:",i5," pr2:",i5, &
+     " pr3:", i5," pr4:",i5," nx1:",i5," nx2:",i5, &
+     " nx3:", i5," nx4:",i5)
+ 5602     format(/1x,"edge-neighbors of dom#:",i5," pr1:",i5," pr2:",i5, &
+     " pr3:", i5," pr4:",i5," pr5:",i5," pr6:",i5, &
+     " nx1:", i5," nx2:",i5," nx3:",i5," nx4:",i5, &
+     " nx5:", i5," nx6:",i5)
 
- 5502     format(/1x,'periodic ng of dom#:',i5,' i-prev periodic ng:',i5)
- 5503     format(/1x,'periodic ng of dom#:',i5,' i-next periodic ng:',i5)
- 5504     format(/1x,'periodic ng of dom#:',i5,' j-prev periodic ng:',i5)
- 5505     format(/1x,'periodic ng of dom#:',i5,' j-next periodic ng:',i5)
- 5506     format(/1x,'periodic ng of dom#:',i5,' k-prev periodic ng:',i5)
- 5507     format(/1x,'periodic ng of dom#:',i5,' k-next periodic ng:',i5)
+ 5502     format(/1x,"periodic ng of dom#:",i5," i-prev periodic ng:",i5)
+ 5503     format(/1x,"periodic ng of dom#:",i5," i-next periodic ng:",i5)
+ 5504     format(/1x,"periodic ng of dom#:",i5," j-prev periodic ng:",i5)
+ 5505     format(/1x,"periodic ng of dom#:",i5," j-next periodic ng:",i5)
+ 5506     format(/1x,"periodic ng of dom#:",i5," k-prev periodic ng:",i5)
+ 5507     format(/1x,"periodic ng of dom#:",i5," k-next periodic ng:",i5)
 
 !   xst=max(xst,xs2)
 !   xen=min(xen,xe2)
@@ -1401,44 +1401,44 @@
           aa=110+myrank
 
           do ib=1,nbp
-              write(aa,*) 'dom_id:',dom_id(ib),' ib:',ib
+              write(aa,*) "dom_id:",dom_id(ib)," ib:",ib
 
-              write(aa,*) 'iprev',dom(ib)%iprev
+              write(aa,*) "iprev",dom(ib)%iprev
               if(dom(ib)%iprev>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%iprev)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%iprev)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%iprev)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%iprev)
               end if
-              write(aa,*) ' '
-              write(aa,*) 'inext',dom(ib)%inext
+              write(aa,*) " "
+              write(aa,*) "inext",dom(ib)%inext
               if(dom(ib)%inext>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%inext)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%inext)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%inext)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%inext)
               end if
-              write(aa,*) ' '
-              write(aa,*) 'jprev',dom(ib)%jprev
+              write(aa,*) " "
+              write(aa,*) "jprev",dom(ib)%jprev
               if(dom(ib)%jprev>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%jprev)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%jprev)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%jprev)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%jprev)
               end if
-              write(aa,*) ' '
-              write(aa,*) 'jnext',dom(ib)%jnext
+              write(aa,*) " "
+              write(aa,*) "jnext",dom(ib)%jnext
               if(dom(ib)%jnext>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%jnext)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%jnext)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%jnext)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%jnext)
               end if
-              write(aa,*) ' '
-              write(aa,*) 'kprev',dom(ib)%kprev
+              write(aa,*) " "
+              write(aa,*) "kprev",dom(ib)%kprev
               if(dom(ib)%kprev>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%kprev)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%kprev)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%kprev)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%kprev)
               end if
-              write(aa,*) ' '
-              write(aa,*) 'knext',dom(ib)%knext
+              write(aa,*) " "
+              write(aa,*) "knext",dom(ib)%knext
               if(dom(ib)%knext>=0) then
-              write(aa,*) ' neig_add:',dom_ad(dom(ib)%knext)
-              write(aa,*) ' neig_ib:',dom_indid(dom(ib)%knext)
+              write(aa,*) " neig_add:",dom_ad(dom(ib)%knext)
+              write(aa,*) " neig_ib:",dom_indid(dom(ib)%knext)
               end if
-              write(aa,*) '*************'
+              write(aa,*) "*************"
           end do
 
 

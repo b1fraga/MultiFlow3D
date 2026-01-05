@@ -109,8 +109,8 @@
           np = np - out_cnt
 
           if (out_cnt>0) then
-          write(202,*) ntime,'Removing',out_cnt,'particles' &
-    ,'. Total remaining:',np
+          write(202,*) ntime,"Removing",out_cnt,"particles" &
+    ,". Total remaining:",np
           endif
 
           deallocate (out_pt)
@@ -198,7 +198,7 @@
 
 !1 calculating new np
 
-          open(15,file='input/LPT.cin')
+          open(15,file="input/LPT.cin")
           read(15,*)
           read(15,*)
           read(15,*) nfrac              !how many Lag fractions you want to calculate BF2023
@@ -214,8 +214,8 @@
               read(15,*) ptnr
               if ((tsnr>0).and.(mod(itime,tsnr)==0)) then
               np=np+ptnr
-              write(202,*) ntime,'Releasing',ptnr,'new particles ', &
-        'within fraction',f
+              write(202,*) ntime,"Releasing",ptnr,"new particles ", &
+        "within fraction",f
               endif
 
               read(15,*)                    !dp
@@ -268,7 +268,7 @@
 
 !3 initiallising variables for np_old,np
 
-          open(35,file='input/LPT.cin')       !reopen the file to read the details of every fraction
+          open(35,file="input/LPT.cin")       !reopen the file to read the details of every fraction
           read(35,*)
           read(35,*)                    !PSIcell
           read(35,*)                    !nfrac

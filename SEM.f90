@@ -63,8 +63,8 @@
                   lkdom(I) = elemzen(I) -  elemzst(I) + 1
               enddo ; enddo
 
-          write(6,*)'Divisions :',DIVY,DIVZ
-          write(6,*)'# BLOCKS  :',jdom,kdom
+          write(6,*)"Divisions :",DIVY,DIVZ
+          write(6,*)"# BLOCKS  :",jdom,kdom
           write(6,*)lsy(1),ley(1),lsy(2),ley(2),ley(2)-lsy(2)+1
           write(6,*)lsz(1),lez(1),lsz(2),lez(2),lez(2)-lsz(2)+1
 
@@ -76,7 +76,7 @@
 ![N](INTEGER) AND [ENNE](real(dp)) REPRESENT THE NUMBER OF EDDIES
           N = INT(NE_SEM)   ;  ENNE = REAL(N)
 
-          if(myrank==0) write(6,*) 'The number of SEM eddies is :', N
+          if(myrank==0) write(6,*) "The number of SEM eddies is :", N
 
 !  [REYNOLDS(6)] IS A VECTOR WITH THE SIX ELEMENTS OF REYNOLDS STRESSES.
 !  |REYNOLDS(1)  REYNOLDS(2)  REYNOLDS(4)|
@@ -154,18 +154,18 @@
 !BEGINNING OF TIME ITERATIONS
           DO IT=1,ITMAX_SEM         !PARALLELIZE THIS LOOP
               if(mod(IT,50)==0) &
-         WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,'[S]'
+         WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,"[S]"
 
 !PRINTINGS OF GLOBAL VELOCITY AND OF CONVECTION VELOCITY
               Do I=1,jdom*kdom
                   IGLOBAL=500+I
-                  WRITE (FILEGLOBAL,'(A13,i4.4,a1,I6.6,A4)') &
-            'inflow/Inlet_',iddom(I),'_',IT,'.dat'
+                  WRITE (FILEGLOBAL,"(A13,i4.4,a1,I6.6,A4)") &
+            "inflow/Inlet_",iddom(I),"_",IT,".dat"
                   OPEN(UNIT=IGLOBAL,FILE=FILEGLOBAL,STATUS="UNKNOWN", &
             ACTION="WRITE")
-                  WRITE (IGLOBAL,*)'Variables=up,vp,wp'
+                  WRITE (IGLOBAL,*)"Variables=up,vp,wp"
                   WRITE (IGLOBAL,*) &
-            'zone ',' i=',ljdom(I),',',' j=',lkdom(I),', k= ',1,' f=point'
+            "zone "," i=",ljdom(I),","," j=",lkdom(I),", k= ",1," f=point"
               Enddo
 
               MOLT = MATMUL(R,EPSILO)  ! !aij*epsij   MATRIX MULTIPLICATION
@@ -197,13 +197,13 @@
               END DO
 
 !    write(6,*) '========='
-              write(6,'(i6,2f15.6)')IT,MAXVSEM,MINVSEM
+              write(6,"(i6,2f15.6)")IT,MAXVSEM,MINVSEM
 !------END OF SPATIAL ITERATIONS
               Do I=1,jdom*kdom
                   IGLOBAL=500+I
                   Do M=elemzst(I),elemzen(I)
                       Do J=elemyst(I),elemyen(I)
-                          WRITE(500+I,'(3E15.6)')Vsem(J,M,:)                !turn down precision for large files
+                          WRITE(500+I,"(3E15.6)")Vsem(J,M,:)                !turn down precision for large files
                       enddo ;enddo
                   CLOSE (UNIT=IGLOBAL)
               Enddo

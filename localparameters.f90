@@ -20,7 +20,7 @@
           else if(LMR==2) then
           pl=2+pl_ex
           else
-          print*,'error: wrong LMR selection!!, STOP'
+          print*,"error: wrong LMR selection!!, STOP"
           stop
           end if
 
@@ -83,17 +83,17 @@
               n3=(dom(ib)%zel-dom(ib)%zsl)/g_dz
 
               if (abs(n1-nint(n1))>1E-8_dp) then
-              print*,'error1 in localparameters', &
+              print*,"error1 in localparameters", &
         dom_id(ib),(dom(ib)%xel-dom(ib)%xsl),g_dx,n1
               stop
               end if
               if (abs(n2-nint(n2))>1E-8_dp) then
-              print*,'error2 in localparameters', &
+              print*,"error2 in localparameters", &
         dom_id(ib),(dom(ib)%yel-dom(ib)%ysl),g_dy,n2
               stop
               end if
               if (abs(n3-nint(n3))>1E-8_dp) then
-              print*,'error3 in localparameters', &
+              print*,"error3 in localparameters", &
         dom_id(ib),(dom(ib)%zel-dom(ib)%zsl),g_dz,n3
               stop
               end if
@@ -202,7 +202,7 @@
               pow2=2**(dom(ib)%ngrid-1)
               if(mod(nicell,pow2)/=0 .or. mod(njcell,pow2)/=0 &
         .or. mod(nkcell,pow2)/=0) then
-              print*,'2:the given number not correct for mgsolver!'
+              print*,"2:the given number not correct for mgsolver!"
               stop
               end if
 
@@ -240,8 +240,8 @@
               end if
 
 
-              write (6,88) 'mydom#:',dom_id(ib),' i:',dom(ib)%ttc_i, &
-        ' j:',dom(ib)%ttc_j,' k:',dom(ib)%ttc_k
+              write (6,88) "mydom#:",dom_id(ib)," i:",dom(ib)%ttc_i, &
+        " j:",dom(ib)%ttc_j," k:",dom(ib)%ttc_k
 
               dom(ib)%dx=g_dx/real(rdiv(dom_id(ib)))
               dom(ib)%dy=g_dy/real(rdiv(dom_id(ib)))

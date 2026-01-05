@@ -258,7 +258,7 @@
                       do j=dom(ib)%jsp,dom(ib)%jep
                           if (dom(ib)%S(i,j,k) > 100) then
 !   call tecplot_S(itime)
-                          write(6,*)'ERROR: scalar too big'
+                          write(6,*)"ERROR: scalar too big"
                           stop
                           end if
                       end do

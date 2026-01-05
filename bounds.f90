@@ -55,17 +55,17 @@
 
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
 
                   open (unit=405, file=filename)
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -74,15 +74,15 @@
                   close (405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I6)') ireadinlet
+                  write(name_end,"(I6)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(6-strlen))// &
+                  name_end=REPEAT("0",(6-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "000001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)
@@ -399,17 +399,17 @@
                   endif
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
                   open (unit=405, file=filename)
                   do k=dom(ib)%ksu-1,dom(ib)%keu+1
                       do j=dom(ib)%jsu-1,dom(ib)%jeu+1
@@ -421,15 +421,15 @@
                   close(405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)
@@ -689,17 +689,17 @@
                   endif
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
                   open (unit=405, file=filename)
                   do k=dom(ib)%ksu-1,dom(ib)%keu+1
                       do j=dom(ib)%jsu-1,dom(ib)%jeu+1
@@ -715,15 +715,15 @@
                   close(405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)

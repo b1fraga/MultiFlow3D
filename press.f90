@@ -383,8 +383,8 @@
  3000     continue
 
           if(rmax>100.0_dp) then
-          if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
-          write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
+          if(myrank==0) write(numfile,*)"BIG RMAX!! STOP!!!!!",rmax
+          write(6,*)"BIG RMAX!! STOP!!!!!!!!",rmax
 
           !call tecgrid(itime)
           !call tecplot_p(itime)
@@ -394,8 +394,8 @@
           !call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
           if(myrank==0) then
-          open (unit=101, file='final_ctime.dat')
-          write (101,'(i8,3F15.6)') &
+          open (unit=101, file="final_ctime.dat")
+          write (101,"(i8,3F15.6)") &
     ntime,ctime,forcn,qstpn,count
           close(101)
           end if
@@ -411,12 +411,12 @@
 
           if (myrank==0) then
           wtimedum = MPI_WTIME ( ) - wtime
-          write (6,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
-     ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
-     ' sweeps:',nsweeps,' rmax:',rmax
-          write (numfile,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
-     ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
-     ' sweeps:',nsweeps,' rmax:',rmax
+          write (6,"(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)") &
+     " myrank:",myrank," ntime:",ntime," iters:",iter, &
+     " sweeps:",nsweeps," rmax:",rmax
+          write (numfile,"(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)") &
+     " myrank:",myrank," ntime:",ntime," iters:",iter, &
+     " sweeps:",nsweeps," rmax:",rmax
 !           write(numfile2,'(i8,f15.6,3e20.6)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if

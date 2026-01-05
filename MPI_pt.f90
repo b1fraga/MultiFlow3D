@@ -463,8 +463,8 @@
               endif
           enddo
           if (ii/=np_loc) then
-          write(6,*)'MPI ERROR in proc:',myrank
-          write(6,*)'np_loc=',np_loc,'=/=',ii
+          write(6,*)"MPI ERROR in proc:",myrank
+          write(6,*)"np_loc=",np_loc,"=/=",ii
           stop
           endif
 
@@ -501,8 +501,8 @@
               endif
           enddo
           if (iii/=npg_loc) then
-          write(6,*)'MPI ERROR in proc (ghost particles):',myrank
-          write(6,*)'npg_loc=',npg_loc,'=/=',iii
+          write(6,*)"MPI ERROR in proc (ghost particles):",myrank
+          write(6,*)"npg_loc=",npg_loc,"=/=",iii
           stop
           endif
 

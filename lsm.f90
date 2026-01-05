@@ -11,7 +11,7 @@
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k
 
 !READING
-          open (unit=13, file='input/lsm.cin')
+          open (unit=13, file="input/lsm.cin")
           read (12,*)
           read (12,*) reinit,ntime_reinit,reldif_LSM,length,accuracy &
     ,cfl_lsm
@@ -25,36 +25,36 @@
 !WARNINGS
           if (L_LSMinit .and. (L_anim_phi .or. L_anim_grd)) then
           if (myrank==0) then
-          print*,'Error: not possible to output animation files', &
-    '  for LSM_init run!'
+          print*,"Error: not possible to output animation files", &
+    "  for LSM_init run!"
           endif
           stop
           endif
 
           if (L_LSMbase .and. L_LSMinit) then
           if (myrank==0) then
-          print*,'Error: L_LSMbase and L_LSMinit cannot both be true!'
+          print*,"Error: L_LSMbase and L_LSMinit cannot both be true!"
           endif
           stop
           endif
 
           if (L_LSMbase .and. L_LSM) then
           if (myrank==0) then
-          print*,'Error: L_LSMbase and L_LSM cannot both be true!'
+          print*,"Error: L_LSMbase and L_LSM cannot both be true!"
           endif
           stop
           endif
 
           if (L_LSMinit .and. (.not.L_LSM)) then
           if (myrank==0) then
-          print*,'Error: L_LSMinit cannot be true if L_LSM is false!'
+          print*,"Error: L_LSMinit cannot be true if L_LSM is false!"
           endif
           stop
           endif
 
           if (L_anim_phi .and. (.not.L_LSM)) then
           if (myrank==0) then
-          print*,'Error: L_anim_phi cannot be true if L_LSM is false!'
+          print*,"Error: L_anim_phi cannot be true if L_LSM is false!"
           endif
           stop
           endif
@@ -477,7 +477,7 @@
 !
 ! Hold level to be held constant at inflow and outflow (if required - may help with stability in inflow-outflow sims)
 !
-                          if (trim(keyword)=='channel' .and. lends) then
+                          if (trim(keyword)=="channel" .and. lends) then
                           if (dom(ib)%iprev<0) then
                           if ((i>=dom(ib)%isu).and.(i<=dom(ib)%isu+5)) then
                           if (dom(ib)%zc(k)<length)   then
@@ -782,8 +782,8 @@
           end do
 
           if (myrank==0) then
-          write(*,*) 'norm v (reinit)', max_abs, 'needed steps', it
-          write(numfile3,'(i8,f18.8,i8,2f18.8)') ntime,max_abs,it,ctime, &
+          write(*,*) "norm v (reinit)", max_abs, "needed steps", it
+          write(numfile3,"(i8,f18.8,i8,2f18.8)") ntime,max_abs,it,ctime, &
     dt
           endif
 

@@ -12,10 +12,10 @@
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Squ_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Squ_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -109,10 +109,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') numIB
+          write(char_block2,"(I8)") numIB
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Cyl_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Cyl_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -180,8 +180,8 @@
           close (2)
 
 
-          write (6,*) ' '
-          write (6,87) '** CYLINDER',numIB,',  # of nodes  :',nodes(numIB)
+          write (6,*) " "
+          write (6,87) "** CYLINDER",numIB,",  # of nodes  :",nodes(numIB)
 
    87     FORMAT (a,i2,a,i5)
    89     FORMAT (3e20.5)
@@ -203,10 +203,10 @@
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Cube_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Cube_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -222,7 +222,7 @@
           if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999_dp) &
     then
           nin=nin+1
-          print*,'absurd-x!!!!!'
+          print*,"absurd-x!!!!!"
           end if
           nin=nin+1
 
@@ -230,7 +230,7 @@
           if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999_dp) &
     then
           njn=njn+1
-          print*,'absurd-y!!!!!'
+          print*,"absurd-y!!!!!"
           end if
           njn=njn+1
 
@@ -238,7 +238,7 @@
           if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999_dp) &
     then
           nkn=nkn+1
-          print*,'absurd-y!!!!!'
+          print*,"absurd-y!!!!!"
           end if
           nkn=nkn+1
 
@@ -306,10 +306,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Sphere_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Sphere_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
 
           maxnzr=0 ;   maxnode = 0
@@ -357,7 +357,7 @@
   555         CONTINUE
               ctot_layer(M,izr) = c - 1
               if(ctot_layer(M,izr) > 100) then
-              print*, 'allocate problem in Rtemp_layer'
+              print*, "allocate problem in Rtemp_layer"
               end if
           end do
 
@@ -409,10 +409,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') numIB
+          write(char_block2,"(I8)") numIB
           strlen=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_body_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_body_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
 !----      Load the file and proceed to interpolate     ----------
           open(unit=1, file=filepoints(numIB))
@@ -504,7 +504,7 @@
                   ENDDO
               Enddo
             CASE (-1)
-              write(6,*)'No extrusion of Body #',numIB
+              write(6,*)"No extrusion of Body #",numIB
               allocate(xfile(nin),yfile(nin),zfile(nin))
               DO L=1,nin
                   read(1,*)xfile(L),yfile(L),zfile(L)
@@ -528,17 +528,17 @@
 
           DO I=1,nin
               if (nodex(numIB,I)<0.0_dp) then
-              write(6,*)'APAMPAO, point',I,'is out of domain',nodex(numIB,I)
+              write(6,*)"APAMPAO, point",I,"is out of domain",nodex(numIB,I)
               elseif (nodex(numIB,I)<=1.d-10) then
               nodex(numIB,I)=1.d-10
               endif
               if (nodey(numIB,I)<0.0_dp) then
-              write(6,*)'ERROR, point',I,'is out of domain',nodey(numIB,I)
+              write(6,*)"ERROR, point",I,"is out of domain",nodey(numIB,I)
               elseif (nodey(numIB,I)<=1.d-10) then
               nodey(numIB,I)=1.d-10
               endif
               if (nodez(numIB,I)<0.0_dp) then
-              write(6,*)'ERROR, point',I,'is out of domain',nodez(numIB,I)
+              write(6,*)"ERROR, point",I,"is out of domain",nodez(numIB,I)
               elseif (nodez(numIB,I)<=1.d-10) then
               nodez(numIB,I)=1.d-10
               endif
@@ -575,7 +575,7 @@
           ENDIF
 
           if(imb_shape(numIB)==5) call imb_number(numIB)
-          if(imb_shape(numIB)/=5) print*,'subroutine not finished'
+          if(imb_shape(numIB)/=5) print*,"subroutine not finished"
           close(2)
 
    88     FORMAT (i5)
@@ -595,12 +595,12 @@
 
           K=nodes(numIB)/imbnumber(numIB)  !# of Lagrangians per unit
 
-          write (6,*) ' '
-          write (6,*) '**********   THE BODY ',numIB,' HAS : *******'
-          write(6,*)'Total # ofnodes              :',nodes(numIB)
-          write(6,*)'# of bodies                  :',imbnumber(numIB)
-          IF(LSELFST(numIB))      write(6,*)'Turbine Self-Starting   :  YES'
-          IF(.not.LSELFST(numIB)) write(6,*)'Turbine Self-Starting   :  NO'
+          write (6,*) " "
+          write (6,*) "**********   THE BODY ",numIB," HAS : *******"
+          write(6,*)"Total # ofnodes              :",nodes(numIB)
+          write(6,*)"# of bodies                  :",imbnumber(numIB)
+          IF(LSELFST(numIB))      write(6,*)"Turbine Self-Starting   :  YES"
+          IF(.not.LSELFST(numIB)) write(6,*)"Turbine Self-Starting   :  NO"
           write(2,*)'variables="x","y","z"'
 !-----------------  1- body      --------------------------------
           if (imbnumber(numIB)==1) then
@@ -733,15 +733,15 @@
 !-----------------  1- body      --------------------------------
           IF (imbnumber(numIB)==1) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
           endif
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
@@ -758,15 +758,15 @@
           IF (imbnumber(numIB)==2) then
 
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
           endif
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
@@ -789,15 +789,15 @@
           IF (imbnumber(numIB)==3) then
 
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-    'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
+    "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
           endif
 
           do i=1,K
@@ -841,15 +841,15 @@
 !-----------------  4- bodies      --------------------------------
           IF (imbnumber(numIB)==4) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-      'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
+      "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
           endif
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
@@ -898,15 +898,15 @@
 !-----------------  1- body      --------------------------------
           IF (imbnumber(numIB)==1) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='HAT_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="HAT_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
           endif
           do i=1,nodes(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)

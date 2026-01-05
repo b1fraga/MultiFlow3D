@@ -18,14 +18,14 @@
               do ib=1,nbp
                   if (dom_id(ib)==id_unst(i)) then
                   !crear nombre
-                  write(numpt,'(i2)') i
-                  unst='unst_'//trim(adjustl(numpt))//'.dat'
+                  write(numpt,"(i2)") i
+                  unst="unst_"//trim(adjustl(numpt))//".dat"
                   !abrir archivo
                   idfile=499+i
 
-                  write(x,'(F6.3)')dom(ib)%x(i_unst(i))
-                  write(y,'(F6.3)')dom(ib)%y(j_unst(i))
-                  write(z,'(F6.3)')dom(ib)%z(k_unst(i))
+                  write(x,"(F6.3)")dom(ib)%x(i_unst(i))
+                  write(y,"(F6.3)")dom(ib)%y(j_unst(i))
+                  write(z,"(F6.3)")dom(ib)%z(k_unst(i))
 
                   open (unit=idfile, file=unst)
 
@@ -76,17 +76,17 @@
           if (ireadinlet==10001) ireadinlet=0
           ireadinlet=ireadinlet+1
 
-          write(name_end,'(I5)') ireadinlet
+          write(name_end,"(I5)") ireadinlet
           strlen=LEN(TRIM(ADJUSTL(name_end)))
-          name_end=REPEAT('0',(5-strlen))// &
+          name_end=REPEAT("0",(5-strlen))// &
     TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-          write(dominio,'(I3)') dom_id(i)
+          write(dominio,"(I3)") dom_id(i)
           strlen=LEN(TRIM(ADJUSTL(dominio)))
-          dominio=REPEAT('0',(3-strlen))// &
+          dominio=REPEAT("0",(3-strlen))// &
     TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-          filename='Inlet_'//dominio//'_'//name_end//'.dat'
+          filename="Inlet_"//dominio//"_"//name_end//".dat"
 
           open (unit=ireadinlet+500, file=filename)
           do k=dom(i)%ksu-1,dom(i)%keu+1

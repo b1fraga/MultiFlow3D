@@ -57,8 +57,8 @@
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif
@@ -101,8 +101,8 @@
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif
@@ -146,8 +146,8 @@
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif
@@ -191,8 +191,8 @@
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif
@@ -240,8 +240,8 @@
 !               if (dom_id(ib).eq.0.and.j.eq.20)
 !     &         write(6,*)ustar,yplus,delta,rrey,kappa
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif
@@ -286,8 +286,8 @@
                           conv  = abs((ustar-ustarold)/ustar)
                       enddo
                       if (icont==tkmax) then
-                      print*,'USTAR DOESNT CONVERGE'
-                      print*,'Tang. vel. = ',vtan
+                      print*,"USTAR DOESNT CONVERGE"
+                      print*,"Tang. vel. = ",vtan
                       stop
                       endif
                       endif

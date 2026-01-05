@@ -236,9 +236,9 @@
               chc1=real(ni-2*pl)
               chc2=real(nj-2*pl)
               chc3=real(nk-2*pl)
-              if(mod(chc1,2.0_dp)/=0.0_dp) print*,'err-p-i'
-              if(mod(chc2,2.0_dp)/=0.0_dp) print*,'err-p-j'
-              if(mod(chc3,2.0_dp)/=0.0_dp) print*,'err-p-k'
+              if(mod(chc1,2.0_dp)/=0.0_dp) print*,"err-p-i"
+              if(mod(chc2,2.0_dp)/=0.0_dp) print*,"err-p-j"
+              if(mod(chc3,2.0_dp)/=0.0_dp) print*,"err-p-k"
               nic=int((ni-2*pl)/2)+2*pl
               njc=int((nj-2*pl)/2)+2*pl
               nkc=int((nk-2*pl)/2)+2*pl

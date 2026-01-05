@@ -55,8 +55,8 @@
           iaddinlet = 1
 
           if (myrank==1) then
-          open(unit=203, file='worktime.dat')
-          write(203,*)'Variables=it,C-D,PSolver,IBM,LPT,Total'
+          open(unit=203, file="worktime.dat")
+          write(203,*)"Variables=it,C-D,PSolver,IBM,LPT,Total"
           endif
 
 !================== Start Time Loop ====================================
@@ -205,14 +205,14 @@
               wtimedum = MPI_WTIME ( ) - wtime
 
               write (6,5000) itime,ctime,dt,dtavg
-              write (6,*) ' '
+              write (6,*) " "
               write (6,5500) wtimedum
-              write (6,*) ' '
+              write (6,*) " "
 
               write (numfile,5000) itime,ctime,dt,dtavg
-              write (numfile,*) ' '
+              write (numfile,*) " "
               write (numfile,5500) wtimedum
-              write (numfile,*) ' '
+              write (numfile,*) " "
               end if
 
 !           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
@@ -281,13 +281,13 @@
               if (L_LSM) call tecplot_phi(itime)
               call tecbin(itime)
               if (ctime>=t_start_averaging2)  call timesig
-              open (unit=101, file='final_ctime.dat')
-              if(myrank==0) write (101,'(i8,3F15.6)') &
+              open (unit=101, file="final_ctime.dat")
+              if(myrank==0) write (101,"(i8,3F15.6)") &
         ntime,ctime,forcn,qstpn,count,ntav1_count, &
         ntav2_count
               close(101)
               if (myrank==0) then
-              open(30,file='final_particle.dat')
+              open(30,file="final_particle.dat")
               write(30,*) np
               if (LPT) then
               do k=1,np
@@ -304,9 +304,9 @@
 !-----------------------------------------------------------------------
               if (myrank==1) then
               wtime_total = MPI_WTIME ( ) - wtime_total
-              write(203,*) 'solver',wtime_solver
-              write(203,*) 'ibm',wtime_ib
-              write(203,*) 'total',wtime_total
+              write(203,*) "solver",wtime_solver
+              write(203,*) "ibm",wtime_ib
+              write(203,*) "total",wtime_total
               endif
 
 
@@ -328,13 +328,13 @@
           call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
           if (ctime>=t_start_averaging2)  call timesig
-          open (unit=101, file='final_ctime.dat')
-          if(myrank==0) write (101,'(i8,3F15.6)') &
+          open (unit=101, file="final_ctime.dat")
+          if(myrank==0) write (101,"(i8,3F15.6)") &
     ntime,ctime,forcn,qstpn,count,ntav1_count, &
     ntav2_count
           close(101)
           if (myrank==0) then
-          open(30,file='final_particle.dat')
+          open(30,file="final_particle.dat")
           write(30,*) np
           if (LPT) then
           do k=1,np
@@ -347,11 +347,11 @@
           end if   !myrank
           endif
 
-          if (myrank==0) write (6,*) 'ctime=' , ctime
-          if (myrank==0) write (numfile,*) 'ctime=' , ctime
+          if (myrank==0) write (6,*) "ctime=" , ctime
+          if (myrank==0) write (numfile,*) "ctime=" , ctime
 
- 5000 format(/, 1x, 10('='), ' nrtstp=', i8, 2x, 'ctime=', e14.6, 2x, &
-     'dt=',e14.6,'  dtavg=',e14.6)
- 5500     format(/1x,'Work took ',e18.8,2x,' seconds')
+ 5000 format(/, 1x, 10("="), " nrtstp=", i8, 2x, "ctime=", e14.6, 2x, &
+     "dt=",e14.6,"  dtavg=",e14.6)
+ 5500     format(/1x,"Work took ",e18.8,2x," seconds")
       end subroutine flosol
 !##########################################################################
