@@ -82,8 +82,8 @@
 !  |REYNOLDS(1)  REYNOLDS(2)  REYNOLDS(4)|
 !  |REYNOLDS(2)  REYNOLDS(3)  REYNOLDS(5)|
 !  |REYNOLDS(4)  REYNOLDS(5)  REYNOLDS(6)|
-          REYNOLDS=(/(TI_SEM*U0)**2, 0.0D0,(TI_SEM*U0)**2, 0.0D0, &
-     0.0D0,(TI_SEM*U0)**2/)   ![M/S]
+          REYNOLDS=[(TI_SEM*U0)**2, 0.0D0,(TI_SEM*U0)**2, 0.0D0, &
+     0.0D0,(TI_SEM*U0)**2]   ![M/S]
 
 !ALLOCATION OF THE EDDIES VECTOR.
 ![VSEM(DIVX,DIVY,DIVZ,3)] IS THE INSTANTANEOUS VELOCITY VECTOR IN THE POINT WITH
@@ -105,7 +105,7 @@
               DO IZ=1,DIVZ
                   SIGMA(IY,IZ)=SIGMA_VALUE    !!!  MIN(8.0*g_dy,0.20D0) !isotropic
 !Set the inlet velocity prof.
-                  Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)
+                  Usem(IY,IZ,:)=[ U0 ,0.D0,0.D0]
 !   if(UPROF_SEM.eq.1) Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)      !elli
 !       if(UPROF_SEM.eq.15) then
 !        RIZ=IZ                         !elli
@@ -175,8 +175,8 @@
               DO IY = 1,DIVY
                   DO IZ = 1,DIVZ
 !X_POINT = GRID POINT COORDINATES
-                      X_POINT=(/0.0D0,IY*Ly/DIVY+YMIN,IZ*Lz/DIVZ+ZMIN/)
-                      Vsem(IY,IZ,:)=(/ 0.d0, 0.d0,  0.d0 /)
+                      X_POINT=[0.0D0,IY*Ly/DIVY+YMIN,IZ*Lz/DIVZ+ZMIN]
+                      Vsem(IY,IZ,:)=[ 0.d0, 0.d0,  0.d0 ]
 !------------BEGINNING OF EDDIES ITERATIONS
                       DO II=1,N
                           TEMP(:) = DABS(X_POINT(:) - X_EDDY(:,II))
