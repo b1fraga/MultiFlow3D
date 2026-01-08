@@ -22,9 +22,9 @@ once the repo has been executed
 
 ```
 cmake -S ./json-fortran/ -B ./build_json_fortran/ -DCMAKE_Fortran_COMPILER=mpif90
-cmake --build build_json_fortran
+cmake --build build_json_fortran --parallel $(nproc --all)
 cmake -S ./test-drive/ -B ./build_test_drive/ -DCMAKE_Fortran_COMPILER=mpif90
-cmake --build build_test_drive
+cmake --build build_test_drive --parallel $(nproc --all)
 cmake -S ./hdf5/ -B ./build_hdf5/ -DCMAKE_Fortran_COMPILER=mpif90 -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DHDF5_BUILD_FORTRAN=ON
 cmake --build build_hdf5 --parallel $(nproc --all)
 ```
