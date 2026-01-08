@@ -55,17 +55,17 @@
 
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
 
                   open (unit=405, file=filename)
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -74,15 +74,15 @@
                   close (405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I6)') ireadinlet
+                  write(name_end,"(I6)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(6-strlen))// &
+                  name_end=REPEAT("0",(6-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "000001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)
@@ -97,12 +97,12 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) =  ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
+                          end if
                           dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp) +up
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk+up
-                          endif
+                          end if
                       end do ; end do
 
                   else if (dom(ib)%bc_west==12) then      !1/7th power law inlet condition Pablo 7/12/2015 (No SEM)
@@ -113,10 +113,10 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
+                          end if
                           dom(ib)%u(is-1-ly,j,k) = dom(ib)%u(is-1-ly,j,k)*(1.0d0+1.0_dp/7.0_dp) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.0_dp/7.0_dp)
-                      enddo ; end do
+                      end do ; end do
 
                   else if (dom(ib)%bc_west==13) then      !1/7th power law inlet condition Pablo 7/12/2015
                   do k=ks-1,ke+1; do j=js-1,je+1
@@ -126,9 +126,9 @@
                           else
                           dom(ib)%u(is-1-ly,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
-                          endif
-                      enddo ; end do
-                  endif
+                          end if
+                      end do ; end do
+                  end if
                   end if
 !...............................................................................
 !=== East ===> ..  4=wall  ..   2=Outflow
@@ -169,7 +169,7 @@
 
                           end if
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -187,10 +187,12 @@
                       end do; end do
                   else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_south<63) &
-            call log_law(3,ib)
-                  if (dom(ib)%bc_south>=63) &
-            call wall_function(3,ib)
+                  if (dom(ib)%bc_south<63) then
+                    call log_law(3,ib)
+                  end if
+                  if (dom(ib)%bc_south>=63) then
+                    call wall_function(3,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauws2(i,k) &
                     *dom(ib)%u(i,js,k)/dxx            !*Acell/Vcell
@@ -203,8 +205,8 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,js-1-ly,k)= -dom(ib)%u(i,js+ly,k)
                       end do; end do
-                  endif
-                  endif
+                  end if
+                  end if
                   end if
 !.............................................................................
 !=== North ===>  ..   4=wall ..   44=moving wall ..  3=Symmetry
@@ -221,10 +223,12 @@
                       end do; end do
                   else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_north<63) &
-            call log_law(4,ib)
-                  if (dom(ib)%bc_north>=63) &
-            call wall_function(4,ib)
+                  if (dom(ib)%bc_north<63) then
+                    call log_law(4,ib)
+                  end if
+                  if (dom(ib)%bc_north>=63) then
+                    call wall_function(4,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwn2(i,k) &
                     *dom(ib)%u(i,je,k)/dxx            !*Acell/Vcell
@@ -237,8 +241,8 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%u(i,je+1+ly,k)= -dom(ib)%u(i,je-ly,k)
                       end do; end do
-                  endif
-                  endif
+                  end if
+                  end if
                   end if
 !...............................................................................
 !=== Bottom ===> ..   4=wall ..   3=Symmetry
@@ -260,10 +264,12 @@
                       end do; end do
                   else if (dom(ib)%bc_bottom>=61) then                    !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_bottom<63) &
-            call log_law(5,ib)
-                  if (dom(ib)%bc_bottom>=63) &
-            call wall_function(5,ib)
+                  if (dom(ib)%bc_bottom<63) then
+                    call log_law(5,ib)
+                  end if
+                  if (dom(ib)%bc_bottom>=63) then
+                    call wall_function(5,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwb2(i,j) &
                     *dom(ib)%u(i,j,ks)/dxx            !*Acell/Vcell??
@@ -278,7 +284,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ks-1-ly)= -dom(ib)%u(i,j,ks+ly)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !.............................................................................
@@ -294,7 +300,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ktop) = dom(ib)%u(i,j,ktop-1)
                           dom(ib)%u(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
 
@@ -309,10 +315,12 @@
                       end do; end do
                   else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_top<63) &
-            call log_law(6,ib)
-                  if (dom(ib)%bc_top>=63) &
-            call wall_function(6,ib)
+                  if (dom(ib)%bc_top<63) then
+                    call log_law(6,ib)
+                  end if
+                  if (dom(ib)%bc_top>=63) then
+                    call wall_function(6,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallu = dom(ib)%tauwt2(i,j) &
                     *dom(ib)%u(i,j,ke)/dxx            !*Acell/Vcell
@@ -325,7 +333,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%u(i,j,ke+1+ly) = -dom(ib)%u(i,j,ke)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 
@@ -380,10 +388,12 @@
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_west<63) &
-            call log_law(1,ib)
-                  if (dom(ib)%bc_west>=63) &
-            call wall_function(1,ib)
+                  if (dom(ib)%bc_west<63) then
+                    call log_law(1,ib)
+                  end if
+                  if (dom(ib)%bc_west>=63) then
+                    call wall_function(1,ib)
+                  end if
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauww2(j,k) &
                     *dom(ib)%v(is,j,k)/dyy            !*Acell/Vcell
@@ -396,20 +406,20 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(is-1-ly,j,k)= -dom(ib)%v(is,j,k)
                       end do; end do
-                  endif
+                  end if
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
                   open (unit=405, file=filename)
                   do k=dom(ib)%ksu-1,dom(ib)%keu+1
                       do j=dom(ib)%jsu-1,dom(ib)%jeu+1
@@ -421,15 +431,15 @@
                   close(405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)
@@ -465,7 +475,7 @@
                           end if
                           else
                           dom(ib)%v(ie+1+ly,j,k)=0.0_dp
-                          endif
+                          end if
 
                           else                                  !no LSM
 
@@ -477,15 +487,17 @@
                     dom(ib)%voo(ie,j,k))/dom(ib)%dx
                           end if
 
-                          endif
+                          end if
                       end do; end do
                   end if
                   else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_east<63) &
-            call log_law(2,ib)
-                  if (dom(ib)%bc_east>=63) &
-            call wall_function(2,ib)
+                  if (dom(ib)%bc_east<63) then
+                    call log_law(2,ib)
+                  end if
+                  if (dom(ib)%bc_east>=63) then
+                    call wall_function(2,ib)
+                  end if
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallv = dom(ib)%tauwe2(j,k) &
                     *dom(ib)%v(ie,j,k)/dyy            !*Acell/Vcell
@@ -498,7 +510,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%v(ie+1+ly,j,k)= -dom(ib)%v(ie,j,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -551,10 +563,12 @@
                       end do; end do
                   else if (dom(ib)%bc_bottom>=61) then                !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_bottom<63) &
-              call log_law(5,ib)
-                  if (dom(ib)%bc_bottom>=63) &
-            call wall_function(5,ib)
+                  if (dom(ib)%bc_bottom<63) then
+                    call log_law(5,ib)
+                  end if
+                  if (dom(ib)%bc_bottom>=63) then
+                    call wall_function(5,ib)
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallv = dom(ib)%tauwb2(i,j) &
                     *dom(ib)%v(i,j,ks)/dyy            !*Acell/Vcell
@@ -567,7 +581,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ks-1-ly)= -dom(ib)%v(i,j,ks)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -583,7 +597,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ktop) = dom(ib)%v(i,j,ktop-1)
                           dom(ib)%v(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
 
@@ -598,10 +612,12 @@
                       end do; end do
                   else if (dom(ib)%bc_top>=61) then                   !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_top<63) &
-            call log_law(6,ib)
-                  if (dom(ib)%bc_top>=63) &
-            call wall_function(6,ib)
+                  if (dom(ib)%bc_top<63) then
+                    call log_law(6,ib)
+                  end if
+                  if (dom(ib)%bc_top>=63) then
+                    call wall_function(6,ib)
+                  end if
 
                   do j=js-1,je+1; do i=is-1,ie+1
                           Fwallv = dom(ib)%tauwt2(i,j) &
@@ -615,7 +631,7 @@
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%v(i,j,ke+1+ly)= -dom(ib)%v(i,j,ke)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 
@@ -669,10 +685,12 @@
                       end do; end do
                   else if (dom(ib)%bc_west>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_west<63) &
-            call log_law(1,ib)
-                  if (dom(ib)%bc_west>=63) &
-            call wall_function(1,ib)
+                  if (dom(ib)%bc_west<63) then
+                    call log_law(1,ib)
+                  end if
+                  if (dom(ib)%bc_west>=63) then
+                    call wall_function(1,ib)
+                  end if
 
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallw = dom(ib)%tauww2(j,k) &
@@ -681,25 +699,25 @@
                           dom(ib)%w(is,j,k)=dom(ib)%w(is,j,k) &
                     +Fwallw*alfapr*dt
                           dom(ib)%w(is-1,j,k)= -dom(ib)%w(is,j,k)
-                      enddo; enddo
+                      end do; end do
                   else
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(is-1-ly,j,k)= -dom(ib)%w(is,j,k)
                       end do; end do
-                  endif
+                  end if
                   else if (dom(ib)%bc_west==7) then                   !brunho2014 reading slices
 
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
 
-                  write(dominio,'(I3)') dom_id(ib)
+                  write(dominio,"(I3)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(dominio)))
-                  dominio=REPEAT('0',(3-strlen))// &
+                  dominio=REPEAT("0",(3-strlen))// &
             TRIM(ADJUSTL(dominio))  ! e.g. "001"
 
-                  filename='Inlet/Inlet_'//dominio//'_'//name_end//'.dat'
+                  filename="Inlet/Inlet_"//dominio//"_"//name_end//".dat"
                   open (unit=405, file=filename)
                   do k=dom(ib)%ksu-1,dom(ib)%keu+1
                       do j=dom(ib)%jsu-1,dom(ib)%jeu+1
@@ -715,15 +733,15 @@
                   close(405)
 
                   else if (dom(ib)%bc_west==8) then                   !Pablo 14/12/2015 reading SEM inlet
-                  write(name_end,'(I5)') ireadinlet
+                  write(name_end,"(I5)") ireadinlet
                   strlen=LEN(TRIM(ADJUSTL(name_end)))
-                  name_end=REPEAT('0',(5-strlen))// &
+                  name_end=REPEAT("0",(5-strlen))// &
             TRIM(ADJUSTL(name_end))  ! e.g. "00001"
-                  write(domain,'(I4)') dom_id(ib)
+                  write(domain,"(I4)") dom_id(ib)
                   strlen=LEN(TRIM(ADJUSTL(domain)))
-                  domain=REPEAT('0',(4-strlen))// &
+                  domain=REPEAT("0",(4-strlen))// &
             TRIM(ADJUSTL(domain))  ! e.g. "0001"
-                  fileSEM='inflow/Inlet_'//domain//'_'//name_end//'.dat'
+                  fileSEM="inflow/Inlet_"//domain//"_"//name_end//".dat"
                   open (unit=405, file=fileSEM)
                   read(405,*)
                   read(405,*)
@@ -744,7 +762,7 @@
                           dom(ib)%w(ie+1+ly,j,k)= -dom(ib)%w(ie-ly,j,k)
                       end do; end do
 
-                  elseif (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
+                  else if (dom(ib)%bc_east==2 .or.dom(ib)%bc_east==21) then
                   if (alfabc==1) then
                   do k=ks-1,ke+1; do j=js-1,je+1
 
@@ -760,7 +778,7 @@
                           end if
                           else
                           dom(ib)%w(ie+1+ly,j,k)=0.0_dp
-                          endif
+                          end if
 
                           else  !no LSM
                           if (dom(ib)%bc_east==2) then
@@ -770,16 +788,18 @@
                     -dt*alfapr*(dom(ib)%woo(ie+1+ly,j,k)- &
                     dom(ib)%woo(ie,j,k))/dom(ib)%dx
                           end if
-                          endif
+                          end if
 
                       end do; end do
                   end if
                   else if (dom(ib)%bc_east>=61) then                  !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_east<63) &
-            call log_law(2,ib)
-                  if (dom(ib)%bc_east>=63) &
-            call wall_function(2,ib)
+                  if (dom(ib)%bc_east<63) then
+                    call log_law(2,ib)
+                  end if
+                  if (dom(ib)%bc_east>=63) then
+                    call wall_function(2,ib)
+                  end if
 
                   do k=ks-1,ke+1; do j=js-1,je+1
                           Fwallw = dom(ib)%tauwe2(j,k) &
@@ -793,7 +813,7 @@
                   do k=ks-1,ke+1; do j=js-1,je+1
                           dom(ib)%w(ie+1+ly,j,k)= -dom(ib)%w(ie,j,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -811,10 +831,12 @@
                       end do; end do
                   else if (dom(ib)%bc_south>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_south<63) &
-            call log_law(3,ib)
-                  if (dom(ib)%bc_south>=63) &
-            call wall_function(3,ib)
+                  if (dom(ib)%bc_south<63) then
+                    call log_law(3,ib)
+                  end if
+                  if (dom(ib)%bc_south>=63) then
+                    call wall_function(3,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauws2(i,k) &
                     *dom(ib)%w(i,js,k)/dzz            !*Acell/Vcell
@@ -827,7 +849,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,js-1-ly,k)= -dom(ib)%w(i,js,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !.............................................................................
@@ -844,10 +866,12 @@
                       end do; end do
                   else if (dom(ib)%bc_north>=61) then                 !Wall functions Bruño2014
                   if (ly==0) then
-                  if (dom(ib)%bc_north<63) &
-            call log_law(4,ib)
-                  if (dom(ib)%bc_north>=63) &
-            call wall_function(4,ib)
+                  if (dom(ib)%bc_north<63) then
+                    call log_law(4,ib)
+                  end if
+                  if (dom(ib)%bc_north>=63) then
+                    call wall_function(4,ib)
+                  end if
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           Fwallw = dom(ib)%tauwn2(i,k) &
                     *dom(ib)%w(i,je,k)/dzz            !*Acell/Vcell
@@ -860,7 +884,7 @@
                   do k=ks-1,ke+1; do i=is-1,ie+1
                           dom(ib)%w(i,je+1+ly,k)= -dom(ib)%w(i,je,k)
                       end do; end do
-                  endif
+                  end if
                   end if
                   end if
 !...............................................................................
@@ -892,12 +916,12 @@
                   k=1
                   do while (dom(ib)%z(k)<=length)
                       k=k+1
-                  enddo
+                  end do
                   ktop=k-1
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%w(i,j,ktop) = dom(ib)%w(i,j,ktop-1)
                           dom(ib)%w(i,j,ktop+1) = 0.0_dp
-                      enddo; enddo
+                      end do; end do
                   end if
                   end if
                   if (dom(ib)%knext<0) then

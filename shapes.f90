@@ -12,10 +12,10 @@
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Squ_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Squ_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -25,7 +25,7 @@
           zini(M)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))
           else if (linfin(numIB)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))
-          endif
+          end if
 
           maxc=INT(R(M)/dxm(numIB))+1
 
@@ -38,10 +38,10 @@
               clay=maxc
               else
               clay=cmax(M)
-              endif
+              end if
               else
               clay=cmax(M)
-              endif
+              end if
 
 
               Do c=1,clay
@@ -58,27 +58,27 @@
                       nodey(M,L)=nodeymin
                       nodez(M,L)=zini(M)+dzm(numIB)*(K-1)
                       L=L+1
-                  enddo
+                  end do
                   do J=2,njn
                       nodex(M,L)=nodexmax
                       nodey(M,L)=nodeymin+dym(numIB)*(J-1)
                       nodez(M,L)=zini(M)+dzm(numIB)*(K-1)
                       L=L+1
-                  enddo
+                  end do
                   do I=2,nin
                       nodex(M,L)=nodexmax-dxm(numIB)*(I-1)
                       nodey(M,L)=nodeymax
                       nodez(M,L)=zini(M)+dzm(numIB)*(K-1)
                       L=L+1
-                  enddo
+                  end do
                   do J=2,njn-1
                       nodex(M,L)=nodexmin
                       nodey(M,L)=nodeymax-dym(numIB)*(J-1)
                       nodez(M,L)=zini(M)+dzm(numIB)*(K-1)
                       L=L+1
-                  enddo
-              Enddo
-          ENDDO
+                  end do
+              End do
+          END DO
 
           nodes(M)=L-1
           maxnode = max(maxnode,nodes(M))
@@ -109,10 +109,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') numIB
+          write(char_block2,"(I8)") numIB
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Cyl_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Cyl_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -143,10 +143,10 @@
 
           if (linfin(M)==1) then
           zini(M)=zst ;   nlay=((zen-zst)/dzm(numIB))
-          endif
+          end if
           if (linfin(M)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))  !-1
-          endif
+          end if
 
           L=1
           Do K=1,nlay
@@ -155,10 +155,10 @@
               ctot=maxc
               else
               ctot=cmax(M)
-              endif
+              end if
               else
               ctot=cmax(M)
-              endif
+              end if
               Do c = 1,ctot
                   thc = 2.d0*PI/nodes_percyl(c)
                   Do I = 1,nodes_percyl(c)
@@ -180,8 +180,8 @@
           close (2)
 
 
-          write (6,*) ' '
-          write (6,87) '** CYLINDER',numIB,',  # of nodes  :',nodes(numIB)
+          write (6,*) " "
+          write (6,87) "** CYLINDER",numIB,",  # of nodes  :",nodes(numIB)
 
    87     FORMAT (a,i2,a,i5)
    89     FORMAT (3e20.5)
@@ -203,10 +203,10 @@
           CHARACTER(len=8)  :: char_block2
           CHARACTER(len=31) :: gridfile
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Cube_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Cube_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
@@ -222,7 +222,7 @@
           if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999_dp) &
     then
           nin=nin+1
-          print*,'absurd-x!!!!!'
+          print*,"absurd-x!!!!!"
           end if
           nin=nin+1
 
@@ -230,7 +230,7 @@
           if(abs(njn-2.0_dp*R(M)/dym(numIB))>=0.999999999_dp) &
     then
           njn=njn+1
-          print*,'absurd-y!!!!!'
+          print*,"absurd-y!!!!!"
           end if
           njn=njn+1
 
@@ -238,7 +238,7 @@
           if(abs(nkn-2.0_dp*R(M)/dzm(numIB))>=0.999999999_dp) &
     then
           nkn=nkn+1
-          print*,'absurd-y!!!!!'
+          print*,"absurd-y!!!!!"
           end if
           nkn=nkn+1
 
@@ -306,10 +306,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') myrank
+          write(char_block2,"(I8)") myrank
           strlen2=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen2))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_Sphere_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen2))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_Sphere_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
 
           maxnzr=0 ;   maxnode = 0
@@ -357,7 +357,7 @@
   555         CONTINUE
               ctot_layer(M,izr) = c - 1
               if(ctot_layer(M,izr) > 100) then
-              print*, 'allocate problem in Rtemp_layer'
+              print*, "allocate problem in Rtemp_layer"
               end if
           end do
 
@@ -409,10 +409,10 @@
 
           PI = 4.D0*DATAN(1.D0)
 
-          write(char_block2,'(I8)') numIB
+          write(char_block2,"(I8)") numIB
           strlen=LEN(TRIM(ADJUSTL(char_block2)))
-          char_block2=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block2))
-          gridfile='geom_body_'//TRIM(ADJUSTL(char_block2))//'.dat'
+          char_block2=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block2))
+          gridfile="geom_body_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
 !----      Load the file and proceed to interpolate     ----------
           open(unit=1, file=filepoints(numIB))
@@ -423,7 +423,7 @@
               allocate(yfile(nin),zfile(nin))
               DO L=1,nin
                   read(1,*)yfile(L),zfile(L)
-              ENDDO
+              END DO
               close (1)
               maxnode=0
               Cxor(numIB)=Cx(numIB)
@@ -433,7 +433,7 @@
               zini(numIB)=0.d0 ;   nlay=((xen-xst)/(dxm(numIB)))  !-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/(dxm(numIB)))  !-1
-              endif
+              end if
 !           nlay=((xen-xst)/dxm)-1   !# of x-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
               maxnode = max(maxnode,nodes(numIB))
@@ -445,13 +445,13 @@
                       nodey(numIB,K)=yfile(I) - yaero(numIB)
                       nodez(numIB,K)=zfile(I) - zaero(numIB)
                       K=K+1
-                  ENDDO
-              Enddo
+                  END DO
+              End do
             CASE (2)
               allocate(xfile(nin),zfile(nin))
               DO L=1,nin
                   read(1,*)xfile(L),zfile(L)
-              ENDDO
+              END DO
               close (1)
               maxnode=0
               Cxor(numIB)=Cx(numIB)
@@ -461,7 +461,7 @@
               zini(numIB)=0.d0 ;   nlay=((yen-yst)/dym(numIB))  !-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dym(numIB))  !-1
-              endif
+              end if
 !           nlay=((yen-yst)/dym(numIB))-1   !# of y-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
               maxnode = max(maxnode,nodes(numIB))
@@ -473,13 +473,13 @@
                 -yaero(numIB)
                       nodez(numIB,K)=zfile(I) - zaero(numIB)
                       K=K+1
-                  ENDDO
-              Enddo
+                  END DO
+              End do
             CASE (3)
               allocate(xfile(nin),yfile(nin))
               DO L=1,nin
                   read(1,*)xfile(L),yfile(L)
-              ENDDO
+              END DO
               close (1)
               maxnode=0
               Cxor(numIB)=Cx(numIB)
@@ -489,7 +489,7 @@
               zini(numIB)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))  !-1  !it was-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dzm(numIB))  !-1
-              endif
+              end if
 !           nlay=((zen-zst)/dzm)-1   !# of z-layers
               nodes(numIB)=nin*nlay*imbnumber(numIB)
               maxnode = max(maxnode,nodes(numIB))
@@ -501,14 +501,14 @@
                       nodez(numIB,K)=zini(numIB)+dzm(numIB)*(L) &
                 -zaero(numIB)
                       K=K+1
-                  ENDDO
-              Enddo
+                  END DO
+              End do
             CASE (-1)
-              write(6,*)'No extrusion of Body #',numIB
+              write(6,*)"No extrusion of Body #",numIB
               allocate(xfile(nin),yfile(nin),zfile(nin))
               DO L=1,nin
                   read(1,*)xfile(L),yfile(L),zfile(L)
-              ENDDO
+              END DO
               close (1)
               maxnode=0   ; nlay=1
               Cxor(numIB)=Cx(numIB)
@@ -520,7 +520,7 @@
                   nodex(numIB,I)=xfile(I)  ! - xaero(numIB)
                   nodey(numIB,I)=yfile(I)  ! - yaero(numIB)
                   nodez(numIB,I)=zfile(I)  ! - zaero(numIB)
-              ENDDO
+              END DO
           end select
 !       DO K=1,nodes(numIB)
 !        delvol(numIB,K)=dom(ib)%dx*dom(ib)%dy*dom(ib)%dz*reddelta
@@ -528,21 +528,21 @@
 
           DO I=1,nin
               if (nodex(numIB,I)<0.0_dp) then
-              write(6,*)'APAMPAO, point',I,'is out of domain',nodex(numIB,I)
-              elseif (nodex(numIB,I)<=1.d-10) then
+              write(6,*)"APAMPAO, point",I,"is out of domain",nodex(numIB,I)
+              else if (nodex(numIB,I)<=1.d-10) then
               nodex(numIB,I)=1.d-10
-              endif
+              end if
               if (nodey(numIB,I)<0.0_dp) then
-              write(6,*)'ERROR, point',I,'is out of domain',nodey(numIB,I)
-              elseif (nodey(numIB,I)<=1.d-10) then
+              write(6,*)"ERROR, point",I,"is out of domain",nodey(numIB,I)
+              else if (nodey(numIB,I)<=1.d-10) then
               nodey(numIB,I)=1.d-10
-              endif
+              end if
               if (nodez(numIB,I)<0.0_dp) then
-              write(6,*)'ERROR, point',I,'is out of domain',nodez(numIB,I)
-              elseif (nodez(numIB,I)<=1.d-10) then
+              write(6,*)"ERROR, point",I,"is out of domain",nodez(numIB,I)
+              else if (nodez(numIB,I)<=1.d-10) then
               nodez(numIB,I)=1.d-10
-              endif
-          ENDDO
+              end if
+          END DO
 
 
           IF (imb_shape(numIB)==5 .and. turax(numIB)==1 .and. &
@@ -556,12 +556,12 @@
               nodexlocal(numIB,i)=nodex(numIB,i)
               nodeylocal(numIB,i)=nodey(numIB,i)
               nodezlocal(numIB,i)=nodez(numIB,i)
-          enddo
+          end do
           do i=1,nin*nlay       !From local tu global coords
               nodex(numIB,i)=nodex(numIB,i)+Cxor(numIB)
               nodey(numIB,i)=nodey(numIB,i)+Cyor(numIB)
               nodez(numIB,i)=nodez(numIB,i)+Czor(numIB)
-          ENDDO
+          END DO
 
           ELSE
           do i=1,nin*nlay       !Rotate the body.
@@ -571,11 +571,11 @@
               nodex(numIB,i)=nodex(numIB,i)+Cxor(numIB)
               nodey(numIB,i)=nodey(numIB,i)+Cyor(numIB)
               nodez(numIB,i)=nodez(numIB,i)+Czor(numIB)
-          enddo
-          ENDIF
+          end do
+          END IF
 
           if(imb_shape(numIB)==5) call imb_number(numIB)
-          if(imb_shape(numIB)/=5) print*,'subroutine not finished'
+          if(imb_shape(numIB)/=5) print*,"subroutine not finished"
           close(2)
 
    88     FORMAT (i5)
@@ -595,12 +595,12 @@
 
           K=nodes(numIB)/imbnumber(numIB)  !# of Lagrangians per unit
 
-          write (6,*) ' '
-          write (6,*) '**********   THE BODY ',numIB,' HAS : *******'
-          write(6,*)'Total # ofnodes              :',nodes(numIB)
-          write(6,*)'# of bodies                  :',imbnumber(numIB)
-          IF(LSELFST(numIB))      write(6,*)'Turbine Self-Starting   :  YES'
-          IF(.not.LSELFST(numIB)) write(6,*)'Turbine Self-Starting   :  NO'
+          write (6,*) " "
+          write (6,*) "**********   THE BODY ",numIB," HAS : *******"
+          write(6,*)"Total # ofnodes              :",nodes(numIB)
+          write(6,*)"# of bodies                  :",imbnumber(numIB)
+          IF(LSELFST(numIB))      write(6,*)"Turbine Self-Starting   :  YES"
+          IF(.not.LSELFST(numIB)) write(6,*)"Turbine Self-Starting   :  NO"
           write(2,*)'variables="x","y","z"'
 !-----------------  1- body      --------------------------------
           if (imbnumber(numIB)==1) then
@@ -609,8 +609,8 @@
               nodey(numIB,i) = nodey(numIB,i)
               nodez(numIB,i) = nodez(numIB,i)
               write (2,89) nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-          enddo
-          endif
+          end do
+          end if
 !-----------------  2- bodies      --------------------------------
           IF (imbnumber(numIB)==2) then
           do i=1,K
@@ -618,7 +618,7 @@
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
               nodez(numIB,i) = nodez(numIB,i)
               write (2,89) nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,K+i)=-nodexlocal(numIB,i)
               nodey(numIB,K+i)=-nodeylocal(numIB,i)
@@ -626,8 +626,8 @@
               nodey(numIB,K+i)=nodey(numIB,K+i)+Cyor(numIB)-R(numIB)
               nodez(numIB,K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-          enddo
-          ENDIF
+          end do
+          END IF
 !-----------------  3- bodies      --------------------------------
           IF (imbnumber(numIB)==3) then
           do i=1,K
@@ -635,7 +635,7 @@
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
               nodez(numIB,i) = nodez(numIB,i)
               write (2,89) nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
                         nodeylocal(numIB,i)*(SQRT(3.0_dp)/2)
@@ -646,7 +646,7 @@
               nodey(numIB,K+i)=nodey(numIB,K+i)+Cyor(numIB)-R(numIB)*0.5_dp
               nodez(numIB,K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
                             nodeylocal(numIB,i)*(-SQRT(3.0_dp)/2)
@@ -659,8 +659,8 @@
               nodez(numIB,2*K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,2*K+i),nodey(numIB,2*K+i) &
         ,nodez(numIB,2*K+i)
-          enddo
-          ENDIF
+          end do
+          END IF
 !-----------------  4- bodies      --------------------------------
           IF (imbnumber(numIB)==4) then
           do i=1,K
@@ -668,7 +668,7 @@
               nodey(numIB,i) = nodey(numIB,i) + R(numIB)
               nodez(numIB,i) = nodez(numIB,i)
               write (2,89) nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,K+i)=-nodeylocal(numIB,i)
               nodey(numIB,K+i)=nodexlocal(numIB,i)
@@ -676,7 +676,7 @@
               nodey(numIB,K+i)=nodey(numIB,K+i) + Cyor(numIB)
               nodez(numIB,K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,2*K+i)=-nodexlocal(numIB,i)
               nodey(numIB,2*K+i)=-nodeylocal(numIB,i)
@@ -685,7 +685,7 @@
               nodez(numIB,2*K+i)=nodez(numIB,i)
               write (2,89) nodex(numIB,2*K+i),nodey(numIB,2*K+i) &
         ,nodez(numIB,2*K+i)
-          enddo
+          end do
           do i=1,K
               nodex(numIB,3*K+i)=nodeylocal(numIB,i)
               nodey(numIB,3*K+i)=-nodexlocal(numIB,i)
@@ -693,8 +693,8 @@
               nodey(numIB,3*K+i)=nodey(numIB,3*K+i) + Cyor(numIB)
               write (2,89) nodex(numIB,3*K+i),nodey(numIB,3*K+i) &
         ,nodez(numIB,3*K+i)
-          enddo
-          ENDIF
+          end do
+          END IF
 
    88     FORMAT (i5)
    89     FORMAT (3e25.5)
@@ -729,76 +729,76 @@
           do L=1,K
               nodexlocal(numIB,L)=-R0(numIB,L)*sin(rads(numIB)-alpha0(numIB,L))
               nodeylocal(numIB,L)= R0(numIB,L)*cos(rads(numIB)-alpha0(numIB,L))
-          enddo
+          end do
 !-----------------  1- body      --------------------------------
           IF (imbnumber(numIB)==1) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
-          endif
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
+          end if
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0) then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-              endif
-          enddo
+              end if
+          end do
 
           if (mod(itime,n_out)==0)  close(Geom_Time1)
-          ENDIF
+          END IF
 !-----------------  2- bodies      --------------------------------
           IF (imbnumber(numIB)==2) then
 
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
-          endif
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
+          end if
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0) then
               write(Geom_Time1,89)nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,K+i)=-nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,K+i)=-nodeylocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0) then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-              endif
-          enddo
+              end if
+          end do
           if (mod(itime,n_out)==0)   close(Geom_Time1)
-          ENDIF
+          END IF
 !-----------------  3- bodies      --------------------------------
           IF (imbnumber(numIB)==3) then
 
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-    'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
-          endif
+    "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
+          end if
 
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
@@ -806,8 +806,8 @@
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
             nodeylocal(numIB,i)*(SQRT(3.d0)/2.d0)
@@ -818,8 +818,8 @@
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,2*K+i)=nodexlocal(numIB,i)*(-0.5_dp)- &
                nodeylocal(numIB,i)*(-SQRT(3.d0)/2.d0)
@@ -831,97 +831,97 @@
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,2*K+i),nodey(numIB,2*K+i),nodez(numIB,2*K+i)
-              endif
-          enddo
+              end if
+          end do
 
           if (mod(itime,n_out)==0) close(Geom_Time1)
 
-          ENDIF
+          END IF
 
 !-----------------  4- bodies      --------------------------------
           IF (imbnumber(numIB)==4) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='Blade_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="Blade_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-      'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
-          endif
+      "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
+          end if
           do i=1,K
               nodex(numIB,i) = nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,K+i)=-nodeylocal(numIB,i) + Cxor(numIB)
               nodey(numIB,K+i)=nodexlocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,K+i),nodey(numIB,K+i),nodez(numIB,K+i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,2*K+i)=-nodexlocal(numIB,i) + Cxor(numIB)
               nodey(numIB,2*K+i)=-nodeylocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,2*K+i),nodey(numIB,2*K+i),nodez(numIB,2*K+i)
-              endif
-          enddo
+              end if
+          end do
           do i=1,K
               nodex(numIB,3*K+i)=nodeylocal(numIB,i)  + Cxor(numIB)
               nodey(numIB,3*K+i)=-nodexlocal(numIB,i) + Cyor(numIB)
               if (mod(itime,n_out)==0)  then
               write (Geom_Time1,89) &
         nodex(numIB,3*K+i),nodey(numIB,3*K+i),nodez(numIB,3*K+i)
-              endif
-          enddo
+              end if
+          end do
 
           if (mod(itime,n_out)==0)  close(Geom_Time1)
-          ENDIF
+          END IF
 
 !-------------------------------------------------------------------
-          ENDIF
+          END IF
           IF (turax(numIB)==2) then   ! Horizontal Axis Turbine
 
           do L=1,nodes(numIB)
               nodeylocal(numIB,L)=R0(numIB,L)*sin(rads(numIB)+alpha0(numIB,L))
               nodezlocal(numIB,L)=R0(numIB,L)*cos(rads(numIB)+alpha0(numIB,L))
-          enddo
+          end do
 !-----------------  1- body      --------------------------------
           IF (imbnumber(numIB)==1) then
           if (mod(itime,n_out)==0) then
-          write(char_block,'(I8)') itime
+          write(char_block,"(I8)") itime
           strlen=LEN(TRIM(ADJUSTL(char_block)))
-          char_block=REPEAT('0',(6-strlen))//TRIM(ADJUSTL(char_block))
-          gridfile1='HAT_Time_'//TRIM(ADJUSTL(char_block))//'.plt'
+          char_block=REPEAT("0",(6-strlen))//TRIM(ADJUSTL(char_block))
+          gridfile1="HAT_Time_"//TRIM(ADJUSTL(char_block))//".plt"
           open (unit=Geom_Time1, file=gridfile1)
-          write(Geom_Time1,*)'title = points'
+          write(Geom_Time1,*)"title = points"
           write(Geom_Time1,*)'variables="x","y","z"'
           write(Geom_Time1,*) &
-     'zone   ','i=  ',nodes(numIB),'DATAPACKING = POINT'
-          endif
+     "zone   ","i=  ",nodes(numIB),"DATAPACKING = POINT"
+          end if
           do i=1,nodes(numIB)
               nodey(numIB,i) = nodeylocal(numIB,i) + Cyor(numIB)
               nodez(numIB,i) = nodezlocal(numIB,i) + Czor(numIB)
               if (mod(itime,n_out)==0) then
               write(Geom_Time1,89) &
         nodex(numIB,i),nodey(numIB,i),nodez(numIB,i)
-              endif
-          enddo
+              end if
+          end do
 
           if (mod(itime,n_out)==0)  close(Geom_Time1)
-          ENDIF
+          END IF
 
 
-          ENDIF  !AXIS
+          END IF  !AXIS
 
 
    88     FORMAT (i5)

@@ -16,20 +16,20 @@
           do ib=1,nbp
 
               if (L_anim_grd) then
-              write(chb,'(i8)') dom_id(ib)
-              write(chb1,'(i8)') ki
+              write(chb,"(i8)") dom_id(ib)
+              write(chb1,"(i8)") ki
               sn=len(trim(adjustl(chb)))
               sn1=len(trim(adjustl(chb1)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              chb1=repeat('0',(6-sn1))//trim(adjustl(chb1))
-              gf='tecgrid'//trim(adjustl(chb))//'_'// &
-        trim(adjustl(chb1))//'.dat'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              chb1=repeat("0",(6-sn1))//trim(adjustl(chb1))
+              gf="tecgrid"//trim(adjustl(chb))//"_"// &
+        trim(adjustl(chb1))//".dat"
               else
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecgrid'//trim(adjustl(chb))//'.dat'
-              endif
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecgrid"//trim(adjustl(chb))//".dat"
+              end if
 
               open (unit=88, file=gf)
 
@@ -40,35 +40,35 @@
               totj=je-(js-1)+1
               totk=ke-(ks-1)+1
 
-              write (88,*) 'title = ', 'grid quantities'
+              write (88,*) "title = ", "grid quantities"
               if (L_anim_grd) then
               if (L_LSM) then
               write (88,*) &
         'variables="x","y","z","U-velocity","V-velocity","W-velocity",', &
         '"dens"'
-              write(88,*)'zone ', 'STRANDID=', 1, 'SOLUTIONTIME=', ctime, &
-        'i=',toti,', ',' j=',totj,', k= ',totk, &
-        'zonetype=', 'ordered',', DATAPACKING=point'
+              write(88,*)"zone ", "STRANDID=", 1, "SOLUTIONTIME=", ctime, &
+        "i=",toti,", "," j=",totj,", k= ",totk, &
+        "zonetype=", "ordered",", DATAPACKING=point"
               else
               write (88,*) &
         'variables="x","y","z","U-velocity","V-velocity","W-velocity"'
-              write(88,*)'zone ', 'STRANDID=', 1, 'SOLUTIONTIME=', ctime, &
-        'i=',toti,', ',' j=',totj,', k= ',totk, &
-        'zonetype=', 'ordered',', DATAPACKING=point'
-              endif
+              write(88,*)"zone ", "STRANDID=", 1, "SOLUTIONTIME=", ctime, &
+        "i=",toti,", "," j=",totj,", k= ",totk, &
+        "zonetype=", "ordered",", DATAPACKING=point"
+              end if
               else
               if (L_LSM) then
               write (88,*) &
         'variables="x","y","z","U-velocity","V-velocity","W-velocity",', &
         '"dens"'
-              write (88,*)  'zone ', ' i=',toti,', ', &
-        ' j=',totj,' k=',totk,', f=point'
+              write (88,*)  "zone ", " i=",toti,", ", &
+        " j=",totj," k=",totk,", f=point"
               else
               write (88,*) &
         'variables="x","y","z","U-velocity","V-velocity","W-velocity"'
-              write (88,*)  'zone ', ' i=',toti,', ', &
-        ' j=',totj,' k=',totk,', f=point'
-              endif
+              write (88,*)  "zone ", " i=",toti,", ", &
+        " j=",totj," k=",totk,", f=point"
+              end if
               end if
 
               do k=ks-1,ke
@@ -112,10 +112,10 @@
 
           do ib=1,nbp
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_p'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_p"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
               is=dom(ib)%isp; ie=dom(ib)%iep
@@ -125,11 +125,11 @@
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
 
-              write (88,*) 'title = ', 'pgrid'
+              write (88,*) "title = ", "pgrid"
               write (88,*)'variables="x","y","z","Pressure","PMean",', &
         '"ppm","uvM","uwM","vwM","vis","ksgs","eps","T","Tm"'
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -164,10 +164,10 @@
 
           do ib=1,nbp
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_u'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_u"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
               is=dom(ib)%isu; ie=dom(ib)%ieu
@@ -177,11 +177,11 @@
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
 
-              write (88,*) 'title = ', 'u-grid'
+              write (88,*) "title = ", "u-grid"
               write (88,*) &
         'variables="x","y","z","U-velocity","UMean","uuMean","tau"'
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -222,10 +222,10 @@
 
           do ib=1,nbp
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_v'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_v"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
               is=dom(ib)%isv; ie=dom(ib)%iev
@@ -235,11 +235,11 @@
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
 
-              write (88,*) 'title = ', 'v-grid'
+              write (88,*) "title = ", "v-grid"
               write (88,*) &
         'variables="x","y","z","V-velocity","VMean","vvMean"'
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -270,10 +270,10 @@
 
           do ib=1,nbp
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_w'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_w"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
               is=dom(ib)%isw; ie=dom(ib)%iew
@@ -283,11 +283,11 @@
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
 
-              write (88,*) 'title = ', 'w-grid'
+              write (88,*) "title = ", "w-grid"
               write (88,*) &
         'variables="x","y","z","W-velocity","WMean","wwMean"'
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -322,10 +322,10 @@
 
           do ib=1,nbp
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecturb'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecturb"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
               is=pl+1; ie=dom(ib)%ttc_i-pl
@@ -335,13 +335,13 @@
               totj=je-(js-1)+1
               totk=ke-(ks-1)+1
 
-              write (88,*) 'title = ', 'turb'
+              write (88,*) "title = ", "turb"
               write (88,*) &
         'variables="x","y","z","U","V","W"', &
         ',"UM","VM","WM","uuM","vvM","wwM"', &
         ',"uvM","uwM","vwM"'
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
 
               do k=ks-1,ke
                   do j=js-1,je
@@ -435,26 +435,26 @@
           do ib=1,nbp
 
               if (L_anim_phi) then
-              write(chb,'(i8)') dom_id(ib)
-              write(chb1,'(i8)') ki
+              write(chb,"(i8)") dom_id(ib)
+              write(chb1,"(i8)") ki
               sn=len(trim(adjustl(chb)))
               sn1=len(trim(adjustl(chb1)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              chb1=repeat('0',(6-sn1))//trim(adjustl(chb1))
-              gf='tecout_phi_'//trim(adjustl(chb))//'_'// &
-        trim(adjustl(chb1))//'.dat'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              chb1=repeat("0",(6-sn1))//trim(adjustl(chb1))
+              gf="tecout_phi_"//trim(adjustl(chb))//"_"// &
+        trim(adjustl(chb1))//".dat"
               else if (L_LSMinit) then
-              write(chb,'(i8)') dom_id(ib)
-              write(chb1,'(i8)') ki
+              write(chb,"(i8)") dom_id(ib)
+              write(chb1,"(i8)") ki
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_phi_'//trim(adjustl(chb))//'_initial.dat'
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_phi_"//trim(adjustl(chb))//"_initial.dat"
               else
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecout_phi_'//trim(adjustl(chb))//'.dat'
-              endif
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecout_phi_"//trim(adjustl(chb))//".dat"
+              end if
 
               open (unit=88, file=gf)
 
@@ -465,21 +465,21 @@
               totj=(je)-(js-1)+1
               totk=(ke)-(ks-1)+1
 
-              write (88,*) 'title = ', 'phi'
+              write (88,*) "title = ", "phi"
               write (88,*)'variables="x","y","z","phi","phi_reinit","phim",', &
         '"dens","mu"'
               if (L_anim_phi) then
-              write (88,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime, &
-        ' i=',toti,', ',' j=',totj,', k= ',totk, &
-        'zonetype=', 'ordered',', DATAPACKING=point'
+              write (88,*)"zone ","STRANDID=", 1, "SOLUTIONTIME=", ctime, &
+        " i=",toti,", "," j=",totj,", k= ",totk, &
+        "zonetype=", "ordered",", DATAPACKING=point"
               else if (L_LSMinit) then
-              write (88,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', 0.00000_dp, &
-        ' i=',toti,', ',' j=',totj,', k= ',totk, &
-        'zonetype=', 'ordered',', DATAPACKING=point'
+              write (88,*)"zone ","STRANDID=", 1, "SOLUTIONTIME=", 0.00000_dp, &
+        " i=",toti,", "," j=",totj,", k= ",totk, &
+        "zonetype=", "ordered",", DATAPACKING=point"
               else
-              write (88,*)'zone ', ' i=',toti,', ', &
-        ' j=',totj,', k= ',totk,' f=point'
-              endif
+              write (88,*)"zone ", " i=",toti,", ", &
+        " j=",totj,", k= ",totk," f=point"
+              end if
 
               do k=ks-1,ke
                   do j=js-1,je
@@ -538,11 +538,11 @@
 
 
 
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(4-sn))//trim(adjustl(chb))
-              gf='tecbin'//trim(adjustl(chb))//'.bin'
-              open (unit=88, file=gf, form='unformatted')
+              chb=repeat("0",(4-sn))//trim(adjustl(chb))
+              gf="tecbin"//trim(adjustl(chb))//".bin"
+              open (unit=88, file=gf, form="unformatted")
 
               toti=dom(ib)%ttc_i
               totj=dom(ib)%ttc_j

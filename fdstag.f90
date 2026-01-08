@@ -45,16 +45,16 @@
           end if
 
           if (LPT) then                     !Brunho2013
-          if (myrank==0)  open(unit=202, file='particle_log')
+          if (myrank==0)  open(unit=202, file="particle_log")
           call init_particle
-          endif
+          end if
 
           if ((solver==2).and.(.not.L_LSM)) call coeff
 
           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
           if(myrank==0) then
-          write (numfile,*) '============START ITERATIONS========='
-          write (6,*) '============START ITERATIONS========='
+          write (numfile,*) "============START ITERATIONS========="
+          write (6,*) "============START ITERATIONS========="
           end if
 
           call flosol

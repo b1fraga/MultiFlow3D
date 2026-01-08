@@ -30,7 +30,7 @@
           CHARACTER(len=31) :: gridfile
 
 
-          gridfile='input/rough_info.cin'
+          gridfile="input/rough_info.cin"
           open (unit=1, file=gridfile)
           read (1,*) d50_dummy,hd,sigma,rough_blockno,maxk
 
@@ -115,7 +115,7 @@
                                             *rough_dom(ib)%d50
                   maxelev=MAX(maxelev,rough_dom(ib)%z_rough(i,j))
                   minelev=MIN(minelev,rough_dom(ib)%z_rough(i,j))
-              enddo
+              end do
           end do
 
 !  shift bed upwards so that the troughs are at zero
@@ -131,7 +131,7 @@
                       rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(k+1,j)
                       end if
                   end do
-              enddo
+              end do
           end do
           end if
 
@@ -139,31 +139,33 @@
           do i = ni,ni
               do j = 1, nj
 !           z_rough(i,j)=z_rough(1,j)
-              enddo
+              end do
           end do
 
           if (dom(ib)%jprev<0) then
           do i = 1,ni
               do j = pl, 1, -1
-                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
-            rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
-              enddo
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) then
+                    rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j+1)
+                  end if
+              end do
           end do
           end if
 
           if (dom(ib)%jnext<0) then
           do i = 1,ni
               do j =  nj-pl+1,nj
-                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) &
-            rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
-              enddo
+                  if (rough_dom(ib)%z_rough(i,j)>5.0_dp) then
+                    rough_dom(ib)%z_rough(i,j)=rough_dom(ib)%z_rough(i,j-1)
+                  end if
+              end do
           end do
           end if
 
           zbav=0.0_dp
 
-          write(char_block,'(I4)') dom_id(ib)
-          tecfile='maxk'//TRIM(ADJUSTL(char_block))//'.dat'
+          write(char_block,"(I4)") dom_id(ib)
+          tecfile="maxk"//TRIM(ADJUSTL(char_block))//".dat"
           open (UNIT=688,file=TRIM(tecfile))
 
           do i = 1,ni
@@ -171,7 +173,7 @@
                   rough_dom(ib)%z_rough(i,j)= rough_dom(ib)%z_rough(i,j)+ &
             ABS(minelev)
                   b=rough_dom(ib)%z_rough(i,j)/rough_dom(ib)%d50
-                  WRITE (688,*) i,j,'b:',b
+                  WRITE (688,*) i,j,"b:",b
                   maxelev2=MAX(maxelev2,rough_dom(ib)%z_rough(i,j))
                   minelev2=MIN(minelev2,rough_dom(ib)%z_rough(i,j))
                   zbav=zbav+rough_dom(ib)%z_rough(i,j)
@@ -180,12 +182,12 @@
 
           zbav=zbav/(ni*nj)
 
-          WRITE (688,*) 'mycpu#:',myrank,'myblock#:',dom_id(ib)
-          WRITE (688,*) '==================================='
-          WRITE (688,*) 'maximum bed elevation:  ', maxelev2
-          WRITE (688,*) 'minimum bed elevation:  ', minelev2
-          WRITE (688,*) 'mean bed elevation:  ',zbav
-          WRITE (688,*) 'roughness diameter:  ',rough_dom(ib)%d50
+          WRITE (688,*) "mycpu#:",myrank,"myblock#:",dom_id(ib)
+          WRITE (688,*) "==================================="
+          WRITE (688,*) "maximum bed elevation:  ", maxelev2
+          WRITE (688,*) "minimum bed elevation:  ", minelev2
+          WRITE (688,*) "mean bed elevation:  ",zbav
+          WRITE (688,*) "roughness diameter:  ",rough_dom(ib)%d50
 
 ! determine roughness geometry function
           rms=0.0_dp
@@ -193,7 +195,7 @@
               do j = 1, nj
                   rough_dom(ib)%zbp(i,j)=(rough_dom(ib)%z_rough(i,j)-zbav)
                   rms=rms+rough_dom(ib)%zbp(i,j)**2
-              enddo
+              end do
           end do
           rms=rms/(ni-nj)
 
@@ -202,7 +204,7 @@
                   rough_dom(ib)%zbp(i,j)=rough_dom(ib)%zbp(i,j)/ &
             (sigma*rough_dom(ib)%d50)
 !   write (78,69) 'mycpu#:',myrank,i,j,rough_dom(ib)%zbp(i,j)
-              enddo
+              end do
           end do
 
           aa(1)=-3.0_dp
@@ -243,23 +245,23 @@
           end do
 
 
-          write (688,*) 'maximum value of k is:  ', maxk
+          write (688,*) "maximum value of k is:  ", maxk
           close (688)
 
-          write(char_block,'(I4)') dom_id(ib)
-          tecfile='rough'//TRIM(ADJUSTL(char_block))//'.plt'
+          write(char_block,"(I4)") dom_id(ib)
+          tecfile="rough"//TRIM(ADJUSTL(char_block))//".plt"
 
           open (UNIT=455,file=TRIM(tecfile))
-          WRITE (455,*) 'TITLE = ',' Roughness Function'
+          WRITE (455,*) "TITLE = "," Roughness Function"
           WRITE (455,*) 'VARIABLES = "X", "Y", "Z", "ROUGH", "ZR" '
 
-          write (455,*)'zone ', ' i=',ni,', ', &
-      ' j=',nj,', k= ',nk,' f=point'
+          write (455,*)"zone ", " i=",ni,", ", &
+      " j=",nj,", k= ",nk," f=point"
 
           do k=1,nk
               do j=1,nj
                   do i=1,ni
-                      write (455,'(5e14.6)') dom(ib)%xc(i), &
+                      write (455,"(5e14.6)") dom(ib)%xc(i), &
                 dom(ib)%yc(j),dom(ib)%zc(k),rough_dom(ib)%rough(i,j,k) &
                 ,rough_dom(ib)%z_rough(i,j)
                   end do
@@ -338,8 +340,8 @@
 
                   IF (dom_id(ib)==rough_block(L))  THEN
 
-                  write(char_block,'(I4)') dom_id(ib)
-                  tecfile='rough'//TRIM(ADJUSTL(char_block))//'.plt'
+                  write(char_block,"(I4)") dom_id(ib)
+                  tecfile="rough"//TRIM(ADJUSTL(char_block))//".plt"
 
                   open (UNIT=455,file=TRIM(tecfile))
                   do i=1,3
@@ -349,7 +351,7 @@
                   do k=1,nk
                       do j=1,nj
                           do i=1,ni
-                              READ (455,'(5e14.6)') dummy,dummy,dummy, &
+                              READ (455,"(5e14.6)") dummy,dummy,dummy, &
                         rough_dom(ib)%rough(i,j,k),rough_dom(ib)%z_rough(i,j)
                           end do
                       end do

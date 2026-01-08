@@ -28,12 +28,12 @@
           logical :: random, LSPHERICAL, LSURFACE
 
           if (myrank==0) then
-          write(6,*)'................................................'
-          write(6,*)'      LAGRANGIAN PARTICLE TRACKING ON'
-          write(6,*)'................................................'
-          endif
+          write(6,*)"................................................"
+          write(6,*)"      LAGRANGIAN PARTICLE TRACKING ON"
+          write(6,*)"................................................"
+          end if
 
-          open(10,file='input/LPT.cin')             !first read with variables applicable to all fractions
+          open(10,file="input/LPT.cin")             !first read with variables applicable to all fractions
           read(10,*)                          !header
           read(10,*) PSIcell,order
           DF=.false.
@@ -47,10 +47,10 @@
           np_restart=0
 
           if (LRESTART) then                  !there is no release before the time loop
-          open(20,file='final_particle.dat')
+          open(20,file="final_particle.dat")
           read(20,*) np_restart
           np=np_restart
-          endif
+          end if
 
           do f=1,nfrac
               read(10,*)                    !fraction header
@@ -58,9 +58,9 @@
               read(10,*) ptnr
               if (tsnr==-1) then
               np=np+ptnr              !now we calculate the total number of particles to allocate the variables
-              if (myrank==0)write(202,*) 'Initialising Lagrangian' &
-        ,' field. Releasing',ptnr,'new particles in fraction',f
-              endif
+              if (myrank==0)write(202,*) "Initialising Lagrangian" &
+        ," field. Releasing",ptnr,"new particles in fraction",f
+              end if
 
               read(10,*)                    !dp
               read(10,*)                    !rhop
@@ -73,9 +73,9 @@
               else
               do l=1,ptnr
                   read(10,*)
-              enddo
-              endif
-          enddo
+              end do
+              end if
+          end do
 
           close(10)
           ! write(6,*)'init_part unit 10 closed'
@@ -88,7 +88,7 @@
           allocate (Fu(np),Fv(np),Fw(np),rhop_old(np))
           allocate (ptsinproc(nprocs),ptsinproc_g(nprocs))
 
-          open(30,file='input/LPT.cin')             !reopen the file to read the details of every fraction
+          open(30,file="input/LPT.cin")             !reopen the file to read the details of every fraction
           read(30,*)                          !header
           read(30,*)                          !PSIcell/ball
           read(30,*)                          !nfrac
@@ -120,7 +120,7 @@
               dom(ib)%uoo = dom(ib)%u
               dom(ib)%voo = dom(ib)%v
               dom(ib)%woo = dom(ib)%w
-          enddo
+          end do
 
           ELSE  !np_restart=0
 
@@ -153,32 +153,32 @@
                       else  !Aleks 04/24. Distribute points in a spherical shape
                       call random_number_spherical(xp,yp,zp,r,sphere_optn, &
                           LSURFACE ,xp_pt(l), yp_pt(l), zp_pt(l))
-                      endif
+                      end if
                       do m=frac1,l
                           if (l/=m) then
                           distance=sqrt((xp_pt(l)-xp_pt(m))**2+(yp_pt(l) &
                     -yp_pt(m))**2+(zp_pt(l)-zp_pt(m))**2)
                           else
                           distance=1.d9
-                          endif
+                          end if
                           dist=min(dist,distance)
-                      enddo
+                      end do
                       if (ll>1000) then
-                      write(6,*) '================================'
-                      write(6,*) 'Release area too small.'
-                      write(6,*) 'Cannot create so many particles'
-                      write(6,*) 'without overlapping.'
-                      write(6,*) '================================'
+                      write(6,*) "================================"
+                      write(6,*) "Release area too small."
+                      write(6,*) "Cannot create so many particles"
+                      write(6,*) "without overlapping."
+                      write(6,*) "================================"
                       stop
-                      endif
-                  enddo
+                      end if
+                  end do
                   uop_pt(l)=uop
                   vop_pt(l)=vop
                   wop_pt(l)=wop
                   else                                                  !not random
                   read(30,*)xp_pt(l),yp_pt(l),zp_pt(l), &
             uop_pt(l),vop_pt(l),wop_pt(l)
-                  endif
+                  end if
 
                   dp_pt(l)= random_number_normal(Dp_var,sigma)
                   rho_pt(l)= random_number_normal(rho_p,sigma_rho)
@@ -195,19 +195,19 @@
 
                   else  !tsnr
                   if (.not.random) read(30,*)
-                  endif  !tsnr
+                  end if  !tsnr
 
 !            print*,tsnr,f,np,frac1,frac_end,xp_pt(l),yp_pt(l),zp_pt(l)
 !     &,wop_pt(l),dp_pt(l),rho_pt(l)
 
-              enddo                                                       !loop in particles within frac
+              end do                                                       !loop in particles within frac
 
               if (tsnr==-1) frac1=frac1+ptnr
 
-          enddo                                                             !loop in fracs
+          end do                                                             !loop in fracs
           end if                                                            !RESTART
 
-          ENDIF                                                             !myrank
+          END IF                                                             !myrank
 
           close (30)
           ! write(6,*)'init_part unit 30 closed'
@@ -244,25 +244,25 @@
 
               idfile=600+dom_id(ib)
 
-              write(b_str,'(I4)') num_output
+              write(b_str,"(I4)") num_output
               strlen=LEN(TRIM(ADJUSTL(b_str)))
-              b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
-              write(c_str,'(I4)') dom_id(ib)
+              b_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
+              write(c_str,"(I4)") dom_id(ib)
               strlen=LEN(TRIM(ADJUSTL(c_str)))
-              c_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
+              c_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
 
-              filename='tecout_'//b_str//'_'//c_str//'.dat'
+              filename="tecout_"//b_str//"_"//c_str//".dat"
 
               OPEN (UNIT=idfile, FILE=filename)
 
-              WRITE (idfile,*) 'TITLE = ', '"Eulerian field"'
+              WRITE (idfile,*) "TITLE = ", '"Eulerian field"'
 
               if (LSCALAR) then
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P" ,"S"'
 !      ,"dens","T","S","vis"'
               ELSE
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"'
-              endif
+              end if
 
               is=pl+1; ie=dom(ib)%ttc_i-pl
               js=pl+1; je=dom(ib)%ttc_j-pl
@@ -272,8 +272,8 @@
               nk=ke-(ks-1)+1
 
               !WRITE(idfile,*)'ZONE T="','id:',dom_id(ib),'it:',ntime,'"'
-              WRITE(idfile,*)'zone ','STRANDID=', 1, 'SOLUTIONTIME=', ctime
-              WRITE(idfile,*)'I=',ni,', J=',nj,', K=',nk,'F=POINT'
+              WRITE(idfile,*)"zone ","STRANDID=", 1, "SOLUTIONTIME=", ctime
+              WRITE(idfile,*)"I=",ni,", J=",nj,", K=",nk,"F=POINT"
 #if USE_HDF5 == 1
               allocate(u(is-1:ie,js-1:je,ks-1:ke),v(is-1:ie,js-1:je,ks-1:ke), &
                    w(is-1:ie,js-1:je,ks-1:ke),p(is-1:ie,js-1:je,ks-1:ke), &
@@ -301,7 +301,7 @@
                     dom(ib)%w(i+1,j+1,k))
 #if USE_HDF5 == 1
                     w(i,j,k) = w_cn
-#endif                    
+#endif
                           p_cn  =0.125_dp*(dom(ib)%p(i,j,k)+ &
                     dom(ib)%p(i+1,j,k)    +dom(ib)%p(i,j+1,k)+ &
                     dom(ib)%p(i+1,j+1,k)  +dom(ib)%p(i,j,k+1)+ &
@@ -327,7 +327,7 @@
 #if USE_HDF5 == 1
                     rho(i,j,k) = rho_cn
 #endif
-                          endif
+                          end if
 !                 k_cn  =0.125_dp*(dom(ib)%ksgs(i,j,k)+
 !     &dom(ib)%ksgs(i+1,j,k)    +dom(ib)%ksgs(i,j+1,k)+
 !     &dom(ib)%ksgs(i+1,j+1,k)  +dom(ib)%ksgs(i,j,k+1)+
@@ -352,61 +352,61 @@
 #if USE_HDF5 == 1
                           T(i,j,k) = T_cn
 #endif
-                          endif
+                          end if
 #if USE_HDF5 == 0
                           if (LSCALAR) then
-                          write (idfile,'(9e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
+                          write (idfile,"(9e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                     ,u_cn,v_cn,w_cn,p_cn,S_cn,rho_cn  !T_cn,S_cn,k_cn,eps_cn,vis_cn
                           else
-                          write (idfile,'(7e14.6)') dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
+                          write (idfile,"(7e14.6)") dom(ib)%x(i),dom(ib)%y(j),dom(ib)%z(k) &
                      ,u_cn,v_cn,w_cn,p_cn
-                          endif
+                          end if
 #endif
 
 
-                      enddo
-                  enddo
-              enddo
+                      end do
+                  end do
+              end do
 !           write (90,*) dom(ib)%isp,dom(ib)%iep,
 !     & dom(ib)%jsp,dom(ib)%jep,dom(ib)%ksp,dom(ib)%kep
 !     endif
 #if USE_HDF5 == 1
-          filename='tecout_'//b_str//'_'//c_str//'.h5'
+          filename="tecout_"//b_str//"_"//c_str//".h5"
           if (LSCALAR) then
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key='U',group="test")
+                  array_input_3d=u,key="U",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key='V',group="test")
+                  array_input_3d=v,key="V",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key='W',group="test")
+                  array_input_3d=w,key="W",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key='P',group="test")
+                  array_input_3d=p,key="P",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=s,key='S',group="test")
+                  array_input_3d=s,key="S",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=rho,key='RHO',group="test")
+                  array_input_3d=rho,key="RHO",group="test")
           else
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key='x',group="test")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key='y',group="test")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key='z',group="test")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key='U',group="test")
+                  array_input_3d=u,key="U",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key='V',group="test")
+                  array_input_3d=v,key="V",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key='W',group="test")
+                  array_input_3d=w,key="W",group="test")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key='P',group="test")
-          endif
+                  array_input_3d=p,key="P",group="test")
+          end if
 #endif
           end do
 
@@ -433,19 +433,19 @@
           character(LEN=80) :: filename,filename2
           character(LEN=4) :: b_str
 
-          write(b_str,'(I4)') num_output
+          write(b_str,"(I4)") num_output
           strlen=LEN(TRIM(ADJUSTL(b_str)))
-          b_str=REPEAT('0',(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
+          b_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(b_str))  ! e.g. "001"
 
-          filename='tecout_'//b_str//'_pt.dat'
+          filename="tecout_"//b_str//"_pt.dat"
 
           OPEN (UNIT=95, FILE=TRIM(ADJUSTL(filename)))
 
-          WRITE (95,*) 'TITLE = ', '"Lagrangian field"'
+          WRITE (95,*) "TITLE = ", '"Lagrangian field"'
 WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
                  '"V<sub>Lag<\sub>","W<sub>Lag<\sub>","D<sub>Lag<\sub>","rho<sub>Lag<\sub>"'
   !,"F<sub>u","F<sub>v","F<sub>w"'
-          WRITE(95,*)'zone ','STRANDID=', 2, 'SOLUTIONTIME=', ctime
+          WRITE(95,*)"zone ","STRANDID=", 2, "SOLUTIONTIME=", ctime
 
           do l=1,np
               WRITE (95,*) xp_pt(l),yp_pt(l),zp_pt(l) &
@@ -509,10 +509,10 @@ WRITE (95,"(A)") 'VARIABLES = "X","Y","Z","U<sub>Lag<\sub>",' // &
           else
           call random_number(w)
           ra = r * (w ** (1.0d0/2.0d0))  !generate within circular area
-          endif
+          end if
           else  !releasing on surface/circumference --> r is constant
           ra = r
-          endif
+          end if
 
 !generate random coordinates converted to the cartesian coordinate system
           select case (sphere_optn)

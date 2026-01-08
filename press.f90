@@ -313,18 +313,24 @@
                           dom(ib)%at(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
                           dom(ib)%ab(i,j,k)=1.0_dp/(dom(ib)%dz*dom(ib)%dz)
 
-                          if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) &
-                    dom(ib)%aw(isp,j,k)=0.0_dp
-                          if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) &
-                    dom(ib)%ae(iep,j,k)=0.0_dp
-                          if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) &
-                    dom(ib)%as(i,jsp,k)=0.0_dp
-                          if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) &
-                    dom(ib)%an(i,jep,k)=0.0_dp
-                          if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) &
-                    dom(ib)%ab(i,j,ksp)=0.0_dp
-                          if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) &
-                    dom(ib)%at(i,j,kep)=0.0_dp
+                          if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
+                            dom(ib)%aw(isp,j,k)=0.0_dp
+                          end if
+                          if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) then
+                            dom(ib)%ae(iep,j,k)=0.0_dp
+                          end if
+                          if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
+                            dom(ib)%as(i,jsp,k)=0.0_dp
+                          end if
+                          if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) then
+                            dom(ib)%an(i,jep,k)=0.0_dp
+                          end if
+                          if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
+                            dom(ib)%ab(i,j,ksp)=0.0_dp
+                          end if
+                          if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) then
+                            dom(ib)%at(i,j,kep)=0.0_dp
+                          end if
 
 
                           dom(ib)%ap(i,j,k) = -1.0_dp*(dom(ib)%aw(i,j,k)+ &
@@ -383,8 +389,8 @@
  3000     continue
 
           if(rmax>100.0_dp) then
-          if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
-          write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
+          if(myrank==0) write(numfile,*)"BIG RMAX!! STOP!!!!!",rmax
+          write(6,*)"BIG RMAX!! STOP!!!!!!!!",rmax
 
           !call tecgrid(itime)
           !call tecplot_p(itime)
@@ -394,8 +400,8 @@
           !call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
           if(myrank==0) then
-          open (unit=101, file='final_ctime.dat')
-          write (101,'(i8,3F15.6)') &
+          open (unit=101, file="final_ctime.dat")
+          write (101,"(i8,3F15.6)") &
     ntime,ctime,forcn,qstpn,count
           close(101)
           end if
@@ -411,12 +417,12 @@
 
           if (myrank==0) then
           wtimedum = MPI_WTIME ( ) - wtime
-          write (6,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
-     ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
-     ' sweeps:',nsweeps,' rmax:',rmax
-          write (numfile,'(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)') &
-     ' myrank:',myrank,' ntime:',ntime,' iters:',iter, &
-     ' sweeps:',nsweeps,' rmax:',rmax
+          write (6,"(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)") &
+     " myrank:",myrank," ntime:",ntime," iters:",iter, &
+     " sweeps:",nsweeps," rmax:",rmax
+          write (numfile,"(1x,a,i8,a,i8,a,i4,a,i4,a,e13.6,a,e13.6)") &
+     " myrank:",myrank," ntime:",ntime," iters:",iter, &
+     " sweeps:",nsweeps," rmax:",rmax
 !           write(numfile2,'(i8,f15.6,3e20.6)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if

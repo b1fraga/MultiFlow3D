@@ -658,16 +658,16 @@
                           if (dom(ib)%phi(i,j,k) >= 0.0_dp) then
                           dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                     dt*alfapr*forcn
-                          endif
+                          end if
                           else if (L_LSMbase) then
                           if (dom(ib)%zc(k)<=length) then
                           dom(ib)%ustar(i,j,k)= dom(ib)%ustar(i,j,k)+ &
                      dt*alfapr*forcn
-                          endif
+                          end if
                           else
                           dom(ib)%ustar(i,j,k)=dom(ib)%ustar(i,j,k)+dt*alfapr*forcn
-                          endif
-                          endif
+                          end if
+                          end if
 
                       end do
                   end do
@@ -766,7 +766,7 @@
 ! !     &                                dom(ib)%blkw(i,j,k))
 !         end if
 
-                      end do; enddo; enddo
+                      end do; end do; end do
 
           end do
 
@@ -775,17 +775,17 @@
           call exchange(22)
           call exchange(33)
           call mom_buo_dens
-          elseif (LENERGY.and.(dens>=100)) then
+          else if (LENERGY.and.(dens>=100)) then
           call exchange(11)
           call exchange(22)
           call exchange(33)
           call mom_buo  !water
-          elseif (LENERGY.and.(dens<100)) then
+          else if (LENERGY.and.(dens<100)) then
           call exchange(11)
           call exchange(22)
           call exchange(33)
           call mom_buo_air  !Aleks Covid code subroutine
-          endif
+          end if
 
           if (LROUGH) call rough_velocity
 

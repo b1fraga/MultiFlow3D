@@ -137,9 +137,10 @@
 
           if(itime/=itime_start) then
           if(dt<dtavg*0.1_dp) then
-          print*,'#*#*#*#*#*# dt becomes smaller, check result!!!!'
-          if (myrank==0) &
-    write(numfile,*) '#*#*#*# dt becomes smaller, check result!!!!'
+          print*,"#*#*#*#*#*# dt becomes smaller, check result!!!!"
+          if (myrank==0) then
+            write(numfile,*) "#*#*#*# dt becomes smaller, check result!!!!"
+          end if
           call tecgrid(itime)
           call tecplot_p(itime)
           call tecplot_u(itime)
@@ -147,8 +148,8 @@
           call tecplot_w(itime)
           call tecbin(itime)
           if(myrank==0) then
-          open (unit=101, file='final_ctime.dat')
-          write (101,'(i8,3F15.6)') &
+          open (unit=101, file="final_ctime.dat")
+          write (101,"(i8,3F15.6)") &
     ntime,ctime,forcn,qstpn,count
           close(101)
           end if

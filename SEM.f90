@@ -31,7 +31,7 @@
           DO N=1,kdom ; DO J=1,jdom
                   I=I+1
                   iddom(I)=idom*(J-1)+(jdom*idom*(N-1))
-              ENDDO ; ENDDO
+              END DO ; END DO
 !DIVISION ON THE Y AND Z DIRECTIONS
           Do J=1,jdom
               ley(J)=ley(J-1)+ &
@@ -40,9 +40,9 @@
               lsy(J)=1
               ELSE
               lsy(J)=ley(J-1)+1
-              ENDIF
+              END IF
               DIVY = DIVY + NINT((ycor(iddom(J),2)-ycor(iddom(J),1))/g_dy) +1
-          Enddo
+          End do
           DO N=1,kdom
               lez(N)=lez(N-1)+ &
          NINT((zcor(iddom(N),2)-zcor(iddom(N),1))/g_dz)+1
@@ -50,9 +50,9 @@
               lsz(N)=1
               ELSE
               lsz(N)=lez(N-1)+1
-              ENDIF
+              END IF
               DIVZ = DIVZ + NINT((zcor(iddom(N),2)-zcor(iddom(N),1))/g_dz) +1
-          ENDDO
+          END DO
 !THE DIVISIONS FOR EACH OF THE DOMAINS IS DETERMINED:
           I=0
           DO N=1,kdom  ;  DO J=1,jdom
@@ -61,10 +61,10 @@
                   elemyen(I) = ley(J)  ;  elemzen(I) = lez(N)
                   ljdom(I) = elemyen(I) -  elemyst(I) + 1
                   lkdom(I) = elemzen(I) -  elemzst(I) + 1
-              enddo ; enddo
+              end do ; end do
 
-          write(6,*)'Divisions :',DIVY,DIVZ
-          write(6,*)'# BLOCKS  :',jdom,kdom
+          write(6,*)"Divisions :",DIVY,DIVZ
+          write(6,*)"# BLOCKS  :",jdom,kdom
           write(6,*)lsy(1),ley(1),lsy(2),ley(2),ley(2)-lsy(2)+1
           write(6,*)lsz(1),lez(1),lsz(2),lez(2),lez(2)-lsz(2)+1
 
@@ -76,14 +76,14 @@
 ![N](INTEGER) AND [ENNE](real(dp)) REPRESENT THE NUMBER OF EDDIES
           N = INT(NE_SEM)   ;  ENNE = REAL(N)
 
-          if(myrank==0) write(6,*) 'The number of SEM eddies is :', N
+          if(myrank==0) write(6,*) "The number of SEM eddies is :", N
 
 !  [REYNOLDS(6)] IS A VECTOR WITH THE SIX ELEMENTS OF REYNOLDS STRESSES.
 !  |REYNOLDS(1)  REYNOLDS(2)  REYNOLDS(4)|
 !  |REYNOLDS(2)  REYNOLDS(3)  REYNOLDS(5)|
 !  |REYNOLDS(4)  REYNOLDS(5)  REYNOLDS(6)|
-          REYNOLDS=(/(TI_SEM*U0)**2, 0.0D0,(TI_SEM*U0)**2, 0.0D0, &
-     0.0D0,(TI_SEM*U0)**2/)   ![M/S]
+          REYNOLDS=[(TI_SEM*U0)**2, 0.0D0,(TI_SEM*U0)**2, 0.0D0, &
+     0.0D0,(TI_SEM*U0)**2]   ![M/S]
 
 !ALLOCATION OF THE EDDIES VECTOR.
 ![VSEM(DIVX,DIVY,DIVZ,3)] IS THE INSTANTANEOUS VELOCITY VECTOR IN THE POINT WITH
@@ -105,7 +105,7 @@
               DO IZ=1,DIVZ
                   SIGMA(IY,IZ)=SIGMA_VALUE    !!!  MIN(8.0*g_dy,0.20D0) !isotropic
 !Set the inlet velocity prof.
-                  Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)
+                  Usem(IY,IZ,:)=[ U0 ,0.D0,0.D0]
 !   if(UPROF_SEM.eq.1) Usem(IY,IZ,:)=(/ U0 ,0.D0,0.D0/)      !elli
 !       if(UPROF_SEM.eq.15) then
 !        RIZ=IZ                         !elli
@@ -153,20 +153,21 @@
           R(3,3) = DSQRT(REYNOLDS(6) - R(3,1)*R(3,1) - R(3,2)*R(3,2))
 !BEGINNING OF TIME ITERATIONS
           DO IT=1,ITMAX_SEM         !PARALLELIZE THIS LOOP
-              if(mod(IT,50)==0) &
-         WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,'[S]'
+              if(mod(IT,50)==0) then
+                WRITE(*,*)"ITERATION ",IT,"IN PROGRESS.TIME: ",(IT-1) * DT,"[S]"
+              end if
 
 !PRINTINGS OF GLOBAL VELOCITY AND OF CONVECTION VELOCITY
               Do I=1,jdom*kdom
                   IGLOBAL=500+I
-                  WRITE (FILEGLOBAL,'(A13,i4.4,a1,I6.6,A4)') &
-            'inflow/Inlet_',iddom(I),'_',IT,'.dat'
+                  WRITE (FILEGLOBAL,"(A13,i4.4,a1,I6.6,A4)") &
+            "inflow/Inlet_",iddom(I),"_",IT,".dat"
                   OPEN(UNIT=IGLOBAL,FILE=FILEGLOBAL,STATUS="UNKNOWN", &
             ACTION="WRITE")
-                  WRITE (IGLOBAL,*)'Variables=up,vp,wp'
+                  WRITE (IGLOBAL,*)"Variables=up,vp,wp"
                   WRITE (IGLOBAL,*) &
-            'zone ',' i=',ljdom(I),',',' j=',lkdom(I),', k= ',1,' f=point'
-              Enddo
+            "zone "," i=",ljdom(I),","," j=",lkdom(I),", k= ",1," f=point"
+              End do
 
               MOLT = MATMUL(R,EPSILO)  ! !aij*epsij   MATRIX MULTIPLICATION
               MAXVSEM=0.D0 ; MINVSEM=1000000.D0
@@ -174,8 +175,8 @@
               DO IY = 1,DIVY
                   DO IZ = 1,DIVZ
 !X_POINT = GRID POINT COORDINATES
-                      X_POINT=(/0.0D0,IY*Ly/DIVY+YMIN,IZ*Lz/DIVZ+ZMIN/)
-                      Vsem(IY,IZ,:)=(/ 0.d0, 0.d0,  0.d0 /)
+                      X_POINT=[0.0D0,IY*Ly/DIVY+YMIN,IZ*Lz/DIVZ+ZMIN]
+                      Vsem(IY,IZ,:)=[ 0.d0, 0.d0,  0.d0 ]
 !------------BEGINNING OF EDDIES ITERATIONS
                       DO II=1,N
                           TEMP(:) = DABS(X_POINT(:) - X_EDDY(:,II))
@@ -197,16 +198,16 @@
               END DO
 
 !    write(6,*) '========='
-              write(6,'(i6,2f15.6)')IT,MAXVSEM,MINVSEM
+              write(6,"(i6,2f15.6)")IT,MAXVSEM,MINVSEM
 !------END OF SPATIAL ITERATIONS
               Do I=1,jdom*kdom
                   IGLOBAL=500+I
                   Do M=elemzst(I),elemzen(I)
                       Do J=elemyst(I),elemyen(I)
-                          WRITE(500+I,'(3E15.6)')Vsem(J,M,:)                !turn down precision for large files
-                      enddo ;enddo
+                          WRITE(500+I,"(3E15.6)")Vsem(J,M,:)                !turn down precision for large files
+                      end do ;end do
                   CLOSE (UNIT=IGLOBAL)
-              Enddo
+              End do
 !--------BEGINNING OF EDDIES CONVECTION ITERATIONS
               DO II=1,N
 !RE-CALCULATION OF THE EDDIES POSITION. IF ANY EDDY GOES BEYOND THE BOX LIMITS

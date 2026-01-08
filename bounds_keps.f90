@@ -152,7 +152,7 @@
             .or.dom(ib)%bc_bottom==62) then
                   if (ly==0) then
                   call log_law(5,ib)
-                  endif
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%ksgs(i,j,ks)=dom(ib)%tauwb(i,j)/sqrt(cmu)
                           dom(ib)%ksgs(i,j,ks-1-ly)= 0.d0
@@ -377,7 +377,7 @@
             .or.dom(ib)%bc_bottom==62) then
                   if (ly==0) then
                   call log_law(5,ib)
-                  endif
+                  end if
                   do j=js-1,je+1; do i=is-1,ie+1
                           dom(ib)%eps(i,j,ks)= &
                     dom(ib)%tauwb(i,j)**1.5_dp/(kappa*dz)

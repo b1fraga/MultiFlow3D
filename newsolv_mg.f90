@@ -58,13 +58,13 @@
 
           end do
 
-          if (myrank==0) print*,'not converged!! ',maxcy,rmax
-          if (myrank==0) write(numfile,*)'not converged!! ',maxcy,rmax
+          if (myrank==0) print*,"not converged!! ",maxcy,rmax
+          if (myrank==0) write(numfile,*)"not converged!! ",maxcy,rmax
  3000     continue
 
           if(rmax>100.0_dp) then
-          if(myrank==0) write(numfile,*)'BIG RMAX!! STOP!!!!!',rmax
-          write(6,*)'BIG RMAX!! STOP!!!!!!!!',rmax
+          if(myrank==0) write(numfile,*)"BIG RMAX!! STOP!!!!!",rmax
+          write(6,*)"BIG RMAX!! STOP!!!!!!!!",rmax
 
           !call tecgrid(itime)
           !call tecplot_p(itime)
@@ -73,8 +73,8 @@
           !call tecplot_w(itime)
           !call tecbin(itime)
           if(myrank==0) then
-          open (unit=101, file='final_ctime.dat')
-          write (101,'(i8,3F15.6)')&
+          open (unit=101, file="final_ctime.dat")
+          write (101,"(i8,3F15.6)")&
     ntime,ctime,forcn,qstpn,count
           close(101)
           end if
@@ -91,10 +91,10 @@
 
           if(myrank==0) then
           wtimedum = MPI_WTIME ( ) - wtime
-          write(6,'(1x,a,i8,a,e13.6,a,i8)') &
-    ' ntime:',ntime,' rmax:',rmax,'     iter',iter
-          write(numfile,'(1x,a,i8,a,e13.6,a,i8)') &
-    ' ntime:',ntime,' rmax:',rmax,'     iter',iter
+          write(6,"(1x,a,i8,a,e13.6,a,i8)") &
+    " ntime:",ntime," rmax:",rmax,"     iter",iter
+          write(numfile,"(1x,a,i8,a,e13.6,a,i8)") &
+    " ntime:",ntime," rmax:",rmax,"     iter",iter
 !           write(numfile2,'(i8,f15.6,3e20.6)')
 !     & ntime,wtimedum,rmax,dt,Mdef
           end if
@@ -117,19 +117,19 @@
           if ((mod(itime,n_out)==0).and.(itime>itime_start)) then
 
           do ib=1,nbp
-              write(chb,'(i8)') dom_id(ib)
+              write(chb,"(i8)") dom_id(ib)
               sn=len(trim(adjustl(chb)))
-              chb=repeat('0',(3-sn))//trim(adjustl(chb))
-              gf='resid'//trim(adjustl(chb))//'.plt'
+              chb=repeat("0",(3-sn))//trim(adjustl(chb))
+              gf="resid"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
               write (88,*) 'variables="x","y","z","res"'
-              write (88,*)'zone ', &
-        ' i=',dom(ib)%iep-dom(ib)%isp+1,', ', &
-        ' j=',dom(ib)%jep-dom(ib)%jsp+1,', ', &
-        ' k=',dom(ib)%kep-dom(ib)%ksp+1,' f=point'
+              write (88,*)"zone ", &
+        " i=",dom(ib)%iep-dom(ib)%isp+1,", ", &
+        " j=",dom(ib)%jep-dom(ib)%jsp+1,", ", &
+        " k=",dom(ib)%kep-dom(ib)%ksp+1," f=point"
 
 
-              gf2='th_resid'//trim(adjustl(chb))//'.plt'
+              gf2="th_resid"//trim(adjustl(chb))//".plt"
               open (unit=78, file=gf2)
               write (78,*) 'variables="x","y","z","res"'
 
@@ -159,4 +159,4 @@
 
       end subroutine plotres
 !##########################################################################
-    
+

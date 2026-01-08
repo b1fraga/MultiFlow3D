@@ -32,30 +32,30 @@
 
               if ( myrank == 0 ) then
               wtime = MPI_WTIME ( )
-              write ( *, '(a)' ) '========================================'
-              write ( *, '(a)' ) '...............MultiFlow3D..............'
-              write ( *, '(a)' ) '...............v2.2.(2024)..............'
-              write ( *, '(a)' ) '========================================'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~~~~!~~~~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~~~/.\~~~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~~/...\~~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~{.....}~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~~`~.~´~~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' )'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-              write ( *, '(a)' ) 'Created by Bruño Fraga'
-              write ( *, '(a)' ) 'Contributors: Boyang Chen'
-              write ( *, '(a)' ) 'Contributors: Aleksandra Monka'
-              write ( *, '(a)' ) 'Contributors: Yu Zhang'
-              write ( *, '(a)' ) 'Contributors: Zhen Liu'
-              write ( *, '(a)' ) '\\\\\\\University of Birmingham///////'
-              write ( *, '(a)' ) ' '
-              write ( *, '(a)' ) 'Based on the 3DFM code by Mehtap Cahveci'
-              write ( *, '(a)' ) ' '
-              write ( *, '(a)' ) '3D Finite Diff Navier-Stokes solver'
-              write ( *, '(a)' ) 'FORTRAN90/MPI/OpenMP'
-              write ( *, '(a)' ) ' '
-              write ( *, '(a,i8)' ) 'The number of processes is ', nprocs
-              write ( *, '(a)' ) ' '
+              write ( *, "(a)" ) "========================================"
+              write ( *, "(a)" ) "...............MultiFlow3D.............."
+              write ( *, "(a)" ) "...............v2.2.(2024).............."
+              write ( *, "(a)" ) "========================================"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~~~~!~~~~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~~~/.\~~~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~~/...\~~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~{.....}~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~~`~.~´~~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" )"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+              write ( *, "(a)" ) "Created by Bruño Fraga"
+              write ( *, "(a)" ) "Contributors: Boyang Chen"
+              write ( *, "(a)" ) "Contributors: Aleksandra Monka"
+              write ( *, "(a)" ) "Contributors: Yu Zhang"
+              write ( *, "(a)" ) "Contributors: Zhen Liu"
+              write ( *, "(a)" ) "\\\\\\\University of Birmingham///////"
+              write ( *, "(a)" ) " "
+              write ( *, "(a)" ) "Based on the 3DFM code by Mehtap Cahveci"
+              write ( *, "(a)" ) " "
+              write ( *, "(a)" ) "3D Finite Diff Navier-Stokes solver"
+              write ( *, "(a)" ) "FORTRAN90/MPI/OpenMP"
+              write ( *, "(a)" ) " "
+              write ( *, "(a,i8)" ) "The number of processes is ", nprocs
+              write ( *, "(a)" ) " "
               end if
 
           end subroutine init_parallelisation
@@ -65,13 +65,13 @@
               implicit none
 
               if ( myrank == 0 ) then
-              write ( *, '(a)' ) ' '
-              write ( *, '(a)' ) 'MultiFlow3D - Master process:'
-              write (*,'(a)')'Normal end of execution, good luck.'
+              write ( *, "(a)" ) " "
+              write ( *, "(a)" ) "MultiFlow3D - Master process:"
+              write (*,"(a)")"Normal end of execution, good luck."
               wtime = MPI_WTIME ( ) - wtime
-              write ( *, '(a)' ) ' '
-              write (*,'(a,g14.6,a)') 'Elapsed wall clock time = ',wtime, &
-        'seconds.'
+              write ( *, "(a)" ) " "
+              write (*,"(a,g14.6,a)") "Elapsed wall clock time = ",wtime, &
+        "seconds."
               end if
 
               call MPI_BARRIER (MPI_COMM_WORLD,ierr)

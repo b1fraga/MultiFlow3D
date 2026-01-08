@@ -19,8 +19,8 @@
           if (LAS.or.L_LSM) then                                            !variable density
           do i=1,dom(ib)%ttc_i ;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
                       rrey=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
-                  enddo;enddo;enddo
-          endif
+                  end do;end do;end do
+          end if
           small = 1.e-30_dp
 
           SELECT CASE (bound)

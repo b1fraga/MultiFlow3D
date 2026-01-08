@@ -55,9 +55,9 @@
           iaddinlet = 1
 
           if (myrank==1) then
-          open(unit=203, file='worktime.dat')
-          write(203,*)'Variables=it,C-D,PSolver,IBM,LPT,Total'
-          endif
+          open(unit=203, file="worktime.dat")
+          write(203,*)"Variables=it,C-D,PSolver,IBM,LPT,Total"
+          end if
 
 !================== Start Time Loop ====================================
           do itime=itime_start,itime_end
@@ -73,19 +73,19 @@
               if (read_inflow) then
               if (ireadinlet==ITMAX_PI.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.and.iaddinlet==-1) then
+              else if (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
-              endif
+              end if
               ireadinlet=ireadinlet+iaddinlet
 !---------------------------reading SEM---------------------------------!Pablo2015
-              elseif ((bc_w==8)) then
+              else if ((bc_w==8)) then
               if (ireadinlet==ITMAX_SEM.and.iaddinlet==1) then
               iaddinlet=-1
-              elseif (ireadinlet==1.and.iaddinlet==-1) then
+              else if (ireadinlet==1.and.iaddinlet==-1) then
               iaddinlet=1
-              endif
+              end if
               ireadinlet=ireadinlet+iaddinlet
-              endif
+              end if
 !-----------------------------------------------------------------------
 
               if (LENERGY) call boundT
@@ -114,9 +114,9 @@
               call release_pt                                             !release new particles if any fraction requires
               if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
               call alloc_pt                                               !if not periodic, particles that leave the domain are removed
-              endif
+              end if
               call MPI_pt
-              endif
+              end if
               if(SGS) then
               if(sgs_model==1) then
               call eddyv_smag
@@ -139,7 +139,7 @@
                   alfabc = 1
                   else
                   alfabc = 0
-                  endif
+                  end if
                   alfapr=alfark(kutta)
 
                   select case (differencing)
@@ -181,7 +181,7 @@
               if (np_loc>0) call particle_tracking           !Procs without particles do not enter
               call final_LPT
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
-              endif
+              end if
 
               if (myrank==0) wtime_lpt = MPI_WTIME ( ) - wtime_lpt
 
@@ -205,14 +205,14 @@
               wtimedum = MPI_WTIME ( ) - wtime
 
               write (6,5000) itime,ctime,dt,dtavg
-              write (6,*) ' '
+              write (6,*) " "
               write (6,5500) wtimedum
-              write (6,*) ' '
+              write (6,*) " "
 
               write (numfile,5000) itime,ctime,dt,dtavg
-              write (numfile,*) ' '
+              write (numfile,*) " "
               write (numfile,5500) wtimedum
-              write (numfile,*) ' '
+              write (numfile,*) " "
               end if
 
 !           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
@@ -247,16 +247,16 @@
                 dom(ib)%T(i_unst(ii),j_unst(ii),k_unst(ii))
                       dom(ib)%Tm_unst(ii,jjtime)=          &         !Aleks 04/24
                 dom(ib)%Tm(i_unst(ii),j_unst(ii),k_unst(ii))
-                      endif
-                  ENDDO
-              enddo
+                      end if
+                  END DO
+              end do
 !-----------Saving inflow-----------------------------------------------!Brunho2014
               DO ib=1,nbp
                   if ((save_inflow).and.(mod(dom_id(ib),idom)==0)) then
                   call write_inflow(ib)
-                  endif
-              ENDDO
-              endif
+                  end if
+              END DO
+              end if
 
 
 !------write solution in tecplot format------------------------------
@@ -266,9 +266,9 @@
               call TECPLOT(count)
               if (LPT) then
               if (myrank==0.and.np>0) call TECPARTICLE(count)
-              endif
+              end if
               count = count + 1
-              endif
+              end if
               end if
 
               if ((mod(itime,n_out)==0).and.(itime>=itime_start)) then
@@ -281,13 +281,13 @@
               if (L_LSM) call tecplot_phi(itime)
               call tecbin(itime)
               if (ctime>=t_start_averaging2)  call timesig
-              open (unit=101, file='final_ctime.dat')
-              if(myrank==0) write (101,'(i8,3F15.6)') &
+              open (unit=101, file="final_ctime.dat")
+              if(myrank==0) write (101,"(i8,3F15.6)") &
         ntime,ctime,forcn,qstpn,count,ntav1_count, &
         ntav2_count
               close(101)
               if (myrank==0) then
-              open(30,file='final_particle.dat')
+              open(30,file="final_particle.dat")
               write(30,*) np
               if (LPT) then
               do k=1,np
@@ -296,18 +296,18 @@
                   write(30,*) dp_pt(k),rho_pt(k)
               end do
               close(30)
-              endif
-              endif
+              end if
+              end if
               end if
 
 
 !-----------------------------------------------------------------------
               if (myrank==1) then
               wtime_total = MPI_WTIME ( ) - wtime_total
-              write(203,*) 'solver',wtime_solver
-              write(203,*) 'ibm',wtime_ib
-              write(203,*) 'total',wtime_total
-              endif
+              write(203,*) "solver",wtime_solver
+              write(203,*) "ibm",wtime_ib
+              write(203,*) "total",wtime_total
+              end if
 
 
           end do
@@ -328,13 +328,13 @@
           call tecbin(itime)
           if (L_LSM) call tecplot_phi(itime)
           if (ctime>=t_start_averaging2)  call timesig
-          open (unit=101, file='final_ctime.dat')
-          if(myrank==0) write (101,'(i8,3F15.6)') &
+          open (unit=101, file="final_ctime.dat")
+          if(myrank==0) write (101,"(i8,3F15.6)") &
     ntime,ctime,forcn,qstpn,count,ntav1_count, &
     ntav2_count
           close(101)
           if (myrank==0) then
-          open(30,file='final_particle.dat')
+          open(30,file="final_particle.dat")
           write(30,*) np
           if (LPT) then
           do k=1,np
@@ -343,15 +343,15 @@
               write(30,*) dp_pt(k),rho_pt(k)
           end do
           close(30)
-          endif  !LPT
+          end if  !LPT
           end if   !myrank
-          endif
+          end if
 
-          if (myrank==0) write (6,*) 'ctime=' , ctime
-          if (myrank==0) write (numfile,*) 'ctime=' , ctime
+          if (myrank==0) write (6,*) "ctime=" , ctime
+          if (myrank==0) write (numfile,*) "ctime=" , ctime
 
- 5000 format(/, 1x, 10('='), ' nrtstp=', i8, 2x, 'ctime=', e14.6, 2x, &
-     'dt=',e14.6,'  dtavg=',e14.6)
- 5500     format(/1x,'Work took ',e18.8,2x,' seconds')
+ 5000 format(/, 1x, 10("="), " nrtstp=", i8, 2x, "ctime=", e14.6, 2x, &
+     "dt=",e14.6,"  dtavg=",e14.6)
+ 5500     format(/1x,"Work took ",e18.8,2x," seconds")
       end subroutine flosol
 !##########################################################################

@@ -79,23 +79,23 @@ contains
     expected_character_keyword = "column"
     call check(error, Keyword, expected_character_keyword)
     if (allocated(error)) return
-    
+
     expected_real = 0.1_dp
     call check(error, UBulk, expected_real)
     if (allocated(error)) return
-    
+
     expected_real = 0.004_dp
     call check(error, dx, expected_real)
     if (allocated(error)) return
-    
+
     expected_real = 0.03125_dp
     call check(error, dy, expected_real)
     if (allocated(error)) return
-    
+
     expected_real = 0.03125_dp
     call check(error, dz, expected_real)
     if (allocated(error)) return
-    
+
     expected_integer=1000
     call check(error, dens, expected_integer)
     if (allocated(error)) return
@@ -127,7 +127,7 @@ contains
     expected_real=-9.81_dp
     call check(error, gz, expected_real)
     if (allocated(error)) return
-    
+
     expected_integer = 3
     call check(error, convection_scheme, expected_integer)
     if (allocated(error)) return
@@ -178,12 +178,12 @@ contains
 
     expected_real=0.2_dp
     call check(error, safety_factor, expected_real)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_integer=6000
     call check(error, itime_end, expected_integer)
-    if (allocated(error)) return 
-    
+    if (allocated(error)) return
+
     expected_logical=.false.
     call check(error, restart, expected_logical)
     if (allocated(error)) return
@@ -199,7 +199,7 @@ contains
     expected_logical=.true.
     call check(error, LTRANSIENT, expected_logical)
     if (allocated(error)) return
-    
+
     expected_integer=100
     call check(error, results_output, expected_integer)
     if (allocated(error)) return
@@ -254,35 +254,35 @@ contains
 
     expected_character_type_of_friction = "n"
     call check(error, type_of_friction, expected_character_type_of_friction)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_real = 0.03_dp
     call check(error, Friction_coefficient, expected_real)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_logical = .false.
     call check(error, save_inflow_data, expected_logical)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_integer = 5000
     call check(error, number_of_inlets, expected_integer)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_integer = 12
     call check(error, velocity_profile, expected_integer)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_real = 0.1_dp
     call check(error, Turbulence_intensity, expected_real)
     if (allocated(error)) return
-    
+
     expected_integer = 1000
     call check(error, Number_inlet_profiles, expected_integer)
-    if (allocated(error)) return    
+    if (allocated(error)) return
 
     expected_logical = .false.
     call check(error, time_averaging, expected_logical)
-    if (allocated(error)) return  
+    if (allocated(error)) return
 
     expected_real = 0.04_dp
     call check(error, t_start_averaging1, expected_real)
@@ -294,7 +294,7 @@ contains
 
     expected_real = 0.0_dp
     call check(error, noise, expected_real)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_logical = .true.
     call check(error, SGS_model, expected_logical)
@@ -302,16 +302,16 @@ contains
 
     expected_integer = 1
     call check(error, SGS_model_value, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 2
     call check(error, LMR, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 2
     call check(error, normal_ghost_velocity_interpolation, expected_integer)
-    if (allocated(error)) return   
-    
+    if (allocated(error)) return
+
     expected_logical = .false.
     call check(error, LIMB, expected_logical)
     if (allocated(error)) return
@@ -350,19 +350,19 @@ contains
 
     expected_integer = 2
     call check(error, pl_ex, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_real = 301.11_dp
     call check(error, Th, expected_real)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_real = 298.57_dp
     call check(error, Tc, expected_real)
-    if (allocated(error)) return 
+    if (allocated(error)) return
 
     expected_integer = 7
     call check(error, West_Energy_BC, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 7
     call check(error, East_Energy_BC, expected_integer)
@@ -382,15 +382,15 @@ contains
 
     expected_integer = 7
     call check(error, Top_Energy_BC, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 0
     call check(error, num_of_time_series_points, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 0
     call check(error, time_series_point_1, expected_integer)
-    if (allocated(error)) return   
+    if (allocated(error)) return
 
     expected_integer = 12
     call check(error, time_series_point_2, expected_integer)
@@ -402,10 +402,10 @@ contains
 
     expected_integer = 22
     call check(error, time_series_point_4, expected_integer)
-    if (allocated(error)) return   
-    
+    if (allocated(error)) return
+
   end subroutine test_read_control_file
 
- 
+
 
 end module test_io

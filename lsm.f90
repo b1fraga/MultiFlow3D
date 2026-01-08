@@ -11,7 +11,7 @@
           integer :: glevel,gl,mgc_i,mgc_j,mgc_k
 
 !READING
-          open (unit=13, file='input/lsm.cin')
+          open (unit=13, file="input/lsm.cin")
           read (12,*)
           read (12,*) reinit,ntime_reinit,reldif_LSM,length,accuracy &
     ,cfl_lsm
@@ -25,39 +25,39 @@
 !WARNINGS
           if (L_LSMinit .and. (L_anim_phi .or. L_anim_grd)) then
           if (myrank==0) then
-          print*,'Error: not possible to output animation files', &
-    '  for LSM_init run!'
-          endif
+          print*,"Error: not possible to output animation files", &
+    "  for LSM_init run!"
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMbase .and. L_LSMinit) then
           if (myrank==0) then
-          print*,'Error: L_LSMbase and L_LSMinit cannot both be true!'
-          endif
+          print*,"Error: L_LSMbase and L_LSMinit cannot both be true!"
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMbase .and. L_LSM) then
           if (myrank==0) then
-          print*,'Error: L_LSMbase and L_LSM cannot both be true!'
-          endif
+          print*,"Error: L_LSMbase and L_LSM cannot both be true!"
+          end if
           stop
-          endif
+          end if
 
           if (L_LSMinit .and. (.not.L_LSM)) then
           if (myrank==0) then
-          print*,'Error: L_LSMinit cannot be true if L_LSM is false!'
-          endif
+          print*,"Error: L_LSMinit cannot be true if L_LSM is false!"
+          end if
           stop
-          endif
+          end if
 
           if (L_anim_phi .and. (.not.L_LSM)) then
           if (myrank==0) then
-          print*,'Error: L_anim_phi cannot be true if L_LSM is false!'
-          endif
+          print*,"Error: L_anim_phi cannot be true if L_LSM is false!"
+          end if
           stop
-          endif
+          end if
 !ALLOCATIONS
           allocate(dom(ib)%ijkp_lsm(0:dom(ib)%ngrid))
           allocate (dom(ib)%dens_mg(dom(ib)%tot))
@@ -103,8 +103,8 @@
                       dom(ib)%uo(i,j,k)=0.0_dp
                       dom(ib)%uoo(i,j,k)=0.0_dp
                       end if
-                  enddo;enddo;enddo
-          endif
+                  end do;end do;end do
+          end if
 
           mul = nul * densl
           mug = nug * densg
@@ -477,7 +477,7 @@
 !
 ! Hold level to be held constant at inflow and outflow (if required - may help with stability in inflow-outflow sims)
 !
-                          if (trim(keyword)=='channel' .and. lends) then
+                          if (trim(keyword)=="channel" .and. lends) then
                           if (dom(ib)%iprev<0) then
                           if ((i>=dom(ib)%isu).and.(i<=dom(ib)%isu+5)) then
                           if (dom(ib)%zc(k)<length)   then
@@ -580,26 +580,35 @@
                                 9.0_dp*dom(ib)%w(i,j,k)-dom(ib)%w(i,j,k+1))
                           end if
 
-                          if (uijk>0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
-                          if (uijk<0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
-                          if (uijk==0.0_dp) &
-                       dom(ib)%dphi_dx(i,j,k) = 0.0_dp
+                          if (uijk>0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxminus(i,j,k)
+                          end if
+                          if (uijk<0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = dom(ib)%dphi_dxplus(i,j,k)
+                          end if
+                          if (uijk==0.0_dp) then
+                            dom(ib)%dphi_dx(i,j,k) = 0.0_dp
+                          end if
 
-                          if (vijk>0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
-                          if (vijk<0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
-                          if (vijk==0.0_dp) &
-                       dom(ib)%dphi_dy(i,j,k) = 0.0_dp
+                          if (vijk>0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyminus(i,j,k)
+                          end if
+                          if (vijk<0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = dom(ib)%dphi_dyplus(i,j,k)
+                          end if
+                          if (vijk==0.0_dp) then
+                            dom(ib)%dphi_dy(i,j,k) = 0.0_dp
+                          end if
 
-                          if (wijk>0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
-                          if (wijk<0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
-                          if (wijk==0.0_dp) &
-                       dom(ib)%dphi_dz(i,j,k) = 0.0_dp
+                          if (wijk>0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzminus(i,j,k)
+                          end if
+                          if (wijk<0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = dom(ib)%dphi_dzplus(i,j,k)
+                          end if
+                          if (wijk==0.0_dp) then
+                            dom(ib)%dphi_dz(i,j,k) = 0.0_dp
+                          end if
 
                       end do
                   end do
@@ -782,10 +791,10 @@
           end do
 
           if (myrank==0) then
-          write(*,*) 'norm v (reinit)', max_abs, 'needed steps', it
-          write(numfile3,'(i8,f18.8,i8,2f18.8)') ntime,max_abs,it,ctime, &
+          write(*,*) "norm v (reinit)", max_abs, "needed steps", it
+          write(numfile3,"(i8,f18.8,i8,2f18.8)") ntime,max_abs,it,ctime, &
     dt
-          endif
+          end if
 
           return
       end subroutine tvd_rk_reinit
@@ -1592,8 +1601,9 @@
                   do i=dom(ib)%isp-pl,dom(ib)%iep+pl
                       do j=dom(ib)%jsp-pl,dom(ib)%jep+pl
 
-                          if (dom(ib)%phi(i,j,k)<(-1.0_dp*epsl)) &
-                    dom(ib)%h_phi(i,j,k) = 0.0_dp  ! h_phi=0 above free surface
+                          if (dom(ib)%phi(i,j,k)<(-1.0_dp*epsl)) then
+                            dom(ib)%h_phi(i,j,k) = 0.0_dp
+                          end if  ! h_phi=0 above free surface
 
                           if (dom(ib)%phi(i,j,k)>(epsl)) dom(ib)%h_phi(i,j,k) = 1.0_dp  ! h_phi=1.0_dp below free surface
 

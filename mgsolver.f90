@@ -259,7 +259,7 @@
                           dom(ib)%cof(ijk)=dom(ib)%sup(i+pl-1,j+pl-1,k+pl-1)
                           else
                           dom(ib)%cof(ijk)=dom(ib)%su(i+pl-1,j+pl-1,k+pl-1)
-                          endif
+                          end if
                       end do
                   end do
               end do
@@ -604,7 +604,7 @@
                   end do
 
                   else
-                  print*,'error about mg iteration selection'
+                  print*,"error about mg iteration selection"
                   end if
 
 

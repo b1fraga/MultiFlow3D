@@ -87,7 +87,7 @@
 
           master=0  ! 0 is going to be always the master processor
 
-          open (unit=1, file='input/geom.cin')
+          open (unit=1, file="input/geom.cin")
           read (1,*)
           read (1,*) yangcase
           read (1,*) mdfsteps
@@ -158,12 +158,12 @@
               if(imb_shape(i)/=5) then
               xaero(i)=0.d0 ; yaero(i)=0.d0 ; zaero(i)=0.d0
               pitch(i)=0.d0 ; imbnumber(i)=1 ; radsin(i)=0.d0
-              endif
+              end if
 
               if(intflow(i) .eqv. .true.) then
-              write(6,*)' This is not implemented in the current version'
+              write(6,*)" This is not implemented in the current version"
               STOP
-              endif
+              end if
 
               IBMnum(i) = i
 
@@ -171,10 +171,10 @@
               i = i + 1
           End do
           close (1)
-          WRITE(6,*)' '
-          WRITE(6,*)' '
-          WRITE(6,*)'=================================================='
-          WRITE(6,*)'===========  Immersed Boundary Details  =========='
+          WRITE(6,*)" "
+          WRITE(6,*)" "
+          WRITE(6,*)"=================================================="
+          WRITE(6,*)"===========  Immersed Boundary Details  =========="
 
 !CALCULATE TO WHICH BLOCK IS THE CENTRE OF THE BODIES
   545     CONTINUE
@@ -188,7 +188,7 @@
               dxm(i)=g_dx/rdiv_imb(i)       !Minimum grid sizes
               dym(i)=g_dy/rdiv_imb(i)
               dzm(i)=g_dz/rdiv_imb(i)
-          Enddo
+          End do
 
 !   write(6,*)       'Largest rdivmax  :',rdivmax
 !   write(6,'(a,3e12.4)')'Smallest gridsize: ',dxm,dym,dzm
@@ -201,9 +201,9 @@
               IF (imb_shape(i)==5) call imb_file(IBMnum(i))
 !          IF (imb_shape(i).eq.6) call imb_pipe(IBMnum(i))
               maxnodeIBS=maxnodeIBS+nodes(i)
-              IF (maxnodeIBS>maxn) write(6,*)'Too many ib points'
+              IF (maxnodeIBS>maxn) write(6,*)"Too many ib points"
               IF (maxnodeIBS>maxn) STOP
-          Enddo
+          End do
 
           call imb_alpha0   !-----> CHECK!!!!
 
@@ -221,14 +221,14 @@
                   IF (rotating(K) .AND. imb_shape(K)==5) then  !Rotating VATT
 
                   if(K==1 .and. i==1) then
-                  WRITE(6,*)' '
-                  WRITE(6,*)'=========== Rotating Parameters  ========= '
-                  endif
+                  WRITE(6,*)" "
+                  WRITE(6,*)"=========== Rotating Parameters  ========= "
+                  end if
 
-                  write(char_block,'(I8)') L
+                  write(char_block,"(I8)") L
                   strlen=LEN(TRIM(ADJUSTL(char_block)))
-                  char_block=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block))
-                  gridfile='F_Blade_'//TRIM(ADJUSTL(char_block))//'.dat'
+                  char_block=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block))
+                  gridfile="F_Blade_"//TRIM(ADJUSTL(char_block))//".dat"
                   open (unit=forcefilej, file=gridfile, status="unknown", &
             action="write")
                   write (forcefilej,*)'Variables="TIME","Deg","Fx","Fy","Fz"'
@@ -236,35 +236,35 @@
                   lambda=radsin(K)*R(K)/1.0_dp
                   sigma=imbnumber(K)*1.d0/(R(K)*2*3.1416_dp)
                   revoltime=2.d0*PI/radsin(K)
-                  write(6,'(a,i1)')   '        Turbine  ',K,''
-                  write(6,'(a,f12.3)')'        TSR     :',lambda
-                  write(6,'(a,f12.3)')'        Solidity:',sigma
-                  WRITE(6,*)' '
-                  ENDIF
+                  write(6,"(a,i1)")   "        Turbine  ",K,""
+                  write(6,"(a,f12.3)")"        TSR     :",lambda
+                  write(6,"(a,f12.3)")"        Solidity:",sigma
+                  WRITE(6,*)" "
+                  END IF
                   ELSE
-                  write(char_block,'(I8)') L
+                  write(char_block,"(I8)") L
                   strlen=LEN(TRIM(ADJUSTL(char_block)))
-                  char_block=REPEAT('0',(3-strlen))//TRIM(ADJUSTL(char_block))
+                  char_block=REPEAT("0",(3-strlen))//TRIM(ADJUSTL(char_block))
                   if(imb_shape(K)==1) then
-                  gridfile='F_Squ_'//TRIM(ADJUSTL(char_block))//'.dat'
-                  endif
+                  gridfile="F_Squ_"//TRIM(ADJUSTL(char_block))//".dat"
+                  end if
                   if(imb_shape(K)==2) then
-                  gridfile='F_Cyl_'//TRIM(ADJUSTL(char_block))//'.dat'
-                  endif
+                  gridfile="F_Cyl_"//TRIM(ADJUSTL(char_block))//".dat"
+                  end if
                   if(imb_shape(K)==3) then
-                  gridfile='F_Cub_'//TRIM(ADJUSTL(char_block))//'.dat'
-                  endif
+                  gridfile="F_Cub_"//TRIM(ADJUSTL(char_block))//".dat"
+                  end if
                   if(imb_shape(K)==4) then
-                  gridfile='F_Sph_'//TRIM(ADJUSTL(char_block))//'.dat'
-                  endif
+                  gridfile="F_Sph_"//TRIM(ADJUSTL(char_block))//".dat"
+                  end if
                   if(imb_shape(K)==5) then
-                  gridfile='F_Body_'//TRIM(ADJUSTL(char_block))//'.dat'
-                  endif
+                  gridfile="F_Body_"//TRIM(ADJUSTL(char_block))//".dat"
+                  end if
 
                   open (unit=forcefilej, file=gridfile)
                   write (forcefilej,*)'Variables="TIME","Fx","Fy","Fz"'
-                  ENDIF
-              Enddo  !i
+                  END IF
+              End do  !i
 
 ! IF SELF STARTING IS INTRODUCED IN THE CODE:
 !      if (LSELFST(K) .and. L.eq.1) then
@@ -272,14 +272,14 @@
 !             write(selfstarting,*)'Variables="Accel","Veloc","Displ"'
 !       radsin(K)=0.d0 ;  acc_selfST(K)=0.d0; rads(K)= 0.d0
 !      endif
-          ENDDO  !M
+          END DO  !M
 
-          open (unit=757, file= 'l2norm.dat')
+          open (unit=757, file= "l2norm.dat")
           write(757,*)'Variables="Time","l2-norm","l1norm"'
-          WRITE(6,*)' '
-          WRITE(6,*)'Total # of IB POINTS.........',maxnodeIBS
-          WRITE(6,*)' '
-          WRITE(6,*)'=================================================='
+          WRITE(6,*)" "
+          WRITE(6,*)"Total # of IB POINTS.........",maxnodeIBS
+          WRITE(6,*)" "
+          WRITE(6,*)"=================================================="
 !   write(6,*)'        Mesh sizes at the IB domain           '
 !   write(6,'(a,f12.4,a,f12.4)')'    dx:',dx,'      dy:', dy
 !   WRITE(6,*)' '
@@ -305,7 +305,7 @@
               do L=1,nodes(M)
                   alpha0(M,L)=atan((nodex(M,L)-Cx(M))/(nodey(M,L)-Cy(M)))
                   R0(M,L)=sqrt((nodex(M,L)-Cx(M))**2+(nodey(M,L)-Cy(M))**2)
-              enddo
+              end do
 
               else
 
@@ -314,35 +314,35 @@
               do L=1,K  !nodes(numIB)
                   alpha0(M,L)=atan(nodexlocal(M,L)/(nodeylocal(M,L)+R(M)))
                   R0(M,L)=sqrt((nodexlocal(M,L))**2+(nodeylocal(M,L)+R(M))**2)
-              enddo
+              end do
               Do iii=1,imbnumber(M)-1
                   do L=1,K  !nodes(numIB)
                       alpha0(M,L+K*iii)=alpha0(M,L)
                       R0(M,L+K*iii)= R0(M,L)
-                  enddo
-              Enddo
-              ENDIF
+                  end do
+              End do
+              END IF
               IF (turax(M)==2) then   ! Horizontal Axis Turbine
               do L=1,nodes(M)
                   alpha0(M,L)=atan(nodeylocal(M,L)/(nodezlocal(M,L)))
 
                   if(nodeylocal(M,L)>0.d0 .and. nodezlocal(M,L)<0.d0) then
                   alpha0(M,L)=PI+alpha0(M,L)
-                  endif
+                  end if
                   if(nodeylocal(M,L)<0.d0 .and. nodezlocal(M,L)<0.d0) then
                   alpha0(M,L)=PI+alpha0(M,L)
-                  endif
+                  end if
                   if(nodeylocal(M,L)<0.d0 .and. nodezlocal(M,L)>0.d0) then
                   alpha0(M,L)=2.D0*PI+alpha0(M,L)
-                  endif
+                  end if
 
                   R0(M,L)=sqrt((nodeylocal(M,L))**2+(nodezlocal(M,L))**2)
 
-              enddo
-              ENDIF
+              end do
+              END IF
 
-              endif
-          Enddo
+              end if
+          End do
 
    88     FORMAT (i5)
    89     FORMAT (2e25.18)
@@ -429,7 +429,7 @@
           allocate (K_nr_Sp(maxnodeIBS,126))
           allocate (I_nr_T(maxnodeIBS,126),J_nr_T(maxnodeIBS,126))
           allocate (K_nr_T(maxnodeIBS,126))
-          endif
+          end if
           if (yangcase==1 .or. yangcase==5) then
           allocate (dh1_loc(maxnodeIBS,28),dh2_loc(maxnodeIBS,28))
           allocate (dh3_loc(maxnodeIBS,28))
@@ -443,7 +443,7 @@
           allocate (K_nr_Sp(maxnodeIBS,28))
           allocate (I_nr_T(maxnodeIBS,28),J_nr_T(maxnodeIBS,28))
           allocate (K_nr_T(maxnodeIBS,28))
-          endif
+          end if
           if (yangcase==3 .or. yangcase==6) then
           allocate (dh1_loc(maxnodeIBS,65),dh2_loc(maxnodeIBS,65))
           allocate (dh3_loc(maxnodeIBS,65))
@@ -457,7 +457,7 @@
           allocate (K_nr_Sp(maxnodeIBS,65))
           allocate (I_nr_T(maxnodeIBS,65),J_nr_T(maxnodeIBS,65))
           allocate (K_nr_T(maxnodeIBS,65))
-          endif
+          end if
 
           dh1_loc=0.d0  ; dh2_loc=0.d0  ; dh3_loc=0.d0
           dh4_loc=0.d0                   ! Aleks 04/23
@@ -483,16 +483,16 @@
 
           Do K=1,bodynum
               IF (rotating(K).and.imb_shape(K)==5) call imb_moved(K)  !In shapes.for
-          Enddo
+          End do
 
           Call PartLoc
 
           IF(itime==itime_start) then
-          if(myrank==master)write(6,*)'Delta functions initiating'
+          if(myrank==master)write(6,*)"Delta functions initiating"
           Call Deltah
           call MPI_BARRIER(MPI_COMM_WORLD,IERR)
-          if(myrank==master)write(6,*)'Delta functions generated'
-          ENDIF
+          if(myrank==master)write(6,*)"Delta functions generated"
+          END IF
 
       END SUBROUTINE IB_previous
 !######################################################################
@@ -511,14 +511,14 @@
           lxdom=0 ; lydom=0 ; lzdom=0
           do N=2,idom+1
               lxdom(N)=(xcor(N-2,2)-xcor(N-2,1))+lxdom(N-1)
-          enddo
+          end do
           do N=2,jdom+1
               lydom(N)=(ycor((N-2)*idom,2)-ycor((N-2)*idom,1))+lydom(N-1)
-          enddo
+          end do
           do N=2,kdom+1
               lzdom(N)= &
          (zcor((N-2)*idom*jdom,2)-zcor((N-2)*idom*jdom,1))+lzdom(N-1)
-          enddo
+          end do
           imbinblk=0   !# Points in each block
           imb_block=0   !Block id to which every particle belongs
           ii=0  ; tnm=0
@@ -531,39 +531,41 @@
                  (nodex(M,L)-1.d-11)<=lxdom(nx+1) )THEN
                       nxdom=nx-1
                       GOTO 490
-                      endif
-                  Enddo
+                      end if
+                  End do
   490             CONTINUE
                   Do ny=1,jdom
                       if( (nodey(M,L)-1.d-11)>lydom(ny) .and. &
                  (nodey(M,L)-1.d-11)<=lydom(ny+1) )THEN
                       nydom=ny-1
                       GOTO 491
-                      endif
-                  Enddo
+                      end if
+                  End do
   491             CONTINUE
                   Do nz=1,kdom
                       if( (nodez(M,L)-1.d-11)>lzdom(nz) .and. &
                  (nodez(M,L)-1.d-11)<=lzdom(nz+1) )THEN
                       nzdom=nz-1
                       GOTO 492
-                      endif
-                  Enddo
+                      end if
+                  End do
   492             CONTINUE
                   imb_block(ii)=idom*jdom*nzdom+idom*nydom+nxdom
                   imbinblk(imb_block(ii)+1)=imbinblk(imb_block(ii)+1)+1
-              ENDDO
-          enddo
+              END DO
+          end do
 
           do L=1,num_domains  !Check in all the domains
               tnm=tnm+imbinblk(L)
-              IF (itime==itime_start .AND. imbinblk(L)/=0) &
-           write(6,*)'Dom,#markrs',L-1,imbinblk(L),tnm
+              IF (itime==itime_start .AND. imbinblk(L)/=0) then
+                write(6,*)"Dom,#markrs",L-1,imbinblk(L),tnm
+              end if
               imbinblock_loc(L)=imbinblk(L)  !New variable for all the other MPI
-          enddo
+          end do
           !Warning if some point is not assigned to some domain
-          if(tnm<maxnodeIBS) &
-      write(6,*)'Some Lagrangian are not assigned to a domain!!!CHECK'
+          if(tnm<maxnodeIBS) then
+            write(6,*)"Some Lagrangian are not assigned to a domain!!!CHECK"
+          end if
 
 !        do ib=1,nbp !------------------------- Aleks 04/23
 !                tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j
@@ -610,13 +612,13 @@
                   R0_loc(ii)=R0(M,L)
                   alpha0_loc(ii)=alpha0(M,L)
                   lag_bod_loc(ii)=M
-                  ENDIF
+                  END IF
                   rott_loc(ii)=1                                  !Moving Lagrangian
                   IF(.not.rotating(M))rott_loc(ii)=2              !Static Lagrangian
-              ENDDO
-          Enddo
+              END DO
+          End do
 
-          ENDIF  !master
+          END IF  !master
 
           IF(itime==itime_start) then
           call MPI_BCAST(lag_bod_loc,maxnodeIBS,MPI_INTEGER, &
@@ -625,7 +627,7 @@
      master,MPI_COMM_WORLD,ierr)
           call MPI_BCAST(R0_loc,maxnodeIBS,MPI_DOUBLE_PRECISION, &
      master,MPI_COMM_WORLD,ierr)
-          ENDIF
+          END IF
 
           call MPI_BCAST(rott_loc,maxnodeIBS,MPI_INTEGER, &
     master,MPI_COMM_WORLD,ierr)
@@ -808,12 +810,12 @@
                   kmaxT(L)=nl
 
   700             CONTINUE
-              Enddo
+              End do
   600         CONTINUE
 
-              if(myrank==master)   write(6,*)'Ended',ib
+              if(myrank==master)   write(6,*)"Ended",ib
 
-          ENDDO
+          END DO
 
 !   ELSE !MLS IS USED        !!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 !   Do ib=1,nbp
@@ -862,7 +864,7 @@
           FXSpNF=0.d0   ;  FXTNF=0.d0
           FX1 = 0.d0    ;  FX2=0.d0     ;  FX3=0.d0
           FXSp=0.d0     ;  FXT=0.d0
-          ENDIF
+          END IF
 
           DO NF =1,mdfsteps+1   !MDF loops. +1 as the default loop for IB
               IF (Myrank==master) THEN  !Calculate the accumulated force
@@ -873,9 +875,9 @@
                       FX3NF(M,L) = FX3NF(M,L) + FX3(M,L)
                       ! FXSpNF(M,L) = FXSpNF(M,L) + FXSp(M,L)
                       FXTNF(M,L) = FXTNF(M,L) + FXT(M,L)
-                  Enddo
-              ENDDO
-              ENDIF
+                  End do
+              END DO
+              END IF
 
 
 !   call MPI_BARRIER(MPI_COMM_WORLD,ierr)
@@ -893,7 +895,7 @@
 
               call distfbeta
 
-          ENDDO
+          END DO
 
           IF (Myrank==master) THEN  !l2-norm is calculated in reference to the final velocitiy field
           sumvel=0.d0 ; l1norm=0.d0
@@ -915,21 +917,21 @@
                   FX3NF(M,L) = FX3NF(M,L) + FX3(M,L)
                   !     FXSpNF(M,L) = FXSpNF(M,L) + FXSp(M,L)
                   FXTNF(M,L) = FXTNF(M,L) + FXT(M,L)
-              Enddo
-          ENDDO
+              End do
+          END DO
 
           DO M=1,bodynum
               Do L=1,nodes(M)
                   FX1(M,L) = FX1NF(M,L) ;  FX2(M,L) = FX2NF(M,L)
                   FX3(M,L) = FX3NF(M,L)
                   FXSp(M,L) = FXSpNF(M,L) ;  FXT(M,L) = FXTNF(M,L)
-              Enddo
-          enddo
+              End do
+          end do
 
-          if (bodynum==1) write(757,'(3f20.5)')CTIME,l2norm(1),l1norm
-          if (bodynum>=2) write(757,'(3f20.5)')CTIME,l2norm(1),l2norm(2)
+          if (bodynum==1) write(757,"(3f20.5)")CTIME,l2norm(1),l1norm
+          if (bodynum>=2) write(757,"(3f20.5)")CTIME,l2norm(1),l2norm(2)
 
-          ENDIF
+          END IF
 
           call caldrag
 
@@ -999,7 +1001,7 @@
   210                 CONTINUE
                   END DO
 
-                  if (nl==0) write(6,*)L,'nl is equal to 0!!'
+                  if (nl==0) write(6,*)L,"nl is equal to 0!!"
 
                   U_Beta1_loc(L)=U_Beta1_loc(L)*1.0d0/dhtotal
 
@@ -1010,11 +1012,11 @@
                       U_Beta1_loc(L)=(U_Beta1_loc(L)+ &
                 dom(ib)%USTAR(I,J,K)*dh1_loc(L,nl))
                       !ENDIF
-                  Enddo
-                  ENDIF
+                  End do
+                  END IF
   700             continue
 
-              Enddo
+              End do
 !$OMP end DO NOWAIT
 !$OMP DO SCHEDULE(DYNAMIC,1)
               Do L = 1,maxnodeIBS
@@ -1061,10 +1063,10 @@
                       U_Beta2_loc(L)=U_Beta2_loc(L)+ &
                              dom(ib)%VSTAR(I,J,K)*dh2_loc(L,nl)
                       !ENDIF
-                  Enddo
-                  ENDIF
+                  End do
+                  END IF
   701             continue
-              Enddo
+              End do
 !$OMP end DO NOWAIT
 !$OMP DO SCHEDULE(DYNAMIC,1)
               Do L = 1,maxnodeIBS
@@ -1109,10 +1111,10 @@
                       U_Beta3_loc(L)=U_Beta3_loc(L)+ &
                 dom(ib)%WSTAR(I,J,K)*dh3_loc(L,nl)
                       !ENDIF
-                  Enddo
-                  ENDIF
+                  End do
+                  END IF
   702             continue
-              Enddo
+              End do
 !$OMP end DO NOWAIT
 !$OMP DO SCHEDULE(DYNAMIC,1)
 !Aleks 04/23 Modified for Sp from ---> Brunho-Riza-2020-for baffles
@@ -1214,7 +1216,7 @@
   250                 CONTINUE
                   END DO
 
-                  if (nl==0) write(6,*)L,'nl is equal to 0!!'
+                  if (nl==0) write(6,*)L,"nl is equal to 0!!"
 
                   T_Beta_loc(L) =T_Beta_loc(L)*1.d0/dhtotal
 
@@ -1225,15 +1227,15 @@
                       T_Beta_loc(L) =T_Beta_loc(L) + &
                 dom(ib)%T(I,J,K) * dh4_loc(L,nl)    !Brunho-Riza-2020-for ABR
 !       ENDIF
-                  Enddo
-                  ENDIF
+                  End do
+                  END IF
   704             continue
-              Enddo
+              End do
 !$OMP end DO
 !$OMP END PARALLEL
 
   600         CONTINUE
-          Enddo  !ib-loop
+          End do  !ib-loop
 
 
           RETURN
@@ -1269,7 +1271,7 @@
             *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
                   WIB_loc=U_Beta3_loc(L)-sign(U_Beta2_loc(L),0.5_dp*U_Beta3_loc(L)**2 &
             *0.44_dp*(PI*0.5_dp**2.d0*dx**2.d0))
-                  endif
+                  end if
                   !====================Rotating body================================
                   M=lag_bod_loc(L)
                   IF(imb_shape(M)==5.and.rott_loc(L)==1) then
@@ -1279,12 +1281,12 @@
                   UIB_loc=-radsin(M)*R0_loc(L)*cos(aplh-alpha0_loc(L))
                   VIB_loc=-radsin(M)*R0_loc(L)*sin(aplh-alpha0_loc(L))
                   WIB_loc= 0.d0
-                  ELSEIF (turax(M)==2) then                                      ! Horizontal Axis Turbine
+                  ELSE IF (turax(M)==2) then                                      ! Horizontal Axis Turbine
                   UIB_loc=0.d0
                   VIB_loc= radsin(M)*R0_loc(L)*cos(rads(M)+alpha0_loc(L))
                   WIB_loc=-radsin(M)*R0_loc(L)*sin(rads(M)+alpha0_loc(L))
-                  ENDIF
-                  ENDIF
+                  END IF
+                  END IF
                   !====================Temperature boundary=========================(Aleks 23)
                   !tt=273.d0
                   !====================Tracer boundary==============================(Riza 21)
@@ -1299,10 +1301,10 @@
                   !Temperature
                   !FXT_loc(L) = (tt - T_Beta_loc(L))/dt                              !Setting T inside IB Aleks 04/23
 
-                  ENDIF                                                             !imb_in_block
-              ENDDO                                                             !loop in immersed boundaries
-              ENDIF                                                             !if IMB is in this block
-          Enddo                                                             !loop in domains
+                  END IF                                                             !imb_in_block
+              END DO                                                             !loop in immersed boundaries
+              END IF                                                             !if IMB is in this block
+          End do                                                             !loop in domains
 
           !==============MPI distribution===================================
           !The force vectors are added to the master array
@@ -1328,9 +1330,9 @@
                   FX3(M,L)=FX3_MASTER(KK)
 !          FXSp(M,L)=FXSp_MASTER(KK)
 !          FXT(M,L)=FXT_MASTER(KK)
-              enddo
-          enddo
-          endif
+              end do
+          end do
+          end if
 
           RETURN
       END SUBROUTINE calfl
@@ -1358,21 +1360,21 @@
                       dom(ib)%USTAR(I,J,K) = dom(ib)%USTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
 
-                  Enddo
+                  End do
                   Do nl=1,KmaxV(L)
                       I=I_nr_V(L,nl) ;  J=J_nr_V(L,nl);  K=K_nr_V(L,nl)
                      !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX2_loc(L)*dh2_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%VSTAR(I,J,K) = dom(ib)%VSTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
-                  Enddo
+                  End do
                   Do nl=1,KmaxW(L)
                       I=I_nr_W(L,nl) ;  J=J_nr_W(L,nl);  K=K_nr_W(L,nl)
                       !IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then         !Brunho comp channel 2016
                       fbeta = FX3_loc(L)*dh3_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%WSTAR(I,J,K) = dom(ib)%WSTAR(I,J,K) + dt*alfapr*fbeta
                       !endif
-                  Enddo
+                  End do
 !    Do nl=1,KmaxSp(L) !Aleks 04/23 Modified for Sp from --> Brunho-Riza-ABR-2020
 !            I=I_nr_Sp(L,nl) ;  J=J_nr_Sp(L,nl) ;  K=K_nr_Sp(L,nl)
 ! !     IF (abs(dom(ib)%USTAR(I,J,K)).gt.1.d-3) then            !Brunho comp channel 2016
@@ -1386,13 +1388,13 @@
                       fbeta = FXT_loc(L)*dh4_loc(L,nl)*reddelta(lag_bod_loc(L))
                       dom(ib)%T(I,J,K)=max((dom(ib)%T(I,J,K)+dt*alfapr*fbeta),0.0_dp)
 !       endif
-                  Enddo
+                  End do
   802             CONTINUE
               End do
 
   600         CONTINUE
 
-          Enddo  !ib-loop
+          End do  !ib-loop
 
           RETURN
       END SUBROUTINE distfbeta
@@ -1434,7 +1436,7 @@
 
                   write(forcefilej,88) CTIME,alpharads,fx_loc,fy_loc,fz_loc
 
-              Enddo  !iii-loop
+              End do  !iii-loop
 
               ELSE
               fx_loc = 0.d0   ; fy_loc = 0.d0 ; fz_loc = 0.d0
@@ -1448,7 +1450,7 @@
             *reddelta(lag_bod_loc(L))
               end do
               write(forcefilej,88) CTIME,fx_loc,fy_loc,fz_loc
-              ENDIF
+              END IF
 
           End do  !M loop
 

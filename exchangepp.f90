@@ -64,9 +64,9 @@
                   if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-i"
+                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-j"
+                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-k"
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
@@ -2059,9 +2059,9 @@
                   if(rdiv(dom_id(ib))==1) then
                   nic=ni; njc=nj; nkc=nk
                   else
-                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-i'
-                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-j'
-                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,'er-k'
+                  if((mod(chc1,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-i"
+                  if((mod(chc2,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-j"
+                  if((mod(chc3,2.0_dp)/=0.0_dp).and.g<dom(ib)%ngrid) print*,"er-k"
                   nic=int((ni-2)/2)+2; njc=int((nj-2)/2)+2;
                   nkc=int((nk-2)/2)+2
                   end if
