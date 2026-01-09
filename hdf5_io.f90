@@ -275,7 +275,7 @@ module multiflow3d_hdf5_io
   subroutine hdf5_write_real(filename,scalar_input,&
                              array_input_1d,array_input_2d,array_input_3d,key,group)
     !! Write a real 3d,2d,1d array or scalar to a hdf5 file, depending on the
-    !! optional argument given. This array or scalar will be written the the hdf5 file
+    !! optional argument given. This array or scalar will be written to the hdf5 file
     !! with the group and key specifified in the arguments of the subroutine call.
     character(len=*), intent(in) :: filename
     real(dp), optional, intent(in) :: array_input_1d(:)
@@ -420,7 +420,7 @@ module multiflow3d_hdf5_io
   subroutine hdf5_write_int(filename,scalar_input,&
                             array_input_1d,array_input_2d,array_input_3d,key,group)
     !! Write a integer 3d,2d,1d array or scalar to a hdf5 file, depending on the
-    !! optional argument given. This array or scalar will be written the the hdf5 file
+    !! optional argument given. This array or scalar will be written to the hdf5 file
     !! with the group and key specifified in the arguments of the subroutine call.
     character(len=*), intent(in) :: filename
     integer (int64), optional, intent(in) :: array_input_1d(:)
