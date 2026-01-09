@@ -10,3 +10,6 @@
 # Build folders
 build_json_fortran/**/*
 build_test_drive/**/*
+
+# Documentation folder (created when using ford tool)
+doc/**/*

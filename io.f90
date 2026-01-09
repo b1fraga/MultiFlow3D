@@ -29,6 +29,7 @@ contains
        West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC,&
        Bottom_Energy_BC,Top_Energy_BC,num_of_time_series_points,&
        time_series_point_1,time_series_point_2,time_series_point_3,time_series_point_4)
+    !! Reads control.json assigning the variables associated output to variables of the subroutine
     character(len=*), intent(in) :: input_file
     character(kind=json_CK,len=:),allocatable, intent(out) :: Keyword,type_of_friction
     real(dp), intent(out) :: dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta
