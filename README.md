@@ -34,3 +34,26 @@ Now you are in a position to build MultiFlow3D by executing
 ```
 make -j $(nproc --all)
 ```
+
+## Documentation
+
+To build the documentation you must first install the tool ford. This can be installed by executing
+
+```
+python -m pip install ford
+```
+
+You then build the documentation by executing
+
+```
+ford  -d . README.md
+```
+
+Finally you open up the documentation by executing
+
+```
+open ./doc/index.html
+```
+
+which will open up the homepage of the documentation in your default browser.
+

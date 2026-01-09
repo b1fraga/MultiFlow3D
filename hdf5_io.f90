@@ -17,6 +17,8 @@ module multiflow3d_hdf5_io
   contains
 
   subroutine hdf5_read_real_3d(filename, group, key, output)
+    !! Reads in a real 3d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(3) :: dims, maxdims
@@ -48,6 +50,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_real_3d
 
   subroutine hdf5_read_int_3d(filename, group, key, output)
+    !! Reads in an integer 3d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(3) :: dims, maxdims
@@ -79,6 +83,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_int_3d
 
   subroutine hdf5_read_real_2d(filename, group, key, output)
+    !! Reads in a real 2d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(2) :: dims, maxdims
@@ -110,6 +116,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_real_2d
 
   subroutine hdf5_read_int_2d(filename, group, key, output)
+    !! Reads in an integer 2d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(2) :: dims, maxdims
@@ -141,6 +149,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_int_2d
 
   subroutine hdf5_read_real_1d(filename, group, key, output)
+    !! Reads in a real 1d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(1) :: dims, maxdims
@@ -172,6 +182,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_real_1d
 
   subroutine hdf5_read_int_1d(filename, group, key, output)
+    !! Reads in an integer 1d array from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, dset_id, dspace_id
     integer(hsize_t), dimension(1) :: dims, maxdims
@@ -203,6 +215,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_int_1d
 
   subroutine hdf5_read_real_scalar(filename, group, key, output)
+    !! Reads in a real scalar from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
@@ -230,6 +244,8 @@ module multiflow3d_hdf5_io
   end subroutine hdf5_read_real_scalar
 
   subroutine hdf5_read_int_scalar(filename, group, key, output)
+    !! Reads in an intger scalar from a hdf5 file, that has a
+    !! a particular group and key, returns it in output. 
     integer :: error_hdf5
     integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
@@ -258,7 +274,9 @@ module multiflow3d_hdf5_io
     
   subroutine hdf5_write_real(filename,scalar_input,&
                              array_input_1d,array_input_2d,array_input_3d,key,group)
-
+    !! Write a real 3d,2d,1d array or scalar to a hdf5 file, depending on the
+    !! optional argument given. This array or scalar will be written the the hdf5 file
+    !! with the group and key specifified in the arguments of the subroutine call.
     character(len=*), intent(in) :: filename
     real(dp), optional, intent(in) :: array_input_1d(:)
     real(dp), optional, intent(in) :: array_input_2d(:,:)
@@ -401,7 +419,9 @@ module multiflow3d_hdf5_io
 
   subroutine hdf5_write_int(filename,scalar_input,&
                             array_input_1d,array_input_2d,array_input_3d,key,group)
-
+    !! Write a integer 3d,2d,1d array or scalar to a hdf5 file, depending on the
+    !! optional argument given. This array or scalar will be written the the hdf5 file
+    !! with the group and key specifified in the arguments of the subroutine call.
     character(len=*), intent(in) :: filename
     integer (int64), optional, intent(in) :: array_input_1d(:)
     integer (int64), optional, intent(in) :: array_input_2d(:,:)

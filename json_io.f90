@@ -16,6 +16,8 @@ module json_io
 contains
 
   subroutine json_read_integer(input_file,value_to_return,output)
+    !! Reads an integer from a json file, which has the key
+    !! given by value_to_return
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
@@ -35,6 +37,8 @@ contains
 
 
   subroutine json_read_real(input_file,value_to_return,output)
+    !! Reads a real from a json file, which has the key
+    !! given by value_to_return
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
@@ -53,6 +57,8 @@ contains
   end subroutine json_read_real
 
   subroutine json_read_logical(input_file,value_to_return,output)
+    !! Reads a logical from a json file, which has the key
+    !! given by value_to_return
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
@@ -71,6 +77,8 @@ contains
   end subroutine json_read_logical
 
   subroutine json_read_character(input_file,value_to_return,output)
+    !! Reads a character string from a json file, which has the key
+    !! given by value_to_return
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
