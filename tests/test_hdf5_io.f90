@@ -1,3 +1,4 @@
+#if USE_HDF5 == 1
 module test_hdf5_io
   use, intrinsic :: iso_fortran_env, only: int64, dp =>real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
@@ -270,3 +271,4 @@ contains
   end subroutine test_hdf5_write_int_scalar
 
 end module test_hdf5_io
+#endif
