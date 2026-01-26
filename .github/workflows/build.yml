@@ -23,8 +23,10 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - { compiler: gcc, version: 14 }
-          - { compiler: nvidia-hpc, version: '25.1' }
+          - { compiler: gcc, version: 14, hdf5: On }
+          - { compiler: gcc, version: 14, hdf5: Off }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: On }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off }
 
     steps:
       - uses: actions/checkout@v5
@@ -43,11 +45,21 @@ jobs:
         with:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
-
         
       - run: |
           sudo apt-get install -y openmpi-bin libopenmpi-dev
         if: ${{ contains(matrix.toolchain.compiler, 'gcc') }}
+
+      - name: Modify makefile to switch off HDF5
+        if: ${{ contains(matrix.toolchain.hdf5 , 'Off') }}
+        run: |
+          sed -i 's/"USE_HDF5=1"/"USE_HDF5=0"/' makefile
+
+      - name: Set number of threads to 1 for hdf5 tests
+        if: ${{ contains(matrix.toolchain.hdf5, 'On') }}
+        run: |
+          # Just use single thread for tests when using HDF5
+          echo "OMP_NUM_THREADS=1" >> $GITHUB_ENV
 
       - run: |
           cmake -S ./json-fortran/ -B ./build_json_fortran/ -DCMAKE_Fortran_COMPILER=mpif90
