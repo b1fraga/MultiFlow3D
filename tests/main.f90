@@ -19,7 +19,7 @@ program tester
 
   testsuites = [ &
        new_testsuite("json", collect_json),&
-       new_testsuite("io", collect_io),&
+       new_testsuite("io", collect_io)&
     ]
 
   do is = 1, size(testsuites)
