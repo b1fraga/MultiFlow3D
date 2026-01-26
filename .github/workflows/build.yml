@@ -46,7 +46,7 @@ jobs:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
 
-
+        
       - run: |
           sudo apt-get install -y openmpi-bin libopenmpi-dev
         if: ${{ contains(matrix.toolchain.compiler, 'gcc') }}
