@@ -1,3 +1,4 @@
+#if USE_HDF5 == 1
 module test_hdf5_io
   use, intrinsic :: iso_fortran_env, only: int64, dp =>real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
@@ -29,12 +30,10 @@ contains
          ]
   end subroutine collect_hdf5
 
-  subroutine test_hdf5_write_real_3d(error)
+   subroutine test_hdf5_write_real_3d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: i, j, k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(3) :: dims, maxdims
+    integer :: i, j, k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "3d_real_array"
@@ -66,9 +65,7 @@ contains
   subroutine test_hdf5_write_real_2d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: j, k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(2) :: dims, maxdims
+    integer :: j, k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "2d_real_array"
@@ -98,9 +95,7 @@ contains
   subroutine test_hdf5_write_real_1d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(1) :: dims, maxdims
+    integer :: k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "1d_real_array"
@@ -128,8 +123,6 @@ contains
   subroutine test_hdf5_write_real_scalar(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: k, error_hdf5
-    integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
@@ -152,9 +145,7 @@ contains
   subroutine test_hdf5_write_int_3d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: i, j, k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(3) :: dims, maxdims
+    integer :: i, j, k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "3d_integer_array"
@@ -186,9 +177,7 @@ contains
   subroutine test_hdf5_write_int_2d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: j, k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(2) :: dims, maxdims
+    integer :: j, k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "2d_integer_array"
@@ -218,9 +207,7 @@ contains
   subroutine test_hdf5_write_int_1d(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: k, error_hdf5
-    integer(hid_t) :: file_id, dset_id, dspace_id
-    integer(hsize_t), dimension(1) :: dims, maxdims
+    integer :: k
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
     character(len=*), parameter :: key = "1d_integer_array"
@@ -248,8 +235,6 @@ contains
   subroutine test_hdf5_write_int_scalar(error)
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
-    integer :: k, error_hdf5
-    integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
     character(len=*), parameter :: filename = "test_output.h5"
     character(len=*), parameter :: group = "/test_group"
@@ -270,3 +255,4 @@ contains
   end subroutine test_hdf5_write_int_scalar
 
 end module test_hdf5_io
+#endif
