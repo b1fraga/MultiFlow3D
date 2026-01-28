@@ -16,7 +16,7 @@ module multiflow3d_hdf5_io
        hdf5_read_int_1d, hdf5_read_real_scalar, hdf5_read_int_scalar
   contains
 
-  subroutine hdf5_read_real_3d(filename, group, key, output)
+    subroutine hdf5_read_real_3d(filename, group, key, output)
     !! Reads in a real 3d array from a hdf5 file, that has a
     !! a particular group and key, returns it in output. 
     integer :: error_hdf5
@@ -218,7 +218,7 @@ module multiflow3d_hdf5_io
     !! Reads in a real scalar from a hdf5 file, that has a
     !! a particular group and key, returns it in output. 
     integer :: error_hdf5
-    integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
+    integer(hid_t) :: file_id, group_id, attr_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
     character(len=*), intent(in) :: filename
     character(len=*), intent(in) :: group
@@ -247,7 +247,7 @@ module multiflow3d_hdf5_io
     !! Reads in an intger scalar from a hdf5 file, that has a
     !! a particular group and key, returns it in output. 
     integer :: error_hdf5
-    integer(hid_t) :: file_id, group_id, attr_id, attr_space_id
+    integer(hid_t) :: file_id, group_id, attr_id
     INTEGER(HSIZE_T), DIMENSION(1) :: adims
     character(len=*), intent(in) :: filename
     character(len=*), intent(in) :: group
@@ -278,16 +278,16 @@ module multiflow3d_hdf5_io
     !! optional argument given. This array or scalar will be written to the hdf5 file
     !! with the group and key specifified in the arguments of the subroutine call.
     character(len=*), intent(in) :: filename
-    real(dp), optional, intent(in) :: array_input_1d(:)
-    real(dp), optional, intent(in) :: array_input_2d(:,:)
-    real(dp), optional, intent(in) :: array_input_3d(:,:,:)
-    real(dp), optional, intent (in) :: scalar_input
+    real (dp), optional, intent(in) :: array_input_1d(:)
+    real (dp), optional, intent(in) :: array_input_2d(:,:)
+    real (dp), optional, intent(in) :: array_input_3d(:,:,:)
+    real (dp), optional, intent (in) :: scalar_input
     character(len=*), intent(in) :: key, group
     character(len=20) :: dataset_location
     integer(hsize_t),allocatable :: data_dims(:)
     integer(hid_t) :: file_id, dspace_id, dset_id, group_id
     integer(hid_t) :: attr_id, aspace_id
-    integer(size_t), dimension(1) :: adims
+    integer(size_t) :: adims(1)
     integer (int32) :: space_rank
     integer (int8) :: arguments_present
     integer :: error
@@ -432,7 +432,7 @@ module multiflow3d_hdf5_io
     integer(hsize_t),allocatable :: data_dims(:)
     integer(hid_t) :: file_id, dspace_id, dset_id, group_id
     integer(hid_t) :: attr_id, aspace_id
-    integer(size_t), dimension(1) :: adims
+    integer(size_t) :: adims(1)
     integer (int32) :: space_rank
     integer (int8) :: arguments_present
     integer :: error
