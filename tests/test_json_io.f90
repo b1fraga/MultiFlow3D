@@ -1,3 +1,4 @@
+#if USE_JSON == 1
 module test_json_io
   use, intrinsic :: iso_fortran_env, only:  int8,real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
@@ -84,3 +85,4 @@ contains
   end subroutine test_json_read_character
 
 end module test_json_io
+#endif

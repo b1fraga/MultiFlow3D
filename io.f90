@@ -1,15 +1,18 @@
 module io
+#if USE_JSON == 1
   use json_io, only: json_read
   use json_module
+#endif
   use, intrinsic :: iso_fortran_env, only: dp => real64
 
   implicit none
   private
+#if USE_JSON == 1
   public :: read_control_file
-
+#endif
 
 contains
-
+#if USE_JSON == 1
   subroutine read_control_file(input_file,Keyword,type_of_friction,&
        dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta,&
        gx,gy,gz,dens,convection_scheme,diffusion_scheme,differencing,&
@@ -24,7 +27,7 @@ contains
        save_inflow_data,time_averaging,SGS_model,&
        number_of_inlets,velocity_profile,Number_inlet_profiles,&
        Turbulence_intensity,t_start_averaging1,t_start_averaging2,&
-       noise,Th,Tc,SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex,&
+       noise,Th,Tc,Tinit,SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex,&
        LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt,&
        West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC,&
        Bottom_Energy_BC,Top_Energy_BC,num_of_time_series_points,&
@@ -47,14 +50,14 @@ contains
     logical, intent(out) :: save_inflow_data,time_averaging,SGS_model
     integer, intent(out) :: number_of_inlets, velocity_profile,Number_inlet_profiles
     real(dp), intent(out) :: Turbulence_intensity,t_start_averaging1,t_start_averaging2
-    real(dp), intent(out) :: noise,Th,Tc
+    real(dp), intent(out) :: noise,Th,Tc, Tinit
     integer, intent(out) :: SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex
     logical, intent(out) :: LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt
     integer, intent(out) ::  West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC
     integer, intent(out) :: Bottom_Energy_BC,Top_Energy_BC
     integer, intent(out) :: num_of_time_series_points
-    integer, intent(out) :: time_series_point_1,time_series_point_2,time_series_point_3
-    integer, intent(out) :: time_series_point_4
+    integer,allocatable, intent(out) :: time_series_point_1(:),time_series_point_2(:),time_series_point_3(:)
+    integer,allocatable, intent(out) :: time_series_point_4):)
 
     ! Read numerical paramters
     call json_read(input_file,"Keyword",Keyword)
@@ -133,6 +136,7 @@ contains
     call json_read(input_file,"pl_ex",pl_ex)
     call json_read(input_file,"Th",Th)
     call json_read(input_file,"Tc",Tc)
+    call json_read(input_file,"Tinit",Tinit)
     ! Energy boundary conditions
     call json_read(input_file,"West_Energy_BC",West_Energy_BC)
     call json_read(input_file,"East_Energy_BC",East_Energy_BC)
@@ -143,10 +147,15 @@ contains
     ! Time series
     call json_read(input_file,"num of time series points",&
          num_of_time_series_points)
+    allocate(time_series_point_1(num_of_time_series_points),&
+         time_series_point_2(num_of_time_series_points), &
+         time_series_point_3(num_of_time_series_points),&
+         time_series_point_4(num_of_time_series_points))
     call json_read(input_file,"time_series_point_1",time_series_point_1)
     call json_read(input_file,"time_series_point_2",time_series_point_2)
     call json_read(input_file,"time_series_point_3",time_series_point_3)
     call json_read(input_file,"time_series_point_4",time_series_point_4)
   end subroutine read_control_file
-
+#endif
+  
 end module io

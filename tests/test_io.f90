@@ -1,3 +1,6 @@
+!FIXME: Currently all io tests are json based based tests, so if
+! USE_JSON=0 you get an error that you cannot have a empty testsuit
+#if USE_JSON == 1
 module test_io
   use, intrinsic :: iso_fortran_env, only:  int8,dp => real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
@@ -14,12 +17,17 @@ contains
     !> Collection of tests
     type(unittest_type), allocatable, intent(out) :: testsuite(:)
 
+#if USE_JSON == 1
     testsuite = [ &
          new_unittest("test_read_control_file", test_read_control_file)&
          ]
+#else
+    testsuite = []
+#endif
   end subroutine collect_io
 
 
+#if USE_JSON == 1
   subroutine test_read_control_file(error)
     use io, only : read_control_file
     !> Error handling
@@ -406,6 +414,7 @@ contains
 
   end subroutine test_read_control_file
 
-
+#endif
 
 end module test_io
+#endif

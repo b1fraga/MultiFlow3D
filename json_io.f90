@@ -1,3 +1,4 @@
+#if USE_JSON == 1
 module json_io
   use json_module
   use, intrinsic :: iso_fortran_env, only: int8, dp => real64
@@ -97,3 +98,4 @@ contains
   end subroutine json_read_character
 
 end module json_io
+#endif

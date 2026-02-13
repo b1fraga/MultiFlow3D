@@ -77,8 +77,8 @@
     "Bottom_Energy_BC": 7,
     "Top_Energy_BC": 7,
     "num of time series points": 0,
-    "time_series_point_1": 0,
-    "time_series_point_2": 12,
-    "time_series_point_3": 22,
-    "time_series_point_4": 22
+    "time_series_point_1": [0],
+    "time_series_point_2": [12],
+    "time_series_point_3": [22],
+    "time_series_point_4": [22]
 }

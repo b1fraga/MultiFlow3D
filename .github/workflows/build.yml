@@ -23,10 +23,14 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - { compiler: gcc, version: 14, hdf5: On }
-          - { compiler: gcc, version: 14, hdf5: Off }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: On }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off }
+          - { compiler: gcc, version: 14, hdf5: On, json: On }
+          - { compiler: gcc, version: 14, hdf5: Off, json: On }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: On }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: On }
+          - { compiler: gcc, version: 14, hdf5: On, json: Off }
+          - { compiler: gcc, version: 14, hdf5: Off, json: Off }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: Off }
+          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: Off }
 
     steps:
       - uses: actions/checkout@v5
@@ -50,6 +54,11 @@ jobs:
       - run: |
           sudo apt-get install -y openmpi-bin libopenmpi-dev
         if: ${{ contains(matrix.toolchain.compiler, 'gcc') }}
+
+      - name: Modify makefile to switch off JSON
+        if: ${{ contains(matrix.toolchain.json , 'Off') }}
+        run: |
+          sed -i 's/"USE_JSON=1"/"USE_JSON=0"/' makefile
 
       - name: Modify makefile to switch off HDF5
         if: ${{ contains(matrix.toolchain.hdf5 , 'Off') }}
