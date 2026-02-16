@@ -57,7 +57,7 @@ contains
     integer, intent(out) :: Bottom_Energy_BC,Top_Energy_BC
     integer, intent(out) :: num_of_time_series_points
     integer,allocatable, intent(out) :: time_series_point_1(:),time_series_point_2(:),time_series_point_3(:)
-    integer,allocatable, intent(out) :: time_series_point_4):)
+    integer,allocatable, intent(out) :: time_series_point_4(:)
 
     ! Read numerical paramters
     call json_read(input_file,"Keyword",Keyword)
