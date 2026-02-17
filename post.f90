@@ -513,26 +513,6 @@
 
           do ib=1,nbp
 
- !             dm(1)=dom(ib)%p(i,j,k)
- !             dm(2)=dom(ib)%pm(i,j,k)
- !             dm(3)=dom(ib)%ppm(i,j,k)
- !             dm(4)=dom(ib)%u(i,j,k)
- !             dm(5)=dom(ib)%um (i,j,k)
- !             dm(6)=dom(ib)%uum(i,j,k)
- !             dm(7)=dom(ib)%v(i,j,k)
- !             dm(8)=dom(ib)%vm (i,j,k)
- !             dm(9)=dom(ib)%vvm(i,j,k)
- !             dm(10)=dom(ib)%w  (i,j,k)
- !             dm(11)=dom(ib)%wm (i,j,k)
- !             dm(12)=dom(ib)%wwm(i,j,k)
- !             dm(13)=dom(ib)%uvm(i,j,k)
- !             dm(14)=dom(ib)%uwm(i,j,k)
- !             dm(15)=dom(ib)%vwm(i,j,k)
- !             dm(16)=dom(ib)%vis(i,j,k)
- !             if (LSCALAR) dm(18)=dom(ib)%S(i,j,k)
- !             if (LSCALAR) dm(19)=dom(ib)%Sm(i,j,k)
- !             if (LENERGY) dm(20)=dom(ib)%T(i,j,k)
- !             if (LENERGY) dm(21)=dom(ib)%Tm(i,j,k)
               !if (LENERGY) dom(ib)%Ttm(i,j,k)=dm(22)
 
 
