@@ -510,7 +510,6 @@
           character(len=8) :: chb
           character(len=25) :: gf
 
-          !dm=0.d0
 
           do ib=1,nbp
 
