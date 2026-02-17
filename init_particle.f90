@@ -252,7 +252,7 @@
               c_str=REPEAT("0",(4-strlen))//TRIM(ADJUSTL(c_str))  ! e.g. "001"
 
               filename="tecout_"//b_str//"_"//c_str//".dat"
-
+#if USE_HDF5 == 0
               OPEN (UNIT=idfile, FILE=filename)
 
               WRITE (idfile,*) "TITLE = ", '"Eulerian field"'
@@ -263,7 +263,7 @@
               ELSE
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"'
               end if
-
+#endif
               is=pl+1; ie=dom(ib)%ttc_i-pl
               js=pl+1; je=dom(ib)%ttc_j-pl
               ks=pl+1; ke=dom(ib)%ttc_k-pl
@@ -272,8 +272,10 @@
               nk=ke-(ks-1)+1
 
               !WRITE(idfile,*)'ZONE T="','id:',dom_id(ib),'it:',ntime,'"'
+#if USE_HDF5 == 0
               WRITE(idfile,*)"zone ","STRANDID=", 1, "SOLUTIONTIME=", ctime
               WRITE(idfile,*)"I=",ni,", J=",nj,", K=",nk,"F=POINT"
+#endif
 #if USE_HDF5 == 1
               allocate(u(is-1:ie,js-1:je,ks-1:ke),v(is-1:ie,js-1:je,ks-1:ke), &
                    w(is-1:ie,js-1:je,ks-1:ke),p(is-1:ie,js-1:je,ks-1:ke), &
@@ -409,9 +411,9 @@
           end if
 #endif
           end do
-
+#if USE_HDF5 == 0
           close (idfile)
-
+#endif
 !   88 FORMAT (10F15.8)
 
       END SUBROUTINE TECPLOT
