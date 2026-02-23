@@ -27,17 +27,17 @@ contains
        save_inflow_data,time_averaging,SGS_model,&
        number_of_inlets,velocity_profile,Number_inlet_profiles,&
        Turbulence_intensity,t_start_averaging1,t_start_averaging2,&
-       noise,Th,Tc,Tinit,SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex,&
+       noise,Th,Tc,Tinit,SGS_model_value,LMR,pl_ex,&
        LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt,&
        West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC,&
        Bottom_Energy_BC,Top_Energy_BC,num_of_time_series_points,&
        time_series_point_1,time_series_point_2,time_series_point_3,time_series_point_4)
     !! Reads control.json assigning the variables associated output to variables of the subroutine
     character(len=*), intent(in) :: input_file
-    character(kind=json_CK,len=:),allocatable, intent(out) :: Keyword,type_of_friction
+    character(len=80),  intent(out) :: Keyword,type_of_friction
     real(dp), intent(out) :: dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta
-    real(dp), intent(out) :: gx,gy,gz
-    integer, intent(out) :: dens,convection_scheme,diffusion_scheme,differencing
+    real(dp), intent(out) :: gx,gy,gz, dens
+    integer, intent(out) :: convection_scheme,diffusion_scheme,differencing
     integer, intent(out) :: solver,multigrid_step,multigrid_iteration_scheme
     integer, intent(out) :: multigrid_maximum_iteration_per_time_step,restriction_iter,prolongation_iter
     real(dp), intent(out) :: dt,safety_factor,eps,Friction_coefficient
@@ -51,7 +51,7 @@ contains
     integer, intent(out) :: number_of_inlets, velocity_profile,Number_inlet_profiles
     real(dp), intent(out) :: Turbulence_intensity,t_start_averaging1,t_start_averaging2
     real(dp), intent(out) :: noise,Th,Tc, Tinit
-    integer, intent(out) :: SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex
+    integer, intent(out) :: SGS_model_value,LMR,pl_ex
     logical, intent(out) :: LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt
     integer, intent(out) ::  West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC
     integer, intent(out) :: Bottom_Energy_BC,Top_Energy_BC
@@ -122,8 +122,6 @@ contains
     call json_read(input_file,"SGS-model",SGS_model)
     call json_read(input_file,"SGS-model_value",SGS_model_value)
     call json_read(input_file,"LMR",LMR)
-    call json_read(input_file,"normal ghost velocity interpolation",&
-         normal_ghost_velocity_interpolation)
     call json_read(input_file,"LIMB",LIMB)
     call json_read(input_file,"LENERGY",LENERGY)
     call json_read(input_file,"LROUGH",LROUGH)

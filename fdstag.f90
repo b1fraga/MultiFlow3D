@@ -6,9 +6,13 @@
           use, intrinsic :: iso_fortran_env, only: dp => real64
 #if USE_JSON == 1
           use io
+          use vars
+          use multidata
+          use multiflow3d_mpi
 #endif
           implicit none
-
+          integer :: ib
+          
           call init_parallelisation
 
           call read_mdmap
@@ -27,10 +31,10 @@
        save_inflow,time_averaging,SGS,&
        ITMAX_PI,UPROF_SEM,ITMAX_SEM,&
        TI_SEM,t_start_averaging1,t_start_averaging2,&
-       noise,Th,Tc,Tinit,SGS_model,LMR,normal_ghost_velocity_interpolation,pl_ex,&
-       LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LAS,LNonNewt,&
+       noise,Th,Tc,Tinit,SGS_model,LMR,pl_ex,&
+       LIMB,LENERGY,LROUGH,LPT,l_LSM,L_LSMbase,LSCALAR,LAS,LNonNewt,&
        Tbc_w,Tbc_e,Tbc_s,Tbc_n,&
-       Tbc_n,Tbc_t,n_unstpts,&
+       Tbc_n,Tbc_t,n_unstpt,&
        id_unst,i_unst,j_unst,k_unst)
        Re = 1.0_dp/rrey
        if (bc_w==5) pressureforce=.TRUE.

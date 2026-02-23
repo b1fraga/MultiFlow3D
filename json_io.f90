@@ -9,9 +9,10 @@ module json_io
 
   interface json_read
      module procedure json_read_integer
+     module procedure json_read_character
+     module procedure json_read_integer_array
      module procedure json_read_real
      module procedure json_read_logical
-     module procedure json_read_character
   end interface
 
 contains
@@ -56,7 +57,27 @@ contains
     if (json%failed()) error stop "Failed to close json file"
 
   end subroutine json_read_real
+  
+  subroutine json_read_integer_array(input_file,value_to_return,output)
+    !! Reads a real from a json file, which has the key
+    !! given by value_to_return
+    type(json_file) :: json
+    character(len=*), intent(in) :: input_file, value_to_return
+    logical :: found
+    integer , allocatable, intent(out) :: output(:)
 
+    call json%initialize()
+
+    call json%load(filename = input_file)
+
+    call json%get(value_to_return, output, found)
+    if ( .not. found ) error stop "Value not found in json file"
+
+    call json%destroy()
+    if (json%failed()) error stop "Failed to close json file"
+
+  end subroutine json_read_integer_array
+  
   subroutine json_read_logical(input_file,value_to_return,output)
     !! Reads a logical from a json file, which has the key
     !! given by value_to_return
@@ -83,14 +104,15 @@ contains
     type(json_file) :: json
     character(len=*), intent(in) :: input_file, value_to_return
     logical :: found
-    character(kind=json_CK,len=:),allocatable,intent(out) :: output
+    character(kind=json_CK,len=:), allocatable :: dummy_output
+    character(len=80),intent(inout) :: output
 
     call json%initialize()
 
     call json%load(filename = input_file)
-
-    call json%get(value_to_return, output, found)
+    call json%get(value_to_return, dummy_output, found)
     if ( .not. found ) error stop "Value not found in json file"
+    output=trim(dummy_output)
 
     call json%destroy()
     if (json%failed()) error stop "Failed to close json file"

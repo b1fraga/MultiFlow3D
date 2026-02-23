@@ -75,7 +75,7 @@ contains
     type(error_type), allocatable, intent(out) :: error
 
     character(len=5) :: expected
-    character(kind=json_CK,len=:),allocatable :: output
+    character(len=80)  :: output
 
     call json_read("test_file.json","value5",output)
     expected = "Hello"

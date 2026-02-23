@@ -4,7 +4,7 @@
     "dx": 0.004,
     "dy": 0.03125,
     "dz": 0.03125,
-    "dens": 1000,
+    "dens": 1000.0,
     "kinematic visc": 0.000001,
     "Pr": 7.0,
     "turb Schmidt": 0.6,
@@ -57,7 +57,6 @@
     "SGS-model": true,
     "SGS-model_value": 1,
     "LMR": 2,
-    "normal ghost velocity interpolation": 2,
     "LIMB": false,
     "LENERGY": false,
     "LROUGH": false,
@@ -70,6 +69,7 @@
     "pl_ex": 2,
     "Th": 301.11,
     "Tc": 298.57,
+    "Tinit": 297.0,
     "West_Energy_BC": 7,
     "East_Energy_BC": 7,
     "South_Energy_BC": 7,
@@ -77,8 +77,8 @@
     "Bottom_Energy_BC": 7,
     "Top_Energy_BC": 7,
     "num of time series points": 0,
-    "time_series_point_1": 0,
-    "time_series_point_2": 12,
-    "time_series_point_3": 22,
-    "time_series_point_4": 22
+    "time_series_point_1": [0],
+    "time_series_point_2": [12],
+    "time_series_point_3": [22],
+    "time_series_point_4": [22]
 }
