@@ -1,3 +1,6 @@
+!FIXME: Currently all io tests are json based based tests, so if
+! USE_JSON=0 you get an error that you cannot have a empty testsuit
+#if USE_JSON == 1
 module test_io
   use, intrinsic :: iso_fortran_env, only:  int8,dp => real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
@@ -14,21 +17,26 @@ contains
     !> Collection of tests
     type(unittest_type), allocatable, intent(out) :: testsuite(:)
 
+#if USE_JSON == 1
     testsuite = [ &
          new_unittest("test_read_control_file", test_read_control_file)&
          ]
+#else
+    testsuite = []
+#endif
   end subroutine collect_io
 
 
+#if USE_JSON == 1
   subroutine test_read_control_file(error)
     use io, only : read_control_file
     !> Error handling
     type(error_type), allocatable, intent(out) :: error
 
-    character(kind=json_CK,len=:),allocatable :: Keyword,type_of_friction
+    character(len=80) :: Keyword,type_of_friction
     real(dp) :: dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta
-    real(dp) :: gx,gy,gz
-    integer :: dens,convection_scheme,diffusion_scheme,differencing
+    real(dp) :: gx,gy,gz,dens
+    integer :: convection_scheme,diffusion_scheme,differencing
     integer :: solver,multigrid_step,multigrid_iteration_scheme
     integer :: multigrid_maximum_iteration_per_time_step,restriction_iter,prolongation_iter
     real(dp) :: dt,safety_factor,eps,Friction_coefficient
@@ -41,20 +49,21 @@ contains
     logical :: save_inflow_data,time_averaging,SGS_model
     integer :: number_of_inlets, velocity_profile,Number_inlet_profiles
     real(dp) :: Turbulence_intensity,t_start_averaging1,t_start_averaging2
-    real(dp) :: noise,Th,Tc
-    integer :: SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex
+    real(dp) :: noise,Th,Tc,Tinit
+    integer :: SGS_model_value,LMR,pl_ex
     logical :: LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt
     integer ::  West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC
     integer :: Bottom_Energy_BC,Top_Energy_BC
     integer :: num_of_time_series_points
-    integer :: time_series_point_1,time_series_point_2,time_series_point_3
-    integer :: time_series_point_4
+    integer, allocatable :: time_series_point_1(:),time_series_point_2(:),time_series_point_3(:)
+    integer, allocatable :: time_series_point_4(:)
 
     character (len=6) :: expected_character_keyword
     character (len=1) :: expected_character_type_of_friction
     integer :: expected_integer
     real(dp) :: expected_real
     logical :: expected_logical
+    logical :: arrays_equal
 
     call read_control_file("test_io.json",Keyword,type_of_friction,&
        dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta,&
@@ -70,7 +79,7 @@ contains
        save_inflow_data,time_averaging,SGS_model,&
        number_of_inlets,velocity_profile,Number_inlet_profiles,&
        Turbulence_intensity,t_start_averaging1,t_start_averaging2,&
-       noise,Th,Tc,SGS_model_value,LMR,normal_ghost_velocity_interpolation,pl_ex,&
+       noise,Th,Tc,Tinit,SGS_model_value,LMR,pl_ex,&
        LIMB,LENERGY,LROUGH,LPT,LSM,L_LSMbase,LSCALAR,LActiveScalar,LNonNewt,&
        West_Energy_BC,East_Energy_BC,South_Energy_BC,North_Energy_BC,&
        Bottom_Energy_BC,Top_Energy_BC,num_of_time_series_points,&
@@ -96,8 +105,8 @@ contains
     call check(error, dz, expected_real)
     if (allocated(error)) return
 
-    expected_integer=1000
-    call check(error, dens, expected_integer)
+    expected_real=1000.0
+    call check(error, dens, expected_real)
     if (allocated(error)) return
 
     expected_real=0.000001_dp
@@ -308,10 +317,6 @@ contains
     call check(error, LMR, expected_integer)
     if (allocated(error)) return
 
-    expected_integer = 2
-    call check(error, normal_ghost_velocity_interpolation, expected_integer)
-    if (allocated(error)) return
-
     expected_logical = .false.
     call check(error, LIMB, expected_logical)
     if (allocated(error)) return
@@ -360,6 +365,10 @@ contains
     call check(error, Tc, expected_real)
     if (allocated(error)) return
 
+    expected_real = 297.0_dp
+    call check(error, tinit, expected_real)
+    if (allocated(error)) return
+
     expected_integer = 7
     call check(error, West_Energy_BC, expected_integer)
     if (allocated(error)) return
@@ -388,24 +397,25 @@ contains
     call check(error, num_of_time_series_points, expected_integer)
     if (allocated(error)) return
 
-    expected_integer = 0
-    call check(error, time_series_point_1, expected_integer)
+    arrays_equal = all(time_series_point_1 == (/ 0 /))
+    call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    expected_integer = 12
-    call check(error, time_series_point_2, expected_integer)
+    arrays_equal = all(time_series_point_2 == (/ 12 /))
+    call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    expected_integer = 22
-    call check(error, time_series_point_3, expected_integer)
+    arrays_equal = all(time_series_point_3 == (/ 22 /))
+    call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    expected_integer = 22
-    call check(error, time_series_point_4, expected_integer)
+    arrays_equal = all(time_series_point_4 == (/ 22 /))
+    call check(error, .true. , arrays_equal)
     if (allocated(error)) return
-
+    
   end subroutine test_read_control_file
 
-
+#endif
 
 end module test_io
+#endif

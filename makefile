@@ -92,7 +92,7 @@ test: tests.exe
 
 .f90.o:
 	$(F90) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
-			   -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -DUSE_HDF5=1 -ljsonfortran -lhdf5 -lhdf5_fortran -o $@ $<
+			   -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -DUSE_HDF5=1 -DUSE_JSON=1 -ljsonfortran -lhdf5 -lhdf5_fortran -o $@ $<
 
 M3D_v2.exe: $(objects) 
 	$(F90) $(objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
@@ -102,7 +102,7 @@ M3D_v2.exe: $(objects)
 tests/%.o: tests/%.f90
 	$(F90) $(LOPTIONS) $(OPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) -ljsonfortran \
 					-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) \
-                                        -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -ljsonfortran -ltest-drive -lhdf5 -lhdf5_fortran -c -o $@ $<
+                                        -I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) -DUSE_HDF5=1 -DUSE_JSON=1 -ljsonfortran -ltest-drive -lhdf5 -lhdf5_fortran -c -o $@ $<
 
 tests.exe: $(test_objects) M3D_v2.exe
 	$(F90) $(test_objects) $(LOPTIONS) -I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
@@ -146,7 +146,7 @@ exchangesca.o : exchangesca.f90 module_vars.o module_mpi.o module_multidata.o
 exchangeu.o : exchangeu.f90 module_vars.o module_mpi.o module_multidata.o 
 exchangev.o : exchangev.f90 module_vars.o module_mpi.o module_multidata.o 
 exchangew.o : exchangew.f90 module_vars.o module_mpi.o module_multidata.o 
-fdstag.o : fdstag.f90 module_vars.o module_mpi.o 
+fdstag.o : fdstag.f90 module_vars.o module_mpi.o io.o
 flosol.o : flosol.f90 module_vars_pt.o module_multidata.o module_mpi.o module_vars.o 
 imb.o : imb.f90 module_mpi.o module_multidata.o module_vars.o module_LSM.o
 initial.o : initial.f90 module_mpi.o module_multidata.o module_vars.o 
