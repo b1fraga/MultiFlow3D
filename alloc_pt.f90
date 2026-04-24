@@ -335,7 +335,9 @@
                   vopold(l)=vop_pt(l)
                   wopold(l)=wop_pt(l)
                   dp_old(l)=dp_pt(l)
-                  Fu(l)=0 ; Fv(l)=0 ; Fw(l)=0
+                  Fu(l)=0
+                  Fv(l)=0
+                  Fw(l)=0
                   else                                                  !tsnr
                   if (.not.random) read(35,*)
                   end if                                                 !tsnr

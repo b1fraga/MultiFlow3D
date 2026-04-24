@@ -84,9 +84,12 @@
 
           do ib=1,nbp
 
-              isp=dom(ib)%isp; iep=dom(ib)%iep
-              jsp=dom(ib)%jsp; jep=dom(ib)%jep
-              ksp=dom(ib)%ksp; kep=dom(ib)%kep
+              isp=dom(ib)%isp
+              iep=dom(ib)%iep
+              jsp=dom(ib)%jsp
+              jep=dom(ib)%jep
+              ksp=dom(ib)%ksp
+              kep=dom(ib)%kep
 !...................... west and east............................
               if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
               do k=ksp-1,kep+1
@@ -221,8 +224,10 @@
 
           do ib=1,nbp
 !           ispr=pl+1; iepr=dom(ib)%ttc_i-pl
-              jspr=pl+1; jepr=dom(ib)%ttc_j-pl
-              kspr=pl+1; kepr=dom(ib)%ttc_k-pl
+              jspr=pl+1
+              jepr=dom(ib)%ttc_j-pl
+              kspr=pl+1
+              kepr=dom(ib)%ttc_k-pl
 
               if(dom(ib)%iprev<0) then                       !west
               do j=jspr,jepr
@@ -298,9 +303,12 @@
               dom(ib)%pp=0.0_dp
               dom(ib)%su=0.0_dp
 
-              isp=dom(ib)%isp; iep=dom(ib)%iep
-              jsp=dom(ib)%jsp; jep=dom(ib)%jep
-              ksp=dom(ib)%ksp; kep=dom(ib)%kep
+              isp=dom(ib)%isp
+              iep=dom(ib)%iep
+              jsp=dom(ib)%jsp
+              jep=dom(ib)%jep
+              ksp=dom(ib)%ksp
+              kep=dom(ib)%kep
 
               do  k=ksp,kep
                   do  i=isp,iep

@@ -32,7 +32,9 @@
                           else
                           dom(ib)%S(i,j,k) = 0  !fresh water
                           end if
-                      end do; end do; end do
+                      end do
+                      end do
+                      end do
           end do
 
       end subroutine sediment_init
@@ -289,10 +291,15 @@
           do ly=0,pl_ex
 
               do ib=1,nbp
-                  ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
-                  is=dom(ib)%isp; ie=dom(ib)%iep
-                  js=dom(ib)%jsp; je=dom(ib)%jep
-                  ks=dom(ib)%ksp; ke=dom(ib)%kep
+                  ni=dom(ib)%ttc_i
+                  nj=dom(ib)%ttc_j
+                  nk=dom(ib)%ttc_k
+                  is=dom(ib)%isp
+                  ie=dom(ib)%iep
+                  js=dom(ib)%jsp
+                  je=dom(ib)%jep
+                  ks=dom(ib)%ksp
+                  ke=dom(ib)%kep
 
 ! Boundary Conditions for S - ASSUMING ALL ADIABATIC BCs
 !..............................................................................
@@ -301,10 +308,12 @@
                   if (dom(ib)%iprev<0) then
                   !      if (dom(ib)%Tbc_west.eq.4) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%S(is-1-ly,j,k)= dom(ib)%S(is+ly,j,k)
                           dom(ib)%dens(is-1-ly,j,k)=dom(ib)%dens(is+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   !      else if (dom(ib)%Tbc_west.eq.1) then                   !CHANGE
                   !         do k=ks-1,ke+1; do j=js-1,je+1
@@ -332,10 +341,12 @@
                   if (dom(ib)%inext<0) then
                   !      if (dom(ib)%Tbc_east.eq.4) then
                   !   do k=ks-1,ke+1; do j=js-1,je+1
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%S(ie+1+ly,j,k)= dom(ib)%S(ie-ly,j,k)
                           dom(ib)%dens(ie+1+ly,j,k)= dom(ib)%dens(ie-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   !      else if (dom(ib)%Tbc_east.eq.2_dp) then
                   !         do k=ks-1,ke+1; do j=js-1,je+1
@@ -349,10 +360,12 @@
                   if (dom(ib)%jprev<0) then
                   !      else if (dom(ib)%Tbc_east.eq.2) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%S(i,js-1-ly,k)= dom(ib)%S(i,js+ly,k)
                           dom(ib)%dens(i,js-1-ly,k)= dom(ib)%dens(i,js+ly,k)
-                      end do; end do
+                      end do
+                      end do
 
                   !      end if
                   end if
@@ -362,10 +375,12 @@
                   if (dom(ib)%jnext<0) then
                   !      if (dom(ib)%Tbc_north.eq.4) then
                   !   do k=ks-1,ke+1; do i=is-1,ie+1
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%S(i,je+1+ly,k) = dom(ib)%S(i,je-ly,k)
                           dom(ib)%dens(i,je+1+ly,k) = dom(ib)%dens(i,je-ly,k)
-                      end do; end do
+                      end do
+                      end do
 
                   !      end if
                   end if
@@ -380,10 +395,12 @@
 
                   !      else if (dom(ib)%Tbc_bottom.eq.7) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%S(i,j,ks-1-ly)= dom(ib)%S(i,j,ks+ly)
                           dom(ib)%dens(i,j,ks-1-ly)= dom(ib)%dens(i,j,ks+ly)
-                      end do; end do
+                      end do
+                      end do
                   !      end if
                   end if
 !.............................................................................
@@ -392,10 +409,12 @@
                   if (dom(ib)%knext<0) then
                   !      if (dom(ib)%Tbc_top.eq.8) then
                   !   do j=js-1,je+1; do i=is-1,ie+1
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%S(i,j,ke+1+ly) = dom(ib)%S(i,j,ke-ly)
                           dom(ib)%dens(i,j,ke+1+ly) = dom(ib)%dens(i,j,ke-ly)
-                      end do; end do
+                      end do
+                      end do
 
                   !      end if
                   end if
@@ -433,7 +452,9 @@
                           end if
                           dom(ib)%vis(i,j,k)=dom(ib)%mu(i,j,k)/dom(ib)%dens(i,j,k)
 
-                      end do;end do;end do
+                      end do
+                      end do
+                      end do
           end do
 
       end subroutine NonNewtonian
@@ -450,12 +471,16 @@
           integer :: ib,i,j,k
           !constitutive relationship is for density
           do ib=1,nbp
-              do i=1,dom(ib)%ttc_i;do j=1,dom(ib)%ttc_j;do k=1,dom(ib)%ttc_k
+              do i=1,dom(ib)%ttc_i
+              do j=1,dom(ib)%ttc_j
+              do k=1,dom(ib)%ttc_k
                           dom(ib)%dens(i,j,k)=0.0367_dp*dom(ib)%S(i,j,k)**3.d0 &       !based on sludge on this case
                                 -2.38_dp*dom(ib)%S(i,j,k)**2.d0 &
                                 +14.6_dp*dom(ib)%S(i,j,k)+1000
 
-                      end do;end do;end do
+                      end do
+                      end do
+                      end do
           end do
 
       end subroutine Active_scalar

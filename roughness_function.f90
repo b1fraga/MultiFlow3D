@@ -43,7 +43,9 @@
 
           DO ib = 1, nbp
 
-              ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+              ni=dom(ib)%ttc_i
+              nj=dom(ib)%ttc_j
+              nk=dom(ib)%ttc_k
 
               allocate(rough_dom(ib)%rough(ni,nj,nk))
               allocate(rough_dom(ib)%irough(ni,nj,nk))
@@ -87,7 +89,9 @@
           character (LEN=4)    :: char_block
           real(dp) :: random, xicount
 
-          ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+          ni=dom(ib)%ttc_i
+          nj=dom(ib)%ttc_j
+          nk=dom(ib)%ttc_k
 
           rough_dom(ib)%d50=rough_dom(ib)%d50/1000.0_dp/hd
 
@@ -286,7 +290,8 @@
 
           DO ib = 1, nbp
 
-              nip=dom(ib)%ttc_i; njp=dom(ib)%ttc_j
+              nip=dom(ib)%ttc_i
+              njp=dom(ib)%ttc_j
 
               DO L=1,rough_blockno
 
@@ -334,7 +339,9 @@
 
           DO ib = 1, nbp
 
-              ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+              ni=dom(ib)%ttc_i
+              nj=dom(ib)%ttc_j
+              nk=dom(ib)%ttc_k
 
               DO L=1,rough_blockno
 

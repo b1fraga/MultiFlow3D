@@ -199,9 +199,12 @@
 !++++++++++++++++++++++++++++++++++++++++++++++++++++++
           do ib=1,nbp
 
-              is=dom(ib)%isu; ie=dom(ib)%ieu
-              js=dom(ib)%jsu; je=dom(ib)%jeu
-              ks=dom(ib)%ksu; ke=dom(ib)%keu
+              is=dom(ib)%isu
+              ie=dom(ib)%ieu
+              js=dom(ib)%jsu
+              je=dom(ib)%jeu
+              ks=dom(ib)%ksu
+              ke=dom(ib)%keu
 
               do k=ks,ke
                   do i=is,ie
@@ -213,9 +216,12 @@
                   end do
               end do
 
-              is=dom(ib)%isv; ie=dom(ib)%iev
-              js=dom(ib)%jsv; je=dom(ib)%jev
-              ks=dom(ib)%ksv; ke=dom(ib)%kev
+              is=dom(ib)%isv
+              ie=dom(ib)%iev
+              js=dom(ib)%jsv
+              je=dom(ib)%jev
+              ks=dom(ib)%ksv
+              ke=dom(ib)%kev
 
               do k=ks,ke
                   do i=is,ie
@@ -227,9 +233,12 @@
                   end do
               end do
 
-              is=dom(ib)%isw; ie=dom(ib)%iew
-              js=dom(ib)%jsw; je=dom(ib)%jew
-              ks=dom(ib)%ksw; ke=dom(ib)%kew
+              is=dom(ib)%isw
+              ie=dom(ib)%iew
+              js=dom(ib)%jsw
+              je=dom(ib)%jew
+              ks=dom(ib)%ksw
+              ke=dom(ib)%kew
 
               do k=ks,ke
                   do i=is,ie
@@ -262,9 +271,12 @@
 
           do ib=1,nbp
 
-              is=dom(ib)%isu; ie=dom(ib)%ieu
-              js=dom(ib)%jsu; je=dom(ib)%jeu
-              ks=dom(ib)%ksu; ke=dom(ib)%keu
+              is=dom(ib)%isu
+              ie=dom(ib)%ieu
+              js=dom(ib)%jsu
+              je=dom(ib)%jeu
+              ks=dom(ib)%ksu
+              ke=dom(ib)%keu
 
               do k=ks,ke
                   do i=is,ie
@@ -276,9 +288,12 @@
                   end do
               end do
 
-              is=dom(ib)%isv; ie=dom(ib)%iev
-              js=dom(ib)%jsv; je=dom(ib)%jev
-              ks=dom(ib)%ksv; ke=dom(ib)%kev
+              is=dom(ib)%isv
+              ie=dom(ib)%iev
+              js=dom(ib)%jsv
+              je=dom(ib)%jev
+              ks=dom(ib)%ksv
+              ke=dom(ib)%kev
 
               do k=ks,ke
                   do i=is,ie
@@ -290,9 +305,12 @@
                   end do
               end do
 
-              is=dom(ib)%isw; ie=dom(ib)%iew
-              js=dom(ib)%jsw; je=dom(ib)%jew
-              ks=dom(ib)%ksw; ke=dom(ib)%kew
+              is=dom(ib)%isw
+              ie=dom(ib)%iew
+              js=dom(ib)%jsw
+              je=dom(ib)%jew
+              ks=dom(ib)%ksw
+              ke=dom(ib)%kew
 
               do k=ks,ke
                   do i=is,ie
@@ -326,9 +344,12 @@
 
 !add here constitutive relationship if needed
 
-              is=dom(ib)%isu; ie=dom(ib)%ieu
-              js=dom(ib)%jsu; je=dom(ib)%jeu
-              ks=dom(ib)%ksu; ke=dom(ib)%keu
+              is=dom(ib)%isu
+              ie=dom(ib)%ieu
+              js=dom(ib)%jsu
+              je=dom(ib)%jeu
+              ks=dom(ib)%ksu
+              ke=dom(ib)%keu
 
               do k=ks-1,ke
                   do i=is-1,ie
@@ -340,9 +361,12 @@
                   end do
               end do
 
-              is=dom(ib)%isv; ie=dom(ib)%iev
-              js=dom(ib)%jsv; je=dom(ib)%jev
-              ks=dom(ib)%ksv; ke=dom(ib)%kev
+              is=dom(ib)%isv
+              ie=dom(ib)%iev
+              js=dom(ib)%jsv
+              je=dom(ib)%jev
+              ks=dom(ib)%ksv
+              ke=dom(ib)%kev
 
               do k=ks-1,ke
                   do i=is-1,ie
@@ -354,9 +378,12 @@
                   end do
               end do
 
-              is=dom(ib)%isw; ie=dom(ib)%iew
-              js=dom(ib)%jsw; je=dom(ib)%jew
-              ks=dom(ib)%ksw; ke=dom(ib)%kew
+              is=dom(ib)%isw
+              ie=dom(ib)%iew
+              js=dom(ib)%jsw
+              je=dom(ib)%jew
+              ks=dom(ib)%ksw
+              ke=dom(ib)%kew
 
               do k=ks-1,ke
                   do i=is-1,ie
@@ -369,9 +396,12 @@
                   end do
               end do
 !------------------------------------------------------------------------------ Aleks 11/2021
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
 ! density variation with temperature
               do k=1,dom(ib)%ttc_k
@@ -398,10 +428,15 @@
           do ly=0,pl_ex
 
               do ib=1,nbp
-                  ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
-                  is=dom(ib)%isp; ie=dom(ib)%iep
-                  js=dom(ib)%jsp; je=dom(ib)%jep
-                  ks=dom(ib)%ksp; ke=dom(ib)%kep
+                  ni=dom(ib)%ttc_i
+                  nj=dom(ib)%ttc_j
+                  nk=dom(ib)%ttc_k
+                  is=dom(ib)%isp
+                  ie=dom(ib)%iep
+                  js=dom(ib)%jsp
+                  je=dom(ib)%jep
+                  ks=dom(ib)%ksp
+                  ke=dom(ib)%kep
 
 ! Boundary Conditions for T
 !..............................................................................
@@ -409,17 +444,23 @@
 !..............................................................................
                   if (dom(ib)%iprev<0) then
                   if (dom(ib)%Tbc_west==7) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(is-1-ly,j,k)= dom(ib)%T(is+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_west==8) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(is-1-ly,j,k)= 2.d0*Tc-dom(ib)%T(is,j,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_west==9) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(is-1-ly,j,k)= 2.d0*Th-dom(ib)%T(is,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 !...............................................................................
@@ -427,17 +468,23 @@
 !...............................................................................
                   if (dom(ib)%inext<0) then
                   if (dom(ib)%Tbc_east==7) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(ie+1+ly,j,k)= dom(ib)%T(ie-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_east==8) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(ie+1+ly,j,k)= 2.d0*Tc-dom(ib)%T(ie,j,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_east==9) then
-                  do k=1,nk; do j=1,nj
+                  do k=1,nk
+                  do j=1,nj
                           dom(ib)%T(ie+1+ly,j,k)= 2.d0*Th-dom(ib)%T(ie,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 !...............................................................................
@@ -445,17 +492,23 @@
 !...............................................................................
                   if (dom(ib)%jprev<0) then
                   if (dom(ib)%Tbc_south==7) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,js-1-ly,k)= dom(ib)%T(i,js+ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_south==8) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,js-1-ly,k)= 2.d0*Tc-dom(ib)%T(i,js,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_south==9) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,js-1-ly,k)= 2.d0*Th-dom(ib)%T(i,js,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 !.............................................................................
@@ -463,17 +516,23 @@
 !.............................................................................
                   if (dom(ib)%jnext<0) then
                   if (dom(ib)%Tbc_north==7) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,je+1+ly,k) = dom(ib)%T(i,je-ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_north==8) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,je+1+ly,k) = 2.d0*Tc-dom(ib)%T(i,je,k)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_north==9) then
-                  do k=1,nk; do i=1,ni
+                  do k=1,nk
+                  do i=1,ni
                           dom(ib)%T(i,je+1+ly,k) = 2.d0*Th-dom(ib)%T(i,je,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 !...............................................................................
@@ -481,17 +540,23 @@
 !...............................................................................
                   if (dom(ib)%kprev<0) then
                   if (dom(ib)%Tbc_bottom==7) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ks-1-ly)= dom(ib)%T(i,j,ks+ly)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_bottom==8) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ks-1-ly)= 2.d0*Tc-dom(ib)%T(i,j,ks)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_bottom==9) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ks-1-ly)= 2.d0*Th-dom(ib)%T(i,j,ks)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 !.............................................................................
@@ -499,17 +564,23 @@
 !.............................................................................
                   if (dom(ib)%knext<0) then
                   if (dom(ib)%Tbc_top==7) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ke+1+ly) = dom(ib)%T(i,j,ke-ly)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_top==8) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ke+1+ly) = 2.d0*Tc-dom(ib)%T(i,j,ke)
-                      end do; end do
+                      end do
+                      end do
                   else if (dom(ib)%Tbc_top==9) then
-                  do j=1,nj; do i=1,ni
+                  do j=1,nj
+                  do i=1,ni
                           dom(ib)%T(i,j,ke+1+ly) = 2.d0*Th-dom(ib)%T(i,j,ke)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 

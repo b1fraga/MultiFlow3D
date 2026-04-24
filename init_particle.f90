@@ -111,7 +111,9 @@
               wopold(l)=wop_pt(l)
               dp_old(l)=dp_pt(l)
               rhop_old(l)=rho_pt(l)
-              Fu(l)=0 ; Fv(l)=0 ; Fw(l)=0
+              Fu(l)=0
+              Fv(l)=0
+              Fw(l)=0
           end do
 
           close (20)
@@ -191,7 +193,9 @@
                   vopold(l)=vop_pt(l)
                   wopold(l)=wop_pt(l)
                   dp_old(l)=dp_pt(l)
-                  Fu(l)=0 ; Fv(l)=0 ; Fw(l)=0
+                  Fu(l)=0
+                  Fv(l)=0
+                  Fw(l)=0
 
                   else  !tsnr
                   if (.not.random) read(30,*)
@@ -264,9 +268,12 @@
               WRITE (idfile,"(A)")'VARIABLES = "X","Y","Z","U","V","W","P"'
               end if
 #endif
-              is=pl+1; ie=dom(ib)%ttc_i-pl
-              js=pl+1; je=dom(ib)%ttc_j-pl
-              ks=pl+1; ke=dom(ib)%ttc_k-pl
+              is=pl+1
+              ie=dom(ib)%ttc_i-pl
+              js=pl+1
+              je=dom(ib)%ttc_j-pl
+              ks=pl+1
+              ke=dom(ib)%ttc_k-pl
               ni=ie-(is-1)+1
               nj=je-(js-1)+1
               nk=ke-(ks-1)+1

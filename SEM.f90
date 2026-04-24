@@ -16,22 +16,37 @@
           INTEGER,allocatable,dimension(:)::lsy,lsz,ley,lez
 !THE BOX DIMENSIONS ARE DIFINED AS [XLENGHT] * [Ly] * [Lz]
 ![DIVX], [DIVY] & [DIVZ] ARE THE NUMBERS OF SPACIAL POINTS.
-          PI = 2*ACOS(0.0D0) ; Ly  = yen-yst ; Lz= zen-zst ; U0 = ubulk
+          PI = 2*ACOS(0.0D0)
+          Ly  = yen-yst
+          Lz= zen-zst
+          U0 = ubulk
 
           ALLOCATE(iddom(jdom*kdom),ljdom(jdom*kdom),lkdom(jdom*kdom))
           ALLOCATE(elemyst(jdom*kdom),elemzst(kdom*jdom))
           ALLOCATE(elemyen(jdom*kdom),elemzen(kdom*jdom))
           ALLOCATE(ley(jdom),lez(kdom),lsy(jdom),lsz(kdom))
 
-          ljdom=0   ; lkdom=0   ;  DIVY = 0     ; DIVZ = 0
-          elemyst=0     ; elemyen=0 ;  elemzst=0    ; elemzen=0
-          I=0 ;ley=0 ; lez=0    ;  lsy=0        ; lsz=0
+          ljdom=0
+          lkdom=0
+          DIVY = 0
+          DIVZ = 0
+          elemyst=0
+          elemyen=0
+          elemzst=0
+          elemzen=0
+          I=0
+          ley=0
+          lez=0
+          lsy=0
+          lsz=0
 
 !ID OF THE BLOCK
-          DO N=1,kdom ; DO J=1,jdom
+          DO N=1,kdom
+          DO J=1,jdom
                   I=I+1
                   iddom(I)=idom*(J-1)+(jdom*idom*(N-1))
-              END DO ; END DO
+              END DO
+              END DO
 !DIVISION ON THE Y AND Z DIRECTIONS
           Do J=1,jdom
               ley(J)=ley(J-1)+ &
@@ -55,13 +70,17 @@
           END DO
 !THE DIVISIONS FOR EACH OF THE DOMAINS IS DETERMINED:
           I=0
-          DO N=1,kdom  ;  DO J=1,jdom
+          DO N=1,kdom
+          DO J=1,jdom
                   I=I+1
-                  elemyst(I) = lsy(J)  ;  elemzst(I) = lsz(N)
-                  elemyen(I) = ley(J)  ;  elemzen(I) = lez(N)
+                  elemyst(I) = lsy(J)
+                  elemzst(I) = lsz(N)
+                  elemyen(I) = ley(J)
+                  elemzen(I) = lez(N)
                   ljdom(I) = elemyen(I) -  elemyst(I) + 1
                   lkdom(I) = elemzen(I) -  elemzst(I) + 1
-              end do ; end do
+              end do
+              end do
 
           write(6,*)"Divisions :",DIVY,DIVZ
           write(6,*)"# BLOCKS  :",jdom,kdom
@@ -74,7 +93,8 @@
 !THE NUMBER OF EDDIES IS THE INLET SURFACE DIVIDED BY THE SURFACE OF EACH TURBULENT SPOT
           NE_SEM = (Ly*Lz)/SIGMA_VALUE**2
 ![N](INTEGER) AND [ENNE](real(dp)) REPRESENT THE NUMBER OF EDDIES
-          N = INT(NE_SEM)   ;  ENNE = REAL(N)
+          N = INT(NE_SEM)
+          ENNE = REAL(N)
 
           if(myrank==0) write(6,*) "The number of SEM eddies is :", N
 
@@ -97,8 +117,12 @@
           ALLOCATE(X_EDDY(3,N),EPSILO(3,N),MOLT(3,N),SIGMA(DIVY,DIVZ))
           PRINT *, "TOTAL TIME INTERVAL = ", DT * ITMAX_SEM, " [S]"
 
-          XMIN=1.D8 ; XMAX=1.D-8 ; YMIN=1.D8 ; YMAX=1.D-8
-          ZMIN=1.D8 ; ZMAX=1.D-8
+          XMIN=1.D8
+          XMAX=1.D-8
+          YMIN=1.D8
+          YMAX=1.D-8
+          ZMIN=1.D8
+          ZMAX=1.D-8
 
 !DEFINITION OF EDDY LENGTH SCALE AND INITIAL VELOCITY FIELD
           DO IY=1,DIVY
@@ -170,7 +194,8 @@
               End do
 
               MOLT = MATMUL(R,EPSILO)  ! !aij*epsij   MATRIX MULTIPLICATION
-              MAXVSEM=0.D0 ; MINVSEM=1000000.D0
+              MAXVSEM=0.D0
+              MINVSEM=1000000.D0
 !------BEGINNING OF SPATIAL ITERATION
               DO IY = 1,DIVY
                   DO IZ = 1,DIVZ
@@ -205,7 +230,8 @@
                   Do M=elemzst(I),elemzen(I)
                       Do J=elemyst(I),elemyen(I)
                           WRITE(500+I,"(3E15.6)")Vsem(J,M,:)                !turn down precision for large files
-                      end do ;end do
+                      end do
+                      end do
                   CLOSE (UNIT=IGLOBAL)
               End do
 !--------BEGINNING OF EDDIES CONVECTION ITERATIONS

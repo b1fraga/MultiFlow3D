@@ -12,7 +12,7 @@
 #endif
           implicit none
           integer :: ib
-          
+
           call init_parallelisation
 
           call read_mdmap

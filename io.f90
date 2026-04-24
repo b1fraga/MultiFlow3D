@@ -155,5 +155,5 @@ contains
     call json_read(input_file,"time_series_point_4",time_series_point_4)
   end subroutine read_control_file
 #endif
-  
+
 end module io

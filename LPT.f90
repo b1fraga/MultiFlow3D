@@ -273,7 +273,9 @@
                         dh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
                         ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   do i=iballs_v,iballe_v
                       do j=jballs_v,jballe_v
@@ -283,7 +285,9 @@
                         dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                         ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   do i=iballs_w,iballe_w
                       do j=jballs_w,jballe_w
@@ -293,7 +297,9 @@
                         dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                         ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 !           write(myrank+700,*)'uoi',uoi_pt(l),voi_pt(l),woi_pt(l)
 
@@ -314,7 +320,9 @@
 
                               ui_pt(l) = ui_pt(l) + dom(ib)%ustar(i,j,k) * delta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   do i=iballs_v,iballe_v
                       do j=jballs_v,jballe_v
@@ -325,7 +333,9 @@
 
                               vi_pt(l) = vi_pt(l) + dom(ib)%vstar(i,j,k) * delta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   do i=iballs_w,iballe_w
                       do j=jballs_w,jballe_w
@@ -336,7 +346,9 @@
 
                               wi_pt(l) = wi_pt(l) + dom(ib)%wstar(i,j,k) * delta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 !           write(myrank+700,*)'ui',ui_pt(l),vi_pt(l),wi_pt(l)
 
@@ -364,7 +376,9 @@
 
                               dudy = dudy + dom(ib)%uoo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   dudz = 0.0_dp
@@ -377,7 +391,9 @@
 
                               dudz = dudz + dom(ib)%uoo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   dvdx = 0.0_dp
@@ -390,7 +406,9 @@
 
                               dvdx = dvdx + dom(ib)%voo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   dvdz = 0.0_dp
@@ -403,7 +421,9 @@
 
                               dvdz = dvdz + dom(ib)%voo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   dwdx = 0.0_dp
@@ -416,7 +436,9 @@
 
                               dwdx = dwdx + dom(ib)%woo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   dwdy = 0.0_dp
@@ -429,7 +451,9 @@
 
                               dwdy = dwdy + dom(ib)%woo(i,j,k)*ddelta
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   wx = dwdy-dvdz
                   wy = dudz-dwdx
@@ -577,7 +601,9 @@
                         dom(ib)%ustar(i,j,k) + dt * alfapr * Fpu(l) * delta * &
                         Vp/Vcell
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   do i=iballs_v,iballe_v
@@ -591,7 +617,9 @@
                         dom(ib)%vstar(i,j,k) + dt * alfapr * Fpv(l) * delta * &
                         Vp/Vcell
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
 
                   do i=iballs_w,iballe_w
@@ -605,7 +633,9 @@
                         dom(ib)%wstar(i,j,k) + dt * alfapr * Fpw(l) * delta * &
                         Vp/Vcell
 
-                          end do ; end do ; end do
+                          end do
+                          end do
+                          end do
 
                   end if
 

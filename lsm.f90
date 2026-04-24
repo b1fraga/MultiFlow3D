@@ -103,7 +103,9 @@
                       dom(ib)%uo(i,j,k)=0.0_dp
                       dom(ib)%uoo(i,j,k)=0.0_dp
                       end if
-                  end do;end do;end do
+                  end do
+                  end do
+                  end do
           end if
 
           mul = nul * densl
@@ -907,25 +909,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
@@ -1022,25 +1038,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%iprev<0 .and. dom(ib)%bc_west/=5) then
@@ -1137,25 +1167,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
@@ -1251,25 +1295,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%jprev<0 .and. dom(ib)%bc_south/=5) then
@@ -1365,25 +1423,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then
@@ -1480,25 +1552,39 @@
               select case (op)
                 case (1)
                   fi => dom(ib)%u
-                  npp = dom(ib)%niul;  nq = dom(ib)%njul;  nr = dom(ib)%nkul
+                  npp = dom(ib)%niul
+                  nq = dom(ib)%njul
+                  nr = dom(ib)%nkul
                 case (2)
                   fi => dom(ib)%v
-                  npp = dom(ib)%nivl;  nq = dom(ib)%njvl;  nr = dom(ib)%nkvl
+                  npp = dom(ib)%nivl
+                  nq = dom(ib)%njvl
+                  nr = dom(ib)%nkvl
                 case (3)
                   fi => dom(ib)%w
-                  npp = dom(ib)%niwl;  nq = dom(ib)%njwl;  nr = dom(ib)%nkwl
+                  npp = dom(ib)%niwl
+                  nq = dom(ib)%njwl
+                  nr = dom(ib)%nkwl
                 case (14)  ! (phi)
                   fi => dom(ib)%phi
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (15)  ! (phi_reinit)
                   fi => dom(ib)%phi_reinit
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (16)  ! (phi_new)
                   fi => dom(ib)%phi_new
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
                 case (17)  ! (phi_init)
                   fi => dom(ib)%phi_init
-                  npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+                  npp = dom(ib)%ttc_i
+                  nq = dom(ib)%ttc_j
+                  nr = dom(ib)%ttc_k
               end select
 
               if (dom(ib)%kprev<0 .and. dom(ib)%bc_bottom/=5) then

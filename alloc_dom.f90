@@ -425,9 +425,12 @@
               dom(ib)%zel=zcor(dom_id(ib),2)
           end do
 
-          xst=xcor(0,1); xen=xcor(0,2)
-          yst=ycor(0,1); yen=ycor(0,2)
-          zst=zcor(0,1); zen=zcor(0,2)
+          xst=xcor(0,1)
+          xen=xcor(0,2)
+          yst=ycor(0,1)
+          yen=ycor(0,2)
+          zst=zcor(0,1)
+          zen=zcor(0,2)
 
           do i=1,ndoms-1
               xst=min(xst,xcor(i,1))
@@ -464,7 +467,8 @@
               dom(ib)%knext= -1
 
 !================== I-PREVIOUS NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp) then
@@ -488,7 +492,8 @@
               end if
 
 !================== I-NEXT NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp) then
@@ -513,7 +518,8 @@
 
 
 !================== J-PREVIOUS NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
@@ -537,7 +543,8 @@
               end if
 
 !================== J-NEXT NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
@@ -562,7 +569,8 @@
 
 
 !================== K-PREVIOUS NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
@@ -586,7 +594,8 @@
               end if
 
 !================== K-NEXT NEIGHBOR ===================================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
@@ -631,116 +640,140 @@
               dom(ib)%cornext4= -1
 
 !==================CORNER Previous #1 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%corprev1=i; say=say+1
+                  dom(ib)%corprev1=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Previous #2 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%corprev2=i; say=say+1
+                  dom(ib)%corprev2=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Previous #3 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%corprev3=i; say=say+1
+                  dom(ib)%corprev3=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Previous #4 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%corprev4=i; say=say+1
+                  dom(ib)%corprev4=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Next #1 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
-                  dom(ib)%cornext1=i; say=say+1
+                  dom(ib)%cornext1=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Next #2 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
-                  dom(ib)%cornext2=i; say=say+1
+                  dom(ib)%cornext2=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Next #3 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
-                  dom(ib)%cornext3=i; say=say+1
+                  dom(ib)%cornext3=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 !==================CORNER Next #4 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
-                  dom(ib)%cornext4=i; say=say+1
+                  dom(ib)%cornext4=i
+                  say=say+1
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one cr-ng"; stop
+              print*,dom_id(ib)," has more than one cr-ng"
+              stop
               end if
 
 
@@ -768,196 +801,232 @@
               dom(ib)%edgnext6= -1
 
 !==================EDGE Previous #1 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev1=i; say=say+1
+                  dom(ib)%edgprev1=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Previous #2 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev2=i; say=say+1
+                  dom(ib)%edgprev2=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Previous #3 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev3=i; say=say+1
+                  dom(ib)%edgprev3=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Previous #4 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zsl-zcor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev4=i; say=say+1
+                  dom(ib)%edgprev4=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Previous #5 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev5=i; say=say+1
+                  dom(ib)%edgprev5=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Previous #6 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgprev6=i; say=say+1
+                  dom(ib)%edgprev6=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #1 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext1=i; say=say+1
+                  dom(ib)%edgnext1=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #2 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext2=i; say=say+1
+                  dom(ib)%edgnext2=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #3 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xsl-xcor(i,2))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%ysl-ycor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%yel-ycor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext3=i; say=say+1
+                  dom(ib)%edgnext3=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #4 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%yel-ycor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%zel-zcor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%xsl-xcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%xel-xcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext4=i; say=say+1
+                  dom(ib)%edgnext4=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #5 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%yel-ycor(i,1))<1E-08_dp) then
                   if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext5=i; say=say+1
+                  dom(ib)%edgnext5=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 !==================EDGE Next #6 NEIGHBOR ==================
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(dom(ib)%xel-xcor(i,1))<1E-08_dp .and. &
                abs(dom(ib)%ysl-ycor(i,2))<1E-08_dp) then
                   if(abs(dom(ib)%zsl-zcor(i,1))<1E-08_dp &
             .and.        abs(dom(ib)%zel-zcor(i,2))<1E-08_dp) then
-                  dom(ib)%edgnext6=i; say=say+1
+                  dom(ib)%edgnext6=i
+                  say=say+1
                   end if
                   end if
                   end if
               end do
               if(say>1) then
-              print*,dom_id(ib)," has more than one edg-ng"; stop
+              print*,dom_id(ib)," has more than one edg-ng"
+              stop
               end if
 
 !        write (6,5602) dom_id(ib),dom(ib)%edgprev1,dom(ib)%edgprev2,
@@ -982,7 +1051,8 @@
 !================== I-PREVIOUS NEIGHBOR ===================================
               if(dom(ib)%bc_west==5 .and. dom(ib)%iprev<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(xen-xcor(i,2))<1E-08_dp) then
@@ -1010,7 +1080,8 @@
 !================== I-NEXT NEIGHBOR ===================================
               if(dom(ib)%bc_east==5 .and. dom(ib)%inext<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(xst-xcor(i,1))<1E-08_dp) then
@@ -1038,7 +1109,8 @@
 !================== J-PREVIOUS NEIGHBOR ===================================
               if(dom(ib)%bc_south==5 .and. dom(ib)%jprev<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(yen-ycor(i,2))<1E-08_dp) then
@@ -1066,7 +1138,8 @@
 !================== J-NEXT NEIGHBOR ===================================
               if(dom(ib)%bc_north==5 .and. dom(ib)%jnext<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(yst-ycor(i,1))<1E-08_dp) then
@@ -1094,7 +1167,8 @@
 !================== K-PREVIOUS NEIGHBOR ===================================
               if(dom(ib)%bc_bottom==5 .and. dom(ib)%kprev<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(zen-zcor(i,2))<1E-08_dp) then
@@ -1122,7 +1196,8 @@
 !================== K-NEXT NEIGHBOR ===================================
               if(dom(ib)%bc_top==5 .and. dom(ib)%knext<0) then
 
-              say=0;
+              say=0
+
               do i=0,ndoms-1
                   if(i/=dom_id(ib)) then
                   if(abs(zst-zcor(i,1))<1E-08_dp) then
