@@ -638,6 +638,7 @@
           use multiflow3d_mpi
           use multidata
           use module_lsm
+          use multiflow3d_sem, only: sem
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           integer :: i,j,k,ib,tti,ttj,ttk,pll
@@ -647,6 +648,7 @@
           real(dp), dimension(21) :: dm
           character(len=8)   :: chb1
           character(len=25)  :: gf
+          type(sem) :: sem_test
 
           dm=0.d0
 
@@ -1105,7 +1107,7 @@
 !.###########  Synthetic Eddy Method, 14 Dic 2015    ##########
           IF (bc_w==8 .and. myrank==0) then
           print*,"Writing the SEM inlet"
-          call SEM  !Generate the files for the inlet turbulent field
+          call sem_test%sem_initial()  !Generate the files for the inlet turbulent field
           print*,"Finish the SEM inlet"
           END IF
 
