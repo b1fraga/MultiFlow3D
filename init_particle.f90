@@ -227,7 +227,9 @@
           use multiflow3d_mpi
           use vars
           use vars_pt
+#if USE_HDF5 == 1
           use multiflow3d_hdf5_io
+#endif
           use, intrinsic :: iso_fortran_env, only: dp => real64
 
           implicit none

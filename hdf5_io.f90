@@ -1,3 +1,4 @@
+#if USE_HDF5 == 1
 module multiflow3d_hdf5_io
   use, intrinsic :: iso_fortran_env, only: dp => real64, int8,int32,int64
   use hdf5, only: hsize_t, hid_t, h5open_f, h5fopen_f, h5fcreate_f, h5lexists_f, &
@@ -562,3 +563,4 @@ module multiflow3d_hdf5_io
 
   end subroutine hdf5_write_int
 end module multiflow3d_hdf5_io
+#endif
