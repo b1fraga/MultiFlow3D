@@ -57,7 +57,7 @@ contains
     if (json%failed()) error stop "Failed to close json file"
 
   end subroutine json_read_real
-  
+
   subroutine json_read_integer_array(input_file,value_to_return,output)
     !! Reads a real from a json file, which has the key
     !! given by value_to_return
@@ -77,7 +77,7 @@ contains
     if (json%failed()) error stop "Failed to close json file"
 
   end subroutine json_read_integer_array
-  
+
   subroutine json_read_logical(input_file,value_to_return,output)
     !! Reads a logical from a json file, which has the key
     !! given by value_to_return

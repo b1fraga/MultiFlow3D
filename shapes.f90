@@ -19,10 +19,13 @@
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
-          M=numIB   ;  maxnode = 0 ; L=0
+          M=numIB
+          maxnode = 0
+          L=0
 
           if (linfin(numIB)==1) then
-          zini(M)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))
+          zini(M)=0.d0
+          nlay=((zen-zst)/dzm(numIB))
           else if (linfin(numIB)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))
           end if
@@ -116,10 +119,13 @@
           open (unit=2, file=gridfile)
           write (2,*) 'variables="x","y","z"'
 
-          maxnode = 0; nodes_percyl = 0
+          maxnode = 0
+          nodes_percyl = 0
 
           M=numIB
-          Rtemp = R(M); nodes(M) = 0; c =1
+          Rtemp = R(M)
+          nodes(M) = 0
+          c =1
 
           maxc=INT(R(M)/dxm(numIB))+1
           if(cmax(M)>maxc) cmax(M)=maxc
@@ -142,7 +148,8 @@
           ctot = c - 1
 
           if (linfin(M)==1) then
-          zini(M)=zst ;   nlay=((zen-zst)/dzm(numIB))
+          zini(M)=zst
+          nlay=((zen-zst)/dzm(numIB))
           end if
           if (linfin(M)==0) then
           nlay=((zend(M)-zini(M))/dzm(numIB))  !-1
@@ -214,9 +221,12 @@
 ! -------------------------------------------------
           M=numIB
 
-          nodexmin=Cx(M)-R(M); nodexmax=Cx(M)+R(M)
-          nodeymin=Cy(M)-R(M); nodeymax=Cy(M)+R(M)
-          nodezmin=Cz(M)-R(M); nodezmax=Cz(M)+R(M)
+          nodexmin=Cx(M)-R(M)
+          nodexmax=Cx(M)+R(M)
+          nodeymin=Cy(M)-R(M)
+          nodeymax=Cy(M)+R(M)
+          nodezmin=Cz(M)-R(M)
+          nodezmax=Cz(M)+R(M)
 
           nin =2.d0*R(M)/dxm(numIB)
           if(abs(nin-2.0_dp*R(M)/dxm(numIB))>=0.999999999_dp) &
@@ -312,7 +322,8 @@
           gridfile="geom_Sphere_"//TRIM(ADJUSTL(char_block2))//".dat"
           open (unit=2, file=gridfile)
 
-          maxnzr=0 ;   maxnode = 0
+          maxnzr=0
+          maxnode = 0
           M=numIB
 
           nzr(M) = nint((2.d0*PI*R(M)/2.d0)/dxm(numIB))  !Number of planes
@@ -324,7 +335,9 @@
           allocate (nodes_layer(L,10000),Rtemp_layer(L,maxnzr,100))
           allocate (nodes_percyl_layer(L,maxnzr,100))
 
-          nodes_percyl_layer = 0 ;    nodes_layer = 0 ;nodes_layer=0
+          nodes_percyl_layer = 0
+          nodes_layer = 0
+          nodes_layer=0
 
           M=numIB
           nodes(M) = 0
@@ -430,7 +443,8 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((xen-xst)/(dxm(numIB)))  !-1
+              zini(numIB)=0.d0
+              nlay=((xen-xst)/(dxm(numIB)))  !-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/(dxm(numIB)))  !-1
               end if
@@ -458,7 +472,8 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((yen-yst)/dym(numIB))  !-1
+              zini(numIB)=0.d0
+              nlay=((yen-yst)/dym(numIB))  !-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dym(numIB))  !-1
               end if
@@ -486,7 +501,8 @@
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
               if (linfin(numIB)==1) then
-              zini(numIB)=0.d0 ;   nlay=((zen-zst)/dzm(numIB))  !-1  !it was-1
+              zini(numIB)=0.d0
+              nlay=((zen-zst)/dzm(numIB))  !-1  !it was-1
               else if (linfin(numIB)==0) then
               nlay=((zend(numIB)-zini(numIB))/dzm(numIB))  !-1
               end if
@@ -510,7 +526,8 @@
                   read(1,*)xfile(L),yfile(L),zfile(L)
               END DO
               close (1)
-              maxnode=0   ; nlay=1
+              maxnode=0
+              nlay=1
               Cxor(numIB)=Cx(numIB)
               Cyor(numIB)=Cy(numIB)
               Czor(numIB)=Cz(numIB)
@@ -721,7 +738,8 @@
 
           IF (myrank/=master) RETURN
 
-          Geom_Time1=301 ;
+          Geom_Time1=301
+
           K=nodes(numIB)/imbnumber(numIB)  !Nodes per body
 
 

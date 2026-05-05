@@ -29,9 +29,12 @@
 
               delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -98,7 +101,9 @@
                           if (dom(ib)%iprev<0) then
                           if (dom(ib)%bc_west>=61 .or. dom(ib)%bc_west==4) then
 
-                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          h1=dom(ib)%dx
+                          h2=2.0_dp*dom(ib)%dx
+                          h3=dom(ib)%dx
                           rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
@@ -124,7 +129,9 @@
                           if (dom(ib)%inext<0) then
                           if (dom(ib)%bc_east>=61 .or. dom(ib)%bc_east==4) then
 
-                          h1=dom(ib)%dx; h2=2.0_dp*dom(ib)%dx; h3=dom(ib)%dx
+                          h1=dom(ib)%dx
+                          h2=2.0_dp*dom(ib)%dx
+                          h3=dom(ib)%dx
                           rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
@@ -150,7 +157,9 @@
                           if (dom(ib)%jprev<0) then
                           if (dom(ib)%bc_south>=61 .or. dom(ib)%bc_south==4) then
 
-                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          h1=dom(ib)%dy
+                          h2=2.0_dp*dom(ib)%dy
+                          h3=dom(ib)%dy
                           rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
@@ -176,7 +185,9 @@
                           if (dom(ib)%jnext<0) then
                           if (dom(ib)%bc_north>=61 .or. dom(ib)%bc_north==4) then
 
-                          h1=dom(ib)%dy; h2=2.0_dp*dom(ib)%dy; h3=dom(ib)%dy
+                          h1=dom(ib)%dy
+                          h2=2.0_dp*dom(ib)%dy
+                          h3=dom(ib)%dy
                           rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k  ) )
@@ -202,7 +213,9 @@
                           if (dom(ib)%kprev<0) then
                           if (dom(ib)%bc_bottom>=61 .or. dom(ib)%bc_bottom==4) then
 
-                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          h1=dom(ib)%dz
+                          h2=2.0_dp*dom(ib)%dz
+                          h3=dom(ib)%dz
                           rh123=1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
@@ -228,7 +241,9 @@
                           if (dom(ib)%knext<0) then
                           if (dom(ib)%bc_top>=61 .or. dom(ib)%bc_top==4) then
 
-                          h1=dom(ib)%dz; h2=2.0_dp*dom(ib)%dz; h3=dom(ib)%dz
+                          h1=dom(ib)%dz
+                          h2=2.0_dp*dom(ib)%dz
+                          h3=dom(ib)%dz
                           rh123=-1.0_dp/(h1*h2*h3)
 
                           ufv_c =0.5_dp*( dom(ib)%u(i,j,k)  +dom(ib)%u(i-1,j,k) )
@@ -309,9 +324,12 @@
 
           do ib=1,nbp
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               dx=dom(ib)%dx
               dy=dom(ib)%dy

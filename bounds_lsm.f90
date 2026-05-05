@@ -26,7 +26,9 @@
                   fi => dom(ib)%mu
               end select
 
-              npp = dom(ib)%ttc_i; nq = dom(ib)%ttc_j; nr = dom(ib)%ttc_k
+              npp = dom(ib)%ttc_i
+              nq = dom(ib)%ttc_j
+              nr = dom(ib)%ttc_k
 !
 !..... Boundary Conditions for PHI, zero gradient..
 !

@@ -29,37 +29,56 @@
 
           MPI_FLT   = MPI_DOUBLE_PRECISION
 
-          chck_f=0; chck_c=0
+          chck_f=0
+          chck_c=0
           do ib=1,nbp
               if(dom(ib)%fine_ng) chck_f=1
               if(dom(ib)%coarse_ng) chck_c=1
           end do
 
-          nix=0; njx=0; nkx=0
-          nixc=0; njxc=0; nkxc=0
-          nixf=0; njxf=0; nkxf=0
+          nix=0
+          njx=0
+          nkx=0
+          nixc=0
+          njxc=0
+          nkxc=0
+          nixf=0
+          njxf=0
+          nkxf=0
           do ib=1,nbp
-              ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+              ni=dom(ib)%ttc_i
+              nj=dom(ib)%ttc_j
+              nk=dom(ib)%ttc_k
               nif=2*(ni-2*pl)+2*pl
               njf=2*(nj-2*pl)+2*pl
               nkf=2*(nk-2*pl)+2*pl
               if(rdiv(dom_id(ib))==1) then
-              nic=ni; njc=nj; nkc=nk
+              nic=ni
+              njc=nj
+              nkc=nk
               else
               nic=int((ni-2*pl)/2)+2*pl
               njc=int((nj-2*pl)/2)+2*pl
               nkc=int((nk-2*pl)/2)+2*pl
               end if
-              nix=max(ni,nix); njx=max(nj,njx); nkx=max(nk,nkx)
-              nixc=max(nic,nixc); njxc=max(njc,njxc); nkxc=max(nkc,nkxc)
-              nixf=max(nif,nixf); njxf=max(njf,njxf); nkxf=max(nkf,nkxf)
+              nix=max(ni,nix)
+              njx=max(nj,njx)
+              nkx=max(nk,nkx)
+              nixc=max(nic,nixc)
+              njxc=max(njc,njxc)
+              nkxc=max(nkc,nkxc)
+              nixf=max(nif,nixf)
+              njxf=max(njf,njxf)
+              nkxf=max(nkf,nkxf)
           end do
 
           if(chck_c==1) allocate(fic(nbp,nixc,njxc,nkxc))
           if(chck_f==1) allocate(fif(nbp,nixf,njxf,nkxf))
 
           do ib=1,nbp
-              ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+              ni=dom(ib)%ttc_i
+              nj=dom(ib)%ttc_j
+              nk=dom(ib)%ttc_k
               select case (op)
                 case (2)
                   fi => dom(ib)%v
@@ -70,15 +89,25 @@
               if(dom(ib)%fine_ng) then
 
               if(pl==1) then
-              no1=pl+1; no2=-pl
+              no1=pl+1
+              no2=-pl
               else
-              no1=pl; no2=1-pl
+              no1=pl
+              no2=1-pl
               end if
 
-              do k=no1,nk+no2; do j=no1-1,nj+no2; do i=no1,ni+no2
-                          tr1=fi(i-1,j,k-1); tr2=fi(i,j,k-1); tr3=fi(i+1,j,k-1)
-                          tr4=fi(i-1,j,k);   tr5=fi(i,j,k);   tr6=fi(i+1,j,k)
-                          tr7=fi(i-1,j,k+1); tr8=fi(i,j,k+1); tr9=fi(i+1,j,k+1)
+              do k=no1,nk+no2
+              do j=no1-1,nj+no2
+              do i=no1,ni+no2
+                          tr1=fi(i-1,j,k-1)
+                          tr2=fi(i,j,k-1)
+                          tr3=fi(i+1,j,k-1)
+                          tr4=fi(i-1,j,k)
+                          tr5=fi(i,j,k)
+                          tr6=fi(i+1,j,k)
+                          tr7=fi(i-1,j,k+1)
+                          tr8=fi(i,j,k+1)
+                          tr9=fi(i+1,j,k+1)
 
 !        jj=2*j-pl; kk=2*k-pl-1; ii=2*i-pl-1; !(i,k)
 !        fif(ib,ii,jj,kk)=(25.0d0*tr1+150.0d0*tr2
@@ -98,19 +127,31 @@
 !     & -15.0d0*tr7 +150.0d0*tr8+25.0d0*tr9)/1024.0d0
 
 !!!!mass conserved option
-                          jj=2*j-pl; kk=2*k-pl-1; ii=2*i-pl-1;  !(i,k)
+                          jj=2*j-pl
+                          kk=2*k-pl-1
+                          ii=2*i-pl-1
+                          !(i,k)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl; kk=2*k-pl-1; ii=2*i-pl;  !(i+1,k)
+                          jj=2*j-pl
+                          kk=2*k-pl-1
+                          ii=2*i-pl
+                          !(i+1,k)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl; kk=2*k-pl; ii=2*i-pl-1;  !(i,k+1)
+                          jj=2*j-pl
+                          kk=2*k-pl
+                          ii=2*i-pl-1
+                          !(i,k+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl; kk=2*k-pl; ii=2*i-pl;  !(i+1,k+1)
+                          jj=2*j-pl
+                          kk=2*k-pl
+                          ii=2*i-pl
+                          !(i+1,k+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
@@ -164,19 +205,31 @@
 
 
 !!!!mass conserved option
-                          jj=2*j-pl+1; kk=2*k-pl-1; ii=2*i-pl-1;  !(i,k)
+                          jj=2*j-pl+1
+                          kk=2*k-pl-1
+                          ii=2*i-pl-1
+                          !(i,k)
                           fif(ib,ii,jj,kk)=(3.0d0*tr1+15.0d0*tr2 &
                     -2.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     -2.0d0*tr7 -15.0d0*tr8+1.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl+1; kk=2*k-pl-1; ii=2*i-pl;  !(i+1,k)
+                          jj=2*j-pl+1
+                          kk=2*k-pl-1
+                          ii=2*i-pl
+                          !(i+1,k)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 +15.0d0*tr2 &
                     +3.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     +1.0d0*tr7 -15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl+1; kk=2*k-pl; ii=2*i-pl-1;  !(i,k+1)
+                          jj=2*j-pl+1
+                          kk=2*k-pl
+                          ii=2*i-pl-1
+                          !(i,k+1)
                           fif(ib,ii,jj,kk)=(-2.0d0*tr1 -15.0d0*tr2 &
                     +1.0d0*tr3 +15.0d0*tr4+128.0d0*tr5-15.0d0*tr6 &
                     +3.0d0*tr7 +15.0d0*tr8-2.0d0*tr9)*0.0078125_dp
-                          jj=2*j-pl+1; kk=2*k-pl; ii=2*i-pl;  !(i+1,k+1)
+                          jj=2*j-pl+1
+                          kk=2*k-pl
+                          ii=2*i-pl
+                          !(i+1,k+1)
                           fif(ib,ii,jj,kk)=(1.0d0*tr1 -15.0d0*tr2 &
                     -2.0d0*tr3 -15.0d0*tr4+128.0d0*tr5+15.0d0*tr6 &
                     -2.0d0*tr7 +15.0d0*tr8+3.0d0*tr9)*0.0078125_dp
@@ -251,7 +304,10 @@
 !     & -2.0d0*fi(i-1,j+1,k+1) +15.0d0*fi(i,j+1,k+1)
 !     & +3.0d0*fi(i+1,j+1,k+1))
 
-                      end do; end do; end do; end if
+                      end do
+                      end do
+                      end do
+                      end if
 
               if(dom(ib)%coarse_ng) then
               nic=int((ni-2*pl)/2)+2*pl
@@ -259,13 +315,21 @@
               nkc=int((nk-2*pl)/2)+2*pl
 
               if(pl==1) then
-              no1=pl+1; no2=-pl
+              no1=pl+1
+              no2=-pl
               else
-              no1=pl; no2=1-pl
+              no1=pl
+              no2=1-pl
               end if
 
-              do k=no1,nkc+no2; do j=no1-1,njc+no2; do i=no1,nic+no2
-                          jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
+              do k=no1,nkc+no2
+              do j=no1-1,njc+no2
+              do i=no1,nic+no2
+                          jj=2*j-pl
+                          i1=2*i-pl-1
+                          i2=2*i-pl
+                          k1=2*k-pl-1
+                          k2=2*k-pl
                           fic(ib,i,j,k)=0.25_dp*(fi(i1,jj,k1)+fi(i1,jj,k2)+ &
                                      fi(i2,jj,k1)+fi(i2,jj,k2))
 
@@ -278,7 +342,10 @@
 !        h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3)
 !     &+9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
 !        fic(ib,i,j,k)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
-                      end do; end do; end do; end if
+                      end do
+                      end do
+                      end do
+                      end if
 
           end do
 !==========================================================================
@@ -286,12 +353,16 @@
           do ly=0,nly
 
               do ib=1,nbp
-                  ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+                  ni=dom(ib)%ttc_i
+                  nj=dom(ib)%ttc_j
+                  nk=dom(ib)%ttc_k
 
                   if(pl==1) then
-                  no1=pl+1; no2=-pl
+                  no1=pl+1
+                  no2=-pl
                   else
-                  no1=pl; no2=1-pl
+                  no1=pl
+                  no2=1-pl
                   end if
 
                   select case (op)
@@ -300,9 +371,12 @@
                     case (22)
                       fi => dom(ib)%vstar
                   end select
-                  is=dom(ib)%isv; ie=dom(ib)%iev
-                  js=dom(ib)%jsv; je=dom(ib)%jev
-                  ks=dom(ib)%ksv; ke=dom(ib)%kev
+                  is=dom(ib)%isv
+                  ie=dom(ib)%iev
+                  js=dom(ib)%jsv
+                  je=dom(ib)%jev
+                  ks=dom(ib)%ksv
+                  ke=dom(ib)%kev
 
                   if(dom(ib)%fine_ng) then
                   nif=2*(ni-2*pl)+2*pl
@@ -310,20 +384,31 @@
                   nkf=2*(nk-2*pl)+2*pl
 
                   if(LMR==2) then
-                  isf=pl+1;     jsf=pl+1;     ksf=pl+1
-                  ief=nif-pl;   jef=njf-pl-1; kef=nkf-pl
+                  isf=pl+1
+                  jsf=pl+1
+                  ksf=pl+1
+                  ief=nif-pl
+                  jef=njf-pl-1
+                  kef=nkf-pl
                   if(ly==0) jsf=pl+2
                   if(ly==0) jef=njf-pl-2
                   else
-                  isf=pl+1;     jsf=pl+1;     ksf=pl+1
-                  ief=nif-pl;   jef=njf-pl;   kef=nkf-pl
+                  isf=pl+1
+                  jsf=pl+1
+                  ksf=pl+1
+                  ief=nif-pl
+                  jef=njf-pl
+                  kef=nkf-pl
                   if(ly==0) jsf=pl+2
                   end if
 
                   if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jef=jef-1
-                  isprf=pl+1; ieprf=nif-pl
-                  jsprf=pl+1; jeprf=njf-pl
-                  ksprf=pl+1; keprf=nkf-pl
+                  isprf=pl+1
+                  ieprf=nif-pl
+                  jsprf=pl+1
+                  jeprf=njf-pl
+                  ksprf=pl+1
+                  keprf=nkf-pl
                   end if
 
                   if(dom(ib)%coarse_ng) then
@@ -332,17 +417,28 @@
                   nkc=int((nk-2*pl)/2)+2*pl
 
                   if(LMR==2) then
-                  isc=pl+1;   jsc=pl;     ksc=pl+1
-                  iec=nic-pl; jec=njc-pl; kec=nkc-pl
+                  isc=pl+1
+                  jsc=pl
+                  ksc=pl+1
+                  iec=nic-pl
+                  jec=njc-pl
+                  kec=nkc-pl
                   else
-                  isc=pl+1;   jsc=pl+1;   ksc=pl+1
-                  iec=nic-pl; jec=njc-pl; kec=nkc-pl
+                  isc=pl+1
+                  jsc=pl+1
+                  ksc=pl+1
+                  iec=nic-pl
+                  jec=njc-pl
+                  kec=nkc-pl
                   end if
 
                   if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jec=jec-1
-                  isprc=pl+1; ieprc=nic-pl
-                  jsprc=pl+1; jeprc=njc-pl
-                  ksprc=pl+1; keprc=nkc-pl
+                  isprc=pl+1
+                  ieprc=nic-pl
+                  jsprc=pl+1
+                  jeprc=njc-pl
+                  ksprc=pl+1
+                  keprc=nkc-pl
                   end if
 
 !..........................................................................
@@ -357,16 +453,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%iprev)) then
-                  tsend=njc*nkc; trecv=nj*nk
-                  do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
+                  tsend=njc*nkc
+                  trecv=nj*nk
+                  do k=1,nkc
+                  do j=1,njc
+                  ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
-                  tsend=njf*nkf; trecv=nj*nk
-                  do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
+                  tsend=njf*nkf
+                  trecv=nj*nk
+                  do k=1,nkf
+                  do j=1,njf
+                  ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,isf+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
@@ -392,31 +496,58 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
-                  tsend=nic*nkc; trecv=ni*nk
+                  tsend=nic*nkc
+                  trecv=ni*nk
                   if(normal_inter==1) then
-                  do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i
+                  do k=1,nkc
+                  do i=1,nic
+                  ijk=(k-1)*nic+i
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=no1,nkc+no2; do i=no1,nic+no2
-                          j=jsc+ly; ijk=(k-1)*nic+i
-                          jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                  do k=no1,nkc+no2
+                  do i=no1,nic+no2
+                          j=jsc+ly
+                          ijk=(k-1)*nic+i
+                          jj=2*j-pl
+                          i1=2*i-pl-1
+                          i2=2*i-pl
+                          k1=2*k-pl-1
+                          k2=2*k-pl
+                          h1=i1+2
+                          h2=jj
+                          h3=k1
+                          sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1+1
+                          h2=jj
+                          h3=k1
+                          sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1
+                          h2=jj
+                          h3=k1
+                          sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1-1
+                          h2=jj
+                          h3=k1
+                          sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
-                  tsend=nif*nkf; trecv=ni*nk
-                  do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
+                  tsend=nif*nkf
+                  trecv=ni*nk
+                  do k=1,nkf
+                  do i=1,nif
+                  ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jsf+ly,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
@@ -442,16 +573,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%kprev)) then
-                  tsend=nic*njc; trecv=ni*nj
-                  do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j
+                  tsend=nic*njc
+                  trecv=ni*nj
+                  do i=1,nic
+                  do j=1,njc
+                  ijk=(i-1)*njc+j
                           sbuf(ijk)=fic(ib,i,j,ksc+ly)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
-                  tsend=nif*njf; trecv=ni*nj
-                  do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
+                  tsend=nif*njf
+                  trecv=ni*nj
+                  do i=1,nif
+                  do j=1,njf
+                  ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,ksf+ly)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
@@ -479,16 +618,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%inext)) then
-                  tsend=njc*nkc; trecv=nj*nk
-                  do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
+                  tsend=njc*nkc
+                  trecv=nj*nk
+                  do k=1,nkc
+                  do j=1,njc
+                  ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
-                  tsend=njf*nkf; trecv=nj*nk
-                  do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
+                  tsend=njf*nkf
+                  trecv=nj*nk
+                  do k=1,nkf
+                  do j=1,njf
+                  ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,ief-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
@@ -514,31 +661,60 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
-                  tsend=nic*nkc; trecv=ni*nk
+                  tsend=nic*nkc
+                  trecv=ni*nk
                   if(normal_inter==1) then
-                  do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i;
+                  do k=1,nkc
+                  do i=1,nic
+                  ijk=(k-1)*nic+i
+
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=no1,nkc+no2; do i=no1,nic+no2
-                          j=jec-ly; ijk=(k-1)*nic+i
-                          jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                  do k=no1,nkc+no2
+                  do i=no1,nic+no2
+                          j=jec-ly
+                          ijk=(k-1)*nic+i
+                          jj=2*j-pl
+                          i1=2*i-pl-1
+                          i2=2*i-pl
+                          k1=2*k-pl-1
+                          k2=2*k-pl
+                          h1=i1+2
+                          h2=jj
+                          h3=k1
+                          sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1+1
+                          h2=jj
+                          h3=k1
+                          sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1
+                          h2=jj
+                          h3=k1
+                          sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1-1
+                          h2=jj
+                          h3=k1
+                          sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
-                  tsend=nif*nkf; trecv=ni*nk
-                  do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i;
+                  tsend=nif*nkf
+                  trecv=ni*nk
+                  do k=1,nkf
+                  do i=1,nif
+                  ijk=(k-1)*nif+i
+
                           sbuf(ijk)=fif(ib,i,jef-ly,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
@@ -564,16 +740,25 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%knext)) then
-                  tsend=nic*njc; trecv=ni*nj
-                  do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j;
+                  tsend=nic*njc
+                  trecv=ni*nj
+                  do i=1,nic
+                  do j=1,njc
+                  ijk=(i-1)*njc+j
+
                           sbuf(ijk)=fic(ib,i,j,kec-ly)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
-                  tsend=nif*njf; trecv=ni*nj
-                  do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
+                  tsend=nif*njf
+                  trecv=ni*nj
+                  do i=1,nif
+                  do j=1,njf
+                  ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,kef-ly)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
@@ -603,17 +788,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev1)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=ksprc-1+pl3
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=ksprc-1+pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=ksprf-1+pl3
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=ksprf-1+pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
@@ -637,17 +834,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev2)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=ksprc-1+pl3
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=ksprc-1+pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=ksprf-1+pl3
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=ksprf-1+pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
@@ -671,17 +880,31 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev3)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=ksprc-1+pl3;
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=ksprc-1+pl3
+
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=ksprf-1+pl3;
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=ksprf-1+pl3
+
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
@@ -705,17 +928,31 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev4)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=ksprc-1+pl3;
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=ksprc-1+pl3
+
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=ksprf-1+pl3;
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=ksprf-1+pl3
+
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
@@ -739,17 +976,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext1)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=keprc+1-pl3
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=keprf+1-pl3
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
@@ -773,17 +1022,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext2)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=keprc+1-pl3
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=keprf+1-pl3
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
@@ -807,17 +1068,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext3)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=keprc+1-pl3
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=keprf+1-pl3
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
@@ -841,17 +1114,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext4)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=keprc+1-pl3
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=keprf+1-pl3
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
@@ -875,19 +1160,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev1)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=nn; k=ksprc-1+pl2
+                              i=isprc-1+pl1
+                              j=nn
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=nn; k=ksprf-1+pl2
+                              i=isprf-1+pl1
+                              j=nn
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
@@ -911,19 +1210,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev2)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprc+1-pl1; k=ksprc-1+pl2
+                              i=nn
+                              j=jeprc+1-pl1
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprf+1-pl1; k=ksprf-1+pl2
+                              i=nn
+                              j=jeprf+1-pl1
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
@@ -947,19 +1260,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev3)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=nn; k=ksprc-1+pl2
+                              i=ieprc+1-pl1
+                              j=nn
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=nn; k=ksprf-1+pl2
+                              i=ieprf+1-pl1
+                              j=nn
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
@@ -983,19 +1310,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev4)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprc-1+pl1; k=ksprc-1+pl2
+                              i=nn
+                              j=jsprc-1+pl1
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprf-1+pl1; k=ksprf-1+pl2
+                              i=nn
+                              j=jsprf-1+pl1
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
@@ -1019,19 +1360,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev5)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=nn
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=nn
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
@@ -1055,19 +1410,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev6)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=nn
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=nn
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
@@ -1091,19 +1460,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext1)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=nn; k=keprc+1-pl2
+                              i=ieprc+1-pl1
+                              j=nn
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=nn; k=keprf+1-pl2
+                              i=ieprf+1-pl1
+                              j=nn
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
@@ -1127,19 +1510,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext2)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprc-1+pl1; k=keprc+1-pl2
+                              i=nn
+                              j=jsprc-1+pl1
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprf-1+pl1; k=keprf+1-pl2
+                              i=nn
+                              j=jsprf-1+pl1
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
@@ -1163,19 +1560,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext3)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=nn; k=keprc+1-pl2
+                              i=isprc-1+pl1
+                              j=nn
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=nn; k=keprf+1-pl2
+                              i=isprf-1+pl1
+                              j=nn
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
@@ -1199,19 +1610,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext4)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprc+1-pl1; k=keprc+1-pl2
+                              i=nn
+                              j=jeprc+1-pl1
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprf+1-pl1; k=keprf+1-pl2
+                              i=nn
+                              j=jeprf+1-pl1
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
@@ -1235,19 +1660,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext5)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=nn
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=nn
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
@@ -1271,19 +1710,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext6)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=nn
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=nn
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
@@ -1303,12 +1756,16 @@
 !--------------------------------------------------------------------------
 ! ====================== ALEKS TEST MPI_SEND START =======================
               do ib=1,nbp
-                  ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+                  ni=dom(ib)%ttc_i
+                  nj=dom(ib)%ttc_j
+                  nk=dom(ib)%ttc_k
 
                   if(pl==1) then
-                  no1=pl+1; no2=-pl
+                  no1=pl+1
+                  no2=-pl
                   else
-                  no1=pl; no2=1-pl
+                  no1=pl
+                  no2=1-pl
                   end if
 
                   select case (op)
@@ -1317,9 +1774,12 @@
                     case (22)
                       fi => dom(ib)%vstar
                   end select
-                  is=dom(ib)%isv; ie=dom(ib)%iev
-                  js=dom(ib)%jsv; je=dom(ib)%jev
-                  ks=dom(ib)%ksv; ke=dom(ib)%kev
+                  is=dom(ib)%isv
+                  ie=dom(ib)%iev
+                  js=dom(ib)%jsv
+                  je=dom(ib)%jev
+                  ks=dom(ib)%ksv
+                  ke=dom(ib)%kev
 
                   if(dom(ib)%fine_ng) then
                   nif=2*(ni-2*pl)+2*pl
@@ -1327,20 +1787,31 @@
                   nkf=2*(nk-2*pl)+2*pl
 
                   if(LMR==2) then
-                  isf=pl+1;     jsf=pl+1;     ksf=pl+1
-                  ief=nif-pl;   jef=njf-pl-1; kef=nkf-pl
+                  isf=pl+1
+                  jsf=pl+1
+                  ksf=pl+1
+                  ief=nif-pl
+                  jef=njf-pl-1
+                  kef=nkf-pl
                   if(ly==0) jsf=pl+2
                   if(ly==0) jef=njf-pl-2
                   else
-                  isf=pl+1;     jsf=pl+1;     ksf=pl+1
-                  ief=nif-pl;   jef=njf-pl;   kef=nkf-pl
+                  isf=pl+1
+                  jsf=pl+1
+                  ksf=pl+1
+                  ief=nif-pl
+                  jef=njf-pl
+                  kef=nkf-pl
                   if(ly==0) jsf=pl+2
                   end if
 
                   if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jef=jef-1
-                  isprf=pl+1; ieprf=nif-pl
-                  jsprf=pl+1; jeprf=njf-pl
-                  ksprf=pl+1; keprf=nkf-pl
+                  isprf=pl+1
+                  ieprf=nif-pl
+                  jsprf=pl+1
+                  jeprf=njf-pl
+                  ksprf=pl+1
+                  keprf=nkf-pl
                   end if
 
                   if(dom(ib)%coarse_ng) then
@@ -1349,17 +1820,28 @@
                   nkc=int((nk-2*pl)/2)+2*pl
 
                   if(LMR==2) then
-                  isc=pl+1;   jsc=pl;     ksc=pl+1
-                  iec=nic-pl; jec=njc-pl; kec=nkc-pl
+                  isc=pl+1
+                  jsc=pl
+                  ksc=pl+1
+                  iec=nic-pl
+                  jec=njc-pl
+                  kec=nkc-pl
                   else
-                  isc=pl+1;   jsc=pl+1;   ksc=pl+1
-                  iec=nic-pl; jec=njc-pl; kec=nkc-pl
+                  isc=pl+1
+                  jsc=pl+1
+                  ksc=pl+1
+                  iec=nic-pl
+                  jec=njc-pl
+                  kec=nkc-pl
                   end if
 
                   if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jec=jec-1
-                  isprc=pl+1; ieprc=nic-pl
-                  jsprc=pl+1; jeprc=njc-pl
-                  ksprc=pl+1; keprc=nkc-pl
+                  isprc=pl+1
+                  ieprc=nic-pl
+                  jsprc=pl+1
+                  jeprc=njc-pl
+                  ksprc=pl+1
+                  keprc=nkc-pl
                   end if
 
 !..........................................................................
@@ -1374,16 +1856,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%iprev)) then
-                  tsend=njc*nkc; trecv=nj*nk
-                  do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
+                  tsend=njc*nkc
+                  trecv=nj*nk
+                  do k=1,nkc
+                  do j=1,njc
+                  ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,isc+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%iprev))
-                  tsend=njf*nkf; trecv=nj*nk
-                  do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
+                  tsend=njf*nkf
+                  trecv=nj*nk
+                  do k=1,nkf
+                  do j=1,njf
+                  ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,isf+ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
@@ -1407,31 +1897,58 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
-                  tsend=nic*nkc; trecv=ni*nk
+                  tsend=nic*nkc
+                  trecv=ni*nk
                   if(normal_inter==1) then
-                  do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i
+                  do k=1,nkc
+                  do i=1,nic
+                  ijk=(k-1)*nic+i
                           sbuf(ijk)=fic(ib,i,jsc+ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=no1,nkc+no2; do i=no1,nic+no2
-                          j=jsc+ly; ijk=(k-1)*nic+i
-                          jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                  do k=no1,nkc+no2
+                  do i=no1,nic+no2
+                          j=jsc+ly
+                          ijk=(k-1)*nic+i
+                          jj=2*j-pl
+                          i1=2*i-pl-1
+                          i2=2*i-pl
+                          k1=2*k-pl-1
+                          k2=2*k-pl
+                          h1=i1+2
+                          h2=jj
+                          h3=k1
+                          sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1+1
+                          h2=jj
+                          h3=k1
+                          sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1
+                          h2=jj
+                          h3=k1
+                          sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1-1
+                          h2=jj
+                          h3=k1
+                          sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jprev))
-                  tsend=nif*nkf; trecv=ni*nk
-                  do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i
+                  tsend=nif*nkf
+                  trecv=ni*nk
+                  do k=1,nkf
+                  do i=1,nif
+                  ijk=(k-1)*nif+i
                           sbuf(ijk)=fif(ib,i,jsf+ly,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
@@ -1455,16 +1972,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%kprev)) then
-                  tsend=nic*njc; trecv=ni*nj
-                  do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j
+                  tsend=nic*njc
+                  trecv=ni*nj
+                  do i=1,nic
+                  do j=1,njc
+                  ijk=(i-1)*njc+j
                           sbuf(ijk)=fic(ib,i,j,ksc+ly)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%kprev))
-                  tsend=nif*njf; trecv=ni*nj
-                  do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
+                  tsend=nif*njf
+                  trecv=ni*nj
+                  do i=1,nif
+                  do j=1,njf
+                  ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,ksf+ly)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
@@ -1490,16 +2015,24 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%inext)) then
-                  tsend=njc*nkc; trecv=nj*nk
-                  do k=1,nkc; do j=1,njc; ijk=(k-1)*njc+j
+                  tsend=njc*nkc
+                  trecv=nj*nk
+                  do k=1,nkc
+                  do j=1,njc
+                  ijk=(k-1)*njc+j
                           sbuf(ijk)=fic(ib,iec-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%inext))
-                  tsend=njf*nkf; trecv=nj*nk
-                  do k=1,nkf; do j=1,njf; ijk=(k-1)*njf+j
+                  tsend=njf*nkf
+                  trecv=nj*nk
+                  do k=1,nkf
+                  do j=1,njf
+                  ijk=(k-1)*njf+j
                           sbuf(ijk)=fif(ib,ief-ly,j,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
@@ -1523,31 +2056,60 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
-                  tsend=nic*nkc; trecv=ni*nk
+                  tsend=nic*nkc
+                  trecv=ni*nk
                   if(normal_inter==1) then
-                  do k=1,nkc; do i=1,nic; ijk=(k-1)*nic+i;
+                  do k=1,nkc
+                  do i=1,nic
+                  ijk=(k-1)*nic+i
+
                           sbuf(ijk)=fic(ib,i,jec-ly,k)
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=no1,nkc+no2; do i=no1,nic+no2
-                          j=jec-ly; ijk=(k-1)*nic+i
-                          jj=2*j-pl; i1=2*i-pl-1; i2=2*i-pl; k1=2*k-pl-1; k2=2*k-pl
-                          h1=i1+2; h2=jj; h3=k1; sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                  do k=no1,nkc+no2
+                  do i=no1,nic+no2
+                          j=jec-ly
+                          ijk=(k-1)*nic+i
+                          jj=2*j-pl
+                          i1=2*i-pl-1
+                          i2=2*i-pl
+                          k1=2*k-pl-1
+                          k2=2*k-pl
+                          h1=i1+2
+                          h2=jj
+                          h3=k1
+                          sp2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1+1; h2=jj; h3=k1; sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1+1
+                          h2=jj
+                          h3=k1
+                          sp1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1;   h2=jj; h3=k1; sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1
+                          h2=jj
+                          h3=k1
+                          sm1=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
-                          h1=i1-1; h2=jj; h3=k1; sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
+                          h1=i1-1
+                          h2=jj
+                          h3=k1
+                          sm2=(-fi(h1,h2,h3-1)+9.0_dp*fi(h1,h2,h3) &
                     +9.0_dp*fi(h1,h2,h3+1)-fi(h1,h2,h3+2))/(16.0_dp)
                           sbuf(ijk)=(-sp2+9.0_dp*sp1+9.0_dp*sm1-sm2)/(16.0_dp)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%jnext))
-                  tsend=nif*nkf; trecv=ni*nk
-                  do k=1,nkf; do i=1,nif; ijk=(k-1)*nif+i;
+                  tsend=nif*nkf
+                  trecv=ni*nk
+                  do k=1,nkf
+                  do i=1,nif
+                  ijk=(k-1)*nif+i
+
                           sbuf(ijk)=fif(ib,i,jef-ly,k)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
@@ -1571,16 +2133,25 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%knext)) then
-                  tsend=nic*njc; trecv=ni*nj
-                  do i=1,nic; do j=1,njc; ijk=(i-1)*njc+j;
+                  tsend=nic*njc
+                  trecv=ni*nj
+                  do i=1,nic
+                  do j=1,njc
+                  ijk=(i-1)*njc+j
+
                           sbuf(ijk)=fic(ib,i,j,kec-ly)
-                      end do; end do
+                      end do
+                      end do
 
                   else  !(rdiv(dom_id(ib)).lt.rdiv(dom(ib)%knext))
-                  tsend=nif*njf; trecv=ni*nj
-                  do i=1,nif; do j=1,njf; ijk=(i-1)*njf+j
+                  tsend=nif*njf
+                  trecv=ni*nj
+                  do i=1,nif
+                  do j=1,njf
+                  ijk=(i-1)*njf+j
                           sbuf(ijk)=fif(ib,i,j,kef-ly)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
@@ -1608,17 +2179,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev1)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=ksprc-1+pl3
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=ksprc-1+pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=ksprf-1+pl3
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=ksprf-1+pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
@@ -1640,17 +2223,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev2)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=ksprc-1+pl3
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=ksprc-1+pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=ksprf-1+pl3
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=ksprf-1+pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
@@ -1672,17 +2267,31 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev3)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=ksprc-1+pl3;
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=ksprc-1+pl3
+
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=ksprf-1+pl3;
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=ksprf-1+pl3
+
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
@@ -1704,17 +2313,31 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%corprev4)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=ksprc-1+pl3;
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=ksprc-1+pl3
+
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=ksprf-1+pl3;
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=ksprf-1+pl3
+
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
@@ -1736,17 +2359,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext1)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=keprc+1-pl3
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=keprf+1-pl3
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
@@ -1768,17 +2403,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext2)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=keprc+1-pl3
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=keprf+1-pl3
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
@@ -1800,17 +2447,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext3)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=keprc+1-pl3
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=keprf+1-pl3
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
@@ -1832,17 +2491,29 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%cornext4)) then
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=keprc+1-pl3
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=keprc+1-pl3
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  do pl1=0,pl; do pl2=0,pl; do pl3=0,pl
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do pl3=0,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=keprf+1-pl3
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=keprf+1-pl3
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
@@ -1864,19 +2535,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev1)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=nn; k=ksprc-1+pl2
+                              i=isprc-1+pl1
+                              j=nn
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=nn; k=ksprf-1+pl2
+                              i=isprf-1+pl1
+                              j=nn
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
@@ -1898,19 +2583,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev2)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprc+1-pl1; k=ksprc-1+pl2
+                              i=nn
+                              j=jeprc+1-pl1
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprf+1-pl1; k=ksprf-1+pl2
+                              i=nn
+                              j=jeprf+1-pl1
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
@@ -1932,19 +2631,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev3)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=nn; k=ksprc-1+pl2
+                              i=ieprc+1-pl1
+                              j=nn
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=nn; k=ksprf-1+pl2
+                              i=ieprf+1-pl1
+                              j=nn
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
@@ -1966,19 +2679,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev4)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprc-1+pl1; k=ksprc-1+pl2
+                              i=nn
+                              j=jsprc-1+pl1
+                              k=ksprc-1+pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprf-1+pl1; k=ksprf-1+pl2
+                              i=nn
+                              j=jsprf-1+pl1
+                              k=ksprf-1+pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
@@ -2000,19 +2727,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev5)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=jsprc-1+pl2; k=nn
+                              i=isprc-1+pl1
+                              j=jsprc-1+pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=jsprf-1+pl2; k=nn
+                              i=isprf-1+pl1
+                              j=jsprf-1+pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
@@ -2034,19 +2775,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgprev6)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=jeprc+1-pl2; k=nn
+                              i=isprc-1+pl1
+                              j=jeprc+1-pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=jeprf+1-pl2; k=nn
+                              i=isprf-1+pl1
+                              j=jeprf+1-pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
@@ -2068,19 +2823,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext1)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=nn; k=keprc+1-pl2
+                              i=ieprc+1-pl1
+                              j=nn
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=nn; k=keprf+1-pl2
+                              i=ieprf+1-pl1
+                              j=nn
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
@@ -2102,19 +2871,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext2)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprc-1+pl1; k=keprc+1-pl2
+                              i=nn
+                              j=jsprc-1+pl1
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jsprf-1+pl1; k=keprf+1-pl2
+                              i=nn
+                              j=jsprf-1+pl1
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
@@ -2136,19 +2919,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext3)) then
-                  tsend=njc*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njc
+                  tsend=njc*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprc-1+pl1; j=nn; k=keprc+1-pl2
+                              i=isprc-1+pl1
+                              j=nn
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=njf*pll; trecv=nj*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,njf
+                  tsend=njf*pll
+                  trecv=nj*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,njf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=isprf-1+pl1; j=nn; k=keprf+1-pl2
+                              i=isprf-1+pl1
+                              j=nn
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
@@ -2170,19 +2967,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext4)) then
-                  tsend=nic*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nic
+                  tsend=nic*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nic
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprc+1-pl1; k=keprc+1-pl2
+                              i=nn
+                              j=jeprc+1-pl1
+                              k=keprc+1-pl2
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nif*pll; trecv=ni*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nif
+                  tsend=nif*pll
+                  trecv=ni*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nif
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jeprf+1-pl1; k=keprf+1-pl2
+                              i=nn
+                              j=jeprf+1-pl1
+                              k=keprf+1-pl2
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
@@ -2204,19 +3015,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext5)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=jeprc+1-pl2; k=nn
+                              i=ieprc+1-pl1
+                              j=jeprc+1-pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=jeprf+1-pl2; k=nn
+                              i=ieprf+1-pl1
+                              j=jeprf+1-pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
@@ -2238,19 +3063,33 @@
                   end if
 
                   if(rdiv(dom_id(ib))>rdiv(dom(ib)%edgnext6)) then
-                  tsend=nkc*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkc
+                  tsend=nkc*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkc
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprc+1-pl1; j=jsprc-1+pl2; k=nn
+                              i=ieprc+1-pl1
+                              j=jsprc-1+pl2
+                              k=nn
                               sbuf(ijk)=fic(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   else
-                  tsend=nkf*pll; trecv=nk*pll
-                  do pl1=0,pl; do pl2=0,pl; do nn=1,nkf
+                  tsend=nkf*pll
+                  trecv=nk*pll
+                  do pl1=0,pl
+                  do pl2=0,pl
+                  do nn=1,nkf
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ieprf+1-pl1; j=jsprf-1+pl2; k=nn
+                              i=ieprf+1-pl1
+                              j=jsprf-1+pl2
+                              k=nn
                               sbuf(ijk)=fif(ib,i,j,k)
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
 
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
@@ -2269,20 +3108,28 @@
 !--------------------------------------------------------------------------
               do ib=1,nbp
 
-                  ni=dom(ib)%ttc_i; nj=dom(ib)%ttc_j; nk=dom(ib)%ttc_k
+                  ni=dom(ib)%ttc_i
+                  nj=dom(ib)%ttc_j
+                  nk=dom(ib)%ttc_k
 
-                  ispr=pl+1; iepr=ni-pl
-                  jspr=pl+1; jepr=nj-pl
-                  kspr=pl+1; kepr=nk-pl
+                  ispr=pl+1
+                  iepr=ni-pl
+                  jspr=pl+1
+                  jepr=nj-pl
+                  kspr=pl+1
+                  kepr=nk-pl
                   select case (op)
                     case (2)
                       fi => dom(ib)%v
                     case (22)
                       fi => dom(ib)%vstar
                   end select
-                  is=dom(ib)%isv; ie=dom(ib)%iev
-                  js=dom(ib)%jsv; je=dom(ib)%jev
-                  ks=dom(ib)%ksv; ke=dom(ib)%kev
+                  is=dom(ib)%isv
+                  ie=dom(ib)%iev
+                  js=dom(ib)%jsv
+                  je=dom(ib)%jev
+                  ks=dom(ib)%ksv
+                  ke=dom(ib)%kev
 
 !======================================================================
                   if (ly==0)  then
@@ -2293,14 +3140,22 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev1)) then
                   call MPI_WAIT(dom(ib)%rq_c1m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  st1=1
+                  st2=1
+                  st3=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ispr-pl1; j=jspr-pl2; k=kspr-pl3
+                              i=ispr-pl1
+                              j=jspr-pl2
+                              k=kspr-pl3
                               if(i<is .or. j<js .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % rc1m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous cor #2
@@ -2309,16 +3164,24 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev2)) then
                   call MPI_WAIT(dom(ib)%rq_c2m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
+                  st1=1
+                  st2=1
+                  st3=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev2)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ispr-pl1; j=jepr+pl2; k=kspr-pl3
+                              i=ispr-pl1
+                              j=jepr+pl2
+                              k=kspr-pl3
                               if(i<is .or. j>je .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % rc2m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous cor #3
@@ -2327,16 +3190,24 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev3)) then
                   call MPI_WAIT(dom(ib)%rq_c3m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
+                  st1=1
+                  st2=1
+                  st3=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%corprev3)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=iepr+pl1; j=jepr+pl2; k=kspr-pl3
+                              i=iepr+pl1
+                              j=jepr+pl2
+                              k=kspr-pl3
                               if(i>ie .or. j>je .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % rc3m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous cor #4
@@ -2345,14 +3216,22 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%corprev4)) then
                   call MPI_WAIT(dom(ib)%rq_c4m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  st1=1
+                  st2=1
+                  st3=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=iepr+pl1; j=jspr-pl2; k=kspr-pl3
+                              i=iepr+pl1
+                              j=jspr-pl2
+                              k=kspr-pl3
                               if(i>ie .or. j<js .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % rc4m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next cor #1
@@ -2361,16 +3240,24 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext1)) then
                   call MPI_WAIT(dom(ib)%rq_c1p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
+                  st1=1
+                  st2=1
+                  st3=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%cornext1)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=iepr+pl1; j=jepr+pl2; k=kepr+pl3
+                              i=iepr+pl1
+                              j=jepr+pl2
+                              k=kepr+pl3
                               if(i>ie .or. j>je .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % rc1p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next cor #2
@@ -2379,14 +3266,22 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext2)) then
                   call MPI_WAIT(dom(ib)%rq_c2p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  st1=1
+                  st2=1
+                  st3=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=iepr+pl1; j=jspr-pl2; k=kepr+pl3
+                              i=iepr+pl1
+                              j=jspr-pl2
+                              k=kepr+pl3
                               if(i>ie .or. j<js .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % rc2p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next cor #3
@@ -2395,14 +3290,22 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext3)) then
                   call MPI_WAIT(dom(ib)%rq_c3p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  st1=1
+                  st2=1
+                  st3=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ispr-pl1; j=jspr-pl2; k=kepr+pl3
+                              i=ispr-pl1
+                              j=jspr-pl2
+                              k=kepr+pl3
                               if(i<is .or. j<js .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % rc3p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next cor #4
@@ -2411,16 +3314,24 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%cornext4)) then
                   call MPI_WAIT(dom(ib)%rq_c4p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1; st3=1
+                  st1=1
+                  st2=1
+                  st3=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%cornext4)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do pl3=st3,pl
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do pl3=st3,pl
                               ijk=pl1*pll+pl2*(pl+1)+pl3+1
-                              i=ispr-pl1; j=jepr+pl2; k=kepr+pl3
+                              i=ispr-pl1
+                              j=jepr+pl2
+                              k=kepr+pl3
                               if(i<is .or. j>je .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % rc4p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #1
@@ -2429,14 +3340,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev1)) then
                   call MPI_WAIT(dom(ib)%rq_e1m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ispr-pl1; j=nn; k=kspr-pl2
+                              i=ispr-pl1
+                              j=nn
+                              k=kspr-pl2
                               if(i<is .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % re1m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #2
@@ -2445,16 +3363,23 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev2)) then
                   call MPI_WAIT(dom(ib)%rq_e2m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
+                  st1=1
+                  st2=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgprev2)) st1=0
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jepr+pl1; k=kspr-pl2
+                              i=nn
+                              j=jepr+pl1
+                              k=kspr-pl2
                               if(j>je .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % re2m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #3
@@ -2463,14 +3388,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev3)) then
                   call MPI_WAIT(dom(ib)%rq_e3m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=iepr+pl1; j=nn; k=kspr-pl2
+                              i=iepr+pl1
+                              j=nn
+                              k=kspr-pl2
                               if(i>ie .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % re3m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #4
@@ -2479,14 +3411,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev4)) then
                   call MPI_WAIT(dom(ib)%rq_e4m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jspr-pl1; k=kspr-pl2
+                              i=nn
+                              j=jspr-pl1
+                              k=kspr-pl2
                               if(j<js .or. k<ks) then
                                 fi(i,j,k)=dom(ib) % re4m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #5
@@ -2495,14 +3434,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev5)) then
                   call MPI_WAIT(dom(ib)%rq_e5m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ispr-pl1 ; j=jspr-pl2; k=nn
+                              i=ispr-pl1
+                              j=jspr-pl2
+                              k=nn
                               if(i<is .or. j<js) then
                                 fi(i,j,k)=dom(ib) % re5m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> previous edge #6
@@ -2511,16 +3457,23 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgprev6)) then
                   call MPI_WAIT(dom(ib)%rq_e6m,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
+                  st1=1
+                  st2=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgprev6)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ispr-pl1 ; j=jepr+pl2; k=nn
+                              i=ispr-pl1
+                              j=jepr+pl2
+                              k=nn
                               if(i<is .or. j>je) then
                                 fi(i,j,k)=dom(ib) % re6m(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #1
@@ -2529,14 +3482,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext1)) then
                   call MPI_WAIT(dom(ib)%rq_e1p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=iepr+pl1; j=nn; k=kepr+pl2
+                              i=iepr+pl1
+                              j=nn
+                              k=kepr+pl2
                               if(i>ie .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % re1p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #2
@@ -2545,14 +3505,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext2)) then
                   call MPI_WAIT(dom(ib)%rq_e2p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jspr-pl1; k=kepr+pl2
+                              i=nn
+                              j=jspr-pl1
+                              k=kepr+pl2
                               if(j<js .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % re2p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #3
@@ -2561,14 +3528,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext3)) then
                   call MPI_WAIT(dom(ib)%rq_e3p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=jspr,jepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=jspr,jepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=ispr-pl1; j=nn; k=kepr+pl2
+                              i=ispr-pl1
+                              j=nn
+                              k=kepr+pl2
                               if(i<is .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % re3p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #4
@@ -2577,16 +3551,23 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext4)) then
                   call MPI_WAIT(dom(ib)%rq_e4p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
+                  st1=1
+                  st2=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgnext4)) st1=0
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=ispr,iepr
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=ispr,iepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=nn; j=jepr+pl1; k=kepr+pl2
+                              i=nn
+                              j=jepr+pl1
+                              k=kepr+pl2
                               if(j>je .or. k>ke) then
                                 fi(i,j,k)=dom(ib) % re4p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #5
@@ -2595,16 +3576,23 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext5)) then
                   call MPI_WAIT(dom(ib)%rq_e5p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
+                  st1=1
+                  st2=1
 !              if(LMR.eq.2 .and.
 !     & rdiv(dom_id(ib)).lt.rdiv(dom(ib)%edgnext5)) st2=0
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=iepr+pl1 ; j=jepr+pl2; k=nn
+                              i=iepr+pl1
+                              j=jepr+pl2
+                              k=nn
                               if(i>ie .or. j>je) then
                                 fi(i,j,k)=dom(ib) % re5p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !=====> next edge #6
@@ -2613,14 +3601,21 @@
                   if (dom_ad(dom_id(ib))/=dom_ad(dom(ib)%edgnext6)) then
                   call MPI_WAIT(dom(ib)%rq_e6p,MPI_STATUS_IGNORE,ierr)
                   end if
-                  st1=1; st2=1
-                  do pl1=st1,pl; do pl2=st2,pl; do nn=kspr,kepr
+                  st1=1
+                  st2=1
+                  do pl1=st1,pl
+                  do pl2=st2,pl
+                  do nn=kspr,kepr
                               ijk=(nn-1)*pll+pl1*(pl+1)+pl2+1
-                              i=iepr+pl1 ; j=jspr-pl2; k=nn
+                              i=iepr+pl1
+                              j=jspr-pl2
+                              k=nn
                               if(i>ie .or. j<js) then
                                 fi(i,j,k)=dom(ib) % re6p(ijk)
                               end if
-                          end do; end do; end do
+                          end do
+                          end do
+                          end do
                   end if
                   end if
 !======================================================================
@@ -2634,17 +3629,24 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%iprev)) then
                   call MPI_WAIT(dom(ib)%rq_m1,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%iprev)) jspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgprev6.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%iprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev6)) jepr=nj-pl-1
 
-                  do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
+                  do k=kspr,kepr
+                  do j=jspr,jepr
+                  ijk=(k-1)*nj+j
                           fi(is-1-ly,j,k)=dom(ib) % recvb_m1(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 
@@ -2653,18 +3655,28 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jprev)) then
                   call MPI_WAIT(dom(ib)%rq_m2,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(LMR==2 .and. ly==0 .and. &
             rdiv(dom_id(ib))>rdiv(dom(ib)%jprev)) then
-                  do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
+                  do k=kspr,kepr
+                  do i=ispr,iepr
+                  ijk=(k-1)*ni+i
                           fi(i,js-1-ly,k)=( &
                     dom(ib) %recvb_m2(ijk)+3.0_dp*fi(i,js-ly,k)-fi(i,js+1-ly,k))/3.0_dp
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
+                  do k=kspr,kepr
+                  do i=ispr,iepr
+                  ijk=(k-1)*ni+i
                           fi(i,js-1-ly,k)=dom(ib) % recvb_m2(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
 
 
@@ -2676,17 +3688,24 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%kprev)) then
                   call MPI_WAIT(dom(ib)%rq_m3,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%kprev)) jspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgprev2.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%kprev) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgprev2)) jepr=nj-pl-1
 
-                  do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
+                  do i=ispr,iepr
+                  do j=jspr,jepr
+                  ijk=(i-1)*nj+j
                           fi(i,j,ks-1-ly)=dom(ib) % recvb_m3(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 
@@ -2698,17 +3717,24 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%inext)) then
                   call MPI_WAIT(dom(ib)%rq_p1,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%inext)) jspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext5.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%inext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext5)) jepr=nj-pl-1
 
-                  do k=kspr,kepr; do j=jspr,jepr; ijk=(k-1)*nj+j
+                  do k=kspr,kepr
+                  do j=jspr,jepr
+                  ijk=(k-1)*nj+j
                           fi(ie+1+ly,j,k)=dom(ib) % recvb_p1(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 
@@ -2717,18 +3743,28 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%jnext)) then
                   call MPI_WAIT(dom(ib)%rq_p2,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(ly==0 .and. &
             rdiv(dom_id(ib))>rdiv(dom(ib)%jnext)) then
-                  do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
+                  do k=kspr,kepr
+                  do i=ispr,iepr
+                  ijk=(k-1)*ni+i
                           fi(i,je+1+ly,k)=( &
                     dom(ib) %recvb_p2(ijk)+3.0_dp*fi(i,je+ly,k)-fi(i,je+ly-1,k))/3.0_dp
-                      end do; end do
+                      end do
+                      end do
                   else
-                  do k=kspr,kepr; do i=ispr,iepr; ijk=(k-1)*ni+i
+                  do k=kspr,kepr
+                  do i=ispr,iepr
+                  ijk=(k-1)*ni+i
                           fi(i,je+1+ly,k)=dom(ib) % recvb_p2(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
                   end if
@@ -2738,17 +3774,24 @@
                   if (dom_ad(dom_id(ib)) /= dom_ad(dom(ib)%knext)) then
                   call MPI_WAIT(dom(ib)%rq_p3,MPI_STATUS_IGNORE,ierr)
                   end if
-                  ispr=pl+1;    jspr=pl+1;  kspr=pl+1
-                  iepr=ni-pl;   jepr=nj-pl; kepr=nk-pl
+                  ispr=pl+1
+                  jspr=pl+1
+                  kspr=pl+1
+                  iepr=ni-pl
+                  jepr=nj-pl
+                  kepr=nk-pl
                   if(LMR==2 .and. &
             rdiv(dom_id(ib))<rdiv(dom(ib)%knext)) jspr=pl
 !                 if(LMR.eq.2 .and. dom(ib)%edgnext4.ge.0 .and.
 !     & rdiv(dom_id(ib)).gt.rdiv(dom(ib)%knext) .and.
 !     & rdiv(dom_id(ib)).eq.rdiv(dom(ib)%edgnext4)) jepr=nj-pl-1
 
-                  do i=ispr,iepr; do j=jspr,jepr; ijk=(i-1)*nj+j
+                  do i=ispr,iepr
+                  do j=jspr,jepr
+                  ijk=(i-1)*nj+j
                           fi(i,j,ke+1+ly)=dom(ib) % recvb_p3(ijk)
-                      end do; end do
+                      end do
+                      end do
                   end if
                   end if
 

@@ -56,11 +56,20 @@
           allocate(zpg_sv(tot_np),wpg_sv(tot_np))
           allocate(dp_sv(tot_np),dpg_sv(tot_np))
 
-          xp_sv = 0.0_dp ; zp_sv = 0.0_dp ; zp_sv = 0.0_dp
-          up_sv = 0.0_dp ; vp_sv = 0.0_dp ; wp_sv = 0.0_dp
-          xpg_sv = 0.0_dp ; zpg_sv = 0.0_dp ; zpg_sv = 0.0_dp
-          upg_sv = 0.0_dp ; vpg_sv = 0.0_dp ; wpg_sv = 0.0_dp
-          dp_sv = 0.0_dp ; dpg_sv = 0.0_dp
+          xp_sv = 0.0_dp
+          zp_sv = 0.0_dp
+          zp_sv = 0.0_dp
+          up_sv = 0.0_dp
+          vp_sv = 0.0_dp
+          wp_sv = 0.0_dp
+          xpg_sv = 0.0_dp
+          zpg_sv = 0.0_dp
+          zpg_sv = 0.0_dp
+          upg_sv = 0.0_dp
+          vpg_sv = 0.0_dp
+          wpg_sv = 0.0_dp
+          dp_sv = 0.0_dp
+          dpg_sv = 0.0_dp
 
           do ls=1,np_loc                ! save real particles
               xp_sv(ls) = xp_loc(ls)

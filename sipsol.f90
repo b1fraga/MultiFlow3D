@@ -35,7 +35,8 @@
           alfa=0.92_dp
           small=1e-20_dp
 
-          xx=-1; maxttc_ijk=0
+          xx=-1
+          maxttc_ijk=0
           do ib=1,nbp
               if(dom(ib)%ttc_ijk>maxttc_ijk) then
               maxttc_ijk=dom(ib)%ttc_ijk
@@ -48,27 +49,44 @@
           allocate(ls(nbp,dom(xx)%ttc_ijk),lb(nbp,dom(xx)%ttc_ijk))
           allocate(lpr(nbp,dom(xx)%ttc_ijk),res(nbp,dom(xx)%ttc_ijk))
 
-          ue=0.0_dp; un=0.0_dp; ut=0.0_dp
-          lb=0.0_dp; lw=0.0_dp; ls=0.0_dp; lpr=0.0_dp
+          ue=0.0_dp
+          un=0.0_dp
+          ut=0.0_dp
+          lb=0.0_dp
+          lw=0.0_dp
+          ls=0.0_dp
+          lpr=0.0_dp
           res=0.0_dp
 
           do ib=1,nbp
               if(ifi==11) then
-              is=dom(ib)%isu; ie=dom(ib)%ieu
-              js=dom(ib)%jsu; je=dom(ib)%jeu
-              ks=dom(ib)%ksu; ke=dom(ib)%keu
+              is=dom(ib)%isu
+              ie=dom(ib)%ieu
+              js=dom(ib)%jsu
+              je=dom(ib)%jeu
+              ks=dom(ib)%ksu
+              ke=dom(ib)%keu
               else if(ifi==22) then
-              is=dom(ib)%isv; ie=dom(ib)%iev
-              js=dom(ib)%jsv; je=dom(ib)%jev
-              ks=dom(ib)%ksv; ke=dom(ib)%kev
+              is=dom(ib)%isv
+              ie=dom(ib)%iev
+              js=dom(ib)%jsv
+              je=dom(ib)%jev
+              ks=dom(ib)%ksv
+              ke=dom(ib)%kev
               else if(ifi==33) then
-              is=dom(ib)%isw; ie=dom(ib)%iew
-              js=dom(ib)%jsw; je=dom(ib)%jew
-              ks=dom(ib)%ksw; ke=dom(ib)%kew
+              is=dom(ib)%isw
+              ie=dom(ib)%iew
+              js=dom(ib)%jsw
+              je=dom(ib)%jew
+              ks=dom(ib)%ksw
+              ke=dom(ib)%kew
               else
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
               end if
 
               nj=dom(ib)%ttc_j
@@ -115,24 +133,36 @@
 
                   if(ifi==11) then
                   fi => dom(ib)%ustar
-                  is=dom(ib)%isu; ie=dom(ib)%ieu
-                  js=dom(ib)%jsu; je=dom(ib)%jeu
-                  ks=dom(ib)%ksu; ke=dom(ib)%keu
+                  is=dom(ib)%isu
+                  ie=dom(ib)%ieu
+                  js=dom(ib)%jsu
+                  je=dom(ib)%jeu
+                  ks=dom(ib)%ksu
+                  ke=dom(ib)%keu
                   else if(ifi==22) then
                   fi => dom(ib)%vstar
-                  is=dom(ib)%isv; ie=dom(ib)%iev
-                  js=dom(ib)%jsv; je=dom(ib)%jev
-                  ks=dom(ib)%ksv; ke=dom(ib)%kev
+                  is=dom(ib)%isv
+                  ie=dom(ib)%iev
+                  js=dom(ib)%jsv
+                  je=dom(ib)%jev
+                  ks=dom(ib)%ksv
+                  ke=dom(ib)%kev
                   else if(ifi==33) then
                   fi => dom(ib)%wstar
-                  is=dom(ib)%isw; ie=dom(ib)%iew
-                  js=dom(ib)%jsw; je=dom(ib)%jew
-                  ks=dom(ib)%ksw; ke=dom(ib)%kew
+                  is=dom(ib)%isw
+                  ie=dom(ib)%iew
+                  js=dom(ib)%jsw
+                  je=dom(ib)%jew
+                  ks=dom(ib)%ksw
+                  ke=dom(ib)%kew
                   else
                   fi => dom(ib)%pp
-                  is=dom(ib)%isp; ie=dom(ib)%iep
-                  js=dom(ib)%jsp; je=dom(ib)%jep
-                  ks=dom(ib)%ksp; ke=dom(ib)%kep
+                  is=dom(ib)%isp
+                  ie=dom(ib)%iep
+                  js=dom(ib)%jsp
+                  je=dom(ib)%jep
+                  ks=dom(ib)%ksp
+                  ke=dom(ib)%kep
                   end if
 
                   nj=dom(ib)%ttc_j

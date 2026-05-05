@@ -131,7 +131,9 @@
           dy = g_dy
           dz = g_dz
 
-          ptsinproc=0  ; lpt_block=0  ; lpt_proc=0
+          ptsinproc=0
+          lpt_block=0
+          lpt_proc=0
 
           do l=1,np
 
@@ -160,12 +162,18 @@
 
           if (Lcol) then
           ptsinproc_g=0
-          lpt_block_iprev=0 ; lpt_proc_iprev=0
-          lpt_block_jprev=0 ; lpt_proc_jprev=0
-          lpt_block_kprev=0 ; lpt_proc_kprev=0
-          lpt_block_inext=0 ; lpt_proc_inext=0
-          lpt_block_jnext=0 ; lpt_proc_jnext=0
-          lpt_block_knext=0 ; lpt_proc_knext=0
+          lpt_block_iprev=0
+          lpt_proc_iprev=0
+          lpt_block_jprev=0
+          lpt_proc_jprev=0
+          lpt_block_kprev=0
+          lpt_proc_kprev=0
+          lpt_block_inext=0
+          lpt_proc_inext=0
+          lpt_block_jnext=0
+          lpt_proc_jnext=0
+          lpt_block_knext=0
+          lpt_proc_knext=0
 
 !..........................................................................
 !=== Ghost particles     ===> location of neighbours

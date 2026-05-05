@@ -152,7 +152,8 @@
           real(dp)    :: ndx,ndy,ndz,nwxend,nwyend,nwzend
 
           do ib=1,nbp
-              tti=dom(ib)%ttc_i; ttj=dom(ib)%ttc_j
+              tti=dom(ib)%ttc_i
+              ttj=dom(ib)%ttc_j
               ttk=dom(ib)%ttc_k
 
               do i=1,26
@@ -340,9 +341,12 @@
 
               if(solver==2 .and. ngrd_gl>=2) then
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               do glevel=2,ngrd_gl
                   if(glevel>dom(ib)%ngrid) then
@@ -392,9 +396,12 @@
           flomas=0.0_dp
 
           do ib=1,nbp
-              ispr=pl+1; iepr=dom(ib)%ttc_i-pl
-              jspr=pl+1; jepr=dom(ib)%ttc_j-pl
-              kspr=pl+1; kepr=dom(ib)%ttc_k-pl
+              ispr=pl+1
+              iepr=dom(ib)%ttc_i-pl
+              jspr=pl+1
+              jepr=dom(ib)%ttc_j-pl
+              kspr=pl+1
+              kepr=dom(ib)%ttc_k-pl
 
               if(dom(ib)%iprev<0) then
               if (dom(ib)%bc_west<61 .and. dom(ib)%bc_west/=4) then
@@ -474,9 +481,12 @@
           fmout=0.0_dp
 
           do ib=1,nbp
-              ispr=pl+1; iepr=dom(ib)%ttc_i-pl
-              jspr=pl+1; jepr=dom(ib)%ttc_j-pl
-              kspr=pl+1; kepr=dom(ib)%ttc_k-pl
+              ispr=pl+1
+              iepr=dom(ib)%ttc_i-pl
+              jspr=pl+1
+              jepr=dom(ib)%ttc_j-pl
+              kspr=pl+1
+              kepr=dom(ib)%ttc_k-pl
 
               if(dom(ib)%inext<0) then
               if (dom(ib)%bc_east<61 .and. dom(ib)%bc_east/=4) then
@@ -714,13 +724,19 @@
 !===============================================================
 
               if (reinitmean) then
-              dom(ib)%um   = 0.0_dp; dom(ib)%vm   = 0.0_dp
-              dom(ib)%wm   = 0.0_dp; dom(ib)%pm   = 0.0_dp
-              dom(ib)%uum  = 0.0_dp; dom(ib)%vvm  = 0.0_dp
-              dom(ib)%wwm  = 0.0_dp; dom(ib)%uvm  = 0.0_dp
-              dom(ib)%uwm  = 0.0_dp; dom(ib)%vwm  = 0.0_dp
+              dom(ib)%um   = 0.0_dp
+              dom(ib)%vm   = 0.0_dp
+              dom(ib)%wm   = 0.0_dp
+              dom(ib)%pm   = 0.0_dp
+              dom(ib)%uum  = 0.0_dp
+              dom(ib)%vvm  = 0.0_dp
+              dom(ib)%wwm  = 0.0_dp
+              dom(ib)%uvm  = 0.0_dp
+              dom(ib)%uwm  = 0.0_dp
+              dom(ib)%vwm  = 0.0_dp
               dom(ib)%ppm  = 0.0_dp
-              dom(ib)%Tm   = 0.0_dp; dom(ib)%Ttm  = 0.0_dp
+              dom(ib)%Tm   = 0.0_dp
+              dom(ib)%Ttm  = 0.0_dp
               ctime=0.0_dp
               ntime=0
               if (L_LSM) dom(ib)%phim  = 0.0_dp
@@ -761,22 +777,29 @@
 !     endif
 !=======================================================================
 
-              dom(ib)%v=0.0_dp; dom(ib)%w=0.0_dp
-              dom(ib)%vo=0.0_dp; dom(ib)%voo=0.0_dp
-              dom(ib)%wo=0.0_dp; dom(ib)%woo=0.0_dp
+              dom(ib)%v=0.0_dp
+              dom(ib)%w=0.0_dp
+              dom(ib)%vo=0.0_dp
+              dom(ib)%voo=0.0_dp
+              dom(ib)%wo=0.0_dp
+              dom(ib)%woo=0.0_dp
 
               dom(ib)%dens=dens
               dom(ib)%vis=rrey
 
               if (LENERGY) then
-              dom(ib)%T=Tinit;  dom(ib)%To=Tinit
-              dom(ib)%Tm=0.0_dp; dom(ib)%Ttm=0.0_dp
+              dom(ib)%T=Tinit
+              dom(ib)%To=Tinit
+              dom(ib)%Tm=0.0_dp
+              dom(ib)%Ttm=0.0_dp
               dom(ib)%mu=rrey*dens
               call energy_init
               end if
               if (LSCALAR) then
-              dom(ib)%S=0.0_dp;  dom(ib)%So=0.0_dp
-              dom(ib)%Sm=0.0_dp; dom(ib)%Stm=0.0_dp
+              dom(ib)%S=0.0_dp
+              dom(ib)%So=0.0_dp
+              dom(ib)%Sm=0.0_dp
+              dom(ib)%Stm=0.0_dp
               call sediment_init
               end if
               if (L_LSM)          dom(ib)%mu=rrey*dens
@@ -786,19 +809,30 @@
               end if
               if (LNonNewt) call NonNewtonian
 
-              dom(ib)%um   = 0.0_dp; dom(ib)%vm   = 0.0_dp
-              dom(ib)%wm   = 0.0_dp; dom(ib)%pm   = 0.0_dp
-              dom(ib)%uum  = 0.0_dp; dom(ib)%vvm  = 0.0_dp
-              dom(ib)%wwm  = 0.0_dp; dom(ib)%uvm  = 0.0_dp
-              dom(ib)%uwm  = 0.0_dp; dom(ib)%vwm  = 0.0_dp
+              dom(ib)%um   = 0.0_dp
+              dom(ib)%vm   = 0.0_dp
+              dom(ib)%wm   = 0.0_dp
+              dom(ib)%pm   = 0.0_dp
+              dom(ib)%uum  = 0.0_dp
+              dom(ib)%vvm  = 0.0_dp
+              dom(ib)%wwm  = 0.0_dp
+              dom(ib)%uvm  = 0.0_dp
+              dom(ib)%uwm  = 0.0_dp
+              dom(ib)%vwm  = 0.0_dp
               dom(ib)%ppm  = 0.0_dp
 
-              dom(ib)%tauww  = 0.0_dp; dom(ib)%tauww2  = 0.0_dp
-              dom(ib)%tauwe  = 0.0_dp; dom(ib)%tauwe2  = 0.0_dp
-              dom(ib)%tauws  = 0.0_dp; dom(ib)%tauws2  = 0.0_dp
-              dom(ib)%tauwn  = 0.0_dp; dom(ib)%tauwn2  = 0.0_dp
-              dom(ib)%tauwb  = 0.0_dp; dom(ib)%tauwb2  = 0.0_dp
-              dom(ib)%tauwt  = 0.0_dp; dom(ib)%tauwt2  = 0.0_dp
+              dom(ib)%tauww  = 0.0_dp
+              dom(ib)%tauww2  = 0.0_dp
+              dom(ib)%tauwe  = 0.0_dp
+              dom(ib)%tauwe2  = 0.0_dp
+              dom(ib)%tauws  = 0.0_dp
+              dom(ib)%tauws2  = 0.0_dp
+              dom(ib)%tauwn  = 0.0_dp
+              dom(ib)%tauwn2  = 0.0_dp
+              dom(ib)%tauwb  = 0.0_dp
+              dom(ib)%tauwb2  = 0.0_dp
+              dom(ib)%tauwt  = 0.0_dp
+              dom(ib)%tauwt2  = 0.0_dp
 
               if (sgs_model>2) then
               dom(ib)%ksgs = (3.d0/2.d0)*(ubulk*0.1_dp)**2.0_dp
@@ -809,17 +843,34 @@
 
               if (trim(keyword)=="channel") then
               if (.not.L_LSM) dom(ib)%u=ubulk
-              ubw=ubulk; ube=ubulk; ubs=ubulk               !brunho2014
-              ubn=ubulk; ubt=ubulk; ubb=ubulk
-              vb=0.0_dp; wb=0.0_dp
+              ubw=ubulk
+              ube=ubulk
+              ubs=ubulk               !brunho2014
+              ubn=ubulk
+              ubt=ubulk
+              ubb=ubulk
+              vb=0.0_dp
+              wb=0.0_dp
               else if (trim(keyword)=="cavity") then
               dom(ib)%u=0.0_dp
-              ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=2.0_dp; ubt=0.0_dp; ubb=0.0_dp
-              vb=0.0_dp; wb=0.0_dp
+              ubw=0.0_dp
+              ube=0.0_dp
+              ubs=0.0_dp
+              ubn=2.0_dp
+              ubt=0.0_dp
+              ubb=0.0_dp
+              vb=0.0_dp
+              wb=0.0_dp
               else if (trim(keyword)=="column") then
               dom(ib)%u=0.0_dp
-              ubw=0.0_dp; ube=0.0_dp; ubs=0.0_dp; ubn=0.0_dp; ubt=0.0_dp; ubb=0.0_dp
-              vb=0.0_dp; wb=0.0_dp
+              ubw=0.0_dp
+              ube=0.0_dp
+              ubs=0.0_dp
+              ubn=0.0_dp
+              ubt=0.0_dp
+              ubb=0.0_dp
+              vb=0.0_dp
+              wb=0.0_dp
               else
               write (6,*) " wrong keyword "
               end if
@@ -1004,7 +1055,9 @@
                           end if
                           dom(ib)%u(i,j,k) = dom(ib)%u(i,j,k)*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(dom(ib)%zc(k)/(zen-zst)))**(1.d0/7.d0)
-                      end do ; end do ;  end do
+                      end do
+                      end do
+                      end do
               END IF
 !.######### U=> When power law inlet condition, 7 Dic 2015 .##########
               IF (dom(ib)%bc_west==13) THEN
@@ -1018,7 +1071,9 @@
                           dom(ib)%u(i,j,k) = ubulk*(1.0d0+1.0d0/7.0d0) &
                     *(DABS(2*((yen-yst)-dom(ib)%yc(j))/(yen-yst)))**(1.d0/7.d0)
                           end if
-                      end do ; end do ;  end do
+                      end do
+                      end do
+                      end do
               END IF
 
               end if    !No restart

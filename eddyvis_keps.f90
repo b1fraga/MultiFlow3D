@@ -38,9 +38,12 @@
 
           do ib=1,nbp
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               do k=ks-1,ke+1
                   do j=js-1,je+1
@@ -58,7 +61,9 @@
 
                           dom(ib)%vis(i,j,k) = min(dom(ib)%vis(i,j,k), &
                     0.33_dp*dom(ib)%ksgs(i,j,k)*sqrt(1.5_dp/strain(i,j,k)))
-                      end do ; end do ; end do
+                      end do
+                      end do
+                      end do
 !   enddo
 
               call exchange(7)
@@ -289,9 +294,12 @@
               dyy=dom(ib)%dy*dom(ib)%dy
               dzz=dom(ib)%dz*dom(ib)%dz
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               do k=ks,ke
                   do j=js,je
@@ -438,9 +446,12 @@
                     (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
                     +dom(ib)%ksgso(i,j,k+1)**2.0_dp/dom(ib)%epso(i,j,k+1))
 
-                          awT=visc_w/(dxx*sigmak); aeT=visc_e/(dxx*sigmak)
-                          anT=visc_n/(dyy*sigmak); asT=visc_s/(dyy*sigmak)
-                          atT=visc_t/(dzz*sigmak); abT=visc_b/(dzz*sigmak)
+                          awT=visc_w/(dxx*sigmak)
+                          aeT=visc_e/(dxx*sigmak)
+                          anT=visc_n/(dyy*sigmak)
+                          asT=visc_s/(dyy*sigmak)
+                          atT=visc_t/(dzz*sigmak)
+                          abT=visc_b/(dzz*sigmak)
                           apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                           diff=(apT*dom(ib)%ksgso(i,j,k)+ &
                     anT*dom(ib)%ksgso(i,j+1,k) + asT*dom(ib)%ksgso(i,j-1,k)+ &
@@ -499,7 +510,10 @@
           real(dp) :: conv,diff,prod,other
           real(dp) :: alfark,strain
 
-          c1eps=1.44_dp; c2eps=1.92_dp ; sigmaeps=1.31_dp ; cmu=0.09_dp
+          c1eps=1.44_dp
+          c2eps=1.92_dp
+          sigmaeps=1.31_dp
+          cmu=0.09_dp
 
           do ib=1,nbp
 
@@ -524,9 +538,12 @@
               dzz=dom(ib)%dz*dom(ib)%dz
 
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               do k=ks,ke
                   do j=js,je
@@ -684,9 +701,12 @@
                     (dom(ib)%ksgso(i,j,k)**2.0_dp/dom(ib)%epso(i,j,k) &
                     +dom(ib)%ksgso(i,j,k+1)**2.0_dp/dom(ib)%epso(i,j,k+1))
 
-                          awT=visc_w/(dxx*sigmaeps); aeT=visc_e/(dxx*sigmaeps)
-                          anT=visc_n/(dyy*sigmaeps); asT=visc_s/(dyy*sigmaeps)
-                          atT=visc_t/(dzz*sigmaeps); abT=visc_b/(dzz*sigmaeps)
+                          awT=visc_w/(dxx*sigmaeps)
+                          aeT=visc_e/(dxx*sigmaeps)
+                          anT=visc_n/(dyy*sigmaeps)
+                          asT=visc_s/(dyy*sigmaeps)
+                          atT=visc_t/(dzz*sigmaeps)
+                          abT=visc_b/(dzz*sigmaeps)
                           apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                           diff=(apT*dom(ib)%epso(i,j,k)+&                        !diffusive term
                     anT*dom(ib)%epso(i,j+1,k) + asT*dom(ib)%epso(i,j-1,k)+ &

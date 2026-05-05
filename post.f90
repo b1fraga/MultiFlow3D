@@ -33,9 +33,12 @@
 
               open (unit=88, file=gf)
 
-              is=pl+1; ie=dom(ib)%ttc_i-pl
-              js=pl+1; je=dom(ib)%ttc_j-pl
-              ks=pl+1; ke=dom(ib)%ttc_k-pl
+              is=pl+1
+              ie=dom(ib)%ttc_i-pl
+              js=pl+1
+              je=dom(ib)%ttc_j-pl
+              ks=pl+1
+              ke=dom(ib)%ttc_k-pl
               toti=ie-(is-1)+1
               totj=je-(js-1)+1
               totk=ke-(ks-1)+1
@@ -118,9 +121,12 @@
               gf="tecout_p"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
               toti=(ie+1)-(is-1)+1
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
@@ -170,9 +176,12 @@
               gf="tecout_u"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
-              is=dom(ib)%isu; ie=dom(ib)%ieu
-              js=dom(ib)%jsu; je=dom(ib)%jeu
-              ks=dom(ib)%ksu; ke=dom(ib)%keu
+              is=dom(ib)%isu
+              ie=dom(ib)%ieu
+              js=dom(ib)%jsu
+              je=dom(ib)%jeu
+              ks=dom(ib)%ksu
+              ke=dom(ib)%keu
               toti=(ie+1)-(is-1)+1
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
@@ -228,9 +237,12 @@
               gf="tecout_v"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
-              is=dom(ib)%isv; ie=dom(ib)%iev
-              js=dom(ib)%jsv; je=dom(ib)%jev
-              ks=dom(ib)%ksv; ke=dom(ib)%kev
+              is=dom(ib)%isv
+              ie=dom(ib)%iev
+              js=dom(ib)%jsv
+              je=dom(ib)%jev
+              ks=dom(ib)%ksv
+              ke=dom(ib)%kev
               toti=(ie+1)-(is-1)+1
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
@@ -276,9 +288,12 @@
               gf="tecout_w"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
-              is=dom(ib)%isw; ie=dom(ib)%iew
-              js=dom(ib)%jsw; je=dom(ib)%jew
-              ks=dom(ib)%ksw; ke=dom(ib)%kew
+              is=dom(ib)%isw
+              ie=dom(ib)%iew
+              js=dom(ib)%jsw
+              je=dom(ib)%jew
+              ks=dom(ib)%ksw
+              ke=dom(ib)%kew
               toti=(ie+1)-(is-1)+1
               totj=(je+1)-(js-1)+1
               totk=(ke+1)-(ks-1)+1
@@ -328,9 +343,12 @@
               gf="tecturb"//trim(adjustl(chb))//".plt"
               open (unit=88, file=gf)
 
-              is=pl+1; ie=dom(ib)%ttc_i-pl
-              js=pl+1; je=dom(ib)%ttc_j-pl
-              ks=pl+1; ke=dom(ib)%ttc_k-pl
+              is=pl+1
+              ie=dom(ib)%ttc_i-pl
+              js=pl+1
+              je=dom(ib)%ttc_j-pl
+              ks=pl+1
+              ke=dom(ib)%ttc_k-pl
               toti=ie-(is-1)+1
               totj=je-(js-1)+1
               totk=ke-(ks-1)+1
@@ -458,9 +476,12 @@
 
               open (unit=88, file=gf)
 
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
               toti=(ie)-(is-1)+1
               totj=(je)-(js-1)+1
               totk=(ke)-(ks-1)+1
@@ -551,7 +572,9 @@
               write (88) toti,totj,totk
               write (88) pl
 !====================================================================
-              inind=0; jnind=0; knind=0
+              inind=0
+              jnind=0
+              knind=0
               if (dom(ib)%inext<0 .and. dom(ib)%bc_east/=5) inind=-1
               if (dom(ib)%jnext<0 .and. dom(ib)%bc_north/=5) jnind=-1
               if (dom(ib)%knext<0 .and. dom(ib)%bc_top/=5) knind=-1

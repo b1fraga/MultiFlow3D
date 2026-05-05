@@ -27,7 +27,8 @@
           alfark(2)=0.5_dp
           alfark(3)=1.0_dp
 
-          cons_k=0.05_dp; cons_eps=1.00_dp
+          cons_k=0.05_dp
+          cons_eps=1.00_dp
 
           do rk=1,3
 
@@ -47,9 +48,12 @@
 
                   delta_grid=(dom(ib)%dx*dom(ib)%dy*dom(ib)%dz)**(1.0_dp/3.0_dp)
 
-                  is=dom(ib)%isp; ie=dom(ib)%iep
-                  js=dom(ib)%jsp; je=dom(ib)%jep
-                  ks=dom(ib)%ksp; ke=dom(ib)%kep
+                  is=dom(ib)%isp
+                  ie=dom(ib)%iep
+                  js=dom(ib)%jsp
+                  je=dom(ib)%jep
+                  ks=dom(ib)%ksp
+                  ke=dom(ib)%kep
 
                   do k=ks-1,ke+1
                       do j=js-1,je+1
@@ -237,9 +241,12 @@
                               visc_t=rrey+0.5_dp*cons_k*delta_grid* &
                         (sqrt(dom(ib)%ksgso(i,j,k))+sqrt(dom(ib)%ksgso(i,j,k+1)))
 
-                              awT=visc_w/dxx; aeT=visc_e/dxx
-                              anT=visc_n/dyy; asT=visc_s/dyy
-                              atT=visc_t/dzz; abT=visc_b/dzz
+                              awT=visc_w/dxx
+                              aeT=visc_e/dxx
+                              anT=visc_n/dyy
+                              asT=visc_s/dyy
+                              atT=visc_t/dzz
+                              abT=visc_b/dzz
                               apT = -1.0_dp*(awT+aeT+asT+anT+abT+atT)
                               diff=(apT*dom(ib)%ksgso(i,j,k)+ &
                         anT*dom(ib)%ksgso(i,j+1,k) + asT*dom(ib)%ksgso(i,j-1,k)+ &
@@ -273,9 +280,12 @@
 
 
           do ib=1,nbp
-              is=dom(ib)%isp; ie=dom(ib)%iep
-              js=dom(ib)%jsp; je=dom(ib)%jep
-              ks=dom(ib)%ksp; ke=dom(ib)%kep
+              is=dom(ib)%isp
+              ie=dom(ib)%iep
+              js=dom(ib)%jsp
+              je=dom(ib)%jep
+              ks=dom(ib)%ksp
+              ke=dom(ib)%kep
 
               dx=dom(ib)%dx
               dy=dom(ib)%dy

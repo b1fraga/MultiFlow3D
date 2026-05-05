@@ -15,13 +15,19 @@
               select case (op)
                 Case (1)
                   fi => dom(ib)%u
-                  npp=dom(ib)%ieu+pll; nq=dom(ib)%jeu+pll; nr=dom(ib)%keu+pll
+                  npp=dom(ib)%ieu+pll
+                  nq=dom(ib)%jeu+pll
+                  nr=dom(ib)%keu+pll
                 Case (2)
                   fi => dom(ib)%v
-                  npp=dom(ib)%iev+pll; nq=dom(ib)%jev+pll; nr=dom(ib)%kev+pll
+                  npp=dom(ib)%iev+pll
+                  nq=dom(ib)%jev+pll
+                  nr=dom(ib)%kev+pll
                 Case (3)
                   fi => dom(ib)%w
-                  npp=dom(ib)%iew+pll; nq=dom(ib)%jew+pll; nr=dom(ib)%kew+pll
+                  npp=dom(ib)%iew+pll
+                  nq=dom(ib)%jew+pll
+                  nr=dom(ib)%kew+pll
               end select
 
 !
@@ -134,13 +140,19 @@
               select case (op)
                 Case (1)
                   fi => dom(ib)%u
-                  npp=dom(ib)%ieu+pll; nq=dom(ib)%jeu+pll; nr=dom(ib)%keu+pll
+                  npp=dom(ib)%ieu+pll
+                  nq=dom(ib)%jeu+pll
+                  nr=dom(ib)%keu+pll
                 Case (2)
                   fi => dom(ib)%v
-                  npp=dom(ib)%iev+pll; nq=dom(ib)%jev+pll; nr=dom(ib)%kev+pll
+                  npp=dom(ib)%iev+pll
+                  nq=dom(ib)%jev+pll
+                  nr=dom(ib)%kev+pll
                 Case (3)
                   fi => dom(ib)%w
-                  npp=dom(ib)%iew+pll; nq=dom(ib)%jew+pll; nr=dom(ib)%kew+pll
+                  npp=dom(ib)%iew+pll
+                  nq=dom(ib)%jew+pll
+                  nr=dom(ib)%kew+pll
               end select
 
 !
@@ -253,13 +265,19 @@
               select case (op)
                 Case (1)
                   fi => dom(ib)%u
-                  npp=dom(ib)%ieu+pll; nq=dom(ib)%jeu+pll; nr=dom(ib)%keu+pll
+                  npp=dom(ib)%ieu+pll
+                  nq=dom(ib)%jeu+pll
+                  nr=dom(ib)%keu+pll
                 Case (2)
                   fi => dom(ib)%v
-                  npp=dom(ib)%iev+pll; nq=dom(ib)%jev+pll; nr=dom(ib)%kev+pll
+                  npp=dom(ib)%iev+pll
+                  nq=dom(ib)%jev+pll
+                  nr=dom(ib)%kev+pll
                 Case (3)
                   fi => dom(ib)%w
-                  npp=dom(ib)%iew+pll; nq=dom(ib)%jew+pll; nr=dom(ib)%kew+pll
+                  npp=dom(ib)%iew+pll
+                  nq=dom(ib)%jew+pll
+                  nr=dom(ib)%kew+pll
               end select
 
 !

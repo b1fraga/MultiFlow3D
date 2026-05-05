@@ -36,7 +36,9 @@
                   mgc_k=(dom(ib)%kep-dom(ib)%ksp+1)/2**(gl-1)+2
                   dom(ib)%faz(glevel)=dom(ib)%faz(glevel-1)+ &
             mgc_i*mgc_j*mgc_k+8*(prmgci-2)*(prmgcj-2)*(prmgck-2)
-                  prmgci=mgc_i; prmgcj=mgc_j; prmgck=mgc_k
+                  prmgci=mgc_i
+                  prmgcj=mgc_j
+                  prmgck=mgc_k
               end do
 
               cnt=0
