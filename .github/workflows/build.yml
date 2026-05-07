@@ -25,12 +25,13 @@ jobs:
         toolchain:
           - { compiler: gcc, version: 14, hdf5: On, json: On }
           - { compiler: gcc, version: 14, hdf5: Off, json: On }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: On }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: On }
           - { compiler: gcc, version: 14, hdf5: On, json: Off }
           - { compiler: gcc, version: 14, hdf5: Off, json: Off }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: Off }
-          - { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: Off }
+          # Disable nvfortran jobs for now to save on limited Github runner minutes
+          #- { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: On }
+          #- { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: On }
+          #- { compiler: nvidia-hpc, version: '25.1', hdf5: On, json: Off }
+          #- { compiler: nvidia-hpc, version: '25.1', hdf5: Off, json: Off }
 
     steps:
       - uses: actions/checkout@v5
