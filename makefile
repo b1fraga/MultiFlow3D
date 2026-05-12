@@ -15,15 +15,15 @@ HDF5_INCLUDE_PATH := build_hdf5/mod/shared/
 HDF5_LIBRARY_PATH := build_hdf5/bin
 
 objects = \
-json_io.o \
-hdf5_io.o \
-io.o \
-module_vars.o\
-module_multidata.o\
 module_mpi.o\
+hdf5_io.o \
+json_io.o \
+module_multidata.o\
+module_vars.o\
 module_vars_pt.o\
-multiflow3d_sem.o\
+io.o\
 module_LSM.o\
+multiflow3d_sem.o\
 imb.o\
 shapes.o\
 fdstag.o\
@@ -73,17 +73,17 @@ lsm.o\
 sediment.o
 
 test_objects = \
-json_io.o \
 hdf5_io.o \
+json_io.o \
 io.o \
+tests/test_hdf5_io.o \
 tests/test_json_io.o \
 tests/test_io.o \
-tests/test_hdf5_io.o \
 tests/main.o
 
 all: test
 
-test: tests/tests.exe
+test: M3D_v2.exe tests/tests.exe
 	@cd ./tests/ && ./tests.exe && cd ..
 
 .SUFFIXES: .f90
