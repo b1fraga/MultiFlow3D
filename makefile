@@ -21,7 +21,6 @@ json_io.o \
 module_multidata.o\
 module_vars.o\
 module_vars_pt.o\
-multiflow3d_sem.o\
 io.o\
 module_LSM.o\
 imb.o\
@@ -70,7 +69,8 @@ exchangew.o\
 exchange_phi.o\
 bounds_lsm.o\
 lsm.o\
-sediment.o
+sediment.o\
+multiflow3d_sem.o
 
 test_objects = \
 hdf5_io.o \
