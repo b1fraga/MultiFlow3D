@@ -1,6 +1,6 @@
 F90=mpif90
 
-OPTIONS = -cpp -O2 -g -fopenmp -DUSE_JSON=1 -DUSE_HDF5=1 -J.
+OPTIONS = -cpp -O2 -g -fopenmp -DUSE_JSON=1 -DUSE_HDF5=1
 ifneq (,$(findstring GNU,$(shell $(F90) --version)))
 OPTIONS += -std=f2018
 endif
