@@ -83,7 +83,7 @@ tests/main.o
 
 all: test
 
-test: tests/tests.exe
+test: M3D_v2.exe tests/tests.exe
 	@cd ./tests/ && ./tests.exe && cd ..
 
 .SUFFIXES: .f90
