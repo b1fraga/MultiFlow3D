@@ -15,11 +15,11 @@ HDF5_INCLUDE_PATH := build_hdf5/mod/shared/
 HDF5_LIBRARY_PATH := build_hdf5/bin
 
 objects = \
+module_mpi.o\
 hdf5_io.o \
 json_io.o \
 module_multidata.o\
 module_vars.o\
-module_mpi.o\
 module_vars_pt.o\
 multiflow3d_sem.o\
 module_LSM.o\
