@@ -15,9 +15,8 @@ HDF5_INCLUDE_PATH := build_hdf5/mod/shared/
 HDF5_LIBRARY_PATH := build_hdf5/bin
 
 objects = \
-json_io.o \
 hdf5_io.o \
-io.o \
+json_io.o \
 module_multidata.o\
 module_vars.o\
 module_mpi.o\
@@ -70,15 +69,16 @@ exchangew.o\
 exchange_phi.o\
 bounds_lsm.o\
 lsm.o\
-sediment.o
+sediment.o\
+io.o
 
 test_objects = \
-json_io.o \
 hdf5_io.o \
+json_io.o \
 io.o \
+tests/test_hdf5_io.o \
 tests/test_json_io.o \
 tests/test_io.o \
-tests/test_hdf5_io.o \
 tests/main.o
 
 all: test
