@@ -24,6 +24,7 @@ module_vars_pt.o\
 io.o\
 module_LSM.o\
 imb.o\
+multiflow3d_sem.o\
 shapes.o\
 fdstag.o\
 initial.o\
@@ -69,8 +70,7 @@ exchangew.o\
 exchange_phi.o\
 bounds_lsm.o\
 lsm.o\
-sediment.o\
-multiflow3d_sem.o
+sediment.o
 
 test_objects = \
 hdf5_io.o \
