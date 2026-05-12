@@ -30,6 +30,7 @@ module multiflow3d_sem
 !   use ifport
           use vars
           use multidata
+          use multiflow3d_mpi
           implicit none
           class(sem), intent(inout) :: this
           real(dp) :: vol,ly,lz,enne,xmin,xmax,ymin
