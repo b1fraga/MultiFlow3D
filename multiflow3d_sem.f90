@@ -96,7 +96,7 @@ module multiflow3d_sem
 !the divisions for each of the domains is determined:
           i=0
           do n=1,kdom
-          do j=1,jdom
+              do j=1,jdom
                   i=i+1
                   this%elemyst(i) = lsy(j)
                   this%elemzst(i) = lsz(n)
@@ -105,7 +105,7 @@ module multiflow3d_sem
                   this%ljdom(i) = this%elemyen(i) -  this%elemyst(i) + 1
                   this%lkdom(i) = this%elemzen(i) -  this%elemzst(i) + 1
               end do
-              end do
+          end do
 
           write(6,*)"divisions :",divy,divz
           write(6,*)"# blocks  :",jdom,kdom
