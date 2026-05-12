@@ -8,8 +8,7 @@
 *.exe
 
 # Build folders
-build_json_fortran/**/*
-build_test_drive/**/*
+build_*/**/*
 
 # Documentation folder (created when using ford tool)
 doc/**/*
