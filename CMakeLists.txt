@@ -50,81 +50,86 @@ endif()
 # Sources
 # -----------------------
 set(SOURCES
-    alloc_dom.f90
-    alloc_pt.f90
-    averaging.f90
-    bounds.f90
-    bounds_keps.f90
-    bounds_lsm.f90
-    checkdt.f90
-    collision.f90
-    convection.f90
-    delta_func.f90
-    diffusion.f90
-    eddyvis_1eqn.f90
-    eddyvis_keps.f90
-    eddyvis_smag.f90
-    eddyvis_wale.f90
-    energy.f90
-    exchange.f90
-    exchange_bc.f90
-    exchange_bcphi.f90
-    exchange_phi.f90
-    exchangep.f90
-    exchangepp.f90
-    exchangesca.f90
-    exchangeu.f90
-    exchangev.f90
-    exchangew.f90
-    fdstag.f90
-    flosol.f90
-    imb.f90
-    initial.f90
-    init_particle.f90
-    localparameters.f90
-    log_law.f90
-    LPT.f90
-    lsm.f90
-    mgsolver.f90
-    module_LSM.f90
-    module_mpi.f90
-    module_multidata.f90
-    module_vars.f90
-    module_vars_pt.f90
-    MPI_pt.f90
-    multiflow3d_sem.f90
-    newsolv_mg.f90
-    post.f90
-    press.f90
-    roughness_function.f90
-    rungek.f90
-    sediment.f90
-    shapes.f90
-    sipsol.f90
-    timesig.f90
-    wall_function.f90
-    weno.f90
+    src/alloc_dom.f90
+    src/alloc_pt.f90
+    src/averaging.f90
+    src/bounds.f90
+    src/bounds_keps.f90
+    src/bounds_lsm.f90
+    src/checkdt.f90
+    src/collision.f90
+    src/convection.f90
+    src/delta_func.f90
+    src/diffusion.f90
+    src/eddyvis_1eqn.f90
+    src/eddyvis_keps.f90
+    src/eddyvis_smag.f90
+    src/eddyvis_wale.f90
+    src/energy.f90
+    src/exchange.f90
+    src/exchange_bc.f90
+    src/exchange_bcphi.f90
+    src/exchange_phi.f90
+    src/exchangep.f90
+    src/exchangepp.f90
+    src/exchangesca.f90
+    src/exchangeu.f90
+    src/exchangev.f90
+    src/exchangew.f90
+    src/flosol.f90
+    src/imb.f90
+    src/initial.f90
+    src/init_particle.f90
+    src/localparameters.f90
+    src/log_law.f90
+    src/LPT.f90
+    src/lsm.f90
+    src/mgsolver.f90
+    src/module_LSM.f90
+    src/module_mpi.f90
+    src/module_multidata.f90
+    src/module_vars.f90
+    src/module_vars_pt.f90
+    src/MPI_pt.f90
+    src/multiflow3d_sem.f90
+    src/newsolv_mg.f90
+    src/post.f90
+    src/press.f90
+    src/roughness_function.f90
+    src/rungek.f90
+    src/sediment.f90
+    src/shapes.f90
+    src/sipsol.f90
+    src/timesig.f90
+    src/wall_function.f90
+    src/weno.f90
+    app/fdstag.f90
 )
 
-set_source_files_properties(multiflow3d_sem.f90
+set_source_files_properties(src/multiflow3d_sem.f90
     PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
 )
 
 if(M3D_v2_USE_JSON)
     list(APPEND SOURCES
-        io.f90
-        json_io.f90
+        src/io.f90
+        src/json_io.f90
     )
 endif()
 
 if(M3D_v2_USE_HDF5)
-    list(APPEND SOURCES hdf5_io.f90)
+    list(APPEND SOURCES src/hdf5_io.f90)
 endif()
 
 # -----------------------
 # Main executable
 # -----------------------
 add_executable(M3D_v2.exe ${SOURCES})
+
+target_include_directories(M3D_v2.exe PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/app
+)
 
 target_link_libraries(M3D_v2.exe PRIVATE
     OpenMP::OpenMP_Fortran
@@ -151,15 +156,15 @@ if(M3D_v2_BUILD_TESTS)
 
     if(M3D_v2_USE_JSON)    
     	list(APPEND TEST_SOURCES
-            io.f90
-            json_io.f90
+            src/io.f90
+            src/json_io.f90
 	    tests/test_json_io.f90
 	    tests/test_io.f90
         )
     endif()
 
     if(M3D_v2_USE_HDF5)
-        list(APPEND TEST_SOURCES hdf5_io.f90 tests/test_hdf5_io.f90)
+        list(APPEND TEST_SOURCES src/hdf5_io.f90 tests/test_hdf5_io.f90)
     endif()
 
     add_executable(M3D_v2-tests.exe ${TEST_SOURCES})
