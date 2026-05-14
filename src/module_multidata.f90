@@ -1,6 +1,7 @@
 !##########################################################################
       module multidata
-use, intrinsic :: iso_fortran_env, only: dp => real64
+        use, intrinsic :: iso_fortran_env, only: dp => real64
+        use mpi_f08
 !##########################################################################
           SAVE
           integer :: nbp,nbpmax,num_domains
@@ -29,11 +30,11 @@ use, intrinsic :: iso_fortran_env, only: dp => real64
               integer :: isw,iew,jsw,jew,ksw,kew
               integer :: nwork,nvars
               integer :: mximb
-              integer :: rq_m1,rq_p1,rq_m2,rq_p2,rq_m3,rq_p3
-              integer :: rq_c1m,rq_c2m,rq_c3m,rq_c4m
-              integer :: rq_c1p,rq_c2p,rq_c3p,rq_c4p
-              integer :: rq_e1m,rq_e2m,rq_e3m,rq_e4m,rq_e5m,rq_e6m
-              integer :: rq_e1p,rq_e2p,rq_e3p,rq_e4p,rq_e5p,rq_e6p
+              type(MPI_Request) :: rq_m1, rq_p1, rq_m2, rq_p2, rq_m3, rq_p3
+              type(MPI_Request) :: rq_c1m, rq_c2m, rq_c3m, rq_c4m
+              type(MPI_Request) :: rq_c1p, rq_c2p, rq_c3p, rq_c4p
+              type(MPI_Request) :: rq_e1m, rq_e2m, rq_e3m, rq_e4m, rq_e5m, rq_e6m
+              type(MPI_Request) :: rq_e1p, rq_e2p, rq_e3p, rq_e4p, rq_e5p, rq_e6p
               real(dp)    :: xsl,ysl,zsl,xel,yel,zel,dx,dy,dz
               real(dp),pointer,dimension(:) :: tauw
               real(dp), pointer, dimension(:,:,:) :: S,So,Sm,Stm
