@@ -1,6 +1,7 @@
 F90=mpif90
 
 OPTIONS = -cpp -O2 -g -fopenmp -DUSE_JSON=1 -DUSE_HDF5=1
+
 ifneq (,$(findstring GNU,$(shell $(F90) --version)))
 OPTIONS += -std=f2018
 endif
@@ -9,116 +10,140 @@ LOPTIONS = -O2 -fopenmp
 
 JSON_FORTRAN_INCLUDE_PATH := build_json_fortran/include/
 JSON_FORTRAN_LIBRARY_PATH := build_json_fortran/lib/
+
 TEST_DRIVE_INCLUDE_PATH := build_test_drive/include/
 TEST_DRIVE_LIBRARY_PATH := build_test_drive/
+
 HDF5_INCLUDE_PATH := build_hdf5/mod/shared/
 HDF5_LIBRARY_PATH := build_hdf5/bin
 
+
 objects = \
-module_mpi.o\
-hdf5_io.o \
-json_io.o \
-module_multidata.o\
-module_vars.o\
-module_vars_pt.o\
-io.o\
-module_LSM.o\
-multiflow3d_sem.o\
-imb.o\
-shapes.o\
-fdstag.o\
-initial.o\
-init_particle.o\
-localparameters.o\
-alloc_dom.o\
-post.o\
-flosol.o\
-checkdt.o\
-bounds.o\
-bounds_keps.o\
-sipsol.o\
-convection.o\
-diffusion.o\
-newsolv_mg.o\
-mgsolver.o\
-wall_function.o\
-log_law.o\
-alloc_pt.o\
-MPI_pt.o\
-delta_func.o\
-collision.o\
-LPT.o\
-timesig.o\
-weno.o\
-energy.o\
-press.o\
-roughness_function.o\
-rungek.o\
-averaging.o\
-eddyvis_smag.o\
-eddyvis_wale.o\
-eddyvis_1eqn.o\
-eddyvis_keps.o\
-exchange_bc.o\
-exchangep.o\
-exchangepp.o\
-exchangesca.o\
-exchange.o\
-exchangeu.o\
-exchangev.o\
-exchangew.o\
-exchange_phi.o\
-bounds_lsm.o\
-lsm.o\
-sediment.o
+src/module_mpi.o \
+src/hdf5_io.o \
+src/json_io.o \
+src/module_multidata.o \
+src/module_vars.o \
+src/module_vars_pt.o \
+src/io.o \
+src/module_LSM.o \
+src/multiflow3d_sem.o \
+src/imb.o \
+src/shapes.o \
+app/fdstag.o \
+src/initial.o \
+src/init_particle.o \
+src/localparameters.o \
+src/alloc_dom.o \
+src/post.o \
+src/flosol.o \
+src/checkdt.o \
+src/bounds.o \
+src/bounds_keps.o \
+src/sipsol.o \
+src/convection.o \
+src/diffusion.o \
+src/newsolv_mg.o \
+src/mgsolver.o \
+src/wall_function.o \
+src/log_law.o \
+src/alloc_pt.o \
+src/MPI_pt.o \
+src/delta_func.o \
+src/collision.o \
+src/LPT.o \
+src/timesig.o \
+src/weno.o \
+src/energy.o \
+src/press.o \
+src/roughness_function.o \
+src/rungek.o \
+src/averaging.o \
+src/eddyvis_smag.o \
+src/eddyvis_wale.o \
+src/eddyvis_1eqn.o \
+src/eddyvis_keps.o \
+src/exchange_bc.o \
+src/exchangep.o \
+src/exchangepp.o \
+src/exchangesca.o \
+src/exchange.o \
+src/exchangeu.o \
+src/exchangev.o \
+src/exchangew.o \
+src/exchange_phi.o \
+src/bounds_lsm.o \
+src/lsm.o \
+src/sediment.o
+
 
 test_objects = \
-hdf5_io.o \
-json_io.o \
-io.o \
+src/hdf5_io.o \
+src/json_io.o \
+src/io.o \
 tests/test_hdf5_io.o \
 tests/test_json_io.o \
 tests/test_io.o \
 tests/main.o
 
+
 all: test
 
+
 test: M3D_v2.exe tests/tests.exe
-	@cd ./tests/ && ./tests.exe && cd ..
+	@cd tests && ./tests.exe && cd ..
 
-.SUFFIXES: .f90
 
-M3D_v2.exe: $(objects) 
+M3D_v2.exe: $(objects)
 	$(F90) $(objects) $(LOPTIONS) \
-	-I./$(JSON_FORTRAN_INCLUDE_PATH) \
-	-L./$(JSON_FORTRAN_LIBRARY_PATH) \
-	-Wl,-rpath,$(CURDIR)/$(JSON_FORTRAN_LIBRARY_PATH) \
-	-Wl,-rpath,$(CURDIR)/$(HDF5_LIBRARY_PATH) \
-	-I./$(HDF5_INCLUDE_PATH) \
-	-L./$(HDF5_LIBRARY_PATH) \
-	-ljsonfortran -lhdf5 -lhdf5_fortran -o M3D_v2.exe \
+	-I./build_json_fortran/include/ \
+	-L./build_json_fortran/lib/ \
+	-Wl,-rpath,$(CURDIR)/build_json_fortran/lib/ \
+	-Wl,-rpath,$(CURDIR)/build_hdf5/bin \
+	-I./build_hdf5/mod/shared/ \
+	-L./build_hdf5/bin \
+	-ljsonfortran -lhdf5 -lhdf5_fortran \
+	-o M3D_v2.exe
+
+
+src/%.o: src/%.f90
+	$(F90) $(OPTIONS) -c $< -o $@ \
+	-I./build_json_fortran/include/ \
+	-I./build_hdf5/mod/shared/
+
+
+app/%.o: app/%.f90
+	$(F90) $(OPTIONS) -c $< -o $@ \
+	-I./src \
+	-I./build_json_fortran/include/ \
+	-I./build_hdf5/mod/shared/
+
 
 tests/%.o: tests/%.f90
 	$(F90) $(OPTIONS) -c $< -o $@ \
-	-I./$(JSON_FORTRAN_INCLUDE_PATH) \
-	-I./$(TEST_DRIVE_INCLUDE_PATH) \
-	-I./$(HDF5_INCLUDE_PATH)
+	-I./src \
+	-I./build_json_fortran/include/ \
+	-I./build_test_drive/include/ \
+	-I./build_hdf5/mod/shared/
 
-%.o: %.f90
-	$(F90) $(OPTIONS) -c $< -o $@ \
-	-I./$(JSON_FORTRAN_INCLUDE_PATH) \
-	-I./$(HDF5_INCLUDE_PATH)
 
 tests/tests.exe: $(test_objects)
 	$(F90) $(test_objects) $(LOPTIONS) \
-	-I./$(JSON_FORTRAN_INCLUDE_PATH) -L./$(JSON_FORTRAN_LIBRARY_PATH) \
-	-I./$(TEST_DRIVE_INCLUDE_PATH) -L./$(TEST_DRIVE_LIBRARY_PATH) \
-	-I./$(HDF5_INCLUDE_PATH) -L./$(HDF5_LIBRARY_PATH) \
-	-Wl,-rpath,$(CURDIR)/$(JSON_FORTRAN_LIBRARY_PATH) \
-	-Wl,-rpath,$(CURDIR)/$(TEST_DRIVE_LIBRARY_PATH) \
-	-Wl,-rpath,$(CURDIR)/$(HDF5_LIBRARY_PATH) \
+	-I./build_json_fortran/include/ \
+	-L./build_json_fortran/lib/ \
+	-I./build_test_drive/include/ \
+	-L./build_test_drive/ \
+	-I./build_hdf5/mod/shared/ \
+	-L./build_hdf5/bin \
+	-Wl,-rpath,$(CURDIR)/build_json_fortran/lib/ \
+	-Wl,-rpath,$(CURDIR)/build_test_drive/ \
+	-Wl,-rpath,$(CURDIR)/build_hdf5/bin \
 	-ljsonfortran -ltest-drive -lhdf5 -lhdf5_fortran \
 	-o tests/tests.exe
 
+
 clean:
-	rm -rf *.o *.mod tests/*.o tests/tests.exe
+	rm -rf src/*.o src/*.mod
+	rm -rf app/*.o app/*.mod
+	rm -rf tests/*.o tests/tests.exe
+	rm -f M3D_v2.exe
