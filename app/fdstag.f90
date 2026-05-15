@@ -15,11 +15,12 @@ program fdstag
                   tbc_e, tbc_n, tbc_s, tbc_t, tc, th, ti_sem, time_averaging, &
                   tinit, tsteps_pt, ubulk, uprof_sem, l_n, re, read_inflow, &
                   reinitmean, sc_t, tbc_w, nswp
-  use io, only: read_control_file
+  use io, only: read_mdmap, read_control_file
   use multidata, only: dom, id_unst, i_unst, j_unst, k_unst, nbp
 #else
   use vars, only: l_lsm, limb, lpt, lrestart, lrough, noise, &
                   numfile, solver, time_averaging
+  use io, only: read_mdmap, read_control
 #endif
   implicit none
   integer :: ib
