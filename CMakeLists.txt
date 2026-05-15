@@ -107,11 +107,10 @@ set(SOURCES
     app/fdstag.f90
 )
 
-set_source_files_properties(src/multiflow3d_sem.f90
-    PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
-)
-
-set_source_files_properties(app/fdstag.f90
+set_source_files_properties(
+    src/multiflow3d_sem.f90
+    src/io.f90
+    app/fdstag.f90
     PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
 )
 
