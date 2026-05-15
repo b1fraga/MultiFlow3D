@@ -110,6 +110,10 @@ set_source_files_properties(src/multiflow3d_sem.f90
     PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
 )
 
+set_source_files_properties(app/fdstag.f90
+    PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
+)
+
 if(M3D_v2_USE_JSON)
     list(APPEND SOURCES
         src/io.f90

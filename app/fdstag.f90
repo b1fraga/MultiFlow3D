@@ -45,7 +45,7 @@
        noise,Th,Tc,Tinit,SGS_model,LMR,pl_ex,&
        LIMB,LENERGY,LROUGH,LPT,l_LSM,L_LSMbase,LSCALAR,LAS,LNonNewt,&
        Tbc_w,Tbc_e,Tbc_s,Tbc_n,&
-       Tbc_n,Tbc_t,n_unstpt,&
+       Tbc_b,Tbc_t,n_unstpt,&
        id_unst,i_unst,j_unst,k_unst)
        Re = 1.0_dp/rrey
        if (bc_w==5) pressureforce=.TRUE.
