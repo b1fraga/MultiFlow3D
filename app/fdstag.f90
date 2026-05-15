@@ -1,14 +1,25 @@
 !##########################################################################
       program fdstag
 !##########################################################################
-          use multiflow3d_mpi
-          use vars
           use, intrinsic :: iso_fortran_env, only: dp => real64
+          use multiflow3d_mpi, only: ierr, mpi_comm_world, myrank, &
+                                     init_parallelisation, end_parallelisation
 #if USE_JSON == 1
-          use io
-          use vars
-          use multidata
-          use multiflow3d_mpi
+          use vars, only: bc_b, bc_t, bc_e, bc_s, bc_n, bc_w, beta, conv_sch, &
+          dens, diff_sch, differencing, dt, eps, fric, g_dx, g_dy, g_dz, gx, &
+          gy, gz, iproln, irestr, itime_end, itmax_pi, itmax_sem, keyword, l_dt, &
+          l_LSM, l_LSMbase, las, lenergy, limb, lmr, lnonnewt, lpt, lrough, &
+          lscalar, lrestart, ltransient, maxcy, mg_itrsch, n_out, niter, &
+          n_unstpt, ngrid_input, noise, np, numfile, pl_ex, pr, pressureforce, &
+          rrey, safety_factor, save_inflow, sgs, sgs_model, solver, sweeps, &
+          t_start_averaging1, t_start_averaging2, tbc_b, tbc_e, tbc_n, &
+          tbc_s, tbc_t, tc, th, ti_sem, time_averaging, tinit, tsteps_pt, &
+          ubulk, uprof_sem, l_n, re, read_inflow, reinitmean, sc_t, tbc_w, nswp
+          use io, only: read_control_file
+          use multidata, only: dom, id_unst, i_unst, j_unst, k_unst, nbp
+#else
+          use vars, only: l_lsm, limb, lpt, lrestart, lrough, noise, &
+               numfile, solver, time_averaging
 #endif
           implicit none
           integer :: ib
