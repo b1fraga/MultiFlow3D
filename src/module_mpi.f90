@@ -2,15 +2,15 @@
       module multiflow3d_mpi
 !##########################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
-          use mpi
+          use mpi_f08
           implicit none
 
           !  SAVE
           integer           :: nprocs     ! nr. of processors
           integer           :: myrank      ! nr of this processor
           integer           :: ierr
-          integer           :: MPI_FLT
-          integer           :: status(MPI_STATUS_SIZE)
+          TYPE(mpi_datatype)           :: MPI_FLT
+          type(MPI_Status) :: status
           real(dp)  :: wtime
           real(dp)  :: wtime2
 
