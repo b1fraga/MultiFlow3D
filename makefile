@@ -205,3 +205,7 @@ src/timesig.o : src/timesig.f90 src/module_mpi.o src/module_vars.o src/module_mu
 src/wall_function.o : src/wall_function.f90 src/module_multidata.o src/module_vars.o 
 src/weno.o : src/weno.f90 src/module_multidata.o src/module_vars.o 
 app/fdstag.o : app/fdstag.f90 src/module_multidata.o src/io.o src/module_vars.o src/module_mpi.o 
+tests/main.o : tests/main.f90 tests/test_hdf5_io.o tests/test_io.o tests/test_json_io.o 
+tests/test_hdf5_io.o : tests/test_hdf5_io.f90 src/hdf5_io.o 
+tests/test_io.o : tests/test_io.f90 src/io.o 
+tests/test_json_io.o : tests/test_json_io.f90 src/json_io.o 
