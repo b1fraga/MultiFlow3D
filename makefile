@@ -78,6 +78,9 @@ src/sediment.o
 
 
 test_objects = \
+src/module_multidata.o \
+src/module_mpi.o \
+src/module_vars.o \
 src/hdf5_io.o \
 src/json_io.o \
 src/io.o \
