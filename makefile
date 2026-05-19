@@ -78,6 +78,9 @@ src/sediment.o
 
 
 test_objects = \
+src/module_multidata.o \
+src/module_mpi.o \
+src/module_vars.o \
 src/hdf5_io.o \
 src/json_io.o \
 src/io.o \
@@ -181,7 +184,7 @@ src/hdf5_io.o : src/hdf5_io.f90
 src/imb.o : src/imb.f90 src/module_mpi.o src/module_multidata.o src/module_vars.o 
 src/init_particle.o : src/init_particle.f90 src/hdf5_io.o src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
 src/initial.o : src/initial.f90 src/multiflow3d_sem.o src/module_LSM.o src/module_mpi.o src/module_multidata.o src/module_vars.o 
-src/io.o : src/io.f90 src/json_io.o 
+src/io.o : src/io.f90 src/json_io.o src/module_multidata.o src/module_vars.o src/module_mpi.o
 src/json_io.o : src/json_io.f90 
 src/localparameters.o : src/localparameters.f90 src/module_multidata.o src/module_mpi.o src/module_vars.o 
 src/log_law.o : src/log_law.f90 src/module_multidata.o src/module_vars.o 

@@ -80,6 +80,7 @@ set(SOURCES
     src/imb.f90
     src/initial.f90
     src/init_particle.f90
+    src/io.f90
     src/localparameters.f90
     src/log_law.f90
     src/LPT.f90
@@ -106,13 +107,15 @@ set(SOURCES
     app/fdstag.f90
 )
 
-set_source_files_properties(src/multiflow3d_sem.f90
+set_source_files_properties(
+    src/multiflow3d_sem.f90
+    src/io.f90
+    app/fdstag.f90
     PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
 )
 
 if(M3D_v2_USE_JSON)
     list(APPEND SOURCES
-        src/io.f90
         src/json_io.f90
     )
 endif()
@@ -156,6 +159,9 @@ if(M3D_v2_BUILD_TESTS)
 
     if(M3D_v2_USE_JSON)    
     	list(APPEND TEST_SOURCES
+            src/module_multidata.f90
+            src/module_vars.f90
+            src/module_mpi.f90
             src/io.f90
             src/json_io.f90
 	    tests/test_json_io.f90
