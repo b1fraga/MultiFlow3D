@@ -13,3 +13,9 @@ install*/**/*
 
 # Documentation folder (created when using ford tool)
 doc/**/*
+
+# Code coverage
+coverage_html
+coverage.info
+*.gcda
+*.gcno

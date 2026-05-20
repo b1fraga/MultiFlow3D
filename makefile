@@ -1,12 +1,12 @@
 F90=mpif90
 
-OPTIONS = -cpp -O2 -g -fopenmp -DUSE_JSON=1 -DUSE_HDF5=1
+OPTIONS = -cpp -O2 -g -fopenmp -DUSE_JSON=1 -DUSE_HDF5=1 --coverage
 
 ifneq (,$(findstring GNU,$(shell $(F90) --version)))
 OPTIONS += -std=f2018
 endif
 
-LOPTIONS = -O2 -fopenmp
+LOPTIONS = -O2 -fopenmp --coverage
 
 JSON_FORTRAN_INCLUDE_PATH := build_json_fortran/include/
 JSON_FORTRAN_LIBRARY_PATH := build_json_fortran/lib/
