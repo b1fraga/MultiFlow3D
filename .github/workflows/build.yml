@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - { compiler: gcc, version: 14, hdf5: On, json: On }
+          - { compiler: gcc, version: 14, hdf5: On, json: On, coverage: On }
           - { compiler: gcc, version: 14, hdf5: Off, json: On }
           - { compiler: gcc, version: 14, hdf5: On, json: Off }
           - { compiler: gcc, version: 14, hdf5: Off, json: Off }
@@ -80,3 +80,24 @@ jobs:
           cmake -S ./hdf5/ -B ./build_hdf5/ -DCMAKE_Fortran_COMPILER=mpif90 -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DHDF5_BUILD_FORTRAN=ON
           cmake --build build_hdf5 --parallel $(nproc --all)
           make -j $(nproc --all)
+
+      - name: Setup LCOV
+        if: ${{ contains(matrix.toolchain.coverage, 'On')   }}
+        uses: hrishikesh-kadam/setup-lcov@v1
+
+      - name: Remove folders from coverage report
+        if: ${{ contains(matrix.toolchain.coverage, 'On')}}
+        run: |
+          lcov --directory . --capture --output-file coverage.info --gcov-tool gcov
+          lcov --remove coverage.info "$PWD/tests/*" --output-file coverage.info
+
+      - name: Report code coverage as comment
+        if: ${{ contains(matrix.toolchain.coverage, 'On') }}
+        uses: zgosalvez/github-actions-report-lcov@v7
+        with:
+          coverage-files: coverage.info
+          minimum-coverage: 0
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: src
+          update-comment: true
