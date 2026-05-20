@@ -93,7 +93,7 @@ jobs:
 
       - name: Report code coverage as comment
         if: ${{ contains(matrix.toolchain.coverage, 'On') }}
-        uses: zgosalvez/github-actions-report-lcov@v4
+        uses: zgosalvez/github-actions-report-lcov@v7
         with:
           coverage-files: coverage.info
           minimum-coverage: 0
