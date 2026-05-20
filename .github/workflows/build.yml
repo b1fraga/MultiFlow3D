@@ -82,7 +82,7 @@ jobs:
           make -j $(nproc --all)
 
       - name: Setup LCOV
-        if: ${{ contains(matrix.toolchain.FPM_FFLAGS, 'coverage') }}
+        if: ${{ contains(matrix.toolchain.coverage, 'On')   }}
         uses: hrishikesh-kadam/setup-lcov@v1
 
       - name: Remove folders from coverage report
