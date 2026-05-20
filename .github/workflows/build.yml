@@ -81,6 +81,10 @@ jobs:
           cmake --build build_hdf5 --parallel $(nproc --all)
           make -j $(nproc --all)
 
+      - name: Setup LCOV
+        if: ${{ contains(matrix.toolchain.FPM_FFLAGS, 'coverage') }}
+        uses: hrishikesh-kadam/setup-lcov@v1
+
       - name: Remove folders from coverage report
         if: ${{ contains(matrix.toolchain.coverage, 'On')}}
         run: |
