@@ -1,5 +1,9 @@
 module multiflow3d_sem
-    use, intrinsic :: iso_fortran_env, only: dp => real64
+  use, intrinsic :: iso_fortran_env, only: dp => real64
+  use vars, only: dt, g_dy, g_dz, itmax_sem, ne_sem, ti_sem, ubulk, &
+                  yen, yst, zen, zst
+  use multidata, only: idom, jdom, kdom, ycor, zcor
+  use multiflow3d_mpi, only: myrank
     implicit none
     private
 
@@ -27,10 +31,6 @@ module multiflow3d_sem
       subroutine sem_initial(this)
 !#############################################################################
 !this program implements the sem method described in n. jarrin thesis, chp. 4
-!   use ifport
-          use vars
-          use multidata
-          use multiflow3d_mpi
           implicit none
           class(sem), intent(inout) :: this
           real(dp) :: vol,ly,lz,enne,xmin,xmax,ymin
