@@ -6,6 +6,7 @@
           use multidata
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
+          use multiflow3d_MPI_pt, only : MPI_pt
           implicit none
           real(dp)  :: wtimedum,wtime_total,wtime_solver,wtime_ib
           real(dp) :: wtime_cd,wtime_lpt
