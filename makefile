@@ -179,7 +179,7 @@ src/exchangesca.o : src/exchangesca.f90 src/module_vars.o src/module_mpi.o src/m
 src/exchangeu.o : src/exchangeu.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
 src/exchangev.o : src/exchangev.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
 src/exchangew.o : src/exchangew.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
-src/flosol.o : src/flosol.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
+src/flosol.o : src/flosol.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o src/MPI_pt.o
 src/hdf5_io.o : src/hdf5_io.f90 
 src/imb.o : src/imb.f90 src/module_mpi.o src/module_multidata.o src/module_vars.o 
 src/init_particle.o : src/init_particle.f90 src/hdf5_io.o src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
