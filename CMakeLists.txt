@@ -155,15 +155,19 @@ if(M3D_v2_BUILD_TESTS)
     # -----------------------
     # Tests
     # -----------------------
-    set(TEST_SOURCES tests/main.f90 src/io.f90 tests/test_io.f90 src/module_mpi.f90)
+    set(TEST_SOURCES 
+	    tests/main.f90 
+		src/io.f90 
+		tests/test_io.f90 
+		src/module_mpi.f90 
+		src/module_mpi.f90 
+		src/module_multidata.f90
+	)
 
     if(M3D_v2_USE_JSON)    
     	list(APPEND TEST_SOURCES
-            src/module_multidata.f90
-            src/module_vars.f90
-            src/module_mpi.f90
             src/json_io.f90
-	    tests/test_json_io.f90
+	        tests/test_json_io.f90
         )
     endif()
 
