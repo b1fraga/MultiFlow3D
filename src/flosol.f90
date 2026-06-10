@@ -116,7 +116,13 @@
               if (PERIODIC) call periodic_pt                              !if periodic conditions, particles loop
               call alloc_pt                                               !if not periodic, particles that leave the domain are removed
               end if
-              call MPI_pt
+              call MPI_pt(Lcol, np_loc, npg_loc, ptsinproc, ptsinproc_g, xp_pt, &
+                     yp_pt, zp_pt, uop_pt, vop_pt, wop_pt, dp_pt, rho_pt, &
+                     xp_loc, yp_loc, zp_loc, uop_loc, vop_loc, wop_loc, dp_loc, &
+                     rhop_loc, id, xpg_loc, ypg_loc, zpg_loc, uopg_loc, &
+                     vopg_loc, wopg_loc, dpg_loc, rhopg_loc,&
+                     g_dx, g_dy, g_dz, np, xen, xst, yen, yst, zen, zst,&
+                     idom, jdom, kdom, dom_ad)
               end if
               if(SGS) then
               if(sgs_model==1) then

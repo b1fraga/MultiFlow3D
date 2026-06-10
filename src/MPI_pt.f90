@@ -2,14 +2,7 @@ module multiflow3d_MPI_pt
   use, intrinsic :: iso_fortran_env, only: dp => real64
   use mpi_f08, only: MPI_COMM_WORLD, MPI_DOUBLE_PRECISION, MPI_INTEGER, &
                      MPI_BARRIER, MPI_BCAST, MPI_SCATTER
-  use multidata, only: idom, jdom, kdom, dom_ad
   use multiflow3d_mpi, only : ierr, Myrank, nprocs
-  use vars, only: g_dx, g_dy, g_dz, np, xen, xst, yen, yst, zen, zst
-  use vars_pt, only: Lcol, np_loc, npg_loc, ptsinproc, ptsinproc_g, xp_pt, &
-                     yp_pt, zp_pt, uop_pt, vop_pt, wop_pt, dp_pt, rho_pt, &
-                     xp_loc, yp_loc, zp_loc, uop_loc, vop_loc, wop_loc, dp_loc, &
-                     rhop_loc, id, xpg_loc, ypg_loc, zpg_loc, uopg_loc, &
-                     vopg_loc, wopg_loc, dpg_loc, rhopg_loc
 
   implicit none
   private
@@ -28,7 +21,13 @@ contains
   !                    Uni of Birmingham 2019-2024                       !
   !======================================================================!
   !######################################################################
-  subroutine MPI_pt
+  subroutine MPI_pt(Lcol, np_loc, npg_loc, ptsinproc, ptsinproc_g, xp_pt, &
+                     yp_pt, zp_pt, uop_pt, vop_pt, wop_pt, dp_pt, rho_pt, &
+                     xp_loc, yp_loc, zp_loc, uop_loc, vop_loc, wop_loc, dp_loc, &
+                     rhop_loc, id, xpg_loc, ypg_loc, zpg_loc, uopg_loc, &
+                     vopg_loc, wopg_loc, dpg_loc, rhopg_loc,&
+                     g_dx, g_dy, g_dz, np, xen, xst, yen, yst, zen, zst,&
+                     idom, jdom, kdom, dom_ad)
   !     Distributes the particles among the processors
   !     Creates ghost particles for collision calculations
   !######################################################################
@@ -78,6 +77,30 @@ contains
   integer,allocatable,dimension(:):: lpt_proc_jnext,lpt_block_jnext
   integer,allocatable,dimension(:):: lpt_proc_knext,lpt_block_knext
 
+  integer, intent(in) :: np_loc, npg_loc
+
+  logical, intent(in) :: Lcol
+
+  integer, allocatable, intent(inout) :: ptsinproc(:), ptsinproc_g(:),  id(:)
+
+  real(dp), allocatable, intent(in) :: xp_pt(:), yp_pt(:), zp_pt(:)
+  real(dp), allocatable, intent(in) :: uop_pt(:), vop_pt(:), wop_pt(:)
+  real(dp), allocatable, intent(in) :: dp_pt(:), rho_pt(:)
+
+  real(dp), allocatable, intent(inout) :: xp_loc(:), yp_loc(:), zp_loc(:)
+  real(dp), allocatable, intent(inout) :: uop_loc(:), vop_loc(:), wop_loc(:)
+  real(dp), allocatable, intent(inout) :: dp_loc(:), rhop_loc(:)
+
+  real(dp), allocatable, intent(inout) :: xpg_loc(:), ypg_loc(:), zpg_loc(:)
+  real(dp), allocatable, intent(inout) :: uopg_loc(:), vopg_loc(:), wopg_loc(:)
+  real(dp), allocatable, intent(inout) :: dpg_loc(:), rhopg_loc(:)
+
+  real(dp), intent(in) :: g_dx, g_dy, g_dz
+  integer, intent(inout)  :: np
+  real(dp), intent(in) :: xen, xst, yen, yst, zen, zst
+
+  integer, intent(in) :: idom, jdom, kdom
+  integer, intent(in) :: dom_ad(:)
 
   call MPI_BARRIER (MPI_COMM_WORLD,ierr)
   call MPI_BCAST(np,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierr)

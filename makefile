@@ -152,7 +152,7 @@ clean:
 	rm -f M3D_v2.exe
 
 src/LPT.o : src/LPT.f90 src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
-src/MPI_pt.o : src/MPI_pt.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
+src/MPI_pt.o : src/MPI_pt.f90 src/module_mpi.o
 src/alloc_dom.o : src/alloc_dom.f90 src/module_mpi.o src/module_vars.o src/module_multidata.o 
 src/alloc_pt.o : src/alloc_pt.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
 src/averaging.o : src/averaging.f90 src/module_LSM.o src/module_vars.o src/module_multidata.o 
