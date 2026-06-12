@@ -155,17 +155,19 @@ if(M3D_v2_BUILD_TESTS)
     # -----------------------
     # Tests
     # -----------------------
-    set(TEST_SOURCES tests/main.f90)
+    set(TEST_SOURCES 
+	    tests/main.f90 
+		src/io.f90 
+		tests/test_io.f90 
+		src/module_mpi.f90 
+		src/module_mpi.f90 
+		src/module_multidata.f90
+	)
 
     if(M3D_v2_USE_JSON)    
     	list(APPEND TEST_SOURCES
-            src/module_multidata.f90
-            src/module_vars.f90
-            src/module_mpi.f90
-            src/io.f90
             src/json_io.f90
-	    tests/test_json_io.f90
-	    tests/test_io.f90
+	        tests/test_json_io.f90
         )
     endif()
 
@@ -205,15 +207,29 @@ if(M3D_v2_BUILD_TESTS)
             COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_SOURCE_DIR}/tests/test_io.json
                 $<TARGET_FILE_DIR:M3D_v2-tests.exe>/
+            COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/tests/input/mdmap.cin
+                $<TARGET_FILE_DIR:M3D_v2-tests.exe>/input/mdmap.cin
         )
+
+    else()
+        add_custom_command(TARGET M3D_v2-tests.exe POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/tests/input/control.cin
+                $<TARGET_FILE_DIR:M3D_v2-tests.exe>/input/control.cin
+            COMMAND ${CMAKE_COMMAND} -E copy
+                ${CMAKE_SOURCE_DIR}/tests/input/mdmap.cin
+                $<TARGET_FILE_DIR:M3D_v2-tests.exe>/input/mdmap.cin
+        )
+
     endif()
 
     # -----------------------
     # Run tests
     # -----------------------
     add_custom_target(check-M3D_v2
-       COMMAND $<TARGET_FILE:M3D_v2-tests.exe>
-       DEPENDS M3D_v2-tests.exe
-       WORKING_DIRECTORY $<TARGET_FILE_DIR:M3D_v2-tests.exe>
+	COMMAND mpirun -n 4 $<TARGET_FILE:M3D_v2-tests.exe>
+    	DEPENDS M3D_v2-tests.exe
+    	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     )
 endif()

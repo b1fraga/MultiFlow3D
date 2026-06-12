@@ -1,14 +1,18 @@
-!FIXME: Currently all io tests are json based based tests, so if
-! USE_JSON=0 you get an error that you cannot have a empty testsuit
-#if USE_JSON == 1
 module test_io
   use, intrinsic :: iso_fortran_env, only:  int8,dp => real64
   use testdrive, only : error_type, unittest_type, new_unittest, check
+  use multiflow3d_mpi, only: myrank, mpi_comm_world, ierr
+#if USE_JSON == 1
   use json_module
+#endif
+  use multidata, only: multidom
   implicit none
   private
 
   public :: collect_io
+
+  type (multidom), pointer, dimension(:) :: dom
+  integer :: nbp
 
 contains
 
@@ -19,10 +23,14 @@ contains
 
 #if USE_JSON == 1
     testsuite = [ &
+         new_unittest("test_read_readmdmap", test_read_mdmap),&
          new_unittest("test_read_control_file", test_read_control_file)&
          ]
 #else
-    testsuite = []
+    testsuite = [ &
+         new_unittest("test_read_readmdmap", test_read_mdmap),&
+         new_unittest("test_read_control", test_read_control)&
+         ]
 #endif
   end subroutine collect_io
 
@@ -64,7 +72,7 @@ contains
     real(dp) :: expected_real
     logical :: expected_logical
     logical :: arrays_equal
-
+    
     call read_control_file("test_io.json",Keyword,type_of_friction,&
        dx,dy,dz,Ubulk,kinematic_visc,Pr,turb_Schmidt,beta,&
        gx,gy,gz,dens,convection_scheme,diffusion_scheme,differencing,&
@@ -397,25 +405,227 @@ contains
     call check(error, num_of_time_series_points, expected_integer)
     if (allocated(error)) return
 
-    arrays_equal = all(time_series_point_1 == (/ 0 /))
+    arrays_equal = all(time_series_point_1 == [ 0 ])
     call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    arrays_equal = all(time_series_point_2 == (/ 12 /))
+    arrays_equal = all(time_series_point_2 == [ 12 ])
     call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    arrays_equal = all(time_series_point_3 == (/ 22 /))
+    arrays_equal = all(time_series_point_3 == [ 22 ])
     call check(error, .true. , arrays_equal)
     if (allocated(error)) return
 
-    arrays_equal = all(time_series_point_4 == (/ 22 /))
+    arrays_equal = all(time_series_point_4 == [ 22 ])
     call check(error, .true. , arrays_equal)
     if (allocated(error)) return
-    
+
   end subroutine test_read_control_file
 
+#else
+  subroutine test_read_control(error)
+    use io, only : read_control
+    !> Error handling
+    type(error_type), allocatable, intent(out) :: error
+
+    real(dp) :: eps,th,tc,ti_sem,tinit,ubulk,t_start_averaging1, &
+                t_start_averaging2, rrey, safety_factor,Sc_t,noise, &
+                pr,re,dt,fric,g_dx,g_dy,g_dz,gx,gy,gz, beta,dens
+    integer  :: n_out,niter,sweeps,nswp(4),tsteps_pt, &
+                UPROF_SEM, ngrid_input,np,pl_ex,itime_end, &
+                bc_w,bc_e,bc_s,bc_n,bc_b,bc_t,conv_sch,diff_sch
+    integer :: Tbc_w,Tbc_e,Tbc_s,Tbc_n,Tbc_b,Tbc_t,sgs_model, &
+               solver,n_unstpt, LMR, maxcy,mg_itrsch,ITMAX_PI,ITMAX_SEM, &
+               differencing,iproln,irestr
+    logical :: time_averaging, reinitmean, save_inflow,SGS, &
+               pressureforce,read_inflow,LNonNewt,LPT,LRESTART,LROUGH,LSCALAR, &
+               LTRANSIENT,L_dt,L_LSM,L_LSMbase,LAS,LENERGY,LIMB
+    character(len=80) :: keyword,L_n
+    integer,allocatable,dimension(:) :: id_unst
+    integer,allocatable,dimension(:) :: i_unst,j_unst,k_unst
+
+    character (len=7) :: expected_character_keyword
+    character (len=1) :: expected_character_type_of_friction
+    integer :: expected_integer
+    real(dp) :: expected_real
+    logical :: expected_logical
+    logical :: arrays_equal
+
+    call MPI_BARRIER (MPI_COMM_WORLD,ierr)
+    
+    call read_control(eps,n_out,niter,sweeps,tbc_w,nswp,th,tc,ti_sem, &
+         time_averaging,tinit,tsteps_pt,ubulk,UPROF_SEM,t_start_averaging1, &
+         t_start_averaging2,Tbc_e,Tbc_s,Tbc_n,Tbc_b,Tbc_t,reinitmean,rrey, &
+         safety_factor,save_inflow,Sc_t,SGS,sgs_model,solver,n_unstpt, &
+         ngrid_input,noise,np,pl_ex,pr,pressureforce,re,read_inflow,LMR,LNonNewt, &
+         LPT,LRESTART,LROUGH,LSCALAR,LTRANSIENT,maxcy,mg_itrsch,ITMAX_PI, &
+         ITMAX_SEM,keyword,L_dt,L_LSM,L_LSMbase,L_n,LAS,LENERGY,LIMB, &
+         differencing,dt,fric,g_dx,g_dy,g_dz,gx,gy,gz,iproln,irestr,itime_end, &
+         bc_w,bc_e,bc_s,bc_n,bc_b,bc_t,beta,conv_sch,dens,diff_sch,id_unst, &
+         i_unst,j_unst,k_unst,nbp,dom)
+    
+    expected_character_keyword = "channel"
+    call check(error, keyword, expected_character_keyword)
+    if (allocated(error)) return
+
+    expected_real = 0.1_dp
+    call check(error, ubulk, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 1000.0_dp
+    call check(error, dens, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.0025_dp
+    call check(error, g_dx, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.0025_dp
+    call check(error, g_dy, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.0025_dp
+    call check(error, g_dz, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 7.0_dp
+    call check(error, Pr, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.6_dp
+    call check(error, Sc_t, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.000207_dp
+    call check(error, beta, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.0_dp
+    call check(error, gx, expected_real)
+    if (allocated(error)) return
+
+    expected_real = 0.0_dp
+    call check(error, gy, expected_real)
+    if (allocated(error)) return
+
+    expected_real = -9.81_dp
+    call check(error, gz, expected_real)
+    if (allocated(error)) return
+
+    expected_integer = 3
+    call check(error, conv_sch, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 3
+    call check(error, diff_sch, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 1
+    call check(error, differencing, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 2
+    call check(error, solver, expected_integer)
+    if (allocated(error)) return
+
+    expected_real = 0.0025_dp
+    call check(error, dt, expected_real)
+    if (allocated(error)) return
+
+    expected_integer = 25
+    call check(error, sweeps, expected_integer)
+    if (allocated(error)) return
+
+    expected_real = 0.2_dp
+    call check(error, safety_factor, expected_real)
+    if (allocated(error)) return
+
+    expected_integer = 1000
+    call check(error, itime_end, expected_integer)
+    if (allocated(error)) return
+
+    expected_logical = .true.
+    call check(error, LTRANSIENT, expected_logical)
+    if (allocated(error)) return
+
+    expected_integer = 5
+    call check(error, bc_w, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 5
+    call check(error, bc_e, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 4
+    call check(error, bc_s, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 4
+    call check(error, bc_n, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 4
+    call check(error, bc_b, expected_integer)
+    if (allocated(error)) return
+
+    expected_integer = 3
+    call check(error, bc_t, expected_integer)
+    if (allocated(error)) return
+
+    expected_character_type_of_friction = "n"
+    call check(error, L_n, expected_character_type_of_friction)
+    if (allocated(error)) return
+
+    expected_real = 0.03_dp**0.33_dp
+    call check(error, fric, expected_real)
+    if (allocated(error)) return
+
+    expected_logical = .true.
+    call check(error, SGS, expected_logical)
+    if (allocated(error)) return
+
+    expected_logical = .false.
+    call check(error, LENERGY, expected_logical)
+    if (allocated(error)) return
+
+    expected_logical = .false.
+    call check(error, LPT, expected_logical)
+    if (allocated(error)) return
+
+    arrays_equal = all(nswp == [5,5,5,20])
+    call check(error, .true., arrays_equal)
+    if (allocated(error)) return
+    
+  end subroutine test_read_control
+
 #endif
 
+    subroutine test_read_mdmap(error)
+      use io, only : read_mdmap
+      !> Error handling
+      type(error_type), allocatable, intent(out) :: error      
+      integer :: i,ib,file_unit
+      integer :: nptemp,myranktemp,nbtemp
+      integer,allocatable,dimension(:) :: domtemp,buf_domindid
+      integer :: numfile,num_domains
+      integer,allocatable,dimension(:) :: dom_id, dom_indid, dom_ad
+      integer,allocatable,dimension(:) :: imbinblk
+
+      call read_mdmap(numfile,dom_id, dom_indid,dom_ad,imbinblk,dom,nbp,num_domains)
+
+      call check(error, num_domains, 4)
+      if (allocated(error)) return
+
+      call check(error, nbp > 0, .true.)
+      if (allocated(error)) return
+      
+      call check(error, size(dom_ad), 4)
+      if (allocated(error)) return
+      
+      call check(error, dom_ad(myrank), myrank)
+      if (allocated(error)) return
+
+    end subroutine test_read_mdmap
+
 end module test_io
-#endif

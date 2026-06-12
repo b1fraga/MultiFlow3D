@@ -1,5 +1,7 @@
 program fdstag
   use, intrinsic :: iso_fortran_env, only: dp => real64
+  use multidata, only: id_unst, dom, i_unst, dom_id, dom_indid, imbinblk, j_unst, dom_ad, &
+                       k_unst, nbp, nbpmax, num_domains
   use multiflow3d_mpi, only: ierr, mpi_comm_world, myrank, &
                              init_parallelisation, end_parallelisation
 #if USE_JSON == 1
@@ -19,15 +21,25 @@ program fdstag
   use multidata, only: dom, id_unst, i_unst, j_unst, k_unst, nbp
 #else
   use vars, only: l_lsm, limb, lpt, lrestart, lrough, noise, &
-                  numfile, solver, time_averaging
+       numfile, solver, tc, th, ti_sem, time_averaging, tinit, &
+       tsteps_pt, ubulk, uprof_sem, nswp, niter, n_out, sweeps, tbc_w, &
+       eps,  t_start_averaging1, t_start_averaging2, tbc_b, tbc_e, tbc_n, &
+       tbc_s, tbc_t, reinitmean, rrey, safety_factor, save_inflow, sc_t, sgs, &
+       sgs_model, solver, n_unstpt, ngrid_input, noise, np, pl_ex, pr, &
+       pressureforce, re, read_inflow, lmr, lnonnewt, lpt, lrestart, lrough, &
+       lscalar, ltransient, maxcy, mg_itrsch, itmax_pi, itmax_sem, keyword, &
+       l_dt, l_lsm, l_lsmbase, l_n, las, lenergy, limb, differencing, dt, &
+       fric, g_dx, g_dy, g_dz, gx, gy, gz, iproln, irestr, itime_end, &
+       numfile, bc_b, bc_e, bc_n, bc_s, bc_t, bc_w, beta, conv_sch, dens, diff_sch
   use io, only: read_mdmap, read_control
 #endif
   implicit none
+#if USE_JSON == 1
   integer :: ib
-
+#endif
   call init_parallelisation
 
-  call read_mdmap
+  call read_mdmap(numfile,dom_id, dom_indid,dom_ad,imbinblk,dom,nbp,num_domains)
 #if USE_JSON == 1
   call read_control_file("inputs/control.cin",Keyword,L_n,&
                          g_dx,g_dy,g_dz,ubulk,rrey,Pr,Sc_t,beta,&
@@ -49,7 +61,7 @@ program fdstag
                          Tbc_b,Tbc_t,n_unstpt,&
                          id_unst,i_unst,j_unst,k_unst)
   Re = 1.0_dp/rrey
-  if (bc_w==5) pressureforce=.TRUE.
+  if (bc_w==5) pressureforce=.true.
   if (.not.LPT) np=0
 
   if (trim(L_n)=="n") fric=fric**0.33_dp
@@ -98,7 +110,16 @@ program fdstag
      stop
   end if
 #else
-  call read_control
+  call read_control(eps,n_out,niter,sweeps,tbc_w,nswp,th,tc,ti_sem, &
+       time_averaging,tinit,tsteps_pt,ubulk,UPROF_SEM,t_start_averaging1, &
+       t_start_averaging2,Tbc_e,Tbc_s,Tbc_n,Tbc_b,Tbc_t,reinitmean,rrey, &
+       safety_factor,save_inflow,Sc_t,SGS,sgs_model,solver,n_unstpt, &
+       ngrid_input,noise,np,pl_ex,pr,pressureforce,re,read_inflow,LMR,LNonNewt, &
+       LPT,LRESTART,LROUGH,LSCALAR,LTRANSIENT,maxcy,mg_itrsch,ITMAX_PI, &
+       ITMAX_SEM,keyword,L_dt,L_LSM,L_LSMbase,L_n,LAS,LENERGY,LIMB, &
+       differencing,dt,fric,g_dx,g_dy,g_dz,gx,gy,gz,iproln,irestr,itime_end, &
+       bc_w,bc_e,bc_s,bc_n,bc_b,bc_t,beta,conv_sch,dens,diff_sch,id_unst, &
+       i_unst,j_unst,k_unst,nbp,dom)
 #endif
   call read_infodom
 
@@ -110,13 +131,13 @@ program fdstag
 
   call initflowfield
 
-  IF (LROUGH)  THEN                             !Richard2015
-     IF (.not.LRESTART) THEN
+  if (LROUGH)  then                             !Richard2015
+     if (.not.LRESTART) then
         call init_rough
-     ELSE
+     else
         call rough_restart
-     END IF
-  END IF
+     end if
+  end if
 
   if (LIMB) call imb_initial
   if (LIMB) call PartLocMPI                         !Pablo2015
