@@ -158,11 +158,13 @@ if(M3D_v2_BUILD_TESTS)
     # -----------------------
     set(TEST_SOURCES 
 	    tests/main.f90 
-		src/io.f90 
-		tests/test_io.f90 
-		src/module_mpi.f90 
-		src/module_mpi.f90 
-		src/module_multidata.f90
+	    src/io.f90
+	    src/MPI_pt.f90 
+	    tests/test_io.f90
+	    tests/test_MPI_pt.f90 
+	    src/module_mpi.f90 
+	    src/module_mpi.f90 
+	    src/module_multidata.f90
 	)
 
     if(M3D_v2_USE_JSON)    
@@ -231,6 +233,6 @@ if(M3D_v2_BUILD_TESTS)
     add_custom_target(check-M3D_v2
 	COMMAND mpirun -n 4 $<TARGET_FILE:M3D_v2-tests.exe>
     	DEPENDS M3D_v2-tests.exe
-    	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 endif()

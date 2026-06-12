@@ -9,6 +9,7 @@ program tester
 #if USE_HDF5 == 1
   use test_hdf5_io, only: collect_hdf5
 #endif
+  use test_MPI_pt, only: collect_MPI_pt
   implicit none
   integer :: stat, is, ierr
   type(testsuite_type), allocatable :: testsuites(:)
@@ -25,11 +26,13 @@ program tester
 #if USE_JSON == 1
   testsuites = [ &
        new_testsuite("json", collect_json),&
-       new_testsuite("io", collect_io)&
+       new_testsuite("io", collect_io),&
+       new_testsuite("MPI_pt",collect_MPI_pt)&
     ]
 #else
   testsuites = [ &
-       new_testsuite("io", collect_io)&
+       new_testsuite("io", collect_io),&
+       new_testsuite("MPI_pt",collect_MPI_pt)&
     ]  
 #endif
   
