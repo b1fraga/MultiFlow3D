@@ -110,6 +110,7 @@ set(SOURCES
 set_source_files_properties(
     src/multiflow3d_sem.f90
     src/io.f90
+    src/MPI_pt.f90
     app/fdstag.f90
     PROPERTIES COMPILE_OPTIONS "-Wall;-Wextra"
 )

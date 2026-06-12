@@ -152,7 +152,7 @@ clean:
 	rm -f M3D_v2.exe
 
 src/LPT.o : src/LPT.f90 src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
-src/MPI_pt.o : src/MPI_pt.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
+src/MPI_pt.o : src/MPI_pt.f90 src/module_mpi.o
 src/alloc_dom.o : src/alloc_dom.f90 src/module_mpi.o src/module_vars.o src/module_multidata.o 
 src/alloc_pt.o : src/alloc_pt.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
 src/averaging.o : src/averaging.f90 src/module_LSM.o src/module_vars.o src/module_multidata.o 
@@ -179,7 +179,7 @@ src/exchangesca.o : src/exchangesca.f90 src/module_vars.o src/module_mpi.o src/m
 src/exchangeu.o : src/exchangeu.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
 src/exchangev.o : src/exchangev.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
 src/exchangew.o : src/exchangew.f90 src/module_vars.o src/module_mpi.o src/module_multidata.o 
-src/flosol.o : src/flosol.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
+src/flosol.o : src/flosol.f90 src/module_vars_pt.o src/module_multidata.o src/module_mpi.o src/module_vars.o src/MPI_pt.o
 src/hdf5_io.o : src/hdf5_io.f90 
 src/imb.o : src/imb.f90 src/module_mpi.o src/module_multidata.o src/module_vars.o 
 src/init_particle.o : src/init_particle.f90 src/hdf5_io.o src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
