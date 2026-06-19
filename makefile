@@ -81,12 +81,14 @@ test_objects = \
 src/module_multidata.o \
 src/module_mpi.o \
 src/module_vars.o \
+src/MPI_pt.o \
 src/hdf5_io.o \
 src/json_io.o \
 src/io.o \
 tests/test_hdf5_io.o \
 tests/test_json_io.o \
 tests/test_io.o \
+tests/test_MPI_pt.o \
 tests/main.o
 
 
@@ -208,7 +210,8 @@ src/timesig.o : src/timesig.f90 src/module_mpi.o src/module_vars.o src/module_mu
 src/wall_function.o : src/wall_function.f90 src/module_multidata.o src/module_vars.o 
 src/weno.o : src/weno.f90 src/module_multidata.o src/module_vars.o 
 app/fdstag.o : app/fdstag.f90 src/module_multidata.o src/io.o src/module_vars.o src/module_mpi.o 
-tests/main.o : tests/main.f90 tests/test_hdf5_io.o tests/test_io.o tests/test_json_io.o src/module_mpi.o
+tests/main.o : tests/main.f90 tests/test_hdf5_io.o tests/test_io.o tests/test_json_io.o src/module_mpi.o tests/test_MPI_pt.o 
 tests/test_hdf5_io.o : tests/test_hdf5_io.f90 src/hdf5_io.o 
 tests/test_io.o : tests/test_io.f90 src/io.o src/module_mpi.o
 tests/test_json_io.o : tests/test_json_io.f90 src/json_io.o 
+tests/test_MPI_pt.o : tests/test_MPI_pt.f90 src/MPI_pt.o
