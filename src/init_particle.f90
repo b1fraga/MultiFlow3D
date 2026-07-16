@@ -385,38 +385,42 @@
           filename="tecout_"//b_str//"_"//c_str//".h5"
           if (LSCALAR) then
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key="U",group="")
+                  array_input_3d=u,key="U",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key="V",group="")
+                  array_input_3d=v,key="V",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key="W",group="")
+                  array_input_3d=w,key="W",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key="P",group="")
+                  array_input_3d=p,key="P",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=s,key="S",group="")
+                  array_input_3d=s,key="S",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=rho,key="RHO",group="")
+                  array_input_3d=rho,key="RHO",group="/")
+             call hdf5_write_real(filename=filename,&
+                  scalar_input=ctime,key="solution_time",group="/")
           else
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="")
+                  array_input_1d=dom(ib)%x(is-1:ie),key="x",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="")
+                  array_input_1d=dom(ib)%y(js-1:je),key="y",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="")
+                  array_input_1d=dom(ib)%z(ks-1:ke),key="z",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=u,key="U",group="")
+                  array_input_3d=u,key="U",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=v,key="V",group="")
+                  array_input_3d=v,key="V",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=w,key="W",group="")
+                  array_input_3d=w,key="W",group="/")
              call hdf5_write_real(filename=filename,&
-                  array_input_3d=p,key="P",group="")
+                  array_input_3d=p,key="P",group="/")
+             call hdf5_write_real(filename=filename,&
+                  scalar_input=ctime,key="solution_time",group="/")
           end if
 #endif
           end do
