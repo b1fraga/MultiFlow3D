@@ -8,18 +8,18 @@
 !======================================================================!
 !######################################################################!
       subroutine particle_tracking
+          use, intrinsic :: iso_fortran_env, only: dp => real64
 !
 !     Calculates particles' velocities and the resulting source terms
 !
 !######################################################################!
           use multidata
           use multiflow3d_mpi
-          use vars
-          use vars_pt
-          use, intrinsic :: iso_fortran_env, only: dp => real64
           use omp_lib, only : omp_get_num_threads, &
                         omp_get_thread_num, &
                         omp_set_num_threads
+          use vars
+          use vars_pt
           implicit none
 
           integer :: i,j,k,l
