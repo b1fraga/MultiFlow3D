@@ -92,11 +92,11 @@
 
                   IF (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
 
-                  Vp = 3.1416_dp*dp_loc(l)**3.d0/6.d0
+                  Vp = 3.1416_dp*dp_loc(l)**3.0d0/6.0d0
 
-                  ip(l)=INT((xp_loc(l)-dom(ib)%x(is-1)-1.d-12)/dom(ib)%dx)+1+pl
-                  jp(l)=INT((yp_loc(l)-dom(ib)%y(js-1)-1.d-12)/dom(ib)%dy)+1+pl
-                  kp(l)=INT((zp_loc(l)-dom(ib)%z(ks-1)-1.d-12)/dom(ib)%dz)+1+pl
+                  ip(l)=INT((xp_loc(l)-dom(ib)%x(is-1)-1.0d-12)/dom(ib)%dx)+1+pl
+                  jp(l)=INT((yp_loc(l)-dom(ib)%y(js-1)-1.0d-12)/dom(ib)%dy)+1+pl
+                  kp(l)=INT((zp_loc(l)-dom(ib)%z(ks-1)-1.0d-12)/dom(ib)%dz)+1+pl
 
 !     write(myrank+700,*)'======================================='
 !           write(myrank+700,*) 'proc and dom:',myrank,'->',dom_id(ib)
@@ -261,9 +261,9 @@
 !     &       (kballe-kballs)*Vcell
 !     endif
 
-                  uoi_pt(l) = 0.d0
-                  voi_pt(l) = 0.d0
-                  woi_pt(l) = 0.d0
+                  uoi_pt(l) = 0.0d0
+                  voi_pt(l) = 0.0d0
+                  woi_pt(l) = 0.0d0
 
                   do i=iballs_u,iballe_u
                       do j=jballs_u,jballe_u
@@ -307,9 +307,9 @@
                   vp_pt(l) = vop_loc(l)
                   wp_pt(l) = wop_loc(l)
 
-                  ui_pt(l) = 0.d0
-                  vi_pt(l) = 0.d0
-                  wi_pt(l) = 0.d0
+                  ui_pt(l) = 0.0d0
+                  vi_pt(l) = 0.0d0
+                  wi_pt(l) = 0.0d0
 
                   do i=iballs_u,iballe_u
                       do j=jballs_u,jballe_u
@@ -359,10 +359,10 @@
 
 !           write(myrank+700,*)'wslip',a,b,c
 
-                  REp = dp_loc(l)* (sqrt((uop_loc(l)-ui_pt(l))**2.d0+(vop_loc(l) &
-                 -vi_pt(l))**2.d0+(wop_loc(l)-wi_pt(l))**2.d0))/(1.d0/Re)
+                  REp = dp_loc(l)* (sqrt((uop_loc(l)-ui_pt(l))**2.0d0+(vop_loc(l) &
+                 -vi_pt(l))**2.0d0+(wop_loc(l)-wi_pt(l))**2.0d0))/(1.0d0/Re)
 
-                  if (REp<=800) Cd = 24.d0*(1.d0+0.15d0*(REp**0.687d0))/REp
+                  if (REp<=800) Cd = 24.0d0*(1.0d0+0.15d0*(REp**0.687d0))/REp
                   if (REp>800) Cd = 0.44d0
 
                   !Vorticity calculation
@@ -490,7 +490,7 @@
                   (gx*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                       !Buoyancy
                   (((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((ui_pt(l)-uoi_pt(l))/dt) &
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp))) &
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a &
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*a &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(b*wz-c*wy)))
 
 
@@ -498,7 +498,7 @@
                   (gy*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                       !Buoyancy
                   (((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((vi_pt(l)-voi_pt(l))/dt) &
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp))) &
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b &
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*b &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(c*wx-a*wz)))
 
 
@@ -506,7 +506,7 @@
                   (gz*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                      !Buoyancy
                   ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&          !Fluid stress
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c&                         !Added Mass and drag
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
                   end if
 
@@ -554,18 +554,18 @@
 
                   Fpu(l) = -(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((ui_pt(l)-uoi_pt(l))/dt) &
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp))) &
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a &
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*a &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(b*wz-c*wy))
 
                   Fpv(l) = -(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((vi_pt(l)-voi_pt(l))/dt) &
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp))) &
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b &
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*b &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(c*wx-a*wz))
 
                   !Fpw(l) =-(((1.0_dp-gamma_p)/(gamma_p+0.5_dp))*9.81d0+                   !Buoyancy
                   Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&            !Fluid stress
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
-                  *Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c&                         !Added Mass and drag
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
 
 !      Fpw(l) = -(2.0d0*9.81d0+3.0d0*((wi_pt(l)-woi_pt(l))/dt)
@@ -643,13 +643,13 @@
                   end if
 
 !     Actualizar velocidad paso previo
-                  if    (abs(up_pt(l))>10.d0*abs(uop_pt(l))) then
+                  if    (abs(up_pt(l))>10.0d0*abs(uop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',up_pt(l),l
                   !stop
-                  else if (abs(vp_pt(l))>10.d0*abs(vop_pt(l))) then
+                  else if (abs(vp_pt(l))>10.0d0*abs(vop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',vp_pt(l),l
                   !stop
-                  else if (abs(wp_pt(l))>10.d0*abs(wop_pt(l))) then
+                  else if (abs(wp_pt(l))>10.0d0*abs(wop_pt(l))) then
                   !write(6,*)'Warning! 2 fast, 2 furious',wp_pt(l),l
                   !stop
                   end if
