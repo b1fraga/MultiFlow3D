@@ -50,18 +50,18 @@
 
           call OMP_SET_NUM_THREADS(nt)
 
-          SELECT CASE (order)
-            CASE (1)
+          select case (order)
+            case (1)
               m = 1  !1.5d0
-            CASE (2)
+            case (2)
               m = 2  !2.5d0
-            CASE (3)
+            case (3)
               m = 2  !2.d0
-            CASE (4)
+            case (4)
               m = 2  !2.5d0
-            CASE (5)
+            case (5)
               m = 1  !1.5d0
-            CASE (6)
+            case (6)
               m = 2  !2.d0
           end select
 
@@ -90,7 +90,7 @@
 !$OMP DO SCHEDULE (DYNAMIC,1)
               do l=1,np_loc
 
-                  IF (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
+                  if (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
 
                   Vp = 3.1416_dp*dp_loc(l)**3.0d0/6.0d0
 
@@ -159,7 +159,7 @@
 
                   !Ball
 
-                  IF (order==3.or.order==6) then
+                  if (order==3.or.order==6) then
                   if (ipu(l)==ip(l)) then
                   iballs_u = ipu(l) - 1 * NINT(rx/dom(ib)%dx)
                   iballe_u = ipu(l) + m * NINT(rx/dom(ib)%dx)
@@ -205,7 +205,7 @@
                   kballs_w = kpw(l) - m * NINT(rz/dom(ib)%dz)
                   kballe_w = kpw(l) + 1 * NINT(rz/dom(ib)%dz)
                   end if
-                  ELSE
+                  else
                   iballs_u = ipu(l) - m * NINT(rx/dom(ib)%dx)
                   iballe_u = ipu(l) + m * NINT(rx/dom(ib)%dx)
                   jballs_u = jp(l) - m * NINT(ry/dom(ib)%dy)
@@ -226,7 +226,7 @@
                   jballe_w = jp(l) + m * NINT(ry/dom(ib)%dy)
                   kballs_w = kpw(l) - m * NINT(rz/dom(ib)%dz)
                   kballe_w = kpw(l) + m * NINT(rz/dom(ib)%dz)
-                  END IF
+                  end if
 
                   iballs_u = max(iballs_u,1)
                   iballe_u = min(iballe_u,dom(ib)%ttc_i)
@@ -514,8 +514,8 @@
 !           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
 
 
-                  IF (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
-                  IF (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
+                  if (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
+                  if (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
 
                   if ((dp_loc(l))>=0.00001_dp) then  !only do calcs if dp>=10um
@@ -664,7 +664,7 @@
 
 !     write(myrank+700,*)'xp_loc',xp_loc(l),yp_loc(l),zp_loc(l)
 
-                  END IF   !if the particle belongs to the block
+                  end if   !if the particle belongs to the block
 
               end do  !end of loop in particles
 !$OMP ENDDO
