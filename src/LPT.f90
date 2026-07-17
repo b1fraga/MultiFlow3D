@@ -98,20 +98,6 @@
                   jp(l)=INT((yp_loc(l)-dom(ib)%y(js-1)-1.0d-12)/dom(ib)%dy)+1+pl
                   kp(l)=INT((zp_loc(l)-dom(ib)%z(ks-1)-1.0d-12)/dom(ib)%dz)+1+pl
 
-!     write(myrank+700,*)'======================================='
-!           write(myrank+700,*) 'proc and dom:',myrank,'->',dom_id(ib)
-!           write(myrank+700,*) 'tstep:',itime
-!           write(myrank+700,*)'ip',ip(l),jp(l),kp(l)
-
-!     if (LENERGY) then
-!           dom(ib)%dens(ip(l),jp(l),kp(l)) =
-!     &999.8_dp/(1.0_dp+0.000088*(dom(ib)%T(ip(l),jp(l),kp(l))+20.))
-!           dom(ib)%mu(ip(l),jp(l),kp(l)) =
-!     &2.414d-5*10.d0**(-25.2_dp/(dom(ib)%T(ip(l),jp(l),kp(l))+20.-413.d0))
-
-!     Re=dom(ib)%dens(ip(l),jp(l),kp(l))/dom(ib)%mu(ip(l),jp(l),kp(l))
-!     endif
-
 
 !locate the u,v and w nodes
 
@@ -247,20 +233,6 @@
                   kballs_w = max(kballs_w,1)
                   kballe_w = min(kballe_w,dom(ib)%ttc_k)
 
-!           write(myrank+700,*)'ip_u',iballs_u,iballe_u
-!           write(myrank+700,*)'ip_w',iballs_w,iballe_w
-!           write(myrank+700,*)'kp_u',kballs_u,kballe_u
-!           write(myrank+700,*)'kp_w',kballs_w,kballe_w
-
-
-!     if (m.ne.2_dp.d0) then
-!     Vball = (iballe-iballs+1)*(jballe-jballs+1)*
-!     &       (kballe-kballs+1)*Vcell
-!     else
-!     Vball = (iballe-iballs)*(jballe-jballs)*
-!     &       (kballe-kballs)*Vcell
-!     endif
-
                   uoi_pt(l) = 0.0d0
                   voi_pt(l) = 0.0d0
                   woi_pt(l) = 0.0d0
@@ -300,8 +272,6 @@
                           end do
                           end do
                           end do
-
-!           write(myrank+700,*)'uoi',uoi_pt(l),voi_pt(l),woi_pt(l)
 
                   up_pt(l) = uop_loc(l)
                   vp_pt(l) = vop_loc(l)
@@ -350,14 +320,10 @@
                           end do
                           end do
 
-!           write(myrank+700,*)'ui',ui_pt(l),vi_pt(l),wi_pt(l)
-
                   !Slip vel components
                   a = up_pt(l)-ui_pt(l)
                   b = vp_pt(l)-vi_pt(l)
                   c = wp_pt(l)-wi_pt(l)
-
-!           write(myrank+700,*)'wslip',a,b,c
 
                   REp = dp_loc(l)* (sqrt((uop_loc(l)-ui_pt(l))**2.0d0+(vop_loc(l) &
                  -vi_pt(l))**2.0d0+(wop_loc(l)-wi_pt(l))**2.0d0))/(1.0d0/Re)
@@ -459,22 +425,6 @@
                   wy = dudz-dwdx
                   wz = dvdx-dudy
 
-
-!      up_pt(l) = uop_loc(l) + dt * (3.0d0*((ui_pt(l)-uoi_pt(l))/dt)    !Buoyancy, stress
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*a  !Added Mass and drag
-!     &  -2.0d0*0.53d0*(b*wz-c*wy))                                           !Lift
-
-
-!      vp_pt(l) = vop_loc(l) + dt* (3.0d0*((vi_pt(l)-voi_pt(l))/dt)
-!     &  -(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*b
-!     &  -2.0d0*0.53d0*(c*wx-a*wz))
-
-
-!      wp_pt(l) = wop_loc(l) + dt* (2.0d0*9.81d0+3.0d0*
-!     &     ((wi_pt(l)-woi_pt(l))/dt)
-!     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c
-!     &-2.0d0*0.53d0*(a*wy-b*wx))
-
                   if (LENERGY.or.LAS) then                                        !variable density form
                   gamma_p=rhop_loc(l)/dom(ib)%dens(ip(l),jp(l),kp(l))               !variable density
                   else
@@ -510,10 +460,6 @@
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
                   end if
 
-
-!           write(myrank+700,*)'up',up_pt(l),vp_pt(l),wp_pt(l)
-
-
                   if (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
                   if (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
 
@@ -523,34 +469,6 @@
                   a = up_pt(l)-ui_pt(l)
                   b = vp_pt(l)-vi_pt(l)
                   c = wp_pt(l)-wi_pt(l)
-
-                  !Fluid stresses
-!     Fsu(l) = dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*dp_loc(l)**3.d0*((ui_pt(l)-uoi_pt(l))/dt)/6.0d0
-!     Fsv(l) = dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*dp_loc(l)**3.d0*((vi_pt(l)-voi_pt(l))/dt)/6.0d0
-!     Fsw(l) = dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*dp_loc(l)**3.d0*((wi_pt(l)-woi_pt(l))/dt)/6.0d0
-
-                  !Added mass
-!     Fau(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**3.d0)*(a-ao)/(12.0d0*dt)
-!     Fav(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**3.d0)*(b-bo)/(12.0d0*dt)
-!     Faw(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**3.d0)*(c-co)/(12.0d0*dt)
-
-                  !Drag
-!     Fdu(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**2.d0)*Cd*(sqrt(a**2.d0+b**2.d0
-!     &     +c**2.d0))*a/8.0d0
-!     Fdv(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**2.d0)*Cd*(sqrt(a**2.d0+b**2.d0
-!     &     +c**2.d0))*b/8.0d0
-!     Fdw(l) = -dom(ib)%dens(ip(l),jp(l),kp(l))*3.14d0*(dp_loc(l)**2.d0)*Cd*(sqrt(a**2.d0+b**2.d0
-!     &     +c**2.d0))*c/8.0d0
-
-
-                  !Lift
-!      Flu(l) = -0.53d0*rho_p*3.14d0*(dp_loc(l)**3.d0)*(b*wz-c*wy)
-!     &     /6.0d0
-!      Flv(l) = -0.53d0*rho_p*3.14d0*(dp_loc(l)**3.d0)*(c*wx-a*wz)
-!     &     /6.0d0
-!      Flw(l) = -0.53d0*rho_p*3.14d0*(dp_loc(l)**3.d0)*(a*wy-b*wx)
-!     &     /6.0d0
-
 
                   Fpu(l) = -(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((ui_pt(l)-uoi_pt(l))/dt) &
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp))) &
@@ -567,13 +485,6 @@
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
-
-!      Fpw(l) = -(2.0d0*9.81d0+3.0d0*((wi_pt(l)-woi_pt(l))/dt)
-!     &-(3.0d0/(2.0d0*dp_loc(l)))*Cd*sqrt(a**2.d0+b**2.d0+c**2.d0)*c
-!     &-2.0d0*0.53d0*(a*wy-b*wx))
-!     endif
-
-!           write(myrank+700,*)'Fp',Fpu(l),Fpv(l),Fpw(l)
 
 !$OMP CRITICAL
                   if (PSIcell) then
@@ -703,12 +614,6 @@
               strider(s) = ptsinproc(s-1) + strider(s-1)
           end do
 
-!     do s=1,nprocs
-!                 write(myrank+800,*)'proc',s,'At',ntime
-!                 write(myrank+800,*)'pts',ptsinproc(s)
-!                 write(myrank+800,*)'strider',strider(s)
-!     enddo
-
           call MPI_BARRIER (MPI_COMM_WORLD,ierr)
 
           call MPI_GATHERV(xp_loc,np_loc,MPI_DOUBLE_PRECISION,xp_pt &
@@ -735,11 +640,6 @@
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
           call MPI_GATHERV(rhop_loc,np_loc,MPI_DOUBLE_PRECISION,rho_pt &
     ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
-!     if (myrank.eq.0) then
-!           do l=1,np
-!                 write(myrank+800,*)'xp',xp_pt(l),yp_pt(l),zp_pt(l)
-!           enddo
-!     endif
 
           if (np_loc>0) then
           deallocate (xp_loc,yp_loc,zp_loc)
