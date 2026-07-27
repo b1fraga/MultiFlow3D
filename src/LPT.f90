@@ -8,13 +8,21 @@
 !======================================================================!
 !######################################################################!
 module multiflow3d_LPT
-  use multidata
-  use multiflow3d_mpi
+  use mpi_f08, only : mpi_comm_world, mpi_double_precision
+  use multidata, only : dom, nbp, dom_id
+  use multiflow3d_mpi, only : ierr, nprocs
   use omp_lib, only : omp_get_num_threads, &
                       omp_get_thread_num, &
                        omp_set_num_threads
-  use vars
-  use vars_pt
+  use vars, only : alfapr, dens, dt, gx, gy, gz, las, lenergy, &
+                   order, pl, re
+  use vars_pt, only : vp_pt, dp_loc, vop_loc, wp_pt, wop_loc, &
+                      up_pt, Fpu, Fpv, Fpw, xp_loc, &
+                      uop_pt, uop_loc, yp_loc, zp_loc, &
+                      dp_pt, Fu, Fv, Fw, np_loc, &
+                      rho_pt, rhop_loc, xp_pt, yp_pt, zp_pt, &
+                      Lcol, Lcolwall, PSIcell, ptsinproc, id, &
+                      vop_pt, wop_pt
   use, intrinsic :: iso_fortran_env, only: dp => real64
 
   implicit none
