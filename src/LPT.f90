@@ -105,7 +105,7 @@ contains
        !$OMP DO SCHEDULE (DYNAMIC,1)
        do l=1,np_loc
 
-          if (id(l)==dom_id(ib)) then                                     !particle belongs to THIS block
+          if (id(l)==dom_id(ib)) then       !particle belongs to THIS block
 
              Vp = 3.1416_dp*dp_loc(l)**3.0d0/6.0d0
 
@@ -439,7 +439,8 @@ contains
                 gamma_p=rhop_loc(l)/dens                                          ! constant density
              end if
 
-             if ((dp_loc(l))<0.00001_dp) then  !Particles with dp<10um treated as passive Aleks 05/2022
+             if ((dp_loc(l))<0.00001_dp) then
+                !Particles with dp<10um treated as passive Aleks 05/2022
                 up_pt(l) = ui_pt(l)
                 vp_pt(l) = vi_pt(l)
                 wp_pt(l) = wi_pt(l)
@@ -462,14 +463,20 @@ contains
 
                 wp_pt(l) = wop_loc(l) + dt* &
                      (gz*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                      !Buoyancy
-                     ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&          !Fluid stress
-                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
-                     *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
+                     ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&!Fluid stress
+                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&           !Added Mass and drag
+                     *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                !Added Mass and drag
                      -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
              end if
 
-             if (Lcolwall) call collision_walls(l)                             !updating particle velocities based on collisions with walls
-             if (Lcol) call collision_particle(l)           !updating particle velocities based on p2p collisions
+             if (Lcolwall) then
+                 !updating particle velocities based on collisions with walls
+                 call collision_walls(l)
+             end if
+             if (Lcol) then
+                 !updating particle velocities based on p2p collisions
+                 call collision_particle(l)
+             end if
 
 
              if ((dp_loc(l))>=0.00001_dp) then  !only do calcs if dp>=10um
@@ -489,9 +496,9 @@ contains
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(c*wx-a*wz))
 
                   !Fpw(l) =-(((1.0_dp-gamma_p)/(gamma_p+0.5_dp))*9.81d0+                   !Buoyancy
-                  Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&            !Fluid stress
-                  -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
-                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
+               Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)& !Fluid stress
+                  -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&  !Added Mass and drag
+                  *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&       !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
 
                   !$OMP CRITICAL
