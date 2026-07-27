@@ -16,14 +16,14 @@ module multiflow3d_LPT
   use vars
   use vars_pt
   use, intrinsic :: iso_fortran_env, only: dp => real64
-  
+
   implicit none
   private
 
   public :: particle_tracking, final_LPT
 
 contains
-  
+
   subroutine particle_tracking
   !
   !     Calculates particles' velocities and the resulting source terms
@@ -52,7 +52,7 @@ contains
     allocate (ipu(np_loc),jpv(np_loc),kpw(np_loc))
     allocate (up_pt(np_loc),vp_pt(np_loc),wp_pt(np_loc))
     allocate (Fpu(np_loc),Fpv(np_loc),Fpw(np_loc))
-    
+
     if (np_loc<=100) nt = 1
 
     call OMP_SET_NUM_THREADS(nt)
@@ -198,7 +198,7 @@ contains
                 jballe_u = jp(l) + m * NINT(ry/dom(ib)%dy)
                 kballs_u = kp(l) - m * NINT(rz/dom(ib)%dz)
                 kballe_u = kp(l) + m * NINT(rz/dom(ib)%dz)
-                
+
                 iballs_v = ip(l) - m * NINT(rx/dom(ib)%dx)
                 iballe_v = ip(l) + m * NINT(rx/dom(ib)%dx)
                 jballs_v = jpv(l) - m * NINT(ry/dom(ib)%dy)
@@ -264,7 +264,7 @@ contains
              do i=iballs_w,iballe_w
                 do j=jballs_w,jballe_w
                    do k=kballs_w,kballe_w
-                      
+
                       woi_pt(l) = woi_pt(l) + dom(ib)%woo(i,j,k)* &
                            dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
@@ -366,7 +366,7 @@ contains
              do i=iballs_v,iballe_v
                 do j=jballs_v,jballe_v
                    do k=kballs_v,kballe_v
-                      
+
                       ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,1)
 
@@ -386,7 +386,7 @@ contains
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,3)
 
                       dvdz = dvdz + dom(ib)%voo(i,j,k)*ddelta
-                      
+
                    end do
                 end do
              end do
@@ -411,7 +411,7 @@ contains
              do i=iballs_w,iballe_w
                 do j=jballs_w,jballe_w
                    do k=kballs_w,kballe_w
-                      
+
                       ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order,2)
 
@@ -485,7 +485,7 @@ contains
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&                    !Added Mass and drag
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                         !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
-                  
+
                   !$OMP CRITICAL
                   if (PSIcell) then
 
@@ -573,7 +573,7 @@ contains
          !$OMP ENDDO
          !$OMP END PARALLEL
 
-         
+
       end do      !end loop in domains
 
 
@@ -613,7 +613,7 @@ contains
            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(wop_loc,np_loc,MPI_DOUBLE_PRECISION,wop_pt &
            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
-      
+
       call MPI_GATHERV(Fpu,np_loc,MPI_DOUBLE_PRECISION,Fu &
            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(Fpv,np_loc,MPI_DOUBLE_PRECISION,Fv &
