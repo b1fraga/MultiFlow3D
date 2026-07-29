@@ -8,6 +8,7 @@
 !======================================================================!
 !######################################################################!
 module multiflow3d_LPT
+  use, intrinsic :: iso_fortran_env, only: dp => real64
   use mpi_f08, only : mpi_comm_world, mpi_double_precision
   use multidata, only : dom, nbp, dom_id
   use multiflow3d_mpi, only : ierr, nprocs
@@ -23,7 +24,6 @@ module multiflow3d_LPT
                       rho_pt, rhop_loc, xp_pt, yp_pt, zp_pt, &
                       Lcol, Lcolwall, PSIcell, ptsinproc, id, &
                       vop_pt, wop_pt
-  use, intrinsic :: iso_fortran_env, only: dp => real64
 
   implicit none
   private
