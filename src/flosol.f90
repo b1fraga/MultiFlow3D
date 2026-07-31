@@ -186,8 +186,8 @@
               call exchange(22)
               call exchange(33)
               if (LENERGY) call exchange(10)
-              if (np_loc>0) call particle_tracking           !Procs without particles do not enter
-              call final_LPT
+              if (np_loc>0) call particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw) !Procs without particles do not enter
+              call final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, dp_pt, np_loc, Fu,Fv,Fw, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, uop_pt, Fpu,Fpv,Fpw)
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
               end if
 
