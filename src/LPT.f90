@@ -10,7 +10,7 @@
 module multiflow3d_LPT
   use, intrinsic :: iso_fortran_env, only: dp => real64
   use mpi_f08, only : mpi_comm_world, mpi_double_precision
-  use multidata, only : dom, nbp, dom_id
+  use multidata, only: multidom
   use multiflow3d_mpi, only : ierr, nprocs
   use omp_lib, only : omp_get_num_threads, &
                       omp_get_thread_num, &
@@ -22,7 +22,7 @@ module multiflow3d_LPT
 
 contains
 
-  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz)
+  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom)
   !
   !     Calculates particles' velocities and the resulting source terms
   !
@@ -42,6 +42,9 @@ contains
     logical :: las, lenergy
     real(dp) :: alfapr, dens
     real(dp) :: dt,gx,gy,gz
+    integer :: nbp
+    integer,dimension(:) :: dom_id
+    type (multidom), pointer, dimension(:) :: dom
     
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke
