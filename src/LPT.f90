@@ -15,8 +15,6 @@ module multiflow3d_LPT
   use omp_lib, only : omp_get_num_threads, &
                       omp_get_thread_num, &
                        omp_set_num_threads
-  use vars, only : alfapr, dens, dt, gx, gy, gz, las, lenergy, &
-                   order, pl, re
   implicit none
   private
 
@@ -24,7 +22,7 @@ module multiflow3d_LPT
 
 contains
 
-  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw)
+  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz)
   !
   !     Calculates particles' velocities and the resulting source terms
   !
@@ -39,6 +37,12 @@ contains
     real(dp),  dimension(:):: uop_loc,vop_loc, wop_loc,dp_loc
     real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
     real(dp), allocatable, dimension(:):: Fpu,Fpv,Fpw
+    integer :: order, pl
+    real(dp) :: Re
+    logical :: las, lenergy
+    real(dp) :: alfapr, dens
+    real(dp) :: dt,gx,gy,gz
+    
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke
     integer :: nt,m
