@@ -22,30 +22,34 @@ module multiflow3d_LPT
 
 contains
 
-  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom)
+  subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, &
+       rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, &
+       wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, &
+       pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom)
   !
   !     Calculates particles' velocities and the resulting source terms
   !
   !######################################################################!
 
-    real(dp), dimension(:) :: wop_pt, vop_pt
-    integer, allocatable, dimension(:)::  id
-    real(dp),  dimension(:):: rhop_loc
-    logical :: PSIcell, Lcol,Lcolwall
-    integer :: np_loc
-    real(dp),  dimension(:):: xp_loc,yp_loc,zp_loc, uop_pt
-    real(dp),  dimension(:):: uop_loc,vop_loc, wop_loc,dp_loc
-    real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
-    real(dp), allocatable, dimension(:):: Fpu,Fpv,Fpw
-    integer :: order, pl
-    real(dp) :: Re
-    logical :: las, lenergy
-    real(dp) :: alfapr, dens
-    real(dp) :: dt,gx,gy,gz
-    integer :: nbp
-    integer,dimension(:) :: dom_id
-    type (multidom), pointer, dimension(:) :: dom
-    
+    real(dp), dimension(:), intent(in) :: uop_pt, wop_pt, vop_pt
+    integer, allocatable, dimension(:), intent(inout) ::  id
+    real(dp),  dimension(:), intent(in) :: rhop_loc
+    logical , intent(in) :: PSIcell, Lcol,Lcolwall
+    integer , intent(in) :: np_loc
+    real(dp),  dimension(:), intent(inout):: xp_loc,yp_loc,zp_loc
+    real(dp),  dimension(:), intent(inout) :: uop_loc,vop_loc, wop_loc
+    real(dp), dimension(:), intent(in) :: dp_loc
+    real(dp), allocatable, dimension(:), intent(inout) :: up_pt,vp_pt,wp_pt
+    real(dp), allocatable, dimension(:), intent(inout) :: Fpu,Fpv,Fpw
+    integer , intent(in) :: order, pl
+    real(dp) , intent(in) :: Re
+    logical , intent(in) :: las, lenergy
+    real(dp) , intent(in) :: alfapr, dens
+    real(dp) , intent(in) :: dt,gx,gy,gz
+    integer , intent(in) :: nbp
+    integer,dimension(:), intent(in) :: dom_id
+    type (multidom), pointer, dimension(:), intent(in) :: dom
+
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke
     integer :: nt,m
@@ -60,7 +64,6 @@ contains
     real(dp), allocatable, dimension(:):: ui_pt,vi_pt,wi_pt
     real(dp), allocatable, dimension(:):: uoi_pt,voi_pt,woi_pt
     integer,allocatable,dimension(:)::  ip,jp,kp,ipu,jpv,kpw
-    integer,dimension(nprocs) :: strider
 
     allocate (ui_pt(np_loc),vi_pt(np_loc),wi_pt(np_loc))
     allocate (uoi_pt(np_loc),voi_pt(np_loc),woi_pt(np_loc))
@@ -609,21 +612,23 @@ contains
     end subroutine particle_tracking
 
     !##########################################################################
-    subroutine final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, dp_pt, np_loc, Fu,Fv,Fw, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, uop_pt, Fpu,Fpv,Fpw)
+    subroutine final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, &
+         dp_pt, np_loc, Fu,Fv,Fw, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, &
+         uop_pt, Fpu,Fpv,Fpw)
     !     sends backp(l) to master processor
     !#########################################################################
 
-      real(dp), dimension(:) :: wop_pt, vop_pt
-      integer, dimension(:)::    ptsinproc
-      real(dp), allocatable, dimension(:):: rhop_loc
-      real(dp), dimension(:):: rho_pt
-      real(dp), dimension(:):: xp_pt,yp_pt,zp_pt, uop_pt
-      real(dp), dimension(:):: dp_pt
-      integer :: np_loc
-      real(dp), dimension(:):: Fu,Fv,Fw
-      real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc
-      real(dp), allocatable, dimension(:):: uop_loc,vop_loc,wop_loc, dp_loc
-      real(dp), allocatable, dimension(:):: Fpu,Fpv,Fpw
+      real(dp), dimension(:), intent(in) :: wop_pt, vop_pt
+      integer, dimension(:), intent(in) ::    ptsinproc
+      real(dp), allocatable, dimension(:), intent(inout) :: rhop_loc
+      real(dp), dimension(:), intent(in) :: rho_pt
+      real(dp), dimension(:), intent(in) :: xp_pt,yp_pt,zp_pt, uop_pt
+      real(dp), dimension(:), intent(in) :: dp_pt
+      integer , intent(in) :: np_loc
+      real(dp), dimension(:), intent(in) :: Fu,Fv,Fw
+      real(dp), allocatable, dimension(:), intent(inout) :: xp_loc,yp_loc,zp_loc
+      real(dp), allocatable, dimension(:), intent(inout) :: uop_loc,vop_loc,wop_loc, dp_loc
+      real(dp), allocatable, dimension(:), intent(inout) :: Fpu,Fpv,Fpw
       integer,dimension(nprocs) :: strider
       integer :: s
 
