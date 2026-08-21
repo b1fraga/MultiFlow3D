@@ -23,7 +23,7 @@ module multiflow3d_collison
 
 contains
 
-      Subroutine collision_particle(l)
+      subroutine collision_particle(l)
           !     Soft-sphere collision model                                      !
 ! !######################################################################!
 
@@ -108,7 +108,7 @@ contains
 
           do ib=1,nbp
               ! ====================> p2p collision
-              IF (id(l)==dom_id(ib)) then
+              if (id(l)==dom_id(ib)) then
               do l2 = 1,tot_np
                   dis_x = xpg_sv(l2)-xp_sv(l)                           ! difference on coordinate in x
                   dis_y = ypg_sv(l2)-yp_sv(l)                           ! difference on coordinate in y
@@ -161,7 +161,7 @@ contains
                   wp_pt(l) = wp_pt(l)+dt*(collision_z+collision_tz)/mp
                   end if                         ! MPI block
               end do                         ! end search loop
-              END IF                         ! distance
+              end if                         ! distance
           end do                         ! end p2p loop
 
           if (npg_loc>0) then
@@ -174,7 +174,7 @@ contains
       end subroutine collision_particle
 
 !######################################################################!
-      Subroutine collision_walls(l)                                    !
+      subroutine collision_walls(l)                                    !
 !     Calculates collisions with walls and boundaries                  !
 !######################################################################!
           integer :: l
