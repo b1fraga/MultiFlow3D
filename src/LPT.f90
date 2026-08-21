@@ -26,7 +26,8 @@ contains
   subroutine particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, &
        rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, &
        wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, &
-       pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom)
+       pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom,&
+       xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc)
   !
   !     Calculates particles' velocities and the resulting source terms
   !
@@ -34,12 +35,12 @@ contains
 
     real(dp), dimension(:), intent(in) :: uop_pt, wop_pt, vop_pt
     integer, allocatable, dimension(:), intent(inout) ::  id
-    real(dp),  dimension(:), intent(in) :: rhop_loc
+    real(dp), allocatable, dimension(:), intent(in) :: rhop_loc
     logical , intent(in) :: PSIcell, Lcol,Lcolwall
     integer , intent(in) :: np_loc
-    real(dp),  dimension(:), intent(inout):: xp_loc,yp_loc,zp_loc
-    real(dp),  dimension(:), intent(inout) :: uop_loc,vop_loc, wop_loc
-    real(dp), dimension(:), intent(in) :: dp_loc
+    real(dp), allocatable, dimension(:), intent(inout):: xp_loc,yp_loc,zp_loc
+    real(dp),  allocatable,  dimension(:), intent(inout) :: uop_loc,vop_loc, wop_loc
+    real(dp),  dimension(:), intent(in) :: dp_loc
     real(dp), allocatable, dimension(:), intent(inout) :: up_pt,vp_pt,wp_pt
     real(dp), allocatable, dimension(:), intent(inout) :: Fpu,Fpv,Fpw
     integer , intent(in) :: order, pl
@@ -51,6 +52,9 @@ contains
     integer,dimension(:), intent(in) :: dom_id
     type (multidom), pointer, dimension(:), intent(in) :: dom
 
+    real(dp), allocatable, dimension(:):: xpg_loc,ypg_loc,zpg_loc, &
+                                        vopg_loc, wopg_loc,rhopg_loc
+    
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke
     integer :: nt,m
@@ -483,11 +487,12 @@ contains
 
              if (Lcolwall) then
                  !updating particle velocities based on collisions with walls
-                 call collision_walls(l)
+                 call collision_walls(l,rhop_loc,xp_loc,yp_loc,zp_loc)
              end if
              if (Lcol) then
                  !updating particle velocities based on p2p collisions
-                 call collision_particle(l)
+                 call collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
+                                         xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc)
              end if
 
 

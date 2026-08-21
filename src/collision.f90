@@ -10,11 +10,8 @@ module multiflow3d_collison
   use, intrinsic :: iso_fortran_env, only: dp => real64
   use multidata, only: nbp, dom_id
   use vars, only: bc_b, bc_n, bc_s, bc_t, dt, yen, yst, zen, zst
-  use vars_pt, only: xpg_loc, uopg_loc, dpg_loc, k_n, np_loc, &
-                     npg_loc, up_pt, vp_pt, wp_pt, dp_loc, &
-                     rhop_loc, zp_loc, yp_loc, xp_loc, uop_loc, &
-                     vop_loc, wop_loc, id, ypg_loc, zpg_loc, &
-                     vopg_loc, wopg_loc, rhopg_loc
+  use vars_pt, only:  uopg_loc, dpg_loc, k_n, np_loc, &
+                     npg_loc, up_pt, vp_pt, wp_pt, dp_loc
 
   implicit none
   private
@@ -23,11 +20,19 @@ module multiflow3d_collison
 
 contains
 
-  subroutine collision_particle(l)
+  subroutine collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
+                                xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc)
   !     Soft-sphere collision model                                    !
   !!###################################################################!
 
-  !NOTE: make Lcol and Lcolwalls arrays for every fraction
+    !NOTE: make Lcol and Lcolwalls arrays for every fraction
+    real(dp), allocatable, dimension(:):: xpg_loc,ypg_loc,zpg_loc, &
+                                          vopg_loc, wopg_loc,rhopg_loc
+    real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc,&
+                                          uop_loc,vop_loc, wop_loc
+    integer,allocatable,dimension(:)::  id
+    real(dp), allocatable, dimension(:):: rhop_loc
+    
     integer :: tot_np,ib
     integer :: l,l2,ls
     real(dp) :: dis_x,dis_y,dis_z,dis_dd
@@ -169,7 +174,7 @@ contains
   end subroutine collision_particle
 
   !######################################################################!
-  subroutine collision_walls(l)                                    !
+  subroutine collision_walls(l,rhop_loc,xp_loc,yp_loc,zp_loc)                                    !
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
     integer :: l
@@ -177,6 +182,9 @@ contains
     real(dp) :: lambda_w,lambda_u,lambda_v
     real(dp) :: theta_col,e_col,mp  !,k_t
     real(dp) :: deltap
+
+    real(dp), allocatable, dimension(:):: rhop_loc
+    real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc
 
     mu_f=9.2d-2
 
