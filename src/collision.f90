@@ -49,7 +49,7 @@ contains
           real(dp) :: theta_col,e_col,mp
 
          !2. Damping
-          e_col=1.d0
+          e_col=1.0d0
           mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
           theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
          (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
@@ -116,7 +116,7 @@ contains
                   dis_dd = (dp_loc(l)+dpg_sv(l2))*0.5_dp                   ! sum up Radius
                   dis_xyz = sqrt(dis_x**2+dis_y**2+dis_z**2)
                   lambda_p = 0.375_dp*0.2_dp*(dp_sv(l)*0.5_dp+dpg_sv(l2)*0.5_dp)          ! CFL for particle-particle
-                  if ((dis_xyz/=0.d0).and.(dis_xyz<(dis_dd+lambda_p))) then          !
+                  if ((dis_xyz/=0.0d0).and.(dis_xyz<(dis_dd+lambda_p))) then          !
 
                   !           write(myrank+700,*) l1,zp_sv(l1),wp_sv(l1)
                   dif1_uvw = up_sv(l)*dis_x/dis_xyz+vp_sv(l)*dis_y/dis_xyz &
@@ -125,7 +125,7 @@ contains
                  +wpg_sv(l2)*dis_z/dis_xyz
 
                   dif_uvw = dif1_uvw - dif2_uvw                               ! difference on velocity(vector)
-                  overlap = MAX((dis_dd-abs(dis_xyz)),0.d0)
+                  overlap = MAX((dis_dd-abs(dis_xyz)),0.0d0)
                   collision_x = -k_n * overlap * dis_x/dis_xyz &
             - theta_col * dif_uvw * dis_x/dis_xyz
                   collision_y = -k_n * overlap * dis_y/dis_xyz &
@@ -195,7 +195,7 @@ contains
 !       k_t=1.48d7
 
          !3. Damping
-          e_col=1.d0
+          e_col=1.0d0
           mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
           theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
          (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
@@ -204,7 +204,7 @@ contains
           if (zp_loc(l)<lambda_w+0.5_dp*dp_loc(l)) then
 
           !a. overlap
-          deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.d0)
+          deltap=max((zp_loc(l)-dp_loc(l)/2)-zst,0.0d0)
           !b. normal force
           fcol_n=-k_n*deltap-theta_col*wp_pt(l)
           wp_pt(l) = wp_pt(l) + dt*fcol_n/mp
@@ -220,7 +220,7 @@ contains
           if (zp_loc(l)>zen-(lambda_w+0.5_dp*dp_loc(l))) then
 
           !a. overlap
-          deltap=max(zp_loc(l)-(zen+0.5_dp*dp_loc(l)),0.d0)
+          deltap=max(zp_loc(l)-(zen+0.5_dp*dp_loc(l)),0.0d0)
           !b. normal force
           fcol_n=-k_n*deltap-theta_col*wp_pt(l)
           wp_pt(l) = wp_pt(l) + dt*fcol_n/mp
@@ -237,7 +237,7 @@ contains
           if (yp_loc(l)<lambda_v+0.5_dp*dp_loc(l)) then
 
           !a. overlap
-          deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.d0)
+          deltap=max((yp_loc(l)-dp_loc(l)/2)-yst,0.0d0)
           !b. normal force
           fcol_n=-k_n*deltap-theta_col*vp_pt(l)
           vp_pt(l) = vp_pt(l) + dt*fcol_n/mp
@@ -252,7 +252,7 @@ contains
           if (yp_loc(l)>yen-(lambda_v+0.5_dp*dp_loc(l))) then
 
 !a. overlap
-          deltap=max(yp_loc(l)-(yen+0.5_dp*dp_loc(l)),0.d0)
+          deltap=max(yp_loc(l)-(yen+0.5_dp*dp_loc(l)),0.0d0)
 !b. normal force
           fcol_n=-k_n*deltap-theta_col*vp_pt(l)
           vp_pt(l) = vp_pt(l) + dt*fcol_n/mp
