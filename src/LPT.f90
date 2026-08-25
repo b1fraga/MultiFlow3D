@@ -50,7 +50,7 @@ contains
     real(dp) , intent(in) :: alfapr, dens
     real(dp) , intent(in) :: dt,gx,gy,gz
     integer , intent(in) :: nbp
-    integer,dimension(:), intent(in) :: dom_id
+    integer, allocatable, dimension(:), intent(in) :: dom_id
     type (multidom), pointer, dimension(:), intent(in) :: dom
 
     real(dp), allocatable, dimension(:):: xpg_loc,ypg_loc,zpg_loc, &
@@ -500,7 +500,8 @@ contains
                  !updating particle velocities based on p2p collisions
                  call collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
                                 xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
-                                dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt)
+                                dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt,nbp,&
+                                dom_id)
              end if
 
 
