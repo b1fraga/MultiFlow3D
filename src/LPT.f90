@@ -484,24 +484,28 @@ contains
 
 
                 wp_pt(l) = wop_loc(l) + dt* &
-                     (gz*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                      !Buoyancy
-                     ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&!Fluid stress
-                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&           !Added Mass and drag
-                     *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&                !Added Mass and drag
+                     (gz*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                      !  Buoyancy
+                     ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&
+                     !Fluid stress
+                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&        !  Added Mass and drag
+                     *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&             !  Added Mass and drag
                      -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
              end if
 
              if (Lcolwall) then
                  !updating particle velocities based on collisions with walls
                 call collision_walls(l,rhop_loc,yp_loc,zp_loc,dp_loc,&
-                             up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)
+                                     up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,&
+                                     zen,bc_s,bc_n,bc_b,bc_t,dt)
              end if
              if (Lcol) then
                  !updating particle velocities based on p2p collisions
-                 call collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
-                                xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
-                                dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt,nbp,&
-                                dom_id)
+                call collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, &
+                                        wopg_loc,rhopg_loc,xp_loc,yp_loc, &
+                                        zp_loc,uop_loc,vop_loc, wop_loc,id,&
+                                        rhop_loc,dp_loc,up_pt,vp_pt,wp_pt,&
+                                        np_loc,npg_loc,uopg_loc,dpg_loc,k_n,&
+                                        dt,nbp,dom_id)
              end if
 
 
@@ -521,8 +525,7 @@ contains
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*b &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(c*wx-a*wz))
 
-                  !Fpw(l) =-(((1.0_dp-gamma_p)/(gamma_p+0.5_dp))*9.81d0+                   !Buoyancy
-               Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)& !Fluid stress
+               Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)& !  Fluid stress
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&  !Added Mass and drag
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&       !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift

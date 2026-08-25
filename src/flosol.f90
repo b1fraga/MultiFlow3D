@@ -191,8 +191,10 @@
                                                    wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, &
                                                    pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom,&
                                                    xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,npg_loc,&
-                                                   uopg_loc,dpg_loc,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t)!Procs without particles do not enter
-              call final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, dp_pt, np_loc, Fu,Fv,Fw, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, uop_pt, Fpu,Fpv,Fpw)
+                                                   uopg_loc,dpg_loc,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t)
+                                                   !  Procs without particles do not enter
+              call final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, dp_pt, np_loc, Fu,Fv,Fw, &
+                                            xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, uop_pt, Fpu,Fpv,Fpw)
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
               end if
 
