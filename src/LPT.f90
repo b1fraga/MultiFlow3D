@@ -525,7 +525,7 @@ contains
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*b &
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(c*wx-a*wz))
 
-               Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)& !  Fluid stress
+               Fpw(l) =-(((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&  !  Fluid stress
                   -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&  !Added Mass and drag
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&       !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
