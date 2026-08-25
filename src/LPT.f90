@@ -60,7 +60,7 @@ contains
     real(dp) :: k_n
     real(dp) :: yst,yen,zst,zen
     integer :: bc_s,bc_n,bc_b,bc_t
-    
+
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke
     integer :: nt,m
@@ -494,7 +494,7 @@ contains
              if (Lcolwall) then
                  !updating particle velocities based on collisions with walls
                 call collision_walls(l,rhop_loc,xp_loc,yp_loc,zp_loc,dp_loc,&
-                             up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   
+                             up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)
              end if
              if (Lcol) then
                  !updating particle velocities based on p2p collisions

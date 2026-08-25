@@ -33,7 +33,7 @@ contains
     real(dp) :: dt
     integer :: nbp
     integer,allocatable,dimension(:) :: dom_id
-    
+
     integer :: tot_np,ib
     integer :: l,l2,ls
     real(dp) :: dis_x,dis_y,dis_z,dis_dd
@@ -56,7 +56,7 @@ contains
     integer :: np_loc,npg_loc
     real(dp), allocatable, dimension(:):: uopg_loc,dpg_loc
     real(dp) :: k_n
-    
+
     real(dp) :: theta_col,e_col,mp
 
     !2. Damping
@@ -198,7 +198,7 @@ contains
     real(dp) :: yst,yen,zst,zen
     integer :: bc_s,bc_n,bc_b,bc_t
     real(dp) :: dt
-    
+
     mu_f=9.2d-2
 
     !1.Define force range
