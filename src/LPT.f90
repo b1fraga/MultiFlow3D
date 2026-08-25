@@ -11,11 +11,11 @@ module multiflow3d_LPT
   use, intrinsic :: iso_fortran_env, only: dp => real64
   use mpi_f08, only : mpi_comm_world, mpi_double_precision
   use multidata, only: multidom
+  use multiflow3d_collison, only: collision_particle, collision_walls
   use multiflow3d_mpi, only : ierr, nprocs
   use omp_lib, only : omp_get_num_threads, &
                       omp_get_thread_num, &
                       omp_set_num_threads
-  use multiflow3d_collison, only: collision_particle, collision_walls
   implicit none
   private
 
