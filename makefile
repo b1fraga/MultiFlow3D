@@ -162,7 +162,7 @@ src/bounds.o : src/bounds.f90 src/module_LSM.o src/imb.o src/module_mpi.o src/mo
 src/bounds_keps.o : src/bounds_keps.f90 src/module_LSM.o src/module_multidata.o src/module_vars.o 
 src/bounds_lsm.o : src/bounds_lsm.f90 src/module_multidata.o src/module_LSM.o src/module_vars.o 
 src/checkdt.o : src/checkdt.f90 src/module_LSM.o src/module_multidata.o src/module_mpi.o src/module_vars.o 
-src/collision.o : src/collision.f90 src/module_vars_pt.o src/module_vars.o src/module_mpi.o src/module_multidata.o 
+src/collision.o : src/collision.f90
 src/convection.o : src/convection.f90 src/module_multidata.o src/module_vars.o 
 src/delta_func.o : src/delta_func.f90 
 src/diffusion.o : src/diffusion.f90 src/module_multidata.o src/module_mpi.o src/module_vars.o 
