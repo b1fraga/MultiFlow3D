@@ -10,7 +10,6 @@ module multiflow3d_collison
   use, intrinsic :: iso_fortran_env, only: dp => real64
   use multidata, only: nbp, dom_id
   use vars, only: bc_b, bc_n, bc_s, bc_t, dt, yen, yst, zen, zst
-  use vars_pt, only:  uopg_loc, dpg_loc, k_n
 
   implicit none
   private
@@ -21,7 +20,7 @@ contains
 
   subroutine collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
                                 xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
-                                dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc)
+                                dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n)
   !     Soft-sphere collision model                                    !
   !!###################################################################!
 
@@ -53,6 +52,8 @@ contains
     real(dp), allocatable, dimension(:):: dp_loc
     real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
     integer :: np_loc,npg_loc
+    real(dp), allocatable, dimension(:):: uopg_loc,dpg_loc
+    real(dp) :: k_n
     
     real(dp) :: theta_col,e_col,mp
 
@@ -178,7 +179,7 @@ contains
 
   !######################################################################!
   subroutine collision_walls(l,rhop_loc,xp_loc,yp_loc,zp_loc,dp_loc,&
-                             up_pt,vp_pt,wp_pt)                                    !
+                             up_pt,vp_pt,wp_pt,k_n)                                    !
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
     integer :: l
@@ -191,6 +192,7 @@ contains
     real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc
     real(dp), allocatable, dimension(:):: dp_loc
     real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
+    real(dp) :: k_n
     
     mu_f=9.2d-2
 
