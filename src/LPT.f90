@@ -53,13 +53,13 @@ contains
     integer, allocatable, dimension(:), intent(in) :: dom_id
     type (multidom), pointer, dimension(:), intent(in) :: dom
 
-    real(dp), allocatable, dimension(:):: xpg_loc,ypg_loc,zpg_loc, &
+    real(dp), allocatable, dimension(:),intent(inout):: xpg_loc,ypg_loc,zpg_loc, &
                                           vopg_loc, wopg_loc,rhopg_loc
-    integer :: npg_loc
-    real(dp), allocatable, dimension(:):: uopg_loc,dpg_loc
-    real(dp) :: k_n
-    real(dp) :: yst,yen,zst,zen
-    integer :: bc_s,bc_n,bc_b,bc_t
+    integer,intent(in) :: npg_loc
+    real(dp), allocatable, dimension(:),intent(inout):: uopg_loc,dpg_loc
+    real(dp) ,intent(in):: k_n
+    real(dp) ,intent(in):: yst,yen,zst,zen
+    integer ,intent(in):: bc_s,bc_n,bc_b,bc_t
 
     integer :: i,j,k,l
     integer :: ib,is,ie,js,je,ks,ke

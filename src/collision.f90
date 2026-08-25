@@ -24,18 +24,19 @@ contains
   !!###################################################################!
 
     !NOTE: make Lcol and Lcolwalls arrays for every fraction
-    real(dp), allocatable, dimension(:):: xpg_loc,ypg_loc,zpg_loc, &
-                                          vopg_loc, wopg_loc,rhopg_loc
-    real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc,&
+    real(dp), allocatable, dimension(:),intent(inout):: xpg_loc,ypg_loc,zpg_loc, &
+                                          vopg_loc, wopg_loc,rhopg_loc,dpg_loc,uopg_loc
+    real(dp), allocatable, dimension(:),intent(in):: xp_loc,yp_loc,zp_loc,&
                                           uop_loc,vop_loc, wop_loc
-    integer,allocatable,dimension(:)::  id
-    real(dp), allocatable, dimension(:):: rhop_loc
-    real(dp) :: dt
-    integer :: nbp
-    integer,allocatable,dimension(:) :: dom_id
+    integer,allocatable,dimension(:),intent(in)::  id
+    real(dp), allocatable, dimension(:),intent(in):: rhop_loc
+    real(dp) ,intent(in):: dt
+    integer ,intent(in):: nbp
+    integer,allocatable,dimension(:) ,intent(in):: dom_id
 
     integer :: tot_np,ib
-    integer :: l,l2,ls
+    integer,intent(in) :: l
+    integer :: l2,ls
     real(dp) :: dis_x,dis_y,dis_z,dis_dd
     real(dp) :: dif_uvw,dis_xyz
     real(dp) :: dif1_uvw
@@ -51,11 +52,10 @@ contains
     real(dp) :: collision_x,collision_y,collision_z
     real(dp) :: vector_x,vector_y,vector_z
     real(dp) :: collision_tx,collision_ty,collision_tz
-    real(dp), allocatable, dimension(:):: dp_loc
-    real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
-    integer :: np_loc,npg_loc
-    real(dp), allocatable, dimension(:):: uopg_loc,dpg_loc
-    real(dp) :: k_n
+    real(dp), allocatable, dimension(:) ,intent(in):: dp_loc
+    real(dp), allocatable, dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
+    integer,intent(in) :: np_loc,npg_loc
+    real(dp),intent(in) :: k_n
 
     real(dp) :: theta_col,e_col,mp
 
@@ -184,20 +184,20 @@ contains
                              up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   !
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
-    integer :: l
+    integer,intent(in) :: l
     real(dp) :: fcol_n,fcol_t,mu_f
     real(dp) :: lambda_w,lambda_u,lambda_v
     real(dp) :: theta_col,e_col,mp  !,k_t
     real(dp) :: deltap
 
-    real(dp), allocatable, dimension(:):: rhop_loc
-    real(dp), allocatable, dimension(:):: yp_loc,zp_loc
-    real(dp), allocatable, dimension(:):: dp_loc
-    real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
-    real(dp) :: k_n
-    real(dp) :: yst,yen,zst,zen
-    integer :: bc_s,bc_n,bc_b,bc_t
-    real(dp) :: dt
+    real(dp), allocatable, dimension(:),intent(in):: rhop_loc
+    real(dp), allocatable, dimension(:),intent(in):: yp_loc,zp_loc
+    real(dp), allocatable, dimension(:),intent(in):: dp_loc
+    real(dp), allocatable, dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
+    real(dp),intent(in) :: k_n
+    real(dp),intent(in) :: yst,yen,zst,zen
+    integer,intent(in) :: bc_s,bc_n,bc_b,bc_t
+    real(dp),intent(in) :: dt
 
     mu_f=9.2d-2
 
