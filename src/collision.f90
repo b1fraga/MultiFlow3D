@@ -180,7 +180,7 @@ contains
   end subroutine collision_particle
 
   !######################################################################!
-  subroutine collision_walls(l,rhop_loc,xp_loc,yp_loc,zp_loc,dp_loc,&
+  subroutine collision_walls(l,rhop_loc,yp_loc,zp_loc,dp_loc,&
                              up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   !
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
@@ -191,7 +191,7 @@ contains
     real(dp) :: deltap
 
     real(dp), allocatable, dimension(:):: rhop_loc
-    real(dp), allocatable, dimension(:):: xp_loc,yp_loc,zp_loc
+    real(dp), allocatable, dimension(:):: yp_loc,zp_loc
     real(dp), allocatable, dimension(:):: dp_loc
     real(dp), allocatable, dimension(:):: up_pt,vp_pt,wp_pt
     real(dp) :: k_n

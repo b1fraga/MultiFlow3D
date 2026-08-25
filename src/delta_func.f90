@@ -368,7 +368,7 @@
 
           real(dp),    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
           integer, intent(in) :: order,dir
-          real(dp) :: phi_r3,dphi_r3,cd2_0,dcd2_0,cd2_1,dcd2_1
+          real(dp) :: phi_r3,dphi_r3,cd2_0,dcd2_0
           real(dp) :: val
 
           select case (order)
