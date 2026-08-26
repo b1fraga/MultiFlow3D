@@ -7,6 +7,7 @@
           use vars_pt
           use, intrinsic :: iso_fortran_env, only: dp => real64
           use multiflow3d_MPI_pt, only : MPI_pt
+          use multiflow3d_LPT
           implicit none
           real(dp)  :: wtimedum,wtime_total,wtime_solver,wtime_ib
           real(dp) :: wtime_cd,wtime_lpt
@@ -185,8 +186,15 @@
               call exchange(22)
               call exchange(33)
               if (LENERGY) call exchange(10)
-              if (np_loc>0) call particle_tracking           !Procs without particles do not enter
-              call final_LPT
+              if (np_loc>0) call particle_tracking(wop_pt, vop_pt, id, Lcol,Lcolwall, PSIcell, &
+                                                   rhop_loc, np_loc, xp_loc,yp_loc,zp_loc, uop_loc,vop_loc, &
+                                                   wop_loc,dp_loc, uop_pt, up_pt,vp_pt,wp_pt, Fpu,Fpv,Fpw, order, &
+                                                   pl, Re,las,lenergy,alfapr,dens,dt,gx,gy,gz,nbp,dom_id,dom,&
+                                                   xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,npg_loc,&
+                                                   uopg_loc,dpg_loc,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t)
+                                                   !  Procs without particles do not enter
+              call final_LPT(Wop_pt, vop_pt, ptsinproc, rhop_loc, rho_pt, xp_pt,yp_pt,zp_pt, dp_pt, np_loc, Fu,Fv,Fw, &
+                                            xp_loc,yp_loc,zp_loc, uop_loc,vop_loc,wop_loc, dp_loc, uop_pt, Fpu,Fpv,Fpw)
               CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
               end if
 
