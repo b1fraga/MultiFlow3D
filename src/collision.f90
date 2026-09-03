@@ -76,7 +76,7 @@ contains
     allocate(dp_sv(tot_np),dpg_sv(tot_np))
 
     xp_sv = 0.0_dp
-    zp_sv = 0.0_dp
+    yp_sv = 0.0_dp
     zp_sv = 0.0_dp
     up_sv = 0.0_dp
     vp_sv = 0.0_dp
