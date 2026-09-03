@@ -563,7 +563,7 @@ contains
 
                   do i=iballs_v,iballe_v
                      do j=jballs_v,jballe_v
-                        do k=iballs_v,iballe_v
+                        do k=kballs_v,kballe_v
 
                            delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                                 ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
@@ -616,7 +616,11 @@ contains
          end do  !end of loop in particles
          !$omp end target teams distribute parallel do
 
-
+         if (npg_loc>0) then
+            deallocate (xpg_loc,ypg_loc,zpg_loc)
+            deallocate (uopg_loc,vopg_loc,wopg_loc)
+            deallocate (dpg_loc,rhopg_loc)
+         end if
       end do      !end loop in domains
 
 

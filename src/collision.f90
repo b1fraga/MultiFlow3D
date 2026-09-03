@@ -167,13 +167,6 @@ contains
        end if                         ! distance
     end do                         ! end p2p loop
 
-    if (npg_loc>0) then
-       deallocate (xpg_loc,ypg_loc,zpg_loc)
-       deallocate (uopg_loc,vopg_loc,wopg_loc)
-       deallocate (dpg_loc,rhopg_loc)
-    end if
-
-    return
   end subroutine collision_particle
 
   !######################################################################!
