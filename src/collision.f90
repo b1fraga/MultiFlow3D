@@ -16,6 +16,7 @@ module multiflow3d_collison
 
 contains
 
+  !$omp declare target
   subroutine collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
                                 xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
                                 dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt,nbp,&
@@ -61,7 +62,7 @@ contains
 
     !2. Damping
     e_col=1.0d0
-    mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
+    mp=rhop_loc(l)*(4.0_dp/3.0_dp)*3.1416_dp*(0.5_dp*dp_loc(l))**3
     theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
               (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
 
@@ -211,7 +212,7 @@ contains
 
     !3. Damping
     e_col=1.0d0
-    mp=rhop_loc(l)*(4/3)*3.1416_dp*(0.5_dp*dp_loc(l))**3
+    mp=rhop_loc(l)*(4.0_dp/3.0_dp)*3.1416_dp*(0.5_dp*dp_loc(l))**3
     theta_col=-2*log(e_col)*(mp*k_n)**0.5_dp/ &
                (3.1416_dp**2.0_dp+(log(e_col))**2.0_dp)
 
@@ -284,5 +285,6 @@ contains
     end if
 
   end subroutine collision_walls
+  !$omp end declare target
 
 end module multiflow3d_collison

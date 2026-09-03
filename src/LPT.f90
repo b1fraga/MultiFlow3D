@@ -83,10 +83,6 @@ contains
     allocate (up_pt(np_loc),vp_pt(np_loc),wp_pt(np_loc))
     allocate (Fpu(np_loc),Fpv(np_loc),Fpw(np_loc))
 
-    if (np_loc<=100) nt = 1
-
-    call OMP_SET_NUM_THREADS(nt)
-
     select case (order)
       case (1)
          m = 1  !1.5d0
@@ -116,15 +112,14 @@ contains
        ke = dom(ib)%kep
 
        !loop in particles
-       !$OMP       PARALLEL DEFAULT (SHARED), PRIVATE(i,j,k,l,&
-       !$OMP      iballs_u,iballe_u,jballs_u,jballe_u,kballs_u,kballe_u,&
-       !$OMP      iballs_v,iballe_v,jballs_v,jballe_v,kballs_v,kballe_v,&
-       !$OMP      iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w,&
-       !$OMP      REp,rx,ry,rz,Vp,delta,gamma_p,&
-       !$OMP      a,b,c,ao,bo,co,Cd,wx,wy,wz,&
-       !$OMP      dwdy,dvdz,dudz,dvdx,dudy,dwdx)
-
-       !$OMP DO SCHEDULE (DYNAMIC,1)
+       !$omp target teams distribute parallel do &
+       !$omp private(i,j,k) &
+       !$omp private(iballs_u,iballe_u,jballs_u,jballe_u,kballs_u,kballe_u) &
+       !$omp private(iballs_v,iballe_v,jballs_v,jballe_v,kballs_v,kballe_v) &
+       !$omp private(iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w) &
+       !$omp private(REp,rx,ry,rz,Vp,delta,gamma_p) &
+       !$omp private(a,b,c,ao,bo,co,Cd,wx,wy,wz) &
+       !$omp private(dwdy,dvdz,dudz,dvdx,dudy,dwdx,ddelta)
        do l=1,np_loc
 
           if (id(l)==dom_id(ib)) then       !particle belongs to THIS block
@@ -272,7 +267,7 @@ contains
                    do k=kballs_u,kballe_u
 
                       uoi_pt(l) = uoi_pt(l) + dom(ib)%uoo(i,j,k)* &
-                           dh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
+                           dh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                    end do
@@ -284,7 +279,7 @@ contains
                    do k=kballs_v,kballe_v
 
                       voi_pt(l) = voi_pt(l) + dom(ib)%voo(i,j,k)* &
-                           dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
+                           dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                    end do
@@ -296,7 +291,7 @@ contains
                    do k=kballs_w,kballe_w
 
                       woi_pt(l) = woi_pt(l) + dom(ib)%woo(i,j,k)* &
-                           dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
+                           dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                    end do
@@ -315,7 +310,7 @@ contains
                 do j=jballs_u,jballe_u
                    do k=kballs_u,kballe_u
 
-                      delta = dh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
+                      delta = dh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                       ui_pt(l) = ui_pt(l) + dom(ib)%ustar(i,j,k) * delta
@@ -328,7 +323,7 @@ contains
                 do j=jballs_v,jballe_v
                    do k=kballs_v,kballe_v
 
-                      delta = dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
+                      delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                       vi_pt(l) = vi_pt(l) + dom(ib)%vstar(i,j,k) * delta
@@ -341,7 +336,7 @@ contains
                 do j=jballs_w,jballe_w
                    do k=kballs_w,kballe_w
 
-                      delta = dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
+                      delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                       wi_pt(l) = wi_pt(l) + dom(ib)%wstar(i,j,k) * delta
@@ -367,7 +362,7 @@ contains
                 do j=jballs_u,jballe_u
                    do k=kballs_u,kballe_u
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,2)
 
                       dudy = dudy + dom(ib)%uoo(i,j,k)*ddelta
@@ -382,7 +377,7 @@ contains
                 do j=jballs_u,jballe_u
                    do k=kballs_u,kballe_u
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,3)
 
                       dudz = dudz + dom(ib)%uoo(i,j,k)*ddelta
@@ -397,7 +392,7 @@ contains
                 do j=jballs_v,jballe_v
                    do k=kballs_v,kballe_v
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,1)
 
                       dvdx = dvdx + dom(ib)%voo(i,j,k)*ddelta
@@ -412,7 +407,7 @@ contains
                 do j=jballs_v,jballe_v
                    do k=kballs_v,kballe_v
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
                            ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order,3)
 
                       dvdz = dvdz + dom(ib)%voo(i,j,k)*ddelta
@@ -427,7 +422,7 @@ contains
                 do j=jballs_w,jballe_w
                    do k=kballs_w,kballe_w
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order,1)
 
                       dwdx = dwdx + dom(ib)%woo(i,j,k)*ddelta
@@ -442,7 +437,7 @@ contains
                 do j=jballs_w,jballe_w
                    do k=kballs_w,kballe_w
 
-                      ddelta = ddh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
+                      ddelta = ddh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
                            ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order,2)
 
                       dwdy = dwdy + dom(ib)%woo(i,j,k)*ddelta
@@ -530,71 +525,76 @@ contains
                   *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&       !Added Mass and drag
                   -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
 
-                  !$OMP CRITICAL
-                  if (PSIcell) then
+               if (PSIcell) then
 
-                     dom(ib)%ustar(ipu(l),jp(l),kp(l)) = &
-                          dom(ib)%ustar(ipu(l),jp(l),kp(l)) + dt * alfapr * Fpu(l) * &
-                          Vp/Vcell
+                  !$OMP ATOMIC UPDATE
+                  dom(ib)%ustar(ipu(l),jp(l),kp(l)) = &
+                       dom(ib)%ustar(ipu(l),jp(l),kp(l)) + dt * alfapr * Fpu(l) * &
+                       Vp/Vcell
 
-                     dom(ib)%vstar(ip(l),jpv(l),kp(l)) = &
-                          dom(ib)%vstar(ip(l),jpv(l),kp(l)) + dt * alfapr * Fpv(l) * &
-                          Vp/Vcell
+                  !$OMP ATOMIC UPDATE
+                  dom(ib)%vstar(ip(l),jpv(l),kp(l)) = &
+                       dom(ib)%vstar(ip(l),jpv(l),kp(l)) + dt * alfapr * Fpv(l) * &
+                       Vp/Vcell
 
-                     dom(ib)%wstar(ip(l),jp(l),kpw(l)) = &
-                          dom(ib)%wstar(ip(l),jp(l),kpw(l)) + dt * alfapr * Fpw(l) * &
-                          Vp/Vcell
-                  else
-                     do i=iballs_u,iballe_u
-                        do j=jballs_u,jballe_u
-                           do k=kballs_u,kballe_u
+                  !$OMP ATOMIC UPDATE
+                  dom(ib)%wstar(ip(l),jp(l),kpw(l)) = &
+                       dom(ib)%wstar(ip(l),jp(l),kpw(l)) + dt * alfapr * Fpw(l) * &
+                       Vp/Vcell
 
-                              delta = dh(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
-                                   ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+               else
 
-                              dom(ib)%ustar(i,j,k) = &
-                                   dom(ib)%ustar(i,j,k) + dt * alfapr * Fpu(l) * delta * &
-                                   Vp/Vcell
+                  do i=iballs_u,iballe_u
+                     do j=jballs_u,jballe_u
+                        do k=kballs_u,kballe_u
 
-                           end do
+                           delta = dh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
+                                ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+
+                           !$OMP ATOMIC UPDATE
+                           dom(ib)%ustar(i,j,k) = &
+                                dom(ib)%ustar(i,j,k) + dt * alfapr * Fpu(l) * delta * &
+                                Vp/Vcell
+
                         end do
                      end do
+                  end do
 
 
-                     do i=iballs_v,iballe_v
-                        do j=jballs_v,jballe_v
-                           do k=kballs_v,kballe_v
+                  do i=iballs_v,iballe_v
+                     do j=jballs_v,jballe_v
+                        do k=iballs_v,iballe_v
 
-                              delta = dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
-                                   ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+                           delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
+                                ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
-                              dom(ib)%vstar(i,j,k) = &
-                                   dom(ib)%vstar(i,j,k) + dt * alfapr * Fpv(l) * delta * &
-                                   Vp/Vcell
+                           !$OMP ATOMIC UPDATE
+                           dom(ib)%vstar(i,j,k) = &
+                                dom(ib)%vstar(i,j,k) + dt * alfapr * Fpv(l) * delta * &
+                                Vp/Vcell
 
-                           end do
                         end do
                      end do
+                  end do
 
 
-                     do i=iballs_w,iballe_w
-                        do j=jballs_w,jballe_w
-                           do k=kballs_w,kballe_w
+                  do i=iballs_w,iballe_w
+                     do j=jballs_w,jballe_w
+                        do k=kballs_w,kballe_w
 
-                              delta = dh(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
-                                   ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+                           delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
+                                ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
-                              dom(ib)%wstar(i,j,k) = &
-                                   dom(ib)%wstar(i,j,k) + dt * alfapr * Fpw(l) * delta * &
-                                   Vp/Vcell
+                           !$OMP ATOMIC UPDATE
+                           dom(ib)%wstar(i,j,k) = &
+                                dom(ib)%wstar(i,j,k) + dt * alfapr * Fpw(l) * delta * &
+                                Vp/Vcell
 
-                           end do
                         end do
                      end do
+                  end do
 
-                  end if
-
-                  !$OMP END CRITICAL
+               end if
                end if
 
                !     Actualizar velocidad paso previo
@@ -614,8 +614,7 @@ contains
             end if   !if the particle belongs to the block
 
          end do  !end of loop in particles
-         !$OMP ENDDO
-         !$OMP END PARALLEL
+         !$omp end target teams distribute parallel do
 
 
       end do      !end loop in domains
