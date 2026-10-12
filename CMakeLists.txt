@@ -59,6 +59,7 @@ set(SOURCES
     src/checkdt.f90
     src/collision.f90
     src/convection.f90
+    src/delta_func_gpu.f90
     src/delta_func.f90
     src/diffusion.f90
     src/eddyvis_1eqn.f90
@@ -140,6 +141,9 @@ target_link_libraries(M3D_v2.exe PRIVATE
     OpenMP::OpenMP_Fortran
 )
 
+target_link_options(M3D_v2.exe PRIVATE
+    "-foffload-options=-lm"
+    )
 if(M3D_v2_USE_JSON)
     target_link_libraries(M3D_v2.exe PRIVATE jsonfortran-gnu::jsonfortran-static)
 endif()

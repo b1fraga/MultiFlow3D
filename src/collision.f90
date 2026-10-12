@@ -8,6 +8,7 @@
 !######################################################################!
 module multiflow3d_collison
   use, intrinsic :: iso_fortran_env, only: dp => real64
+  use omp_lib
 
   implicit none
   private
@@ -16,11 +17,11 @@ module multiflow3d_collison
 
 contains
 
-  !$omp declare target
  subroutine collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
                                 xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
                                 dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt,nbp,&
                                 dom_id)
+   !$omp declare target
   !     Soft-sphere collision model                                    !
   !!###################################################################!
 
@@ -171,7 +172,8 @@ contains
 
   !######################################################################!
   subroutine collision_walls(l,rhop_loc,yp_loc,zp_loc,dp_loc,&
-                             up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   !
+       up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   !
+    !$omp declare target
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
     integer,intent(in) :: l
@@ -273,6 +275,5 @@ contains
     end if
 
   end subroutine collision_walls
-  !$omp end declare target
 
 end module multiflow3d_collison

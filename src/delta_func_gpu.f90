@@ -1,10 +1,18 @@
-!$omp declare target
+module multiflow3d_delta_func
+  implicit none
+  private
+
+  public :: ddh_gpu, dh_gpu
+
+contains
+  
 !=======================================================================
 !           Pablo Ouro Barba
 !           Cardiff 2013-2014
 !=======================================================================
 !######################################################################
       function phi_r1smth_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -23,6 +31,7 @@
       end function phi_r1smth_gpu
 !######################################################################
       function phi_r2smth_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -49,6 +58,7 @@
       end function phi_r2smth_gpu
 !######################################################################
       function phi_r3_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -71,6 +81,7 @@
       end function phi_r3_gpu
 !######################################################################
       function phi_r3smth2_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -103,6 +114,7 @@
       end function phi_r3smth2_gpu
 !######################################################################
       function phi_r3smth_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -142,6 +154,7 @@
       end function phi_r3smth_gpu
 !######################################################################
       function phi_r4_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -164,6 +177,7 @@
       end function phi_r4_gpu
 !######################################################################
       function phi_r4smth_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -189,6 +203,7 @@
 
 !######################################################################
       function cd2_0_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -210,6 +225,7 @@
 
 !######################################################################
       function dcd2_0_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -231,6 +247,7 @@
 
 !######################################################################
       function cd2_1_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -253,6 +270,7 @@
 
 !######################################################################
       function dcd2_1_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -273,6 +291,7 @@
       end function dcd2_1_gpu
 !######################################################################
       function dh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order) result(val)
+      !$omp declare target
 !######################################################################
 ! ..... The salient properties of the kernels DIRAC DELTA,dh are the following:
 ! * dh is a continuously diﬀerentiable function and therefore yields
@@ -323,12 +342,6 @@
               val =   cd2_1_gpu((xij-Xl)/dx) &
            * cd2_1_gpu((yij-Yl)/dy) * cd2_1_gpu((zij-Zl)/dz)
 
-            case default
-
-              print*, "===ERROR==="
-              print*, " order of delta function is not selected "
-              stop
-
           end Select
 
       end function dh_gpu
@@ -337,6 +350,7 @@
 
 !######################################################################
       function dphi_r3_gpu(r) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -363,6 +377,7 @@
 
 !######################################################################
       function ddh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir) result(val)
+      !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
@@ -421,4 +436,5 @@
           end select
 
       end function ddh_gpu
-!$omp end declare target
+
+end module multiflow3d_delta_func

@@ -16,6 +16,7 @@ module multiflow3d_LPT
   use omp_lib, only : omp_get_num_threads, &
                       omp_get_thread_num, &
                       omp_set_num_threads
+  use multiflow3d_delta_func, only : ddh_gpu, dh_gpu
   implicit none
   private
 
