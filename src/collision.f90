@@ -1,9 +1,9 @@
 !======================================================================!
-!                 LAGRANGIAN PARTICLE TRACKING                         !
+!                  LAGRANGIAN PARTICLE TRACKING                        !
 !----------------------------------------------------------------------!
-!                          Boyang Chen                                 !
-!                          Bruño Fraga                                 !
-!                   Uni of Birmingham 2018-2025                        !
+!                         Boyang Chen                                  !
+!                         Bruño Fraga                                  !
+!                Uni of Birmingham 2018-2025                           !
 !======================================================================!
 !######################################################################!
 module multiflow3d_collison
@@ -15,26 +15,26 @@ module multiflow3d_collison
 
   public :: collision_particle, collision_walls
 
+  !$omp declare target (collision_particle, collision_walls)
+
 contains
 
  subroutine collision_particle(l,xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,&
                                 xp_loc,yp_loc,zp_loc,uop_loc,vop_loc, wop_loc,id,rhop_loc, &
                                 dp_loc,up_pt,vp_pt,wp_pt,np_loc,npg_loc,uopg_loc,dpg_loc,k_n,dt,nbp,&
                                 dom_id)
-   !$omp declare target
-  !     Soft-sphere collision model                                    !
+  !  Soft-sphere collision model                                       !
   !!###################################################################!
 
-    !NOTE: make Lcol and Lcolwalls arrays for every fraction
-    real(dp), allocatable, dimension(:),intent(inout):: xpg_loc,ypg_loc,zpg_loc, &
-                                          vopg_loc, wopg_loc,rhopg_loc,dpg_loc,uopg_loc
-    real(dp), allocatable, dimension(:),intent(in):: xp_loc,yp_loc,zp_loc,&
-                                          uop_loc,vop_loc, wop_loc
-    integer,allocatable,dimension(:),intent(in)::  id
-    real(dp), allocatable, dimension(:),intent(in):: rhop_loc
+    real(dp), dimension(:),intent(inout):: xpg_loc,ypg_loc,zpg_loc, &
+                                           vopg_loc, wopg_loc,rhopg_loc,dpg_loc,uopg_loc
+    real(dp), dimension(:),intent(in):: xp_loc,yp_loc,zp_loc,&
+                                           uop_loc,vop_loc, wop_loc
+    integer,dimension(:),intent(in)::  id
+    real(dp), dimension(:),intent(in):: rhop_loc
     real(dp) ,intent(in):: dt
     integer ,intent(in):: nbp
-    integer,allocatable,dimension(:) ,intent(in):: dom_id
+    integer,dimension(:) ,intent(in):: dom_id
 
     integer :: tot_np,ib
     integer,intent(in) :: l
@@ -49,8 +49,8 @@ contains
     real(dp) :: collision_x,collision_y,collision_z
     real(dp) :: vector_x,vector_y,vector_z
     real(dp) :: collision_tx,collision_ty,collision_tz
-    real(dp), allocatable, dimension(:) ,intent(in):: dp_loc
-    real(dp), allocatable, dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
+    real(dp), dimension(:) ,intent(in):: dp_loc
+    real(dp), dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
     integer,intent(in) :: np_loc,npg_loc
     real(dp),intent(in) :: k_n
 
@@ -121,7 +121,7 @@ contains
              dis_x = xpg_sv-xp_sv                           ! difference on coordinate in x
              dis_y = ypg_sv-yp_sv                           ! difference on coordinate in y
              dis_z = zpg_sv-zp_sv                           ! difference on coordinate in z
-             dis_dd = (dp_loc(l)+dpg_sv)*0.5_dp                   ! sum up Radius
+             dis_dd = (dp_loc(l)+dpg_sv)*0.5_dp                    ! sum up Radius
              dis_xyz = sqrt(dis_x**2+dis_y**2+dis_z**2)
              lambda_p = 0.375_dp*0.2_dp*(dp_sv*0.5_dp+dpg_sv*0.5_dp)
              !  CFL particle-particle
@@ -137,9 +137,9 @@ contains
                 collision_x = -k_n * overlap * dis_x/dis_xyz &
                               - theta_col * dif_uvw * dis_x/dis_xyz
                 collision_y = -k_n * overlap * dis_y/dis_xyz &
-                              - theta_col * dif_uvw * dis_y/dis_xyz
+                              - theta_col * dif_uvw * dis_x/dis_xyz
                 collision_z = -k_n * overlap * dis_z/dis_xyz &
-                              - theta_col * dif_uvw * dis_z/dis_xyz
+                              - theta_col * dif_uvw * dis_x/dis_xyz
 
                 !---------------------- Particle rotation ----------------------------------------
 
@@ -173,7 +173,6 @@ contains
   !######################################################################!
   subroutine collision_walls(l,rhop_loc,yp_loc,zp_loc,dp_loc,&
        up_pt,vp_pt,wp_pt,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t,dt)   !
-    !$omp declare target
   !     Calculates collisions with walls and boundaries                  !
   !######################################################################!
     integer,intent(in) :: l
@@ -182,10 +181,10 @@ contains
     real(dp) :: theta_col,e_col,mp  !,k_t
     real(dp) :: deltap
 
-    real(dp), allocatable, dimension(:),intent(in):: rhop_loc
-    real(dp), allocatable, dimension(:),intent(in):: yp_loc,zp_loc
-    real(dp), allocatable, dimension(:),intent(in):: dp_loc
-    real(dp), allocatable, dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
+    real(dp), dimension(:),intent(in):: rhop_loc
+    real(dp), dimension(:),intent(in):: yp_loc,zp_loc
+    real(dp), dimension(:),intent(in):: dp_loc
+    real(dp), dimension(:),intent(inout):: up_pt,vp_pt,wp_pt
     real(dp),intent(in) :: k_n
     real(dp),intent(in) :: yst,yen,zst,zen
     integer,intent(in) :: bc_s,bc_n,bc_b,bc_t

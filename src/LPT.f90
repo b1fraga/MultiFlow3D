@@ -1,10 +1,10 @@
 !======================================================================!
-!                 LAGRANGIAN PARTICLE TRACKING                         !
+!                  LAGRANGIAN PARTICLE TRACKING                        !
 !----------------------------------------------------------------------!
-!                           Bruño Fraga                                !
+!                         Bruño Fraga                                  !
 !                      Cardiff Uni 2013-2017                           !
 !                        Stanford Uni 2018                             !
-!                    Uni of Birmingham 2019-2024                       !
+!                     Uni of Birmingham 2019-2024                      !
 !======================================================================!
 !######################################################################!
 module multiflow3d_LPT
@@ -31,7 +31,7 @@ contains
        xpg_loc,ypg_loc,zpg_loc,vopg_loc, wopg_loc,rhopg_loc,npg_loc,&
        uopg_loc,dpg_loc,k_n,yst,yen,zst,zen,bc_s,bc_n,bc_b,bc_t)
   !
-  !     Calculates particles' velocities and the resulting source terms
+  !      Calculates particles' velocities and the resulting source terms
   !
   !######################################################################!
 
@@ -112,9 +112,15 @@ contains
        ks = dom(ib)%ksp
        ke = dom(ib)%kep
 
+       ! Map required grid and field arrays within dom(ib) to device
+       !$omp target enter data map(to: dom(ib)%uoo, dom(ib)%voo, dom(ib)%woo, &
+       !$omp                           dom(ib)%ustar, dom(ib)%vstar, dom(ib)%wstar, &
+       !$omp                           dom(ib)%dens, dom(ib)%x, dom(ib)%y, dom(ib)%z, &
+       !$omp                           dom(ib)%xc, dom(ib)%yc, dom(ib)%zc)
+
        !loop in particles
        !$omp target teams distribute parallel do &
-       !$omp private(i,j,k) &
+       !$omp private(i,j,k,l) &
        !$omp private(iballs_u,iballe_u,jballs_u,jballe_u,kballs_u,kballe_u) &
        !$omp private(iballs_v,iballe_v,jballs_v,jballe_v,kballs_v,kballe_v) &
        !$omp private(iballs_w,iballe_w,jballs_w,jballe_w,kballs_w,kballe_w) &
@@ -451,7 +457,7 @@ contains
              wy = dudz-dwdx
              wz = dvdx-dudy
 
-             if (LENERGY.or.LAS) then                                        !variable density form
+             if (LENERGY.or.LAS) then                                         !variable density form
                 gamma_p=rhop_loc(l)/dom(ib)%dens(ip(l),jp(l),kp(l))               !variable density
              else
                 gamma_p=rhop_loc(l)/dens                                          ! constant density
@@ -483,7 +489,7 @@ contains
                      (gz*(gamma_p-1.0d0)/(gamma_p+0.5_dp)+&                      !  Buoyancy
                      ((1.0_dp+0.5_dp)/(gamma_p+0.5_dp))*((wi_pt(l)-woi_pt(l))/dt)&
                      !Fluid stress
-                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&        !  Added Mass and drag
+                     -(3.0d0/(4.0d0*dp_loc(l)*(gamma_p+0.5_dp)))&         !  Added Mass and drag
                      *Cd*sqrt(a**2.0d0+b**2.0d0+c**2.0d0)*c&             !  Added Mass and drag
                      -(1.0_dp/(gamma_p+0.5_dp))*0.53d0*(a*wy-b*wx))                     !Lift
              end if
@@ -550,12 +556,12 @@ contains
                         do k=kballs_u,kballe_u
 
                            delta = dh_gpu(rx,ry,rz,dom(ib)%x(i),dom(ib)%yc(j) &
-                                ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+                               ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                            !$OMP ATOMIC UPDATE
                            dom(ib)%ustar(i,j,k) = &
-                                dom(ib)%ustar(i,j,k) + dt * alfapr * Fpu(l) * delta * &
-                                Vp/Vcell
+                               dom(ib)%ustar(i,j,k) + dt * alfapr * Fpu(l) * delta * &
+                               Vp/Vcell
 
                         end do
                      end do
@@ -567,12 +573,12 @@ contains
                         do k=kballs_v,kballe_v
 
                            delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%y(j) &
-                                ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+                               ,dom(ib)%zc(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                            !$OMP ATOMIC UPDATE
                            dom(ib)%vstar(i,j,k) = &
-                                dom(ib)%vstar(i,j,k) + dt * alfapr * Fpv(l) * delta * &
-                                Vp/Vcell
+                               dom(ib)%vstar(i,j,k) + dt * alfapr * Fpv(l) * delta * &
+                               Vp/Vcell
 
                         end do
                      end do
@@ -584,12 +590,12 @@ contains
                         do k=kballs_w,kballe_w
 
                            delta = dh_gpu(rx,ry,rz,dom(ib)%xc(i),dom(ib)%yc(j) &
-                                ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
+                               ,dom(ib)%z(k),xp_loc(l),yp_loc(l),zp_loc(l),order)
 
                            !$OMP ATOMIC UPDATE
                            dom(ib)%wstar(i,j,k) = &
-                                dom(ib)%wstar(i,j,k) + dt * alfapr * Fpw(l) * delta * &
-                                Vp/Vcell
+                               dom(ib)%wstar(i,j,k) + dt * alfapr * Fpw(l) * delta * &
+                               Vp/Vcell
 
                         end do
                      end do
@@ -616,6 +622,11 @@ contains
 
          end do  !end of loop in particles
          !$omp end target teams distribute parallel do
+
+         !$omp target exit data map(from: dom(ib)%ustar, dom(ib)%vstar, dom(ib)%wstar) &
+         !$omp                  map(release: dom(ib)%uoo, dom(ib)%voo, dom(ib)%woo, &
+         !$omp                               dom(ib)%dens, dom(ib)%x, dom(ib)%y, dom(ib)%z, &
+         !$omp                               dom(ib)%xc, dom(ib)%yc, dom(ib)%zc)
 
          if (npg_loc>0) then
             deallocate (xpg_loc,ypg_loc,zpg_loc)
@@ -662,29 +673,29 @@ contains
       call MPI_BARRIER (MPI_COMM_WORLD,ierr)
 
       call MPI_GATHERV(xp_loc,np_loc,MPI_DOUBLE_PRECISION,xp_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(yp_loc,np_loc,MPI_DOUBLE_PRECISION,yp_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(zp_loc,np_loc,MPI_DOUBLE_PRECISION,zp_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
       call MPI_GATHERV(uop_loc,np_loc,MPI_DOUBLE_PRECISION,uop_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(vop_loc,np_loc,MPI_DOUBLE_PRECISION,vop_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(wop_loc,np_loc,MPI_DOUBLE_PRECISION,wop_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
       call MPI_GATHERV(Fpu,np_loc,MPI_DOUBLE_PRECISION,Fu &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(Fpv,np_loc,MPI_DOUBLE_PRECISION,Fv &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(Fpw,np_loc,MPI_DOUBLE_PRECISION,Fw &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(dp_loc,np_loc,MPI_DOUBLE_PRECISION,dp_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
       call MPI_GATHERV(rhop_loc,np_loc,MPI_DOUBLE_PRECISION,rho_pt &
-           ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
+            ,ptsinproc,strider,MPI_DOUBLE_PRECISION,0,MPI_COMM_WORLD,ierr)
 
       if (np_loc>0) then
          deallocate (xp_loc,yp_loc,zp_loc)
@@ -697,4 +708,3 @@ contains
     end subroutine final_LPT
 
 end module multiflow3d_LPT
-

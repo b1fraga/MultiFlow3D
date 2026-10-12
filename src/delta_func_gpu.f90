@@ -7,11 +7,11 @@ module multiflow3d_delta_func
 contains
   
 !=======================================================================
-!           Pablo Ouro Barba
-!           Cardiff 2013-2014
+!            Pablo Ouro Barba
+!            Cardiff 2013-2014
 !=======================================================================
 !######################################################################
-      function phi_r1smth_gpu(r) result(val)
+      pure elemental function phi_r1smth_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -30,7 +30,7 @@ contains
           end if
       end function phi_r1smth_gpu
 !######################################################################
-      function phi_r2smth_gpu(r) result(val)
+      pure elemental function phi_r2smth_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -57,7 +57,7 @@ contains
 
       end function phi_r2smth_gpu
 !######################################################################
-      function phi_r3_gpu(r) result(val)
+      pure elemental function phi_r3_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -80,7 +80,7 @@ contains
 
       end function phi_r3_gpu
 !######################################################################
-      function phi_r3smth2_gpu(r) result(val)
+      pure elemental function phi_r3smth2_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -113,14 +113,14 @@ contains
 
       end function phi_r3smth2_gpu
 !######################################################################
-      function phi_r3smth_gpu(r) result(val)
+      pure elemental function phi_r3smth_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
           implicit none
           real(dp), intent(in) :: r
           real(dp) :: val
-!      real(dp) :: PI
+!     real(dp) :: PI
           real(dp) :: scal1,scal2,scal3,scal4,scal5,scal6
 
           scal1 = 1.095450017660160615261_dp  ! 55.0_dp/48.0_dp - sqrt(3.0_dp)*pi/108.0_dp
@@ -130,7 +130,7 @@ contains
           scal5 = 0.1443375672974064411273_dp  ! sqrt(3.0_dp)/12.0_dp
           scal6 = 0.8660254037844386467637_dp  ! sqrt(3.0_dp)/2.0_dp
 
-!       PI = 4.D0*DATAN(1.D0)
+!        PI = 4.D0*DATAN(1.D0)
 
           if (r<=-2.0_dp) then
           val = 0.0_dp
@@ -153,7 +153,7 @@ contains
 
       end function phi_r3smth_gpu
 !######################################################################
-      function phi_r4_gpu(r) result(val)
+      pure elemental function phi_r4_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -176,7 +176,7 @@ contains
 
       end function phi_r4_gpu
 !######################################################################
-      function phi_r4smth_gpu(r) result(val)
+      pure elemental function phi_r4smth_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -202,7 +202,7 @@ contains
 
 
 !######################################################################
-      function cd2_0_gpu(r) result(val)
+      pure elemental function cd2_0_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -224,7 +224,7 @@ contains
       end function cd2_0_gpu
 
 !######################################################################
-      function dcd2_0_gpu(r) result(val)
+      pure elemental function dcd2_0_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -246,7 +246,7 @@ contains
       end function dcd2_0_gpu
 
 !######################################################################
-      function cd2_1_gpu(r) result(val)
+      pure elemental function cd2_1_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -269,7 +269,7 @@ contains
 
 
 !######################################################################
-      function dcd2_1_gpu(r) result(val)
+      pure elemental function dcd2_1_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -290,7 +290,7 @@ contains
 
       end function dcd2_1_gpu
 !######################################################################
-      function dh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order) result(val)
+      pure elemental function dh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order) result(val)
       !$omp declare target
 !######################################################################
 ! ..... The salient properties of the kernels DIRAC DELTA,dh are the following:
@@ -312,8 +312,6 @@ contains
 
           real(dp),    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
           integer, intent(in) :: order
-          real(dp) ::phi_r2smth,phi_r3smth,phi_r4,phi_r3,phi_r1smth,phi_r4smth
-          real(dp) :: cd2_0,cd2_1
           real(dp) :: val
           select case (order)
 
@@ -349,7 +347,7 @@ contains
 
 
 !######################################################################
-      function dphi_r3_gpu(r) result(val)
+      pure elemental function dphi_r3_gpu(r) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -376,7 +374,7 @@ contains
 
 
 !######################################################################
-      function ddh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir) result(val)
+      pure elemental function ddh_gpu(dx,dy,dz,xij,yij,zij,Xl,Yl,Zl,order,dir) result(val)
       !$omp declare target
 !######################################################################
           use, intrinsic :: iso_fortran_env, only: dp => real64
@@ -384,7 +382,6 @@ contains
 
           real(dp),    intent(in) :: dx,dy,dz,xij,yij,zij,Xl,Yl,Zl
           integer, intent(in) :: order,dir
-          real(dp) :: phi_r3,dphi_r3,cd2_0,dcd2_0
           real(dp) :: val
 
           select case (order)
